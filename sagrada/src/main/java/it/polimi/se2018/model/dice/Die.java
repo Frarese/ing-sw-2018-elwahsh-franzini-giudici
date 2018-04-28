@@ -6,7 +6,6 @@ import java.util.Random;
 
 /**
  *  Model representation of a die with six faces(d6).
- *  package
  */
 public class Die {
 
