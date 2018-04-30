@@ -12,7 +12,7 @@ public class DieTest {
     private Die d1, d2;
 
     /**
-     * Initialization of few dice, for testing various
+     * Initialization of few dice
      */
     @Before
     public void testInit()

@@ -3,6 +3,7 @@ package it.polimi.se2018.model.dice;
 
 import it.polimi.se2018.model.ColorModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +55,7 @@ public class Bag {
      * @return  an existing die inside the bag or null if the spot is empty
      */
 
-    private Die getDie(int i) {
+    public Die getDie(int i) {
         try {
             return content.get(i);
         } catch(IndexOutOfBoundsException e)
@@ -83,6 +84,7 @@ public class Bag {
         Collections.shuffle(content); /*Random order guaranteed*/
     }
     }
+
 
     /**
      * Extract dice from the bag popping them out of content

@@ -55,7 +55,7 @@ public class Grid {
      * @return the previous die in the spot or null if the spot was empty
      * @exception  IndexOutOfBoundsException it returns the die
      */
-    public Die set(int h, int w, Die d)
+    public Die setDie(int h, int w, Die d)
     {
         try {
             if (diceGrid[h][w] == null) {

@@ -48,8 +48,6 @@ public class RoundTracker {
         {
             return null;
         }
-
-
     }
 
     /**
@@ -66,7 +64,8 @@ public class RoundTracker {
      */
     public void addAll(List<Die> d)  {
 
-        dice.add(new ArrayList<>(d));;
+        if( lastFilledRound()< ROUNDS)
+            dice.add(new ArrayList<>(d));
     }
 
     /**
@@ -87,7 +86,7 @@ public class RoundTracker {
 
     /**
      * toString method for CLI and log purposes
-     * @return
+     * @return A String of dice for each round
      */
     @Override
     public String toString()
