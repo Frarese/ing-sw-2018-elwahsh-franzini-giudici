@@ -1,6 +1,6 @@
 package it.polimi.se2018.controller.network.server;
 
-import it.polimi.se2018.controller.network.client.AbsReq;
+import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.util.SafeSocket;
 
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import java.util.Queue;
  * Class representing a client connected to the server
  * @author Francesco Franzini
  */
-class Client {
+public class Client {
     private static int defaultDeathTimeout = 60;
     private static int defaultWarningTimeout = 60;
 
@@ -25,8 +25,10 @@ class Client {
     private ClientComm cComm;
     private Match match;
 
-    private ServerInQueueEmptier inQueueEmp;
-    private ServerOutQueueEmptier outQueueEmp;
+    private ServerInQueueEmptier inQueueEmpReq;
+    private ServerInQueueEmptier inQueueEmpObj;
+    private ServerOutQueueEmptier outQueueEmpReq;
+    private ServerOutQueueEmptier outQueueEmpObj;
     private DisconnectChecker disconnectChecker;
 
     private Queue inObjQueue;

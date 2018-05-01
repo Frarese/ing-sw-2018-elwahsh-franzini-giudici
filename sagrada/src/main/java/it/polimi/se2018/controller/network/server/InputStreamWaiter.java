@@ -1,7 +1,7 @@
 package it.polimi.se2018.controller.network.server;
 
 
-import it.polimi.se2018.controller.network.client.ThreadHandler;
+import it.polimi.se2018.controller.network.ThreadHandler;
 import it.polimi.se2018.util.SafeSocket;
 
 /**
@@ -26,7 +26,7 @@ class InputStreamWaiter extends ThreadHandler {
     }
 
     @Override
-    public void methodToCall() {
+    protected void methodToCall() {
         throw new UnsupportedOperationException();
     }
 

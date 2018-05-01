@@ -1,7 +1,7 @@
 package it.polimi.se2018.controller.network.server;
 
 
-import it.polimi.se2018.controller.network.client.ThreadHandler;
+import it.polimi.se2018.controller.network.ThreadHandler;
 
 /**
  * Object that empties the outbound queue of the server
@@ -21,7 +21,7 @@ class ServerOutQueueEmptier extends ThreadHandler {
     }
 
     @Override
-    public void methodToCall() {
+    protected void methodToCall() {
         throw new UnsupportedOperationException();
     }
 

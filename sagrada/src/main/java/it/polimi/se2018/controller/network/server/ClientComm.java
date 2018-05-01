@@ -1,6 +1,6 @@
 package it.polimi.se2018.controller.network.server;
 
-import it.polimi.se2018.controller.network.client.AbsReq;
+import it.polimi.se2018.controller.network.AbsReq;
 
 import java.io.Serializable;
 
@@ -35,7 +35,7 @@ abstract class ClientComm {
 
     /**
      * Pushes an inbound object for the server to handle
-     * @param obj
+     * @param obj the object to push
      */
     public void pushInObj(Serializable obj) {
         throw new UnsupportedOperationException();
@@ -43,7 +43,7 @@ abstract class ClientComm {
 
     /**
      * Pushes an inbound request for the server to handle
-     * @param req
+     * @param req the request to push
      */
     public void pushInReq(AbsReq req) {
         throw new UnsupportedOperationException();

@@ -1,6 +1,6 @@
 package it.polimi.se2018.controller.network.server;
 
-import it.polimi.se2018.controller.network.client.AbsReq;
+import it.polimi.se2018.controller.network.AbsReq;
 
 import java.io.Serializable;
 

@@ -1,7 +1,7 @@
 package it.polimi.se2018.controller.network.server;
 
 import java.io.Serializable;
-import it.polimi.se2018.controller.network.client.AbsReq;
+import it.polimi.se2018.controller.network.AbsReq;
 
 /**
  * The interface used by session objects

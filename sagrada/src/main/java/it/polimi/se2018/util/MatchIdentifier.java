@@ -1,12 +1,13 @@
 package it.polimi.se2018.util;
 
+import java.io.Serializable;
 import java.util.TreeSet;
 
 /**
  * Wrapper class to identify a match
  * @author Francesco Franzini
  * */
-public class MatchIdentifier{
+public class MatchIdentifier implements Serializable {
     public final String player0;
     public final String player1;
     public final String player2;

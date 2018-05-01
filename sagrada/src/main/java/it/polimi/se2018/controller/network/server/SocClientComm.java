@@ -1,6 +1,6 @@
 package it.polimi.se2018.controller.network.server;
 
-import it.polimi.se2018.controller.network.client.AbsReq;
+import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.util.SafeSocket;
 
 import java.io.Serializable;
@@ -12,7 +12,8 @@ import java.io.Serializable;
 class SocClientComm extends ClientComm {
     private final SafeSocket objSoc;
     private final SafeSocket reqSoc;
-    private InputStreamWaiter waiters;
+    private InputStreamWaiter waiterReq;
+    private InputStreamWaiter waiterObj;
 
     /**
      * Initializes this Socket comm layer with the given parameters
