@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.app;
 
 import it.polimi.se2018.view.ViewActions;
-import it.polimi.se2018.view.ControlActionsInterface;
+import it.polimi.se2018.view.ControllerActionsInterface;
 import it.polimi.se2018.view.ControllerToolCardActionsInterface;
 import it.polimi.se2018.view.ViewToolCardActions;
 
@@ -10,7 +10,7 @@ import it.polimi.se2018.view.ViewToolCardActions;
  * @author Mathyas Giudici
  */
 
-public abstract class App implements ControlActionsInterface,ControllerToolCardActionsInterface {
+public abstract class App implements ControllerActionsInterface,ControllerToolCardActionsInterface {
 
     private boolean animationEnable;
 

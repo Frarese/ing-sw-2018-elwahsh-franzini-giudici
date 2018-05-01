@@ -14,7 +14,7 @@ import java.util.List;
  * @author Mathyas Giudici
  */
 
-public interface ControlActionsInterface {
+public interface ControllerActionsInterface {
 
     /**
      * To enable o disable animation on the screen
