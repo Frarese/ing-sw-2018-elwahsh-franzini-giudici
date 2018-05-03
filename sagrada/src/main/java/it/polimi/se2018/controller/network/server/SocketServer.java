@@ -34,6 +34,11 @@ class SocketServer extends ServerComm {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void close() {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * Initializes the service
      * @return true if no errors are raised
@@ -48,5 +53,7 @@ class SocketServer extends ServerComm {
 
         throw new UnsupportedOperationException();
     }
+
+
 }
 

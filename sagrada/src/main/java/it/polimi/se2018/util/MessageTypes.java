@@ -7,5 +7,5 @@ import java.io.Serializable;
  * @author Francesco Franzini
  */
 public enum MessageTypes implements Serializable {
-    pm,broadcast,match;
+    PM,BROADCAST,MATCH;
 }

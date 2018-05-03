@@ -33,5 +33,9 @@ abstract class ServerComm {
      */
     public abstract String delete(String usn, String pw);
 
+    /**
+     * Closes this login service
+     */
+    public abstract void close();
 
 }

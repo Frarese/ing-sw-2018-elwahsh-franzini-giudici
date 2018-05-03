@@ -1,12 +1,14 @@
 package it.polimi.se2018.util;
 
+import java.io.Serializable;
+
 /**
  * Helper class used to wrap an object's id
  * @author Francesco Franzini
  */
-class SafeSocketACK {
+public class SafeSocketACK implements Serializable {
 
-    public final int id;
+    int id;
 
     /**
      *Initializes the id to be stored

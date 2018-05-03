@@ -22,8 +22,8 @@ public class CommFE {
     /**
      * Attempts a login with the given parameters
      * @param host hostname to connect to
-     * @param requestPort port for the request socket
-     * @param objectPort port for the object socket
+     * @param requestPort port for the request socket or RMI connection
+     * @param objectPort port for the object socket, unused if RMI
      * @param isRecovery flag to indicate that this is a login recovery attempt
      * @param usn username
      * @param pw password
