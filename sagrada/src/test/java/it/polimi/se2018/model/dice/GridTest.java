@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
 
 
 public class GridTest {
-    private static final Logger BATTLESCRIBER = Logger.getAnonymousLogger();
     private Grid grid;
     private Die d ;
 
@@ -73,6 +72,5 @@ public class GridTest {
         /*To cover all toString I need to have an existing die inside the grid*/
         grid.setDie(0,0,d);
         assertNotEquals(null,grid.toString());
-        BATTLESCRIBER.log(Level.INFO,grid.toString());
     }
 }

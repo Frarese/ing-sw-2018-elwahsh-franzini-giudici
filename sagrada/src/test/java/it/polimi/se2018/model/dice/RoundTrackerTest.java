@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class RoundTrackerTest {
-    private static final Logger BATTLESCRIBER = Logger.getAnonymousLogger();
     private ArrayList<Die> dice;
     private RoundTracker test = RoundTracker.getInstance();
 
@@ -64,6 +63,5 @@ public class RoundTrackerTest {
     public void testToString()
     {
         assertNotEquals(null,test.toString());
-        BATTLESCRIBER.log(Level.INFO,test.toString());
     }
 }

@@ -15,7 +15,6 @@ import static it.polimi.se2018.model.ColorModel.WHITE;
 
 public class ReserveTest {
 
-    private static final Logger BATTLESCRIBER = Logger.getAnonymousLogger();
     private Reserve test = Reserve.getInstance();
     private ArrayList<Die> dice;
 
@@ -77,7 +76,6 @@ public class ReserveTest {
     {
         test.addAll(dice);
         assertNotEquals(null,test.toString());
-        BATTLESCRIBER.log(Level.INFO, test.toString());
 
         for(int i=0; i<dice.size(); i++)
         {

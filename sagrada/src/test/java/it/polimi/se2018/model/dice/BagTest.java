@@ -9,7 +9,6 @@ import static org.junit.Assert.*;
 
 public class BagTest {
 
-    private static final Logger BATTLESCRIBER = Logger.getAnonymousLogger();
     private Bag test = Bag.getInstance();
 
 
