@@ -66,8 +66,10 @@ public class CommFE {
     /**
      * Attempts to change the network layer
      * @param toRMI flag to choose socket/RMI
+     * @param reqPort request port to use or RMI port
+     * @param objPort object port to use, ignored if RMI
      */
-    public void changeLayer(boolean toRMI) {
+    public void changeLayer(boolean toRMI, int reqPort,int objPort) {
         throw new UnsupportedOperationException();
     }
 

@@ -2,9 +2,10 @@ package it.polimi.se2018.controller.network.client;
 
 import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.util.MatchIdentifier;
-
+import it.polimi.se2018.util.UtilMethods;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -15,16 +16,17 @@ public class Comm {
     private MatchIdentifier matchId;
     private String username;
     private String password;
-    private Timestamp lastSeen;
+    private final Object tsLock;
+    private Instant lastSeen;
     private String host;
     private int reqPort;
     private int objPort;
 
-    private final Queue outReqQueue;
-    private final Queue outObjQueue;
+    private final Queue<AbsReq> outReqQueue;
+    private final Queue<Serializable> outObjQueue;
 
-    private final Queue inObjQueue;
-    private final Queue inReqQueue;
+    private final Queue<Serializable> inObjQueue;
+    private final Queue<AbsReq> inReqQueue;
 
 
     private ClientDiscTimer discTimer;
@@ -39,14 +41,27 @@ public class Comm {
      * Initializes a new comm object
      */
     public Comm(){
-        throw new UnsupportedOperationException();
+        outObjQueue= new LinkedList<>();
+        outReqQueue=new LinkedList<>();
+        inObjQueue=new LinkedList<>();
+        inReqQueue=new LinkedList<>();
+
+        discTimer=null;
+        reconnectW=null;
+        qEmpReq=null;
+        qEmpObj=null;
+        commLayer=null;
+        inListenerReq=null;
+        inListenerObj=null;
+
+        tsLock=new Object();
     }
 
     /**
      * Starts the operations needed to change layer
      * @param toRMI flag to choose socket/RMI
      */
-    public void changeLayer(Boolean toRMI) {
+    public void changeLayer(boolean toRMI) {
         throw new UnsupportedOperationException();
     }
 
@@ -55,7 +70,7 @@ public class Comm {
      * @param obj the object to send
      */
     public void pushOutObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+        UtilMethods.pushAndNotifyTS(outObjQueue,obj);
     }
 
     /**
@@ -63,37 +78,45 @@ public class Comm {
      * @param req the request to send
      */
     public void pushOutReq(AbsReq req) {
-        throw new UnsupportedOperationException();
+        UtilMethods.pushAndNotifyTS(outReqQueue,req);
     }
 
     /**
      * Pops and sends an object to the server from the outbound queue, blocks until confirmation has been received
+     * @throws InterruptedException if this method is interrupted while waiting
      */
-    public void sendOutObj() {
-        throw new UnsupportedOperationException();
+    public void sendOutObj() throws InterruptedException {
+        if(commLayer==null)return;
+        Serializable obj=UtilMethods.waitAndPopTS(outObjQueue);
+        commLayer.sendOutObj(obj);
     }
 
     /**
      * Pops and sends a request to the server from the outbound queue, blocks until confirmation has been received
+     *  @throws InterruptedException if this method is interrupted while waiting
      */
-    public void sendOutReq() {
-        throw new UnsupportedOperationException();
+    public void sendOutReq() throws InterruptedException {
+        if(commLayer==null)return;
+        AbsReq req=UtilMethods.waitAndPopTS(outReqQueue);
+        commLayer.sendOutReq(req);
     }
 
     /**
      * Pops an inbound object from the queue
      * @return the object that has been received
+     * @throws InterruptedException if this method is interrupted while waiting
      */
-    public Serializable popInPendingObj() {
-        throw new UnsupportedOperationException();
+    public Serializable popInPendingObj() throws InterruptedException {
+        return UtilMethods.waitAndPopTS(inObjQueue);
     }
 
     /**
      * Pops an inbound request from the queue
      * @return the request that has been received
+     * @throws InterruptedException if this method is interrupted while waiting
      */
-    public AbsReq popInPendingReq() {
-        throw new UnsupportedOperationException();
+    public AbsReq popInPendingReq() throws InterruptedException {
+        return UtilMethods.waitAndPopTS(inReqQueue);
     }
 
     /**
@@ -101,7 +124,7 @@ public class Comm {
      * @param obj the object that has been received
      */
     public void pushInObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+        UtilMethods.pushAndNotifyTS(inObjQueue,obj);
     }
 
     /**
@@ -109,7 +132,7 @@ public class Comm {
      * @param req the request that has been received
      */
     public void pushInReq(AbsReq req) {
-        throw new UnsupportedOperationException();
+        UtilMethods.pushAndNotifyTS(inReqQueue,req);
     }
 
     /**
@@ -124,8 +147,8 @@ public class Comm {
      * Changes the current username
      * @param newUsername new username to use
      */
-    public void setUsername(String newUsername) {
-        throw new UnsupportedOperationException();
+    private void setUsername(String newUsername) {
+        this.username=newUsername;
     }
 
     /**
@@ -141,7 +164,7 @@ public class Comm {
      * @param newInfo new match id to use
      */
     public void setMatchInfo(MatchIdentifier newInfo) {
-        throw new UnsupportedOperationException();
+        this.matchId=newInfo;
     }
 
     /**
@@ -156,8 +179,8 @@ public class Comm {
      * Changes the current password
      * @param password new password to use
      */
-    public void setPassword(String password) {
-        throw new UnsupportedOperationException();
+    private void setPassword(String password) {
+        this.password=password;
     }
 
     /**
@@ -174,7 +197,34 @@ public class Comm {
      * @return {@code null} if no errors were raised, a textual representation of the error otherwise
      */
     public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
-        throw new UnsupportedOperationException();
+        if(commLayer!=null)return "Already connected";
+        if(useRMI){
+            commLayer=new RMICommLayer(this);
+        }else{
+            commLayer=new SocketCommLayer(this);
+        }
+        String outcome=commLayer.establishCon(host,reqPort,objectPort,isRecovery,usn,pw,newUser);
+        if(outcome!=null)return outcome;
+        setUsername(username);
+        setPassword(password);
+        this.host=host;
+        this.reqPort=requestPort;
+        this.objPort=objectPort;
+        updateTs();
+
+        inListenerObj=new InListener(this,utilizer,false);
+        inListenerObj.start();
+        inListenerReq=new InListener(this,utilizer,true);
+        inListenerReq.start();
+
+        discTimer=new ClientDiscTimer(this);
+        reconnectW=new ReconnectWaker(this);
+        qEmpReq=new OutQueueEmptier(this,true);
+        qEmpReq.start();
+        qEmpObj=new OutQueueEmptier(this,false);
+        qEmpObj.start();
+
+        return null;
     }
 
     /**
@@ -205,8 +255,10 @@ public class Comm {
      * Returns the last seen timestamp
      * @return the last seen timestamp
      */
-    public Timestamp getLastSeen() {
-        return this.lastSeen;
+    public Instant getLastSeen() {
+        synchronized (tsLock){
+            return this.lastSeen;
+        }
     }
 
     /**
@@ -221,7 +273,9 @@ public class Comm {
      * Updates this object's last seen timestamp
      */
     public void updateTs() {
-        throw new UnsupportedOperationException();
+        synchronized (tsLock){
+            lastSeen=Instant.now();
+        }
     }
 
     /**

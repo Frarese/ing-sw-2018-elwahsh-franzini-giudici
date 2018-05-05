@@ -16,30 +16,36 @@ class InListener extends ThreadHandler implements Runnable {
      * @param utilizer the utilizer that handles the received objects/requests
      * @param isReq flag to choose which stream to use
      */
-    public InListener(Comm comm, CommUtilizer utilizer, boolean isReq) {
+    InListener(Comm comm, CommUtilizer utilizer, boolean isReq) {
         this.isReq=isReq;
         this.utilizer=utilizer;
         this.cComm=comm;
     }
 
     @Override
-    protected void methodToCall() {
-        throw new UnsupportedOperationException();
+    protected void methodToCall() throws InterruptedException {
+        if(isReq){
+            cComm.popInPendingReq().clientHandle(cComm,utilizer);
+        }else{
+            utilizer.receiveObject(cComm.popInPendingObj());
+        }
     }
 
     /**
      * Changes the utilizer
      * @param utilizer new utilizer
      */
-    public void setUtilizer(CommUtilizer utilizer) {
-        throw new UnsupportedOperationException();
+    void setUtilizer(CommUtilizer utilizer) {
+        this.utilizer=utilizer;
     }
 
     /**
      * Notifies the utilizer that the network is irreparably down
      */
-    public void notifyDisconnect() {
-        throw new UnsupportedOperationException();
+    void notifyDisconnect() {
+        if(utilizer!=null){
+            utilizer.notifyCommDropped();
+        }
     }
 
 

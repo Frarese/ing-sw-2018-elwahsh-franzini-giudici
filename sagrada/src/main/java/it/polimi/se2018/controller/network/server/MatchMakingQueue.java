@@ -1,8 +1,7 @@
 package it.polimi.se2018.controller.network.server;
 
-
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Represents the matchmaking queue
@@ -10,7 +9,7 @@ import java.util.Queue;
  */
 class MatchMakingQueue {
     private final ServerMain serverMain;
-    private final Queue q;
+    private final Queue<Client> q;
 
     /**
      * Creates a new MatchMaking Queue
@@ -18,7 +17,7 @@ class MatchMakingQueue {
      */
     public MatchMakingQueue(ServerMain serverMain) {
         this.serverMain=serverMain;
-        this.q=new LinkedList();
+        this.q=new ConcurrentLinkedQueue<>();
     }
 
     /**

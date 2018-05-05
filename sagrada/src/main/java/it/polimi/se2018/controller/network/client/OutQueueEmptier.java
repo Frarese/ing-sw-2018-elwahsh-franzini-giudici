@@ -14,15 +14,19 @@ class OutQueueEmptier extends ThreadHandler implements Runnable {
      * @param comm the client main object
      * @param isReq flag to choose the stream to call
      */
-    public OutQueueEmptier(Comm comm, boolean isReq) {
+    OutQueueEmptier(Comm comm, boolean isReq) {
         this.cComm=comm;
         this.isReq=isReq;
-        throw new UnsupportedOperationException();
     }
 
     @Override
-    protected void methodToCall() {
-        throw new UnsupportedOperationException();
+    protected void methodToCall() throws InterruptedException {
+        if(isReq){
+            cComm.sendOutReq();
+        }else{
+            cComm.sendOutObj();
+        }
+
     }
 
 

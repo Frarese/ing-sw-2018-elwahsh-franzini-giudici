@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
  * @author Francesco Franzini
  */
 public interface RMIServerInt extends Remote {
+
     /**
      * Attempts a login with the given parameters
      * @param usn username
@@ -17,7 +18,7 @@ public interface RMIServerInt extends Remote {
      * @param register flag to indicate that this is a new user
      * @return an Object describing the result
      */
-    public RMISession login(String usn, String pw, boolean isRecover, boolean register) throws RemoteException;
+    RMISession login(String usn, String pw, boolean isRecover, boolean register) throws RemoteException;
 
     /**
      * Attempts to delete a user
@@ -25,7 +26,7 @@ public interface RMIServerInt extends Remote {
      * @param pw password
      * @return a textual representation of the outcome
      */
-    public String delete(String usn, String pw) throws RemoteException;
+    String delete(String usn, String pw) throws RemoteException;
 
 }
 

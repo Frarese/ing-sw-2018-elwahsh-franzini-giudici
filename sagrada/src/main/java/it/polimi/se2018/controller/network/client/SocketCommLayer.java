@@ -22,31 +22,31 @@ class SocketCommLayer extends CommLayer {
      */
     public SocketCommLayer(Comm comm) {
         super(comm);
+        //TODO
+    }
+
+    @Override
+    String establishCon(String host, int reqPort, int objPort, boolean isRecovery, String usn, String pw, boolean newUser) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String establishCon(String host, int reqPort, int objPort, boolean isRecovery, String usn, String pw, boolean newUser) {
+    boolean endCon() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean endCon(boolean quitGame, boolean logout) {
+    boolean sendOutObj(Serializable obj) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean sendOutObj(Serializable obj) {
+    boolean sendOutReq(AbsReq req) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean sendOutReq(AbsReq req) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean close() {
+    boolean close() {
         throw new UnsupportedOperationException();
     }
 

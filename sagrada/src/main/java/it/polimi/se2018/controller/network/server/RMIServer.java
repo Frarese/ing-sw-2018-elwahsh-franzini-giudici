@@ -5,6 +5,7 @@ package it.polimi.se2018.controller.network.server;
  * @author Francesco Franzini
  */
 class RMIServer extends ServerComm {
+
     private RMIServerIntImpl rmiObj;
     private final int port;
     private final String name;

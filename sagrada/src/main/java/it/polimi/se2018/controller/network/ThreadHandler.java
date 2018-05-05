@@ -1,5 +1,8 @@
 package it.polimi.se2018.controller.network;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * A wrapper for a generic Thread Handler that calls a method until stopped
  * @author Francesco Franzini
@@ -11,21 +14,38 @@ public abstract class ThreadHandler implements Runnable {
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException();
+        while(continua){
+            try {
+                this.methodToCall();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     /**
      * Starts this handler
      */
-    public void start() {
-        throw new UnsupportedOperationException();
+    public synchronized boolean start() {
+        Logger logger=Logger.getGlobal();
+        if(!this.isRunning()){
+            continua=true;
+            cleanUp();
+            t=new Thread(this);
+            t.start();
+            logger.log(Level.FINE,"Starting a "+this.getClass().getName()+" thread handler");
+            return true;
+        }else{
+            logger.log(Level.WARNING,"Attempting to start an already running ThreadHandler");
+            return false;
+        }
     }
 
     /**
      * Signals this handler to stop, it will finish the current iteration however
      */
-    public void stop() {
-        throw new UnsupportedOperationException();
+    public synchronized void stop() {
+        continua=false;
     }
 
 
@@ -33,19 +53,30 @@ public abstract class ThreadHandler implements Runnable {
      * Checks if this handler is currently running
      * @return true if the handler is running
      */
-    public boolean isRunning() {
-        throw new UnsupportedOperationException();
+    public synchronized boolean isRunning() {
+        if(t==null)return false;
+        return t.isAlive();
     }
 
     /**
      * Forces this handler to stop, interrupting the execution
      */
-    public void forceStop() {
-        throw new UnsupportedOperationException();
+    public synchronized void forceStop() {
+        continua=false;
+        t.interrupt();
     }
 
     /**
      * The method that is called by this handler
+     * @throws InterruptedException if this method is interrupted
      */
-    protected abstract void methodToCall();
+    protected abstract void methodToCall() throws InterruptedException;
+
+    /**
+     * Cleans up the objects used in this ThreadHandler
+     */
+    private synchronized void cleanUp(){
+        if(t==null)return;
+        t=null;
+    }
 }

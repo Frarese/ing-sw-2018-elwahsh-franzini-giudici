@@ -29,16 +29,16 @@ public class SafeSocket implements Runnable {
     /**Creates a new SafeSocket and initializes a new {@link java.net.Socket} for it
      * @param timeout the timeout(in milliseconds) for this SafeSocket
      */
-    public SafeSocket(long timeout) {
+    public SafeSocket(long timeout) throws IOException {
         this(new Socket(),timeout);
     }
 
     /**
-     * Creates a new SafeSocket wrapper around a given {@link java.net.Socket}
-     * @param s the socket to wrap
+     * Creates a new SafeSocket wrapper around a given(and already connected) {@link java.net.Socket}
+     * @param s the connected socket to wrap
      * @param timeout the timeout(in milliseconds) for this SafeSocket
      */
-    public SafeSocket(Socket s, long timeout) {
+    public SafeSocket(Socket s, long timeout) throws IOException {
         this.s=s;
         inQueue=new LinkedList<>();
         init();
@@ -47,10 +47,12 @@ public class SafeSocket implements Runnable {
                 start();
             } catch (IOException e) {
                 logger.log(Level.SEVERE,"Error accessing socket's objects"+e.getMessage());
+                throw e;
             }
+        }else if(s.isClosed()){
+            throw new IllegalArgumentException("given Socket is closed");
         }
         this.timeout=timeout;
-        this.logger=Logger.getGlobal();
         logger.log(Level.FINE,"SafeSocket initialized");
     }
 
@@ -80,7 +82,7 @@ public class SafeSocket implements Runnable {
         if(s.isConnected())return false;
         boolean out=true;
         try {
-            s.connect(new InetSocketAddress(host,port));
+            s.connect(new InetSocketAddress(host,port),1000);
             start();
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error connecting to host "+e.getLocalizedMessage());
@@ -94,6 +96,7 @@ public class SafeSocket implements Runnable {
      */
     private void init()  {
         lastACK=null;
+        this.logger=Logger.getGlobal();
     }
 
     /**

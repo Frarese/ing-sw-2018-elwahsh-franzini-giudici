@@ -8,8 +8,8 @@ import java.util.TimerTask;
  * @author Francesco Franzini
  */
 class ReconnectWaker extends TimerTask {
-    public static final long defaultReconPeriod=1000;
-    public static final int defaultAttemps=5;
+    public static final long DEFAULT_RECON_PERIOD=1000;
+    public static final int DEFAULT_ATTEMPTS=5;
     private Timer t;
     private final Comm cComm;
     private int attemps;
@@ -19,23 +19,33 @@ class ReconnectWaker extends TimerTask {
      * Initializes this waker with the given parameters
      * @param cComm the main client object
      */
-    public ReconnectWaker(Comm cComm) {
+    ReconnectWaker(Comm cComm) {
         this.cComm=cComm;
-        throw new UnsupportedOperationException();
+        t=new Timer();
+        this.maxAttemps=-1;
     }
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException();
+        attemps++;
+        boolean result=cComm.tryRecover(attemps==maxAttemps);
+        if(maxAttemps==attemps || result)this.cancel();
     }
 
     /**
      * Launches a new run of reconnection attempts
      * @param period time(in milliseconds) between attempts
-     * @param attempts number of attempts
+     * @param noOfAttempts number of attempts
      */
-    public void reschedule(long period, int attempts) {
-        throw new UnsupportedOperationException();
+    void reschedule(long period, int noOfAttempts) {
+
+        t.cancel();
+        t.purge();
+        this.attemps=0;
+        this.maxAttemps=noOfAttempts;
+        t=new Timer();
+        t.schedule(this,period,period);
+
     }
 
 

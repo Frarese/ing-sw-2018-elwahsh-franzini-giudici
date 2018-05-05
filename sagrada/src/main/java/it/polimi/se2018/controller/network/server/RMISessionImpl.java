@@ -69,7 +69,7 @@ class RMISessionImpl implements RMISession {
     }
 
     @Override
-    public String getLoginOutput() {
+    public LoginResponsesEnum getLoginOutput() {
         throw new UnsupportedOperationException();
     }
 
