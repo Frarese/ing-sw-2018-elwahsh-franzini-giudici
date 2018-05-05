@@ -17,7 +17,7 @@ public class Die {
      * in case it's rendered before the first roll
      * @param color it's the dice color assigned during game initialization
      */
-     Die(ColorModel color)
+    public Die(ColorModel color)
     {
         this.color = color;
         roll();
@@ -29,7 +29,7 @@ public class Die {
      * For now I'll use a simple random generation. May use a different and less polarized
      * algorithm in the future.
      */
-     synchronized void  roll()
+     public synchronized void  roll()
     {
         Random random = new Random();
         value = random.nextInt(6) +1;
@@ -39,7 +39,7 @@ public class Die {
      * Getter for the color variable
      * @return die's color
      */
-     ColorModel getColor() {
+     public ColorModel getColor() {
         return color;
     }
 
@@ -47,7 +47,7 @@ public class Die {
      * Getter for the value variable
      * @return die's upper face
      */
-     int getValue() {
+     public int getValue() {
         return value;
     }
 

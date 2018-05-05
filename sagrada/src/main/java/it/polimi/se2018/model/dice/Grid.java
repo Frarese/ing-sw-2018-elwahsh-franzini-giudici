@@ -39,6 +39,42 @@ public class Grid {
     }
 
     /**
+     * Getter for a specific row of the grid.
+     * @param h height of the row
+     * @return the desired row
+     * @exception  InterruptedException return an empty array in case of invalid height
+     */
+    public Die[] getRow(int h)
+    {
+        try {
+            return diceGrid[h];
+        } catch(IndexOutOfBoundsException e)
+        {
+            return new Die[Grid.WIDTH];
+        }
+    }
+
+    /**
+     * Getter for a specific column of the grid
+     * @param w width of the column
+     * @return the desired column
+     * @exception IndexOutOfBoundsException return an empty array in case of invalid width
+     */
+    public Die[] getColumn(int w)
+    {
+        try {
+            Die[] column = new Die[diceGrid[0].length];
+            for (int i = 0; i < column.length; i++) {
+                column[i] = diceGrid[i][w];
+            }
+            return column;
+        } catch (IndexOutOfBoundsException e)
+        {
+            return new Die[Grid.HEIGHT];
+        }
+    }
+
+    /**
      * Getter of the number of placed dice
      * @return the number of placed dice
      */

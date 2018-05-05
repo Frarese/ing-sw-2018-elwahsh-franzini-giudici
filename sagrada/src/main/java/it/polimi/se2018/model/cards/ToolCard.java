@@ -1,7 +1,8 @@
 package it.polimi.se2018.model.cards;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.model.logic.LocalPlayer;
+import it.polimi.se2018.model.Player;
+
 
 /**
  * Abstract class representing a generic Tool Card behaviour
@@ -30,12 +31,12 @@ public abstract class ToolCard extends CardModel {
     /**
      * All Tool Cards need this method. It applies the Tool card effect to the player
      */
-    public abstract void applyToolCard(LocalPlayer player);
+    public abstract void applyToolCard(Player player);
 
     /**
      * To use a Tool card a player must spend its favour points
      */
-    protected void burnFavourPoints(LocalPlayer player)
+    protected void burnFavourPoints(Player player)
     {
         if(used)
             player.setFavourPoints(player.getFavourPoints() -2);
