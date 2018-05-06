@@ -7,21 +7,33 @@ import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewToolCardActions;
+import it.polimi.se2018.view.view_util.fx_creators.FXCardViewCreator;
+import it.polimi.se2018.view.view_util.fx_creators.FXGridViewCreator;
+import it.polimi.se2018.view.view_util.fx_creators.FXRoundTrackerViewCreator;
+import it.polimi.se2018.view.view_util.fx_creators.FXScoreViewCreator;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class CLIApp represents the GUI using JavaFX
+ * Class JavaFXApp represents the GUI using JavaFX
+ *
  * @author Mathyas Giudici
  */
 
 public class JavaFXApp extends App {
 
-    private boolean animationEnable;
+    /**
+     * Componets for GUI
+     */
+    private JavaFXStageProducer stageProducer;
+    private FXCardViewCreator fxCardViewCreator;
+    private FXGridViewCreator fxGridViewCreator;
+    private FXRoundTrackerViewCreator fxRoundTrackerViewCreator;
+    private FXScoreViewCreator fxScoreViewCreator;
 
-    private ViewActions viewActions;
-
-    private ViewToolCardActions viewToolCardActions;
+    public JavaFXApp() {
+    }
 
     @Override
     public void animation(boolean enable) {

@@ -4,6 +4,7 @@ import it.polimi.se2018.util.Pair;
 
 /**
  * This class represents an observer of a player
+ *
  * @author Mathyas Giudici
  */
 
@@ -11,37 +12,37 @@ public class PlayerView {
 
     private boolean hasChanged;
 
-    public String getPlayerName(){
+    public String getPlayerName() {
         //TODO
         return null;
     }
 
-    public int getPlayerFavours(){
+    public int getPlayerFavours() {
         //TODO
         return 0;
     }
 
-    public Pair getPlayerTemplate(){
+    public Pair getPlayerTemplate() {
         //TODO
         return null;
     }
 
-    public int getPlayerID(){
+    public int getPlayerID() {
         //TODO
         return 0;
     }
 
-    public Pair getPlayerGrid(){
+    public Pair getPlayerGrid() {
         //TODO
         return null;
     }
 
-    public boolean getCanYouPlaceOnThisTurn(){
+    public boolean hasPlacementRights() {
         //TODO
         return false;
     }
 
-    public boolean getCanYouUseCardInThisTurn(){
+    public boolean hasCardRights() {
         //TODO
         return false;
     }

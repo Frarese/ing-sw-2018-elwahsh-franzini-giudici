@@ -7,22 +7,29 @@ import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewToolCardActions;
+import it.polimi.se2018.view.view_util.cli_creators.CLICardViewCreator;
+import it.polimi.se2018.view.view_util.cli_creators.CLIGridViewCreator;
+import it.polimi.se2018.view.view_util.cli_creators.CLIReserveViewCreator;
+import it.polimi.se2018.view.view_util.cli_creators.CLIScoreViewCreator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class CLIApp represents the command line interface
+ *
  * @author Mathyas Giudici
  */
 
 public class CLIApp extends App {
 
-    private boolean animationEnable;
-
-    private ViewActions viewActions;
-
-    private ViewToolCardActions viewToolCardActions;
+    /**
+     * Componets for CLI
+     */
+    private CLICardViewCreator cliCardViewCreator;
+    private CLIGridViewCreator cliGridViewCreator;
+    private CLIReserveViewCreator cliReserveViewCreator;
+    private CLIScoreViewCreator cliScoreViewCreator;
 
     @Override
     public void animation(boolean enable) {
