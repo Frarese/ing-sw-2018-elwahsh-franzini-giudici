@@ -24,7 +24,7 @@ public class ReconnectWakerTest {
     }
 
     @Test(timeout =2000)
-    public void testNoSuccess() throws Exception{
+    public void testNoSuccess(){
 
         ReconnectWaker wk=new ReconnectWaker(testComm);
         threshold=6;
@@ -35,7 +35,7 @@ public class ReconnectWakerTest {
     }
 
     @Test(timeout =2000)
-    public void testSuccess() throws Exception{
+    public void testSuccess(){
 
         ReconnectWaker wk=new ReconnectWaker(testComm);
         threshold=3;

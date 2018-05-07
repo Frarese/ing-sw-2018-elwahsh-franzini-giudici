@@ -1,5 +1,6 @@
 package it.polimi.se2018.controller.network.client;
 
+import it.polimi.se2018.controller.network.*;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
 
@@ -16,7 +17,7 @@ public class CommFE {
      * Initializes the client front end
      */
     public CommFE(){
-        throw new UnsupportedOperationException();
+        comm=new Comm();
     }
 
     /**
@@ -33,7 +34,7 @@ public class CommFE {
      * @return {@code null} if no errors were raised, a textual representation of the error otherwise
      */
     public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
-        throw new UnsupportedOperationException();
+        return comm.login(host,requestPort,objectPort,isRecovery,usn,pw,newUser,useRMI,utilizer);
     }
 
     /**
@@ -41,7 +42,7 @@ public class CommFE {
      * @return true if no errors were raised
      */
     public boolean logout() {
-        throw new UnsupportedOperationException();
+        return comm.logout();
     }
 
     /**
@@ -50,7 +51,10 @@ public class CommFE {
      * @return true if no errors were raised
      */
     public boolean sendObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+        if(obj!=null) {
+            comm.pushOutObj(obj);
+        }
+        return true;
     }
 
     /**
@@ -60,7 +64,10 @@ public class CommFE {
      * @return true if no errors were raised
      */
     public boolean sendReq(Serializable req, String dst) {
-        throw new UnsupportedOperationException();
+        if(req!=null && dst!=null) {
+            comm.pushOutReq(new ClientRequest(dst,req));
+        }
+        return true;
     }
 
     /**
@@ -70,7 +77,7 @@ public class CommFE {
      * @param objPort object port to use, ignored if RMI
      */
     public void changeLayer(boolean toRMI, int reqPort,int objPort) {
-        throw new UnsupportedOperationException();
+        comm.changeLayer(toRMI,reqPort,objPort);
     }
 
     /**
@@ -79,7 +86,10 @@ public class CommFE {
      * @param accepted accepted/declined the invite
      */
     public void answerInvite(MatchIdentifier match, boolean accepted) {
-        throw new UnsupportedOperationException();
+        if(match!=null){
+            MatchResponseRequest req=new MatchResponseRequest(accepted,match);
+            comm.pushOutReq(req);
+        }
     }
 
     /**
@@ -87,7 +97,9 @@ public class CommFE {
      * @param match the match descriptor
      */
     public void inviteToMatch(MatchIdentifier match) {
-        throw new UnsupportedOperationException();
+        if(match!=null){
+            comm.pushOutReq(new MatchInviteRequest(match));
+        }
     }
 
     /**
@@ -95,14 +107,16 @@ public class CommFE {
      * @param usn the username of the user to kick
      */
     public void kickPlayer(String usn) {
-        throw new UnsupportedOperationException();
+        if(usn!=null){
+            comm.pushOutReq(new KickRequest(usn));
+        }
     }
 
     /**
      * Attempts to abort this match(host only)
      */
     public void abortMatch() {
-        throw new UnsupportedOperationException();
+        comm.pushOutReq(new MatchAbortedRequest(comm.getMatchInfo()));
     }
 
     /**
@@ -112,22 +126,22 @@ public class CommFE {
      * @param playerScore2 player2's score
      * @param playerScore3 player3's score
      */
-    public void updloadMatchResults(int playerScore0, int playerScore1, int playerScore2, int playerScore3) {
-        throw new UnsupportedOperationException();
+    public void uploadMatchResults(int playerScore0, int playerScore1, int playerScore2, int playerScore3) {
+        comm.pushOutReq(new MatchEndedRequest(comm.getMatchInfo(),playerScore0,playerScore1,playerScore2,playerScore3));
     }
 
     /**
      * Sends a request for a leaderboard update to the server
      */
     public void requestLeaderboard() {
-        throw new UnsupportedOperationException();
+        comm.pushOutReq(new GetLeaderBoardRequest());
     }
 
     /**
      * Sends a request for an update of the logged users list to the server
      */
     public void requestUserList() {
-        throw new UnsupportedOperationException();
+        comm.pushOutReq(new ListUsersRequest());
     }
 
     /**
@@ -137,28 +151,30 @@ public class CommFE {
      * @param destination the eventual destination username
      */
     public void sendChatMessage(String msg, MessageTypes type, String destination) {
-        throw new UnsupportedOperationException();
+        if(msg!=null && type!=null && destination!=null){
+            comm.pushOutReq(new ChatMessageRequest(comm.getUsername(),destination,msg,type));
+        }
     }
 
     /**
      * Leaves the current match
      */
     public void leaveMatch() {
-        throw new UnsupportedOperationException();
+        comm.pushOutReq(new LeaveMatchRequest(comm.getUsername()));
     }
 
     /**
      * Joins the matchmaking queue
      */
     public void joinMatchMakingQueue() {
-        throw new UnsupportedOperationException();
+        comm.pushOutReq(new MatchmakingRequest(true));
     }
 
     /**
      * Leaves the matchmaking queue
      */
     public void leaveMatchMakingQueue() {
-        throw new UnsupportedOperationException();
+        comm.pushOutReq(new MatchmakingRequest(false));
     }
 
 

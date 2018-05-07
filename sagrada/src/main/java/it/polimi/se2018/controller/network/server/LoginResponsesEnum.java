@@ -1,6 +1,12 @@
 package it.polimi.se2018.controller.network.server;
 
-public enum LoginResponsesEnum {
+import java.io.Serializable;
+
+/**
+ * An enumerator that holds the possible answers from a login attempt
+ * @author Francesco Franzini
+ */
+public enum LoginResponsesEnum implements Serializable {
     RESOURCE_NAME("sagradaLogin"),
     WRONG_CREDENTIALS("Wrong Credentials"),
     USER_ALREADY_EXISTS("User already Exists"),

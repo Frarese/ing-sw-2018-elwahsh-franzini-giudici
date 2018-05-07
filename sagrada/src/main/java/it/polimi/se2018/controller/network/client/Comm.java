@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The object representing the network interface
@@ -31,12 +33,15 @@ public class Comm {
 
     private ClientDiscTimer discTimer;
     private ReconnectWaker reconnectW;
-    private OutQueueEmptier qEmpReq;
-    private OutQueueEmptier qEmpObj;
+    private final OutQueueEmptier qEmpReq;
+    private final OutQueueEmptier qEmpObj;
     private CommLayer commLayer;
-    private InListener inListenerReq;
-    private InListener inListenerObj;
+    private final InListener inListenerReq;
+    private final InListener inListenerObj;
 
+    private CommUtilizer utilizer;
+
+    private Logger logger;
     /**
      * Initializes a new comm object
      */
@@ -46,22 +51,28 @@ public class Comm {
         inObjQueue=new LinkedList<>();
         inReqQueue=new LinkedList<>();
 
-        discTimer=null;
-        reconnectW=null;
-        qEmpReq=null;
-        qEmpObj=null;
-        commLayer=null;
-        inListenerReq=null;
-        inListenerObj=null;
+        discTimer=new ClientDiscTimer(this);
+        reconnectW=new ReconnectWaker(this);
+        qEmpReq=new OutQueueEmptier(this,true);
+        qEmpObj=new OutQueueEmptier(this,false);
+
+        inListenerObj=new InListener(this,utilizer,false);
+        inListenerReq=new InListener(this,utilizer,true);
 
         tsLock=new Object();
+
+        commLayer=null;
+
+        logger=Logger.getGlobal();
     }
 
     /**
      * Starts the operations needed to change layer
      * @param toRMI flag to choose socket/RMI
+     * @param reqPort request port to use or RMI port
+     * @param objPort object port to use, not used if RMI
      */
-    public void changeLayer(boolean toRMI) {
+    public void changeLayer(boolean toRMI, int reqPort,int objPort) {
         throw new UnsupportedOperationException();
     }
 
@@ -212,18 +223,16 @@ public class Comm {
         this.objPort=objectPort;
         updateTs();
 
-        inListenerObj=new InListener(this,utilizer,false);
-        inListenerObj.start();
-        inListenerReq=new InListener(this,utilizer,true);
         inListenerReq.start();
+        inListenerObj.start();
 
-        discTimer=new ClientDiscTimer(this);
-        reconnectW=new ReconnectWaker(this);
-        qEmpReq=new OutQueueEmptier(this,true);
-        qEmpReq.start();
-        qEmpObj=new OutQueueEmptier(this,false);
         qEmpObj.start();
+        qEmpReq.start();
 
+        this.utilizer=utilizer;
+
+        discTimer.reschedule(ClientDiscTimer.DEFAULT_CLIENT_TIMEOUT);
+        logger.log(Level.INFO,"Successful login");
         return null;
     }
 
@@ -231,14 +240,14 @@ public class Comm {
      * Attempts to logout
      * @return true if no errors were raised
      */
-    public boolean logout() {
+    boolean logout() {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Handles a logout request from the server
      */
-    public void logoutReqeustReceived() {
+    void logoutReqeustReceived() {
         throw new UnsupportedOperationException();
     }
 
@@ -247,8 +256,13 @@ public class Comm {
      * @param purgeOnFail if true the comm layer will be purged on failure to reconnect
      * @return true if the connection has been recovered
      */
-    public boolean tryRecover(boolean purgeOnFail) {
-        throw new UnsupportedOperationException();
+    boolean tryRecover(boolean purgeOnFail) {
+        String result=login(host,reqPort,objPort,true,username,password,false,true,utilizer);
+        if(result==null){
+            return true;
+        }
+        logger.log(Level.SEVERE,"Failed to reconnect");
+        return false;
     }
 
     /**

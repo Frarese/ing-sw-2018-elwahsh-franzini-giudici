@@ -8,6 +8,7 @@ import java.util.TreeSet;
  * @author Francesco Franzini
  * */
 public class MatchIdentifier implements Serializable {
+    public static final String DEFAULT_SEPARATOR=":";
     public final String player0;
     public final String player1;
     public final String player2;
@@ -32,5 +33,13 @@ public class MatchIdentifier implements Serializable {
         this.player1 = s.pollFirst();
         this.player2 = s.pollFirst();
         this.player3 = s.pollFirst();
+    }
+
+    @Override
+    public String toString(){
+        return player0+DEFAULT_SEPARATOR
+                +player1+DEFAULT_SEPARATOR
+                +player2+DEFAULT_SEPARATOR
+                +player3;
     }
 }

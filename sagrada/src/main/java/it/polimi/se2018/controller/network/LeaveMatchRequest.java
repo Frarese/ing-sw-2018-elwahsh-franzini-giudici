@@ -10,7 +10,7 @@ import it.polimi.se2018.controller.network.server.ServerMain;
  * @author Francesco Franzini
  */
 public class LeaveMatchRequest extends AbsReqServerLogic {
-    private final String usn;
+    public final String usn;
 
     /**
      * Initializes this request with the given parameter

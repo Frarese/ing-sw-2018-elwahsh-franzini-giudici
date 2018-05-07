@@ -114,13 +114,16 @@ class RMICommLayer extends CommLayer {
                 listenerObj.start();
                 return null;
             }else{
+                cleanUp();
                 return session.getLoginOutput().msg;
             }
         } catch(RemoteException e){
             logger.log(Level.SEVERE,"Error connecting through RMI "+e.getMessage());
+            cleanUp();
             return "Failed initializing connection";
         } catch (NotBoundException e) {
             logger.log(Level.SEVERE,"RMI Resource not found"+e.getMessage());
+            cleanUp();
             return "Failed to find RMI resource";
         }
 
@@ -129,10 +132,7 @@ class RMICommLayer extends CommLayer {
     @Override
     synchronized boolean endCon() {
         close();
-        listenerReq=null;
-        listenerObj=null;
-        sessionObj=null;
-        serverLoginObj=null;
+        cleanUp();
         return true;
     }
 
@@ -167,6 +167,9 @@ class RMICommLayer extends CommLayer {
         return true;
     }
 
-
+    private void cleanUp(){
+        sessionObj=null;
+        serverLoginObj=null;
+    }
 
 }
