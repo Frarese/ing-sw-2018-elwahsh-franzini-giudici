@@ -1,5 +1,9 @@
 package it.polimi.se2018.controller.network.server;
 
+import it.polimi.se2018.controller.network.KeepAliveRequest;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,32 +12,70 @@ import java.util.TimerTask;
  * @author Francesco Franzini
  */
 class DisconnectChecker extends TimerTask {
-    private int warningTimeout;
-    private int deathTimeout;
-    private int purgeTimeout;
+    private boolean continua;
+    private long warningTimeout;
+    private long deathTimeout;
+    private long purgeTimeout;
     private Client client;
-
+    private volatile boolean warned;
     private Timer t;
 
     /**
      * Builds and runs a death timer on the given client
-     * @param warningTimeout time(in seconds) before a warning is issued
-     * @param deathTimeout time(in seconds) after a warning before a client becomes zombie
-     * @param purgeTimeout time(in seconds) after becoming zombie before it is removed from the logged users
+     * @param warningTimeout time(in milliseconds) before a warning is issued
+     * @param deathTimeout time(in milliseconds) after a warning before a client becomes zombie
+     * @param purgeTimeout time(in milliseconds) after becoming zombie before it is removed from the logged users
      * @param client client to check
      */
-    public DisconnectChecker(int warningTimeout, int deathTimeout, int purgeTimeout, Client client) {
+    public DisconnectChecker(long warningTimeout, long deathTimeout, long purgeTimeout, Client client) {
         this.warningTimeout = warningTimeout;
         this.deathTimeout = deathTimeout;
         this.purgeTimeout = purgeTimeout;
         this.client = client;
-        throw new UnsupportedOperationException();
+        warned=false;
+        continua=true;
+        t=new Timer();
     }
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException();
+        if(continua){
+            Instant i=client.lastSeen();
+            Duration d=Duration.between(i,Instant.now());
+            long value=d.getSeconds()*1000+(d.getNano()/1000000);
+            if(!warned && value>warningTimeout){
+                warned=true;
+                boolean out=client.sendReq(new KeepAliveRequest());
+                if(!out){
+                    client.zombiefy(true);
+                }
+            }else if(warned && value>deathTimeout && !client.isZombie()){
+                client.zombiefy(true);
+            }else if(client.isZombie() && value>purgeTimeout){
+                client.purge();
+                this.stop();
+            }
+        }
     }
 
+    /**
+     * Launches this death timer
+     */
+    void reschedule(){
+        t.cancel();
+        t.purge();
+        t=new Timer();
+        continua=true;
+        warned=false;
+        long minT=(warningTimeout<deathTimeout)?warningTimeout:deathTimeout;
+        minT=(purgeTimeout<minT)?purgeTimeout:minT;
+        t.schedule(this,0,minT);
+    }
 
+    /**
+     * Stops this death timer
+     */
+    void stop(){
+        continua=false;
+    }
 }

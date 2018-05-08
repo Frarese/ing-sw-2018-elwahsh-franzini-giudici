@@ -24,35 +24,35 @@ abstract class ClientComm {
      * @param obj the object to send
      * @return true if no errors were raised
      */
-    public abstract boolean sendObj(Serializable obj);
+    abstract boolean sendObj(Serializable obj);
 
     /**
      * Sends a request to the client and, if supported, returns if the operation was a success
      * @param req the request to send
      * @return true if no errors were raised
      */
-    public abstract boolean sendReq(AbsReq req);
+    abstract boolean sendReq(AbsReq req);
 
     /**
      * Pushes an inbound object for the server to handle
      * @param obj the object to push
      */
-    public void pushInObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+    void pushInObj(Serializable obj) {
+        client.pushInObj(obj);
     }
 
     /**
      * Pushes an inbound request for the server to handle
      * @param req the request to push
      */
-    public void pushInReq(AbsReq req) {
-        throw new UnsupportedOperationException();
+    void pushInReq(AbsReq req) {
+        client.pushInReq(req);
     }
 
     /**
      * Terminates this comm layer
      */
-    public abstract void terminate();
+    abstract void terminate();
 
 
 }

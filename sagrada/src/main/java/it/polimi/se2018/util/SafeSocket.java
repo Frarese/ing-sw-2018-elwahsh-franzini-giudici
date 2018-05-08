@@ -204,7 +204,7 @@ public class SafeSocket implements Runnable {
      * @param obj the object to hash
      * @return  the result of the hashing function
      */
-    public static int hashObj(Object obj) {
+    private static int hashObj(Object obj) {
         return obj.hashCode();
     }
 

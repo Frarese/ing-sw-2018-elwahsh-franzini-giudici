@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.controller.network.server.Client;
 import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.util.ScoreEntry;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author Francesco Franzini
  */
 public class GetLeaderBoardRequest extends AbsReqServerLogic {
-    private List leaderboard;
+    private List<ScoreEntry> leaderboard;
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
@@ -28,7 +29,7 @@ public class GetLeaderBoardRequest extends AbsReqServerLogic {
      * Returns the List of {@link it.polimi.se2018.util.ScoreEntry}
      * @return the logged users List
      */
-    public List getLeaderboard() {
+    public List<ScoreEntry> getLeaderboard() {
         return this.leaderboard;
     }
 
@@ -36,7 +37,7 @@ public class GetLeaderBoardRequest extends AbsReqServerLogic {
      * Sets the leaderboard
      * @param leaderboard the list to transmit
      */
-    public void setLeaderboard(List leaderboard){
+    public void setLeaderboard(List<ScoreEntry> leaderboard){
         this.leaderboard=leaderboard;
     }
 

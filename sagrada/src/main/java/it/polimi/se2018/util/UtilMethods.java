@@ -25,4 +25,11 @@ public interface UtilMethods {
             return queue.poll();
         }
     }
+
+    static <T> boolean checkEmpty(Queue<T> q) {
+        final Queue<T>queue=q;
+        synchronized (queue){
+            return q.isEmpty();
+        }
+    }
 }

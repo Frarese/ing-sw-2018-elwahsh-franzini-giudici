@@ -4,7 +4,7 @@ import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.util.SafeSocket;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Queue;
 
 /**
@@ -20,7 +20,7 @@ public class Client {
 
     private boolean isZombie;
     private boolean acceptedInvite;
-    private Timestamp lastSeenTs;
+    private Instant lastSeenTs;
 
     private ClientComm cComm;
     private Match match;
@@ -44,7 +44,7 @@ public class Client {
     public Client(String usn, ServerMain server) {
         this.usn=usn;
         this.serverMain=server;
-        throw new UnsupportedOperationException();
+        //TODO
     }
 
     /**
@@ -76,15 +76,15 @@ public class Client {
      * Updates the last seen timestamp
      */
     private void updateTs() {
-        throw new UnsupportedOperationException();
+        this.lastSeenTs=Instant.now();
     }
 
     /**
      * Gets the last seen timestamp
      * @return last seen timestamp
      */
-    public Timestamp lastSeen() {
-        return lastSeenTs;
+    public Instant lastSeen() {
+        return this.lastSeenTs;
     }
 
     /**

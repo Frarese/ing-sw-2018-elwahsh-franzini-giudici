@@ -1,9 +1,13 @@
 package it.polimi.se2018.controller.network.server;
 
 import it.polimi.se2018.controller.network.AbsReq;
+import it.polimi.se2018.util.UtilMethods;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A RMI implementation of the comm layer of a client
@@ -11,66 +15,82 @@ import java.util.Queue;
  */
 class RMIClientComm extends ClientComm {
     private final RMISessionImpl sessionObj;
-
-    private Queue rmiOutObjQueue;
-    private Queue rmiOutReqQueue;
+    private Logger logger;
+    private Queue<Serializable> rmiOutObjQueue;
+    private Queue<AbsReq> rmiOutReqQueue;
 
     /**
      * Initializes a RMI comm layer with the given parameters
      * @param sessionObj the session object to use
      * @param client the client to call
      */
-    public RMIClientComm(RMISessionImpl sessionObj,Client client) {
+    RMIClientComm(RMISessionImpl sessionObj,Client client) {
         super(client);
         this.sessionObj=sessionObj;
-        throw new UnsupportedOperationException();
+        logger=Logger.getGlobal();
+        rmiOutObjQueue=new LinkedList<>();
+        rmiOutReqQueue=new LinkedList<>();
     }
 
     /**
      * Checks if there are unread objects
      * @return true if there are unread objects
      */
-    public boolean hasObj() {
-        throw new UnsupportedOperationException();
+    boolean hasObj() {
+        return UtilMethods.checkEmpty(rmiOutObjQueue);
     }
 
     /**
      * Checks if there are unread requests
      * @return true if there are unread requests
      */
-    public boolean hasReq() {
-        throw new UnsupportedOperationException();
+    boolean hasReq() {
+        return UtilMethods.checkEmpty(rmiOutReqQueue);
     }
 
     /**
      * Pops an outgoing object. If none are available it blocks until one is pushed
      * @return an object or {@code null} if errors occurred
      */
-    public Serializable getOutObj() {
-        throw new UnsupportedOperationException();
+    Serializable getOutObj() {
+        try {
+            return UtilMethods.waitAndPopTS(rmiOutObjQueue);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            logger.log(Level.SEVERE,"Failed popping object from rmi outgoing queue "+e.getMessage());
+        }
+        return null;
     }
 
     /**
      * Pops an outgoing request. If none are available it blocks until one is pushed
      * @return a request or {@code null} if errors occurred
      */
-    public AbsReq getOutReq() {
-        throw new UnsupportedOperationException();
+    AbsReq getOutReq() {
+        try {
+            return UtilMethods.waitAndPopTS(rmiOutReqQueue);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            logger.log(Level.SEVERE,"Failed popping request from rmi outgoing queue "+e.getMessage());
+        }
+        return null;
     }
 
 
     @Override
-    public boolean sendObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+    boolean sendObj(Serializable obj) {
+        UtilMethods.pushAndNotifyTS(rmiOutObjQueue,obj);
+        return true;
     }
 
     @Override
-    public boolean sendReq(AbsReq req) {
-        throw new UnsupportedOperationException();
+    boolean sendReq(AbsReq req) {
+        UtilMethods.pushAndNotifyTS(rmiOutReqQueue,req);
+        return true;
     }
 
     @Override
-    public void terminate() {
+    void terminate() {
         throw new UnsupportedOperationException();
     }
 }

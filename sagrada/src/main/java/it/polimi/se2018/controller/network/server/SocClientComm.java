@@ -21,26 +21,32 @@ class SocClientComm extends ClientComm {
      * @param objSocket  the object {@link it.polimi.se2018.util.SafeSocket}
      * @param client the {@link it.polimi.se2018.controller.network.server.Client} to call
      */
-    public SocClientComm(SafeSocket reqSocket, SafeSocket objSocket,Client client) {
+    SocClientComm(SafeSocket reqSocket, SafeSocket objSocket,Client client) {
         super(client);
         this.reqSoc=reqSocket;
         this.objSoc=objSocket;
-        throw new UnsupportedOperationException();
+        waiterObj=new InputStreamWaiter(objSocket,false,this);
+        waiterReq=new InputStreamWaiter(reqSocket,true,this);
+
+        waiterObj.start();
+        waiterReq.start();
     }
 
 
     @Override
-    public boolean sendObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+    boolean sendObj(Serializable obj) {
+        return objSoc.send(obj);
     }
 
     @Override
-    public boolean sendReq(AbsReq req) {
-        throw new UnsupportedOperationException();
+    boolean sendReq(AbsReq req) {
+        return reqSoc.send(req);
     }
 
     @Override
-    public void terminate() {
+    void terminate() {
+        waiterReq.stop();
+        waiterObj.stop();
         throw new UnsupportedOperationException();
     }
 }

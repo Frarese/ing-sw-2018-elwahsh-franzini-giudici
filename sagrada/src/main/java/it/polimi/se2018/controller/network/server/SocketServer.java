@@ -3,6 +3,8 @@ package it.polimi.se2018.controller.network.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A Socket implementation of the server's login layer
@@ -12,15 +14,17 @@ class SocketServer extends ServerComm {
     private ServerSocket objSSoc;
     private ServerSocket reqSSoc;
     private final HashMap<String,WaitingObjSocketClient> waitingObjConnClients;
+    private Logger logger;
 
     /**
      * Creates a Socket login service
      *
      * @param handler the handler for the requests
      */
-    public SocketServer(ServerMain handler,int objPort,int reqPort) {
+    SocketServer(ServerMain handler,int objPort,int reqPort) {
         super(handler);
-        waitingObjConnClients=new HashMap<String,WaitingObjSocketClient>();
+        logger=Logger.getGlobal();
+        waitingObjConnClients=new HashMap<>();
         this.init(objPort,reqPort);
     }
 
@@ -36,6 +40,22 @@ class SocketServer extends ServerComm {
 
     @Override
     public void close() {
+        if(objSSoc!=null){
+            try {
+                objSSoc.close();
+            } catch (IOException e) {
+                logger.log(Level.SEVERE,"Error closing object socket server"+e.getMessage());
+            }
+            objSSoc=null;
+        }
+        if(reqSSoc!=null){
+            try {
+                reqSSoc.close();
+            } catch (IOException e) {
+                logger.log(Level.SEVERE,"Error closing request socket server"+e.getMessage());
+            }
+            reqSSoc=null;
+        }
         throw new UnsupportedOperationException();
     }
 
@@ -47,10 +67,12 @@ class SocketServer extends ServerComm {
         try {
             objSSoc=new ServerSocket(objPort);
             reqSSoc=new ServerSocket(reqPort);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+            return true;
+        } catch (IOException e) {
+            logger.log(Level.SEVERE,"Error initializing socket server"+e.getMessage());
+            this.close();
+        }
         throw new UnsupportedOperationException();
     }
 

@@ -1,8 +1,11 @@
 package it.polimi.se2018.controller.network.server;
 
 
+import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.controller.network.ThreadHandler;
 import it.polimi.se2018.util.SafeSocket;
+
+import java.io.Serializable;
 
 /**
  * Waiter that reads inbound data from a SafeSocket
@@ -19,15 +22,20 @@ class InputStreamWaiter extends ThreadHandler {
      * @param isReq flag to choose request/object
      * @param cComm socket client comm to call
      */
-    public InputStreamWaiter(SafeSocket sSocket, boolean isReq, SocClientComm cComm) {
+    InputStreamWaiter(SafeSocket sSocket, boolean isReq, SocClientComm cComm) {
         this.cComm=cComm;
         this.sSocket=sSocket;
-        throw new UnsupportedOperationException();
+        this.isReq=isReq;
     }
 
     @Override
-    protected void methodToCall() {
-        throw new UnsupportedOperationException();
+    protected void methodToCall() throws InterruptedException {
+        Serializable obj=sSocket.receive();
+        if(isReq){
+            cComm.pushInReq((AbsReq)obj);
+        }else{
+            cComm.pushInObj(obj);
+        }
     }
 
 

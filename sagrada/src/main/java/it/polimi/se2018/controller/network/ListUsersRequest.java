@@ -5,6 +5,7 @@ import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.controller.network.server.Client;
 import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.util.ScoreEntry;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Francesco Franzini
  */
 public class ListUsersRequest extends AbsReqServerLogic {
-    private List list;
+    private List<ScoreEntry> list;
 
     @Override
     public void serverHandle(Client client, ServerMain server) {
@@ -29,7 +30,7 @@ public class ListUsersRequest extends AbsReqServerLogic {
      * Returns the List of {@link it.polimi.se2018.util.ScoreEntry}
      * @return the logged users List
      */
-    public List getList() {
+    public List<ScoreEntry> getList() {
         return list;
     }
 
@@ -37,7 +38,7 @@ public class ListUsersRequest extends AbsReqServerLogic {
      * Sets the List
      * @param list the list to transmit
      */
-    public void setList(List list){
+    public void setList(List<ScoreEntry> list){
         this.list=list;
     }
 

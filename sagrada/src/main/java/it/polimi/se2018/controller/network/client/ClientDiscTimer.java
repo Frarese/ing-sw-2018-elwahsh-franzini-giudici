@@ -10,9 +10,9 @@ import java.util.TimerTask;
  * @author Francesco Franzini
  */
 class ClientDiscTimer extends TimerTask {
-    static final int DEFAULT_CLIENT_TIMEOUT = 90;
+    static final long DEFAULT_CLIENT_TIMEOUT = 10000;
     private final Comm cComm;
-    private int timeout;
+    private long timeout;
     private boolean continua;
     private Timer t;
 
@@ -30,7 +30,8 @@ class ClientDiscTimer extends TimerTask {
         if(continua){
             Instant i=cComm.getLastSeen();
             Duration d=Duration.between(i,Instant.now());
-            if(d.getSeconds()>timeout){
+            long value=d.getSeconds()*1000+(d.getNano()/1000000);
+            if(value>timeout){
                 this.stop();
                 cComm.beginDisconnectedRoutines();
             }
@@ -40,15 +41,16 @@ class ClientDiscTimer extends TimerTask {
 
     /**
      * Launches this disconnect timer
-     * @param timeout timeout to use in seconds
+     * @param timeout timeout to use in milliseconds
      */
-    void reschedule(int timeout){
+    void reschedule(long timeout){
         t.cancel();
         t.purge();
         t=new Timer();
         this.timeout=timeout;
         continua=true;
-        t.schedule(this,0,Integer.toUnsignedLong(timeout)*1000);
+        //A check every 1 potential timeouts
+        t.schedule(this,0,timeout);
     }
 
     /**

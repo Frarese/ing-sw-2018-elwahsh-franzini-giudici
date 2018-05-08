@@ -7,10 +7,10 @@ import it.polimi.se2018.util.SafeSocket;
  * @author Francesco Franzini
  */
 class WaitingObjSocketClient {
-    public final SafeSocket reqS;
-    public final String usn;
-    public final String psw;
-    public final boolean isRecovery;
+    final SafeSocket reqS;
+    final String usn;
+    final String psw;
+    final boolean isRecovery;
 
     /**
      * Initializes a wrapper with the given paramenters
