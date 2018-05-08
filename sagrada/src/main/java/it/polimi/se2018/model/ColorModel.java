@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 /**
  * This enumeration represents all the possible colors visible in game
+ *
+ * @author Alì El Wahsh & Mathyas Giudici
  */
 public enum ColorModel {
 
@@ -20,7 +22,7 @@ public enum ColorModel {
      */
     @Override
     public String toString() {
-        return super.toString().toLowerCase();
+        return super.toString().toUpperCase();
     }
 
     /**
@@ -31,12 +33,12 @@ public enum ColorModel {
      */
     public Color toJavaFXColor(){
         HashMap<String,String> colorMap = new HashMap<>();
-        colorMap.put("red","#D11E22");
-        colorMap.put("blue","#48B0B3");
-        colorMap.put("green","#32AA63");
-        colorMap.put("yellow","#E4D806");
-        colorMap.put("violet","#A02894");
-        colorMap.put("white","#F0F0F0");
+        colorMap.put("RED","#D11E22");
+        colorMap.put("BLUE","#48B0B3");
+        colorMap.put("GREEN","#32AA63");
+        colorMap.put("YELLOW","#E4D806");
+        colorMap.put("VIOLET","#A02894");
+        colorMap.put("WHITE","#F0F0F0");
 
         return Color.valueOf(colorMap.get(toString()));
     }

@@ -1,6 +1,9 @@
 package it.polimi.se2018.view.app;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -31,6 +34,10 @@ public class JavaFXStageProducer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("fxml_files/start.fxml"));
+        primaryStage.setTitle("Sagrada Game");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
         this.stage = primaryStage;
     }
 

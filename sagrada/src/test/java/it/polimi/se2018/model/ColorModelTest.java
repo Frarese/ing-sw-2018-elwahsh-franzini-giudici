@@ -7,6 +7,8 @@ import static it.polimi.se2018.model.ColorModel.*;
 
 /**
  * Tests for ColorModel class
+ *
+ * @author Alì El Wahsh & Mathyas Giudici
  */
 public class ColorModelTest {
 
@@ -35,12 +37,12 @@ public class ColorModelTest {
     @Test
     public void testToString()
     {
-       assertEquals("red",c1.toString());
-        assertEquals("blue",c2.toString());
-        assertEquals("green",c3.toString());
-        assertEquals("yellow",c4.toString());
-        assertEquals("violet",c5.toString());
-        assertEquals("white",c6.toString());
+       assertEquals("RED",c1.toString());
+        assertEquals("BLUE",c2.toString());
+        assertEquals("GREEN",c3.toString());
+        assertEquals("YELLOW",c4.toString());
+        assertEquals("VIOLET",c5.toString());
+        assertEquals("WHITE",c6.toString());
     }
 
     /**

@@ -18,7 +18,11 @@ public class AppFactory {
      */
     public AppFactory(boolean useGui) {
         if (useGui) {
-            this.app = new JavaFXApp();
+            try {
+                this.app = new JavaFXApp();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             this.app = new CLIApp();
         }
