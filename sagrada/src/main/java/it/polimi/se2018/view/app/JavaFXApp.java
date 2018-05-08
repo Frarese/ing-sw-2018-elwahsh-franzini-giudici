@@ -5,8 +5,6 @@ import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.observer.ReserveView;
 import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.Pair;
-import it.polimi.se2018.view.ViewActions;
-import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.view_util.fx_creators.FXCardViewCreator;
 import it.polimi.se2018.view.view_util.fx_creators.FXGridViewCreator;
 import it.polimi.se2018.view.view_util.fx_creators.FXRoundTrackerViewCreator;

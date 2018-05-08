@@ -55,7 +55,7 @@ public interface ControllerActionsInterface {
     /**
      * After a askLobby() request Controller returns to View the leaderBoard
      *
-     * @param leaderBoard contains the leaderBoard
+     * @param leaderBoard contains the leaderBoard ordinated
      */
     void pullLeaderBoard(List leaderBoard);
 

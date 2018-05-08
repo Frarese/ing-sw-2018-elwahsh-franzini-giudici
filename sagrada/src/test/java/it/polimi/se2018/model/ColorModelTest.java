@@ -51,12 +51,12 @@ public class ColorModelTest {
     @Test
     public void testToJavaFXColor()
     {
-        assertEquals(Color.RED,c1.toJavaFXColor());
-        assertEquals(Color.BLUE,c2.toJavaFXColor());
-        assertEquals(Color.GREEN,c3.toJavaFXColor());
-        assertEquals(Color.YELLOW,c4.toJavaFXColor());
-        assertEquals(Color.VIOLET,c5.toJavaFXColor());
-        assertEquals(Color.WHITE,c6.toJavaFXColor());
+        assertEquals(Color.valueOf("#D11E22"),c1.toJavaFXColor());
+        assertEquals(Color.valueOf("#48B0B3"),c2.toJavaFXColor());
+        assertEquals(Color.valueOf("#32AA63"),c3.toJavaFXColor());
+        assertEquals(Color.valueOf("#E4D806"),c4.toJavaFXColor());
+        assertEquals(Color.valueOf("#A02894"),c5.toJavaFXColor());
+        assertEquals(Color.valueOf("#F0F0F0"),c6.toJavaFXColor());
     }
 
 }

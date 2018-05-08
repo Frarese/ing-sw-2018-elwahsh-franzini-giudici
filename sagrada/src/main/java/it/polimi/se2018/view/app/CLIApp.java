@@ -5,8 +5,6 @@ import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.observer.ReserveView;
 import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.Pair;
-import it.polimi.se2018.view.ViewActions;
-import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.view_util.cli_creators.CLICardViewCreator;
 import it.polimi.se2018.view.view_util.cli_creators.CLIGridViewCreator;
 import it.polimi.se2018.view.view_util.cli_creators.CLIReserveViewCreator;
@@ -31,6 +29,15 @@ public class CLIApp extends App {
     private CLIReserveViewCreator cliReserveViewCreator;
     private CLIScoreViewCreator cliScoreViewCreator;
 
+    public CLIApp() {
+        super();
+        this.animationEnable = true;
+        this.cliCardViewCreator = new CLICardViewCreator();
+        this.cliGridViewCreator = new CLIGridViewCreator();
+        this.cliReserveViewCreator = new CLIReserveViewCreator();
+        this.cliScoreViewCreator = new CLIScoreViewCreator();
+    }
+
     @Override
     public void animation(boolean enable) {
         this.animationEnable = enable;
@@ -38,32 +45,82 @@ public class CLIApp extends App {
 
     @Override
     public void loginResult(boolean success) {
+        //Control if animation is enabled
+        if(!this.animationEnable){
+            return;
+        }
 
+        if(success){
+            System.out.println("Login riuscito con successo!");
+        }
+        else{
+            System.out.println("Login NON riuscito!");
+        }
     }
 
     @Override
     public void changeLayerResult(boolean successRMI) {
+        //Control if animation is enabled
+        if(!this.animationEnable){
+            return;
+        }
 
+        if(successRMI){
+            System.out.println("L'attuale layer è RMI.");
+        }
+        else{
+            System.out.println("L'attuale layer è Socket.");
+        }
     }
 
     @Override
     public void leaveMatchResult(boolean success) {
+        //Control if animation is enabled
+        if(!this.animationEnable){
+            return;
+        }
 
+        if(success){
+            System.out.println("Match lasciato con successo.");
+        }
+        else{
+            System.out.println("Non sono riuscito a disconnettermi dal match.");
+        }
     }
 
     @Override
     public void logoutResult(boolean success) {
+        //Control if animation is enabled
+        if(!this.animationEnable){
+            return;
+        }
 
+        if(success){
+            System.out.println("Logout riuscito con successo!");
+        }
+        else{
+            System.out.println("Logout NON riuscito!");
+        }
     }
 
     @Override
     public void pullLeaderBoard(List leaderBoard) {
+        //Control if animation is enabled
+        if(!this.animationEnable){
+            return;
+        }
 
+        System.out.println("Leader Board:");
+        System.out.println("____________________________");
+        //TODO
     }
 
     @Override
     public void pullInvitate(List inviteList) {
-
+        //Control if animation is enabled
+        if(!this.animationEnable){
+            return;
+        }
     }
 
     @Override
