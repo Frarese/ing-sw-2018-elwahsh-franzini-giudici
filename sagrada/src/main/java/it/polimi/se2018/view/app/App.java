@@ -43,4 +43,15 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
     ModelObserver modelObserver;
 
+    public App() {
+        this.animationEnable = true;
+        this.ownerPlayerID = 0;
+        this.ownerPlayerName = null;
+        this.useRMI = false;
+        this.players = null;
+        this.viewActions = new ViewActions();
+        this.viewToolCardActions = new ViewToolCardActions();
+        this.messageBox = new MessageBox();
+        this.modelObserver = new ModelObserver();
+    }
 }

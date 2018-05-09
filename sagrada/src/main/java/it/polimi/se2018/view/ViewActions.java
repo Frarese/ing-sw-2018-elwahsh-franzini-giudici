@@ -14,26 +14,25 @@ public class ViewActions {
 
     /**
      * To try a login to the server
-     *
-     * @param isRMI       boolean value contains the type of connection
      * @param name        contains user'name
      * @param password    contains user's password
-     * @param requestPort contains the request port number
-     * @param objectPort  contains the onject port number
      * @param newUser     to communicate if user has to sign up
+     * @param host        IP address
+     * @param isRMI       boolean value contains the type of connection
+     * @param objectPort  contains the onject port number
+     * @param requestPort contains the request port number
      */
-    public void login(Boolean isRMI, String name, String password, int requestPort, int objectPort, boolean newUser) {
+    public void login(String name, String password, boolean newUser, String host, Boolean isRMI, int objectPort, int requestPort) {
 
     }
 
     /**
      * To change layer from Socket to RMI or vice versa
-     *
-     * @param toRMI boolean value
-     * @param requestPort contains the request port number
+     *  @param toRMI boolean value
      * @param objectPort  contains the onject port number
+     * @param requestPort contains the request port number
      */
-    public void changeLayer(boolean toRMI, int requestPort, int objectPort) {
+    public void changeLayer(boolean toRMI, int objectPort, int requestPort) {
 
     }
 

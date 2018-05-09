@@ -25,6 +25,12 @@ public interface ControllerActionsInterface {
     void animation(boolean enable);
 
     /**
+     * To start login operations
+     * @param displayWelcome
+     */
+    void startLogin(boolean displayWelcome);
+
+    /**
      * To communicate if login has success
      *
      * @param success represents the response

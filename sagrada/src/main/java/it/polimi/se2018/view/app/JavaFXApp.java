@@ -9,9 +9,18 @@ import it.polimi.se2018.view.view_util.fx_creators.FXCardViewCreator;
 import it.polimi.se2018.view.view_util.fx_creators.FXGridViewCreator;
 import it.polimi.se2018.view.view_util.fx_creators.FXRoundTrackerViewCreator;
 import it.polimi.se2018.view.view_util.fx_creators.FXScoreViewCreator;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class JavaFXApp represents the GUI using JavaFX
@@ -25,17 +34,42 @@ public class JavaFXApp extends App {
      * Componets for GUI
      */
     private JavaFXStageProducer stageProducer;
+
+    //Others
     private FXCardViewCreator fxCardViewCreator;
     private FXGridViewCreator fxGridViewCreator;
     private FXRoundTrackerViewCreator fxRoundTrackerViewCreator;
     private FXScoreViewCreator fxScoreViewCreator;
 
     public JavaFXApp() {
+        this.stageProducer = new JavaFXStageProducer();
+        try {
+            this.stageProducer.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void animation(boolean enable) {
+        this.animationEnable = enable;
+    }
 
+    @Override
+    public void startLogin(boolean displayWelcome) {
+        //TODO check displayWelcome
+        stageProducer.getStage().setTitle("Sagrada Game");
+        stageProducer.getStage().getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/view_img/others/icon.png")));
+
+        try {
+            Parent root = FXMLLoader.load(stageProducer.getClass().getResource("fxml_files/start.fxml"));
+            stageProducer.getStage().setScene(new Scene(root));
+        }catch (IOException e){
+            Logger.getGlobal().log(Level.WARNING,"Non sono riuscito a caricare FXML");
+        }
+
+        stageProducer.getStage().show();
+        stageProducer.getStage().setResizable(false);
     }
 
     @Override
@@ -176,5 +210,11 @@ public class JavaFXApp extends App {
     @Override
     public void selectDieFromGridByColor(ColorModel color) {
 
+    }
+
+    public void createLoginPage(){
+        Scene scene = new Scene(new AnchorPane());
+
+        stageProducer.getStage().setScene(scene);
     }
 }

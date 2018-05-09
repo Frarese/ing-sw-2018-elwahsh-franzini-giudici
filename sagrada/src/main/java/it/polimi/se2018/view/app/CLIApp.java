@@ -9,9 +9,12 @@ import it.polimi.se2018.view.view_util.cli_creators.CLICardViewCreator;
 import it.polimi.se2018.view.view_util.cli_creators.CLIGridViewCreator;
 import it.polimi.se2018.view.view_util.cli_creators.CLIReserveViewCreator;
 import it.polimi.se2018.view.view_util.cli_creators.CLIScoreViewCreator;
+import it.polimi.se2018.view.view_util.cli_interface.CLIPrinter;
+import it.polimi.se2018.view.view_util.cli_interface.CLIReader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Class CLIApp represents the command line interface
@@ -21,6 +24,8 @@ import java.util.List;
 
 public class CLIApp extends App {
 
+    private CLIPrinter printer;
+    private CLIReader reader;
     /**
      * Componets for CLI
      */
@@ -31,7 +36,9 @@ public class CLIApp extends App {
 
     public CLIApp() {
         super();
-        this.animationEnable = true;
+        this.printer = new CLIPrinter();
+        this.reader = new CLIReader();
+
         this.cliCardViewCreator = new CLICardViewCreator();
         this.cliGridViewCreator = new CLIGridViewCreator();
         this.cliReserveViewCreator = new CLIReserveViewCreator();
@@ -44,81 +51,110 @@ public class CLIApp extends App {
     }
 
     @Override
+    public void startLogin(boolean displayWelcome) {
+        if (displayWelcome) {
+            String welcome = "---------------------------------\n";
+            welcome = welcome + "|         SAGRADA GAME          | \n";
+            welcome = welcome + "---------------------------------\n";
+            printer.print(welcome);
+        }
+
+        printer.print("Sei un nuovo utente? ");
+        boolean newUser = reader.choise();
+
+        printer.print("INSERIRE LE CREDENZIALI PER IL LOGIN");
+        printer.print("Nome: ");
+        String name = reader.read();
+        printer.print("Password: ");
+        String password = reader.read();
+
+        printer.print("Inserire server: ");
+        String server = reader.read();
+        printer.print("Vuoi usare RMI connection? ");
+        boolean isRMI = reader.choise();
+        printer.print("Inserire object port: ");
+        int objectPort = reader.readInt();
+        int requestPort = -1;
+        if(!isRMI){
+            printer.print("Inserire request port: ");
+            requestPort = reader.readInt();
+        }
+
+        this.viewActions.login(name,password,newUser,server,isRMI,objectPort,requestPort);
+    }
+
+    @Override
     public void loginResult(boolean success) {
         //Control if animation is enabled
-        if(!this.animationEnable){
+        if (!this.animationEnable) {
             return;
         }
 
-        if(success){
-            System.out.println("Login riuscito con successo!");
-        }
-        else{
-            System.out.println("Login NON riuscito!");
+        if (success) {
+            printer.print("Login riuscito con successo!");
+        } else {
+            printer.print("Login NON riuscito!");
         }
     }
 
     @Override
     public void changeLayerResult(boolean successRMI) {
         //Control if animation is enabled
-        if(!this.animationEnable){
+        if (!this.animationEnable) {
             return;
         }
 
-        if(successRMI){
-            System.out.println("L'attuale layer è RMI.");
-        }
-        else{
-            System.out.println("L'attuale layer è Socket.");
+        if (successRMI) {
+            printer.print("L'attuale layer è RMI.");
+        } else {
+            printer.print("L'attuale layer è Socket.");
         }
     }
 
     @Override
     public void leaveMatchResult(boolean success) {
         //Control if animation is enabled
-        if(!this.animationEnable){
+        if (!this.animationEnable) {
             return;
         }
 
-        if(success){
-            System.out.println("Match lasciato con successo.");
-        }
-        else{
-            System.out.println("Non sono riuscito a disconnettermi dal match.");
+        if (success) {
+            printer.print("Match lasciato con successo.");
+        } else {
+            printer.print("Non sono riuscito a disconnettermi dal match.");
         }
     }
 
     @Override
     public void logoutResult(boolean success) {
         //Control if animation is enabled
-        if(!this.animationEnable){
+        if (!this.animationEnable) {
             return;
         }
 
-        if(success){
-            System.out.println("Logout riuscito con successo!");
-        }
-        else{
-            System.out.println("Logout NON riuscito!");
+        if (success) {
+            printer.print("Logout riuscito con successo!");
+        } else {
+            printer.print("Logout NON riuscito!");
         }
     }
 
     @Override
     public void pullLeaderBoard(List leaderBoard) {
         //Control if animation is enabled
-        if(!this.animationEnable){
+        if (!this.animationEnable) {
             return;
         }
 
-        System.out.println("Leader Board:");
-        System.out.println("____________________________");
+        printer.print("Leader Board:");
+        printer.print("____________________________");
         //TODO
     }
 
     @Override
     public void pullInvitate(List inviteList) {
         //Control if animation is enabled
-        if(!this.animationEnable){
+        if (!this.animationEnable) {
             return;
         }
     }
