@@ -9,14 +9,17 @@ import it.polimi.se2018.util.MatchIdentifier;
  * @author Francesco Franzini
  */
 public class MatchBeginRequest extends AbsMatchReq {
+    public final boolean host;
 
     /**
      * Initializes this request with the given parameter
      *
      * @param match the {@link it.polimi.se2018.util.MatchIdentifier} of the match
+     * @param host flag to designate the host
      */
-    public MatchBeginRequest(MatchIdentifier match) {
+    public MatchBeginRequest(MatchIdentifier match,boolean host) {
         super(match);
+        this.host=host;
     }
 
     @Override

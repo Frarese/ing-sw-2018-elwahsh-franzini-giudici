@@ -1,13 +1,17 @@
 package it.polimi.se2018.controller.network.server;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
 /**
  * An implementation of the RMI login interface
  * @author Francesco Franzini
  */
-class RMIServerIntImpl implements RMIServerInt {
+class RMIServerIntImpl extends UnicastRemoteObject implements RMIServerInt {
     private final RMIServer server;
 
-    public RMIServerIntImpl(RMIServer server) {
+    public RMIServerIntImpl(RMIServer server) throws RemoteException {
+        super();
         this.server = server;
     }
 

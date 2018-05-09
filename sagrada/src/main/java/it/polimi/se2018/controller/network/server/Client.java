@@ -5,6 +5,7 @@ import it.polimi.se2018.util.SafeSocket;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -12,8 +13,9 @@ import java.util.Queue;
  * @author Francesco Franzini
  */
 public class Client {
-    private static int defaultDeathTimeout = 60;
-    private static int defaultWarningTimeout = 60;
+    private static long default_death_timeout = 1000;
+    private static long default_warning_timeout = 1000;
+    private static long default_purge_timeout = 1000;
 
     private final ServerMain serverMain;
     public final String usn;
@@ -31,10 +33,10 @@ public class Client {
     private ServerOutQueueEmptier outQueueEmpObj;
     private DisconnectChecker disconnectChecker;
 
-    private Queue inObjQueue;
-    private Queue inReqQueue;
-    private Queue outReqQueue;
-    private Queue outObjQueue;
+    private Queue<Serializable> inObjQueue;
+    private Queue<AbsReq> inReqQueue;
+    private Queue<Serializable> outObjQueue;
+    private Queue<AbsReq> outReqQueue;
 
     /**
      * Builds a client with the given username
@@ -221,5 +223,32 @@ public class Client {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Pushes an object back on top of the queue, used to reinsert objects that are unable to be sent at the moment
+     * @param obj the object to put back on top
+     */
+    void pushObjBack(Serializable obj){
+        synchronized (outObjQueue){
+            LinkedList<Serializable> asList=(LinkedList<Serializable>)outObjQueue;
+            asList.addFirst(obj);
+        }
+    }
 
+    /**
+     * Pushes a request back on top of the queue, used to reinsert requests that are unable to be sent at the moment
+     * @param req the request to put back on top
+     */
+    void pushRequestBack(AbsReq req){
+        synchronized (outObjQueue){
+            LinkedList<Serializable> asList=(LinkedList<Serializable>)outObjQueue;
+            asList.addFirst(req);
+        }
+    }
+
+    /**
+     * Resets the accepted status of this client
+     */
+    void resetAccepted() {
+        throw new UnsupportedOperationException();
+    }
 }

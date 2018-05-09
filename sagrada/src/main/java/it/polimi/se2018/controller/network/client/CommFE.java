@@ -160,7 +160,7 @@ public class CommFE {
      * Leaves the current match
      */
     public void leaveMatch() {
-        comm.pushOutReq(new LeaveMatchRequest(comm.getUsername()));
+        comm.pushOutReq(new LeaveMatchRequest(comm.getUsername(),false));
     }
 
     /**

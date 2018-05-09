@@ -4,6 +4,8 @@ import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.util.UtilMethods;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -14,7 +16,7 @@ import java.util.logging.Logger;
  * @author Francesco Franzini
  */
 class RMIClientComm extends ClientComm {
-    private final RMISessionImpl sessionObj;
+    private RMISessionImpl sessionObj;
     private Logger logger;
     private Queue<Serializable> rmiOutObjQueue;
     private Queue<AbsReq> rmiOutReqQueue;
@@ -91,7 +93,27 @@ class RMIClientComm extends ClientComm {
 
     @Override
     void terminate() {
-        throw new UnsupportedOperationException();
+        sessionObj.terminate();
+        pushBackObjects();
+        rmiOutReqQueue=null;
+        rmiOutObjQueue=null;
+        sessionObj=null;
     }
+
+    private void pushBackObjects(){
+        LinkedList<Serializable> temp1=new LinkedList<>(rmiOutObjQueue);
+        LinkedList<AbsReq> temp2=new LinkedList<>(rmiOutReqQueue);
+        Collections.reverse(temp1);
+        Collections.reverse(temp2);
+
+        for (Serializable s:temp1) {
+            this.client.pushObjBack(s);
+        }
+        for (AbsReq r:temp2) {
+            this.client.pushRequestBack(r);
+        }
+
+    }
+
 }
 

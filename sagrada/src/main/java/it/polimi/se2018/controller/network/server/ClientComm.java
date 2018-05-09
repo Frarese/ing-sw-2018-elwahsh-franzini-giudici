@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author Francesco Franzini
  */
 abstract class ClientComm {
-    private final Client client;
+    protected final Client client;
 
     /**
      * Initializes this ClientComm

@@ -5,7 +5,7 @@ package it.polimi.se2018.controller.network.server;
  * @author Francesco Franzini
  */
 abstract class ServerComm {
-    private ServerMain handler;
+    protected ServerMain handler;
 
     /**
      * Creates a login service
@@ -23,7 +23,7 @@ abstract class ServerComm {
      * @param register flag to indicate that this is a new user
      * @return an Object describing the result
      */
-    public abstract Object login(String usn, String pw, boolean isRecover, boolean register);
+    abstract Object login(String usn, String pw, boolean isRecover, boolean register);
 
     /**
      * Attempts to delete a user
@@ -31,11 +31,38 @@ abstract class ServerComm {
      * @param pw password
      * @return a textual representation of the outcome
      */
-    public abstract String delete(String usn, String pw);
+    abstract String delete(String usn, String pw);
 
     /**
      * Closes this login service
      */
-    public abstract void close();
+    abstract void close();
+
+    /**
+     * Checks if the given info are eligible for a login attempt(does not lock any username)
+     * @param usn username
+     * @param pw password
+     * @param isRecover flag to indicate that this is a connection recovery
+     * @param register flag to indicate that this is a new user(if success registration is done)
+     * @return the {@link it.polimi.se2018.controller.network.server.LoginResponsesEnum} that represents the result
+     */
+    LoginResponsesEnum tryLogin(String usn,String pw,boolean isRecover,boolean register){
+        if(register && !handler.existsUsn(usn) && handler.createUser(usn, pw)){
+            return LoginResponsesEnum.LOGIN_OK;
+        }else{
+            if(handler.existsUsn(usn)){
+                if(handler.isPwCorrect(usn,pw)){
+                    if(!handler.isUserLogged(usn)){
+                        return LoginResponsesEnum.LOGIN_OK;
+                    }
+                }else{
+                    return LoginResponsesEnum.WRONG_CREDENTIALS;
+                }
+            }else{
+                return LoginResponsesEnum.USER_NOT_EXISTING;
+            }
+        }
+        return LoginResponsesEnum.USER_ALREADY_EXISTS;
+    }
 
 }

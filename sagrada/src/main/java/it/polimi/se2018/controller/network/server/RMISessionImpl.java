@@ -7,13 +7,13 @@ import java.io.Serializable;
 class RMISessionImpl implements RMISession {
     private RMIClientComm cComm;
     private boolean terminated;
-    private final String loginOutput;
+    private final LoginResponsesEnum loginOutput;
 
     /**
      * Initializes this session object with the given login output string
      * @param loginOutput the textual representation of the login output
      */
-    public RMISessionImpl(String loginOutput) {
+    public RMISessionImpl(LoginResponsesEnum loginOutput) {
         this.loginOutput=loginOutput;
         throw new UnsupportedOperationException();
     }

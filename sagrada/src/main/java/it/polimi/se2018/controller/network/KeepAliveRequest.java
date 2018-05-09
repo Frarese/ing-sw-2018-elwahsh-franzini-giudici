@@ -11,14 +11,21 @@ import it.polimi.se2018.controller.network.server.ServerMain;
  * @author Francesco Franzini
  */
 public class KeepAliveRequest extends AbsReqServerComm {
+    private boolean bounced=false;
     @Override
     public void serverHandle(Client client, ServerMain server) {
-        throw new UnsupportedOperationException();
+        if(!bounced){
+            bounced=true;
+            client.sendReq(this);
+        }
     }
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        if(!bounced){
+            bounced=true;
+            clientComm.pushOutReq(this);
+        }
     }
 
 

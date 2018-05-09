@@ -133,10 +133,13 @@ public class ServerMain {
 
     /**
      * Registers a {@link it.polimi.se2018.controller.network.server.PendingApprovalMatch}
-     * @param paMatch the PendingApprovalMatch to register
+     * @param timeout timeout for the invites
+     * @param mId the id
+     * @param c the source client
      */
-    public void addPendingMatch(PendingApprovalMatch paMatch) {
-        pendingMatchesMap.put(paMatch.matchId,paMatch);
+    public void addPendingMatch(int timeout, MatchIdentifier mId, Client c) {
+        PendingApprovalMatch pA=new PendingApprovalMatch(timeout,mId,this,c);
+        pendingMatchesMap.put(mId,pA);
     }
 
     /**
@@ -156,5 +159,30 @@ public class ServerMain {
         return pendingMatchesMap.get(matchId);
     }
 
+    /**
+     * Creates a new user in the user base
+     * @param usn username
+     * @param pw password
+     * @return true if success, false otherwise
+     */
+    boolean createUser(String usn,String pw){
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Adds a match to the match list
+     * @param m the match to add
+     */
+    void addMatch(Match m){
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Removes a match to the match list
+     * @param m the match to remove
+     */
+    void removeMatch(Match m){
+        throw new UnsupportedOperationException();
+    }
 
 }

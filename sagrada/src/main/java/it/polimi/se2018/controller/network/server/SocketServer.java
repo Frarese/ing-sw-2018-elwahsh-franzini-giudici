@@ -28,13 +28,14 @@ class SocketServer extends ServerComm {
         this.init(objPort,reqPort);
     }
 
+
     @Override
-    public Object login(String usn, String pw, boolean isRecover, boolean register) {
+    Object login(String usn, String pw, boolean isRecover, boolean register) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String delete(String usn, String pw) {
+    String delete(String usn, String pw) {
         throw new UnsupportedOperationException();
     }
 

@@ -1,23 +1,23 @@
 package it.polimi.se2018.controller.network.server;
 
 
+import it.polimi.se2018.controller.network.MatchAbortedRequest;
 import it.polimi.se2018.util.MatchIdentifier;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
  * Represents a match that has not yet been approved by all players
  */
-class PendingApprovalMatch extends TimerTask {
-    private Client player0;
-    private Client player1;
-    private Client player2;
-    private Client player3;
-    private Timer timer;
+public class PendingApprovalMatch extends TimerTask {
+    static final int DEFAULT_TIMEOUT = 60;
+    private final HashMap<Integer,Client> clients;
+    private Timer t;
     private final ServerMain serverMain;
     public final MatchIdentifier matchId;
-    private int hostIndex;
 
     /**
      * Creates a new PendingApprovalMatch with the given parameters
@@ -26,10 +26,17 @@ class PendingApprovalMatch extends TimerTask {
      * @param serverMain mainServer to use
      * @param source the client that originated this match
      */
-    public PendingApprovalMatch(int timeout, MatchIdentifier matchId, ServerMain serverMain, Client source) {
+    PendingApprovalMatch(int timeout, MatchIdentifier matchId, ServerMain serverMain, Client source) {
         this.matchId=matchId;
         this.serverMain=serverMain;
-        throw new UnsupportedOperationException();
+        clients=new HashMap<>(matchId.playerCount);
+
+        int pos=matchId.findPos(source.usn);
+        if(pos==-1)throw new IllegalArgumentException("Client is not in the matchID");
+        clients.put(pos,source);
+
+        t=new Timer();
+        t.schedule(this,timeout);
     }
 
     /**
@@ -37,40 +44,54 @@ class PendingApprovalMatch extends TimerTask {
      * @param client the client that has accepted
      * @return true if no errors were raised
      */
-    public boolean clientAccepted(Client client) {
-        throw new UnsupportedOperationException();
+    public synchronized boolean clientAccepted(Client client) {
+        int pos;
+        if((pos=matchId.findPos(client.usn))!=-1 && !clients.containsKey(pos)){
+            clients.put(pos,client);
+            return true;
+        }
+        return false;
     }
 
     /**
-     * Checks if this match has been approved by all the players
+     * Checks if this match has been approved by all the players and if so registers the match
      * @return true if this match has been approved by all the players
      */
-    public boolean isComplete() {
-        throw new UnsupportedOperationException();
+    public synchronized boolean isComplete() {
+        if(clients.keySet().size()!=matchId.playerCount){
+            return false;
+        }
+        t.cancel();
+        Match m= buildMatch();
+        serverMain.addMatch(m);
+        serverMain.removePendingMatch(this);
+        return true;
     }
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException();
+        this.abort();
     }
 
     /**
      * Builds a {@link it.polimi.se2018.controller.network.server.Match} from this object
      * @return the Match that was built
      */
-    public Match buildMatch() {
-        throw new UnsupportedOperationException();
+    synchronized Match buildMatch() {
+        return new Match(matchId,new ArrayList<>(clients.values()),serverMain);
     }
+
 
     /**
-     * Sets which user is to be the host
-     * @param newHostIndex the index of the new host
-     * @return true if the index was valid (0<=newHostIndex<4)
+     * Aborts this pending match
      */
-    public boolean setHostIndex(int newHostIndex) {
-        if(newHostIndex>3 || newHostIndex<0) return false;
-        this.hostIndex=newHostIndex;
-        return true;
-    }
+    synchronized void abort(){
+        t.cancel();
 
+        clients.forEach((pos,c)-> c.pushOutReq(new MatchAbortedRequest(matchId)));
+
+        clients.forEach((pos,c)-> c.resetAccepted());
+
+        serverMain.removePendingMatch(this);
+    }
 }

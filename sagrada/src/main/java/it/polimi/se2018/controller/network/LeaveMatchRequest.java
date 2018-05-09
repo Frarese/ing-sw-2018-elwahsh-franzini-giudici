@@ -11,13 +11,15 @@ import it.polimi.se2018.controller.network.server.ServerMain;
  */
 public class LeaveMatchRequest extends AbsReqServerLogic {
     public final String usn;
-
+    public final Boolean host;
     /**
      * Initializes this request with the given parameter
      * @param usn username
+     * @param host flag to signal that this is the new host
      */
-    public LeaveMatchRequest(String usn) {
+    public LeaveMatchRequest(String usn,boolean host) {
         this.usn=usn;
+        this.host=host;
     }
 
     @Override
