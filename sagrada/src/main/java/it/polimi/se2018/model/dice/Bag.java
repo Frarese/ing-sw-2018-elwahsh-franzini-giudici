@@ -3,7 +3,6 @@ package it.polimi.se2018.model.dice;
 
 import it.polimi.se2018.model.ColorModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

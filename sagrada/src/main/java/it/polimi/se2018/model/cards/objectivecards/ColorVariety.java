@@ -6,7 +6,9 @@ import it.polimi.se2018.model.dice.Grid;
 
 import java.util.stream.IntStream;
 
-
+/**
+ * Color Variety's objective card
+ */
 public class ColorVariety extends ObjectiveCard {
 
     /**

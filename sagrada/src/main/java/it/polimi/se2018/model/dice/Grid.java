@@ -42,7 +42,7 @@ public class Grid {
      * Getter for a specific row of the grid.
      * @param h height of the row
      * @return the desired row
-     * @exception  InterruptedException return an empty array in case of invalid height
+     * @exception  IndexOutOfBoundsException return an empty array in case of invalid height
      */
     public Die[] getRow(int h)
     {
@@ -63,8 +63,8 @@ public class Grid {
     public Die[] getColumn(int w)
     {
         try {
-            Die[] column = new Die[diceGrid[0].length];
-            for (int i = 0; i < column.length; i++) {
+            Die[] column = new Die[Grid.HEIGHT];
+            for (int i = 0; i < Grid.HEIGHT; i++) {
                 column[i] = diceGrid[i][w];
             }
             return column;

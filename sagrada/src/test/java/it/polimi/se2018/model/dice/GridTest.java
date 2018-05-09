@@ -73,4 +73,18 @@ public class GridTest {
         grid.setDie(0,0,d);
         assertNotEquals(null,grid.toString());
     }
+
+    @Test
+    public void testRowsAndColumns()
+    {
+        assertNotEquals(null,grid.getRow(-1));
+        assertNotEquals(null, grid.getRow(0));
+        assertNotEquals(null,grid.getColumn(-1));
+        assertNotEquals(null,grid.getColumn(0));
+
+        d = new Die(ColorModel.RED);
+        grid.setDie(0,0, d);
+        assertEquals(d,grid.getRow(0)[0]);
+        assertEquals(d,grid.getColumn(0)[0]);
+    }
 }

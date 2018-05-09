@@ -89,6 +89,29 @@ public class Reserve {
     }
 
     /**
+     * Popper for all remaining dice inside Reserve
+     * @return a List of dice
+     */
+    public List<Die> popAllDice()
+    {
+        ArrayList<Die> temp = new ArrayList<>();
+        if(dice.isEmpty())
+            return new ArrayList<>();
+
+        for(int i = dice.size(); i> 0; i--)
+            temp.add(dice.remove(0));
+        return temp;
+    }
+
+    /**
+     * Rolls all dice inside the reserve
+     */
+    public void rollReserve()
+    {
+        for(Die d : dice) d.roll();
+    }
+
+    /**
      * toString of the dice array
      * @return String of all the dice inside the reserve
      */

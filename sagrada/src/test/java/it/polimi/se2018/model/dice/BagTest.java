@@ -4,7 +4,6 @@ import it.polimi.se2018.model.ColorModel;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 import static org.junit.Assert.*;
 
 public class BagTest {

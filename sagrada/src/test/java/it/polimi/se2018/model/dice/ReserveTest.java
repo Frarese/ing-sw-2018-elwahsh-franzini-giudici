@@ -83,5 +83,21 @@ public class ReserveTest {
         }
     }
 
+    @Test
+    public void testPopAll()
+    {
+        test.addAll(dice);
+        assertEquals(dice,test.popAllDice());
+        assertNotEquals(dice,test.popAllDice());
+    }
 
+    @Test
+    public void testRollReserve()
+    {
+        test.addAll(dice);
+        test.rollReserve();
+        assertEquals(dice.size(),test.size());
+        test.popAllDice();
+
+    }
 }

@@ -4,6 +4,9 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.cards.ObjectiveCard;
 import it.polimi.se2018.model.dice.Grid;
 
+/**
+ * Medium Shade's objective card
+ */
 public class MediumShades extends ObjectiveCard {
 
     /**
@@ -22,13 +25,16 @@ public class MediumShades extends ObjectiveCard {
      */
     @Override
     public int score(Player player) {
-        int temp = 0;
+        int temp1 = 0;
+        int temp2 = 0;
         for(int i = 0; i< Grid.HEIGHT; i++)
             for(int j = 0; j<Grid.WIDTH; j++)
             {
-                if(player.getGrid().getDie(i,j).getValue() == 3 || player.getGrid().getDie(i,j).getValue() == 4)
-                    temp++;
+                if(player.getGrid().getDie(i,j).getValue() == 3)
+                    temp1++;
+                else if(player.getGrid().getDie(i,j).getValue() == 4)
+                    temp2++;
             }
-        return temp*multiplier;
+        return Math.min(temp1,temp2)*multiplier;
     }
 }

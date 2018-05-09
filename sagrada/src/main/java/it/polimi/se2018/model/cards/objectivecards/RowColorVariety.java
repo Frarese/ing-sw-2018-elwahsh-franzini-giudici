@@ -9,8 +9,9 @@ import it.polimi.se2018.model.dice.Grid;
 
 import java.util.stream.IntStream;
 
-
-
+/**
+ * Row Color Variety's objective card
+ */
 public class RowColorVariety extends ObjectiveCard {
 
     /**

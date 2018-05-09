@@ -6,7 +6,9 @@ import it.polimi.se2018.model.cards.ObjectiveCard;
 import it.polimi.se2018.model.dice.Die;
 import it.polimi.se2018.model.dice.Grid;
 
-
+/**
+ * Row Shade Variety's objective card
+ */
 public class RowShadeVariety extends ObjectiveCard {
 
     /**
