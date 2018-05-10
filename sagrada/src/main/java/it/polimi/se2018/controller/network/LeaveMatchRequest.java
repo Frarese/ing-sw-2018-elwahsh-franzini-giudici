@@ -11,7 +11,7 @@ import it.polimi.se2018.controller.network.server.ServerMain;
  */
 public class LeaveMatchRequest extends AbsReqServerLogic {
     public final String usn;
-    public final Boolean host;
+    public final boolean host;
     /**
      * Initializes this request with the given parameter
      * @param usn username
@@ -24,7 +24,7 @@ public class LeaveMatchRequest extends AbsReqServerLogic {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        commUtilizer.notifyUserLeft(usn,host);
     }
 
     @Override

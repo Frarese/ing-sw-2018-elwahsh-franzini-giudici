@@ -24,7 +24,7 @@ public class MatchBeginRequest extends AbsMatchReq {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        commUtilizer.notifyMatchStart(host);
     }
 
 

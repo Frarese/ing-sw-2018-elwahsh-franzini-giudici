@@ -9,8 +9,8 @@ import java.io.Serializable;
 public class ScoreEntry implements Serializable {
 
     public final String usn;
-    public final Integer tot;
-    public final Integer wins;
+    public final int tot;
+    public final int wins;
 
     /**
      * Initializes this ScoreEntry with the given values
@@ -18,7 +18,7 @@ public class ScoreEntry implements Serializable {
      * @param tot total points of the user
      * @param wins total wins of the user
      */
-    public ScoreEntry(String usn, Integer tot, Integer wins) {
+    public ScoreEntry(String usn, int tot, int wins) {
         this.usn = usn;
         this.tot = tot;
         this.wins = wins;

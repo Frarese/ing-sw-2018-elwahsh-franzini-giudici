@@ -27,11 +27,6 @@ public class DisconnectCheckerTest {
         fail=new AtomicBoolean(false);
     }
 
-    @After
-    public void tearDown() {
-        
-    }
-
     @Test(timeout = 1000)
     public void testInit() {
         long warningTimeout=1;
@@ -59,7 +54,7 @@ public class DisconnectCheckerTest {
 
     private class ClientTest extends Client{
         Instant i;
-        public ClientTest(){
+        ClientTest(){
             super("",null);
             i=Instant.now().minusNanos(100);
         }

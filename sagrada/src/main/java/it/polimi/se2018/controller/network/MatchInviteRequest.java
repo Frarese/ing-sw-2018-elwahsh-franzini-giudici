@@ -29,7 +29,7 @@ public class MatchInviteRequest extends AbsMatchReq {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        commUtilizer.notifyInvite(this.matchId);
     }
 
 

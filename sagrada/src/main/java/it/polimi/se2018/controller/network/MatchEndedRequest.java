@@ -34,7 +34,7 @@ public class MatchEndedRequest extends AbsMatchReq {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        commUtilizer.notifyMatchEnd();
     }
 
     @Override

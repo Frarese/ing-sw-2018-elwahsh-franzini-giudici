@@ -17,29 +17,39 @@ import java.util.stream.Collectors;
  */
 class FileUserBase implements UserBase {
     private ConcurrentHashMap<String,Pair<String,ScoreEntry>> userMap;
-    private static final String FILENAME = "users.csv";
+    private final String filename;
+    public static final String DEFAULT_FILENAME="users.csv";
 
     /**
      * Loads from file the User Base
      */
-    public FileUserBase() throws IOException {
+    FileUserBase(String filename) throws IOException {
+        this.filename=filename;
         userMap=new ConcurrentHashMap<>();
         Logger logger=Logger.getGlobal();
         String read;
-        try (BufferedReader br=new BufferedReader(new FileReader(FILENAME))) {
+        try (BufferedReader br=new BufferedReader(new FileReader(filename))) {
             while ((read=br.readLine()) !=null) {
                 String[] line=read.split(",");
-                if(line.length!=4){
+                if(line.length==4){
+                    String usn=line[0];
+                    String pw=line[1];
+                    Integer tot=this.parseInt(line[2]);
+                    Integer wins=this.parseInt(line[3]);
+                    if(tot==null || wins==null){
+                        logger.log(Level.WARNING,"Found faulty user entry {0}",line);
+                        continue;
+                    }
+                    userMap.put(usn,new Pair<>(pw,new ScoreEntry(usn,tot,wins)));
+                    logger.log(Level.FINEST,"Loaded user {0}",line);
+                }else{
                     logger.log(Level.WARNING,"Found faulty user entry {0}",line);
                 }
-                String usn=line[0];
-                String pw=line[1];
-                Integer tot=this.parseInt(line[2]);
-                Integer wins=this.parseInt(line[3]);
-                if(tot==null || wins==null)continue;
-                userMap.put(usn,new Pair<>(pw,new ScoreEntry(usn,tot,wins)));
-
             }
+        }catch (FileNotFoundException e){
+            logger.log(Level.INFO,"Creating new file user base");
+            File f=new File(filename);
+            if(!f.createNewFile())throw e;
         }catch (IOException e){
             logger.log(Level.SEVERE,"Couldn't open user base "+e.getMessage());
             throw e;
@@ -53,6 +63,7 @@ class FileUserBase implements UserBase {
 
     @Override
     public String getPw(String usn) {
+        if(usn==null)return null;
         Pair<String,ScoreEntry> p=userMap.get(usn);
         if(p==null)return null;
         return p.getFirst();
@@ -63,7 +74,7 @@ class FileUserBase implements UserBase {
         if(usn==null || pw==null)return false;
         Pair<String,ScoreEntry> toAdd=new Pair<>(pw,new ScoreEntry(usn,0,0));
         Pair outcome= userMap.putIfAbsent(usn,toAdd);
-        if(outcome==toAdd){
+        if(outcome==null){
             updatePersistent();
         }
         return outcome==null;
@@ -97,7 +108,16 @@ class FileUserBase implements UserBase {
     }
 
     private void updatePersistent(){
-        try(PrintWriter pw = new PrintWriter(new File(FILENAME))) {
+        File f=new File(filename);
+        if(!f.exists()){
+            try {
+                if(!f.createNewFile())return;
+            } catch (IOException e) {
+                Logger.getGlobal().log(Level.SEVERE,"Error creating user file "+e.getMessage());
+                return;
+            }
+        }
+        try(PrintWriter pw = new PrintWriter(new File(filename))) {
             for(ConcurrentHashMap.Entry<String,Pair<String,ScoreEntry>> e:userMap.entrySet()){
                 String usn=e.getKey()+",";
                 String psw=e.getValue().getFirst()+",";

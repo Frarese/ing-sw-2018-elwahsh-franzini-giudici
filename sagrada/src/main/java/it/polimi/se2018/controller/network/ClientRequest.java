@@ -27,7 +27,7 @@ public class ClientRequest extends AbsReqServerLogic {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        commUtilizer.receiveRequest(serializedReq);
     }
 
     @Override

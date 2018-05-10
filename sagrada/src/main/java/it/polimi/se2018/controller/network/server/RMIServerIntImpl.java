@@ -8,16 +8,16 @@ import java.rmi.server.UnicastRemoteObject;
  * @author Francesco Franzini
  */
 class RMIServerIntImpl extends UnicastRemoteObject implements RMIServerInt {
-    private final RMIServer server;
+    private final transient RMIServer server;
 
-    public RMIServerIntImpl(RMIServer server) throws RemoteException {
+    RMIServerIntImpl(RMIServer server) throws RemoteException {
         super();
         this.server = server;
     }
 
     @Override
     public RMISession login(String usn, String pw, boolean isRecover, boolean register) {
-        throw new UnsupportedOperationException();
+        return server.login(usn, pw, isRecover, register);
     }
 
 

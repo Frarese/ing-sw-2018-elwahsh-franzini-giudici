@@ -27,7 +27,7 @@ public class MatchAbortedRequest extends AbsMatchReq {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        commUtilizer.abortMatch();
     }
 
 

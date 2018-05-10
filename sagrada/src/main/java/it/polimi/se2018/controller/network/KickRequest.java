@@ -24,7 +24,10 @@ public class KickRequest extends AbsReqServerLogic {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        commUtilizer.notifyKicked(usnToKick);
+        if(usnToKick.equals(clientComm.getUsername())){
+            throw new UnsupportedOperationException();
+        }
     }
 
     @Override

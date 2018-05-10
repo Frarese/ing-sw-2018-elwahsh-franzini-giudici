@@ -18,12 +18,13 @@ public class ListUsersRequest extends AbsReqServerLogic {
 
     @Override
     public void serverHandle(Client client, ServerMain server) {
-        throw new UnsupportedOperationException();
+        this.list=server.getUserListCopy();
+        client.pushOutReq(this);
     }
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        commUtilizer.pushUserList(list);
     }
 
     /**
