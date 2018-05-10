@@ -11,22 +11,27 @@ import it.polimi.se2018.controller.network.server.ServerMain;
  */
 public class ChangeCLayerRequest extends AbsReqServerLogic {
     private final boolean toRMI;
+    private final int reqPort;
+    private final int objPort;
 
-    public ChangeCLayerRequest(boolean toRMI) {
+    public ChangeCLayerRequest(boolean toRMI, int reqPort, int objPort) {
         this.toRMI = toRMI;
+        this.reqPort = reqPort;
+        this.objPort = objPort;
     }
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-
-        throw new UnsupportedOperationException();
+        clientComm.purgeComm();
+        clientComm.login(clientComm.getHost(),reqPort,objPort,true
+                ,clientComm.getUsername(),clientComm.getsPassword()
+                ,false,toRMI,commUtilizer);
     }
 
 
     @Override
     public void serverHandle(Client client, ServerMain server) {
-
-        throw new UnsupportedOperationException();
+        client.zombiefy(false,this);
     }
 
 

@@ -47,10 +47,10 @@ class DisconnectChecker extends TimerTask {
                 warned=true;
                 boolean out=client.sendReq(new KeepAliveRequest());
                 if(!out){
-                    client.zombiefy(true);
+                    client.zombiefy(true,null);
                 }
             }else if(warned && value>deathTimeout && !client.isZombie()){
-                client.zombiefy(true);
+                client.zombiefy(true,null);
             }else if(client.isZombie() && value>purgeTimeout){
                 client.purge();
                 this.stop();

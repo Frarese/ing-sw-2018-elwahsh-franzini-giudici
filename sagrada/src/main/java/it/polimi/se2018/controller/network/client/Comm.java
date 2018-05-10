@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.network.client;
 
 import it.polimi.se2018.controller.network.AbsReq;
+import it.polimi.se2018.controller.network.ChangeCLayerRequest;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.UtilMethods;
 import java.io.Serializable;
@@ -42,6 +43,7 @@ public class Comm {
     private CommUtilizer utilizer;
 
     private Logger logger;
+
     /**
      * Initializes a new comm object
      */
@@ -73,7 +75,17 @@ public class Comm {
      * @param objPort object port to use, not used if RMI
      */
     public void changeLayer(boolean toRMI, int reqPort,int objPort) {
-        throw new UnsupportedOperationException();
+        //Only a disparity between the two requires actions taken
+        if(toRMI ^ commLayer.getClass().equals(RMICommLayer.class))return;
+
+        if(!commLayer.sendOutReq(new ChangeCLayerRequest(toRMI,reqPort,objPort))){
+            logger.log(Level.SEVERE,"Failed to send change layer request");
+            throw new UnsupportedOperationException();
+        }
+        this.discTimer.stop();
+        qEmpObj.stop();
+        qEmpReq.stop();
+        inListenerObj.stop();
     }
 
     /**
@@ -295,9 +307,16 @@ public class Comm {
     /**
      * Purges the comm layer
      */
-    private void purgeComm() {
-        throw new UnsupportedOperationException();
+    public void purgeComm() {
+        commLayer.close();
+        commLayer=null;
     }
 
-
+    /**
+     * Returns the current hostname
+     * @return the current hostname
+     */
+    public String getHost() {
+        return host;
+    }
 }

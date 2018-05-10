@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.network.server;
 
 import it.polimi.se2018.controller.network.AbsReq;
+import it.polimi.se2018.controller.network.ChangeCLayerRequest;
 import it.polimi.se2018.controller.network.KeepAliveRequest;
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +20,7 @@ public class DisconnectCheckerTest {
     private volatile AtomicBoolean fail;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         warned=new AtomicBoolean(false);
         zombied=new AtomicBoolean(false);
         purge=new AtomicBoolean(false);
@@ -27,7 +28,7 @@ public class DisconnectCheckerTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         
     }
 
@@ -85,7 +86,7 @@ public class DisconnectCheckerTest {
         }
 
         @Override
-        public void zombiefy(boolean flag){
+        public void zombiefy(boolean flag, ChangeCLayerRequest c){
             if(zombied.get() || purge.get()){
                 fail("Error zombiefying");
             }

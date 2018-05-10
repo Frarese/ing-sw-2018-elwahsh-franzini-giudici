@@ -9,7 +9,7 @@ import java.util.List;
  * A DB based implementation of the User Base
  * @author Francesco Franzini
  */
-class DBUserBase extends UserBase {
+class DBUserBase implements UserBase {
 
 
     /**
@@ -45,7 +45,7 @@ class DBUserBase extends UserBase {
     }
 
     @Override
-    public void alterUserScore(String usn, Integer dTot, Integer dWins) {
+    public void alterUserScore(String usn, int dTot, int dWins) {
         throw new UnsupportedOperationException();
     }
 

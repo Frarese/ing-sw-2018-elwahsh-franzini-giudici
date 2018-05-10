@@ -1,59 +1,125 @@
 package it.polimi.se2018.controller.network.server;
 
+import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.ScoreEntry;
 
-import java.io.IOException;
-import java.util.HashMap;
+import java.io.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * A file based implementation of the User Base
  *
  * @author Francesco Franzini
  */
-class FileUserBase extends UserBase {
-    private HashMap userMap;
-    private final String userFileName = "users.csv";
+class FileUserBase implements UserBase {
+    private ConcurrentHashMap<String,Pair<String,ScoreEntry>> userMap;
+    private static final String FILENAME = "users.csv";
 
     /**
      * Loads from file the User Base
      */
     public FileUserBase() throws IOException {
-        throw new UnsupportedOperationException();
+        userMap=new ConcurrentHashMap<>();
+        Logger logger=Logger.getGlobal();
+        String read;
+        try (BufferedReader br=new BufferedReader(new FileReader(FILENAME))) {
+            while ((read=br.readLine()) !=null) {
+                String[] line=read.split(",");
+                if(line.length!=4){
+                    logger.log(Level.WARNING,"Found faulty user entry {0}",line);
+                }
+                String usn=line[0];
+                String pw=line[1];
+                Integer tot=this.parseInt(line[2]);
+                Integer wins=this.parseInt(line[3]);
+                if(tot==null || wins==null)continue;
+                userMap.put(usn,new Pair<>(pw,new ScoreEntry(usn,tot,wins)));
+
+            }
+        }catch (IOException e){
+            logger.log(Level.SEVERE,"Couldn't open user base "+e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public boolean containsUser(String usn) {
-        throw new UnsupportedOperationException();
+        return userMap.containsKey(usn);
     }
 
     @Override
     public String getPw(String usn) {
-        throw new UnsupportedOperationException();
+        Pair<String,ScoreEntry> p=userMap.get(usn);
+        if(p==null)return null;
+        return p.getFirst();
     }
 
     @Override
     public boolean addUser(String usn, String pw) {
-        throw new UnsupportedOperationException();
+        if(usn==null || pw==null)return false;
+        Pair<String,ScoreEntry> toAdd=new Pair<>(pw,new ScoreEntry(usn,0,0));
+        Pair outcome= userMap.putIfAbsent(usn,toAdd);
+        if(outcome==toAdd){
+            updatePersistent();
+        }
+        return outcome==null;
     }
 
     @Override
     public boolean removeUser(String usn) {
-        throw new UnsupportedOperationException();
+        if(usn==null)return false;
+        return userMap.remove(usn)==null;
     }
 
     @Override
     public ScoreEntry getUserScore(String usn) {
-        throw new UnsupportedOperationException();
+        if(usn==null)return null;
+        return userMap.get(usn).getSecond();
     }
 
     @Override
-    public void alterUserScore(String usn, Integer dTot, Integer dWins) {
-        throw new UnsupportedOperationException();
+    public void alterUserScore(String usn, int dTot, int dWins) {
+        if(usn==null)return;
+        Pair<String,ScoreEntry> p=userMap.get(usn);
+        if(p==null)return;
+        ScoreEntry newEntry=new ScoreEntry(usn,p.getSecond().tot+dTot,p.getSecond().wins+dWins);
+        userMap.put(usn,new Pair<>(p.getFirst(),newEntry));
+        updatePersistent();
     }
 
     @Override
     public List<ScoreEntry> getLeaderBoard() {
-        throw new UnsupportedOperationException();
+        return userMap.values().stream().map(Pair::getSecond).collect(Collectors.toList());
+    }
+
+    private void updatePersistent(){
+        try(PrintWriter pw = new PrintWriter(new File(FILENAME))) {
+            for(ConcurrentHashMap.Entry<String,Pair<String,ScoreEntry>> e:userMap.entrySet()){
+                String usn=e.getKey()+",";
+                String psw=e.getValue().getFirst()+",";
+                String tot=e.getValue().getSecond().tot+",";
+                String win=e.getValue().getSecond().wins+"\n";
+                pw.write(usn+psw+tot+win);
+            }
+        } catch (FileNotFoundException e) {
+            Logger.getGlobal().log(Level.SEVERE,"Error opening user file "+e.getMessage());
+        }
+    }
+
+    /**
+     * Parses an integer from a string
+     * @param s string to parse
+     * @return the integer value or {@code null} if an Exception is thrown
+     */
+    private Integer parseInt(String s){
+        try{
+            return Integer.parseInt(s);
+        }catch(NumberFormatException e){
+            return null;
+        }
     }
 }

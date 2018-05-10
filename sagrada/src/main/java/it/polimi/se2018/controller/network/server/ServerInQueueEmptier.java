@@ -16,12 +16,16 @@ class ServerInQueueEmptier extends ThreadHandler {
      */
     public ServerInQueueEmptier(Client client, boolean isReq) {
         this.client=client;
-        throw new UnsupportedOperationException();
+        this.isReq=isReq;
     }
 
     @Override
     protected void methodToCall() {
-        throw new UnsupportedOperationException();
+        if(isReq){
+            client.handleReq();
+        }else{
+            client.handleObj();
+        }
     }
 
 

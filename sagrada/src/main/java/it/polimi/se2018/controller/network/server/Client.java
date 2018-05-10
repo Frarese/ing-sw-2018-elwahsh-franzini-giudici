@@ -1,21 +1,25 @@
 package it.polimi.se2018.controller.network.server;
 
 import it.polimi.se2018.controller.network.AbsReq;
+import it.polimi.se2018.controller.network.ChangeCLayerRequest;
 import it.polimi.se2018.util.SafeSocket;
+import it.polimi.se2018.util.UtilMethods;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class representing a client connected to the server
  * @author Francesco Franzini
  */
 public class Client {
-    private static long default_death_timeout = 1000;
-    private static long default_warning_timeout = 1000;
-    private static long default_purge_timeout = 1000;
+    private static long defaultDeathTimeout = 1000;
+    private static long defaultWarningTimeout = 1000;
+    private static long defaultPurgeTimeout = 1000;
 
     private final ServerMain serverMain;
     public final String usn;
@@ -38,6 +42,8 @@ public class Client {
     private Queue<Serializable> outObjQueue;
     private Queue<AbsReq> outReqQueue;
 
+    private Logger logger;
+
     /**
      * Builds a client with the given username
      * @param usn username
@@ -46,6 +52,7 @@ public class Client {
     public Client(String usn, ServerMain server) {
         this.usn=usn;
         this.serverMain=server;
+        this.logger=Logger.getGlobal();
         //TODO
     }
 
@@ -110,7 +117,9 @@ public class Client {
      * @return true if success(no other invites where accepted)
      */
     public boolean acceptInvite() {
-        throw new UnsupportedOperationException();
+        if(this.acceptedInvite)return false;
+        this.acceptedInvite=true;
+        return true;
     }
 
     /**
@@ -119,7 +128,9 @@ public class Client {
      * @return true if no other match was already active
      */
     public boolean enrollInMatch(Match match) {
-        throw new UnsupportedOperationException();
+        if(this.match!=null)return false;
+        this.match=match;
+        return true;
     }
 
     /**
@@ -127,14 +138,17 @@ public class Client {
      * @return true if no errors occur
      */
     public boolean removeMatchInstance() {
-        throw new UnsupportedOperationException();
+        if(this.match==null)return false;
+        this.match=null;
+        return true;
     }
 
     /**
      * Makes this client a zombie and if notifyMatchPlayers is true notifies the other players
      * @param notifyMatchPlayers flag to notify other players
+     * @param cReq eventual request to forward before terminating
      */
-    public void zombiefy(boolean notifyMatchPlayers) {
+    public void zombiefy(boolean notifyMatchPlayers, ChangeCLayerRequest cReq) {
         throw new UnsupportedOperationException();
     }
 
@@ -142,6 +156,7 @@ public class Client {
      * Purges this client from the server
      */
     public void purge() {
+        if(!this.isZombie)this.zombiefy(true,null);
         throw new UnsupportedOperationException();
     }
 
@@ -149,30 +164,44 @@ public class Client {
      * Pushes an inbound object into the queue
      * @param obj the received object
      */
-    public void pushInObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+    void pushInObj(Serializable obj) {
+        UtilMethods.pushAndNotifyTS(inObjQueue,obj);
     }
 
     /**
      * Pops and processes an object that was received
      */
     public void handleObj() {
-        throw new UnsupportedOperationException();
+        try {
+            Serializable obj=UtilMethods.waitAndPopTS(inObjQueue);
+
+            this.match.handleObj(obj,this);
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE,"Interrupted processing in request "+e.getMessage());
+            Thread.currentThread().interrupt();
+        } catch (NullPointerException e){
+            logger.log(Level.FINE, "Client sending objects while not in a match {0}",this.usn);
+        }
     }
 
     /**
      * Pushes an inbound request into the queue
      * @param req the received request
      */
-    public void pushInReq(AbsReq req) {
-        throw new UnsupportedOperationException();
+     void pushInReq(AbsReq req) {
+        UtilMethods.pushAndNotifyTS(inReqQueue,req);
     }
 
     /**
      * Pops and processes a request that was received
      */
     public void handleReq() {
-        throw new UnsupportedOperationException();
+        try {
+            UtilMethods.waitAndPopTS(inReqQueue).serverHandle(this,serverMain);
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE,"Interrupted processing in request "+e.getMessage());
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -180,14 +209,19 @@ public class Client {
      * @param obj the outbound object
      */
     public void pushOutObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+        UtilMethods.pushAndNotifyTS(outObjQueue,obj);
     }
 
     /**
      * Pops and processes an object that was queued up to be sent
      */
     public void processOutObj() {
-        throw new UnsupportedOperationException();
+        try {
+            cComm.pushInObj(UtilMethods.waitAndPopTS(outObjQueue));
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE,"Interrupted processing out obj "+e.getMessage());
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -204,14 +238,19 @@ public class Client {
      * @param req the outbound request
      */
     public void pushOutReq(AbsReq req) {
-        throw new UnsupportedOperationException();
+        UtilMethods.pushAndNotifyTS(outReqQueue,req);
     }
 
     /**
      * Pops and processes a request that was queued up to be sent
      */
     public void processOutReq() {
-        throw new UnsupportedOperationException();
+        try {
+            cComm.pushInReq(UtilMethods.waitAndPopTS(outReqQueue));
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE,"Interrupted processing out request "+e.getMessage());
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -249,6 +288,6 @@ public class Client {
      * Resets the accepted status of this client
      */
     void resetAccepted() {
-        throw new UnsupportedOperationException();
+        this.acceptedInvite=false;
     }
 }

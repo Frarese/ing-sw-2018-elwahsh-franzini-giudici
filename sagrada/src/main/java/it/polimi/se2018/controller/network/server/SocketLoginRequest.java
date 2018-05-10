@@ -22,6 +22,7 @@ public class SocketLoginRequest implements Serializable {
     public SocketLoginRequest(String username, String password, boolean isRecovery, boolean isNewUser) {
         this.username = username;
         this.password = password;
+        if(isRecovery&&isNewUser)throw new IllegalArgumentException("A user cannot be registering and reconnecting at the same time");
         this.isRecovery = isRecovery;
         this.isNewUser = isNewUser;
     }

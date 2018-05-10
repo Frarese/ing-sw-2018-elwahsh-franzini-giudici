@@ -6,7 +6,9 @@ import it.polimi.se2018.controller.network.server.Client;
 import it.polimi.se2018.controller.network.server.ServerMain;
 import it.polimi.se2018.util.ScoreEntry;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Request for the update of the leaderboard
@@ -17,29 +19,14 @@ public class GetLeaderBoardRequest extends AbsReqServerLogic {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        leaderboard=leaderboard.stream().sorted(Comparator.comparingInt(o->o.wins)).collect(Collectors.toList());
+        commUtilizer.pushLeaderboard(leaderboard);
     }
 
     @Override
     public void serverHandle(Client client, ServerMain server) {
-        throw new UnsupportedOperationException();
+        leaderboard=server.getRegisteredUsers();
+        client.pushOutReq(this);
     }
-
-    /**
-     * Returns the List of {@link it.polimi.se2018.util.ScoreEntry}
-     * @return the logged users List
-     */
-    public List<ScoreEntry> getLeaderboard() {
-        return this.leaderboard;
-    }
-
-    /**
-     * Sets the leaderboard
-     * @param leaderboard the list to transmit
-     */
-    public void setLeaderboard(List<ScoreEntry> leaderboard){
-        this.leaderboard=leaderboard;
-    }
-
 
 }

@@ -2,6 +2,7 @@ package it.polimi.se2018.controller.network.client;
 
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
+import it.polimi.se2018.util.ScoreEntry;
 
 import java.io.Serializable;
 import java.util.List;
@@ -57,19 +58,19 @@ public interface CommUtilizer
      * @param usn username
      * @param isNewHost true if this client is to be the new host
      */
-    void notifyUserLeft( String usn, Boolean isNewHost );
+    void notifyUserLeft( String usn, boolean isNewHost );
 
     /**
      * Pushes the updated leaderboard
      * @param list a List of {@link it.polimi.se2018.util.ScoreEntry} with the leaderboard(ordered desc)
      */
-    void pushLeaderboard( List list );
+    void pushLeaderboard( List<ScoreEntry> list );
 
     /**
      * Pushes the updated logged users list
      * @param list a List of {@link it.polimi.se2018.util.ScoreEntry} of the logged users(not ordered)
      */
-    void pushUserList( List list );
+    void pushUserList( List<ScoreEntry> list );
 
     /**
      * Notifies that the network is irreparably down

@@ -147,11 +147,11 @@ public class ServerMain {
      * @param paMatch the PendingApprovalMatch to remove
      */
     public void removePendingMatch(PendingApprovalMatch paMatch) {
-        pendingMatchesMap.remove(paMatch);
+        pendingMatchesMap.remove(paMatch.matchId);
     }
 
     /**
-     * Gets the cooresponding {@link it.polimi.se2018.controller.network.server.PendingApprovalMatch} to a {@link it.polimi.se2018.util.MatchIdentifier}
+     * Gets the corresponding {@link it.polimi.se2018.controller.network.server.PendingApprovalMatch} to a {@link it.polimi.se2018.util.MatchIdentifier}
      * @param matchId the matchId to fetch
      * @return the corresponding PendingApprovalMatch or {@code null} if not present
      */
@@ -185,4 +185,10 @@ public class ServerMain {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns a List of {@link it.polimi.se2018.util.ScoreEntry} with all the registered users, unordered
+     */
+    public List<ScoreEntry> getRegisteredUsers() {
+        throw new UnsupportedOperationException();
+    }
 }

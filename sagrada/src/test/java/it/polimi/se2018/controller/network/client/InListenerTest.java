@@ -102,7 +102,7 @@ public class InListenerTest {
         }
 
         @Override
-        public void notifyUserLeft(String usn, Boolean isNewHost) {
+        public void notifyUserLeft(String usn, boolean isNewHost) {
 
         }
 
