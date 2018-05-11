@@ -1,10 +1,13 @@
 package it.polimi.se2018.view;
 
 
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.observer.ReserveView;
 import it.polimi.se2018.observer.RoundTrackerView;
+import it.polimi.se2018.util.MatchIdentifier;
+import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.util.ScoreEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,42 +66,33 @@ public interface ControllerActionsInterface {
      *
      * @param leaderBoard contains the leaderBoard ordinated
      */
-    void pullLeaderBoard(List leaderBoard);
+    void pullLeaderBoard(List<ScoreEntry> leaderBoard);
 
     /**
      * After a askLobby() request Controller returns to View the player's inviteList
      *
-     * @param inviteList contains the invites
+     * @param invite contains the invites
      */
-    void pullInvitate(List inviteList);
-
-    /**
-     * After a askLobby() request Controller returns to View the connected users
-     *
-     * @param users contains the connected users
-     */
-    void pullConnectedUsers(List users);
+    void pullInvitate(MatchIdentifier invite);
 
     /**
      * Before game starts player has to choose a pattern
-     *
      * @param pattern1 first pattern
      * @param pattern2 second patter
      * @param pattern3 third patter
      * @param pattern4 fourth pattern
      */
-    void askPattern(Pair pattern1, Pair pattern2, Pair pattern3, Pair pattern4);
+    void askPattern(Pair<Integer, ColorModel>[][] pattern1, Pair<Integer, ColorModel>[][] pattern2, Pair<Integer, ColorModel>[][] pattern3, Pair<Integer, ColorModel>[][] pattern4);
 
     /**
      * View's metod to initialize a game
-     *
      * @param players                  contains game's players
      * @param yourPrivateObjectiveCard contains localPlayer's private objective card
      * @param publicObjectiveCards     contains public objective cards
      * @param toolCards                contains tool cards
      * @param roundTracker             contains game's round tracker
      */
-    void initGame(List players, int yourPrivateObjectiveCard, ArrayList publicObjectiveCards, ArrayList toolCards, RoundTrackerView roundTracker);
+    void initGame(List<PlayerView> players, int yourPrivateObjectiveCard, int[] publicObjectiveCards, int[] toolCards, RoundTrackerView roundTracker);
 
     /**
      * To communicate to player when another player has left the match

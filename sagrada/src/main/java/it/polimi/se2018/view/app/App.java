@@ -1,8 +1,11 @@
 package it.polimi.se2018.view.app;
 
+import it.polimi.se2018.observer.PlayerView;
+import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.view_message.MessageBox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,32 +19,33 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     /**
      * App variables
      */
-    boolean animationEnable;
+    protected boolean animationEnable;
 
     /**
      * Player Information variables
      */
-    int ownerPlayerID;
+    protected int ownerPlayerID;
 
-    String ownerPlayerName;
+    protected String ownerPlayerName;
 
-    boolean useRMI;
+    protected boolean useRMI;
 
     /**
      * Game variables
      */
-    List players;
+    protected List<PlayerView> players;
+    protected ArrayList<MatchIdentifier> invites;
 
     /**
      * Comunication variables
      */
-    ViewActions viewActions;
+    protected ViewActions viewActions;
 
-    ViewToolCardActions viewToolCardActions;
+    protected ViewToolCardActions viewToolCardActions;
 
-    MessageBox messageBox;
+    protected MessageBox messageBox;
 
-    ModelObserver modelObserver;
+    protected ModelObserver modelObserver;
 
     public App() {
         this.animationEnable = true;

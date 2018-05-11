@@ -4,7 +4,9 @@ import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.observer.ReserveView;
 import it.polimi.se2018.observer.RoundTrackerView;
+import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.view_util.fx_creators.FXCardViewCreator;
 import it.polimi.se2018.view.view_util.fx_creators.FXGridViewCreator;
 import it.polimi.se2018.view.view_util.fx_creators.FXRoundTrackerViewCreator;
@@ -41,7 +43,10 @@ public class JavaFXApp extends App {
     private FXRoundTrackerViewCreator fxRoundTrackerViewCreator;
     private FXScoreViewCreator fxScoreViewCreator;
 
-    public JavaFXApp() {
+    /**
+     * Class constructor
+     */
+    JavaFXApp() {
         this.stageProducer = new JavaFXStageProducer();
         try {
             this.stageProducer.start(new Stage());
@@ -64,8 +69,8 @@ public class JavaFXApp extends App {
         try {
             Parent root = FXMLLoader.load(stageProducer.getClass().getResource("fxml_files/start.fxml"));
             stageProducer.getStage().setScene(new Scene(root));
-        }catch (IOException e){
-            Logger.getGlobal().log(Level.WARNING,"Non sono riuscito a caricare FXML");
+        } catch (IOException e) {
+            Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
         }
 
         stageProducer.getStage().show();
@@ -93,27 +98,22 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void pullLeaderBoard(List leaderBoard) {
+    public void pullLeaderBoard(List<ScoreEntry> leaderBoard) {
 
     }
 
     @Override
-    public void pullInvitate(List inviteList) {
+    public void pullInvitate(MatchIdentifier invite) {
 
     }
 
     @Override
-    public void pullConnectedUsers(List users) {
+    public void askPattern(Pair<Integer, ColorModel>[][] pattern1, Pair<Integer, ColorModel>[][] pattern2, Pair<Integer, ColorModel>[][] pattern3, Pair<Integer, ColorModel>[][] pattern4) {
 
     }
 
     @Override
-    public void askPattern(Pair pattern1, Pair pattern2, Pair pattern3, Pair pattern4) {
-
-    }
-
-    @Override
-    public void initGame(List players, int yourPrivateObjectiveCard, ArrayList publicObjectiveCards, ArrayList toolCards, RoundTrackerView roundTracker) {
+    public void initGame(List<PlayerView> players, int yourPrivateObjectiveCard, int[] publicObjectiveCards, int[] toolCards, RoundTrackerView roundTracker) {
 
     }
 
@@ -212,7 +212,7 @@ public class JavaFXApp extends App {
 
     }
 
-    public void createLoginPage(){
+    public void createLoginPage() {
         Scene scene = new Scene(new AnchorPane());
 
         stageProducer.getStage().setScene(scene);

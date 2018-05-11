@@ -9,7 +9,16 @@ import javafx.scene.image.Image;
  * @author Mathyas Giudici
  */
 
-public class FXCardViewCreator implements CardViewCreator<Image> {
+public class FXCardViewCreator extends CardViewCreator<Image> {
+
+    /**
+     * Class constructor
+     *
+     * {@link CardViewCreator}
+     */
+    public FXCardViewCreator(int privateObjectiveCard, int[] publicObjectiveCards, int[] toolCards) {
+        super(privateObjectiveCard, publicObjectiveCards, toolCards);
+    }
 
     @Override
     public Image makeCart(int cardID) {

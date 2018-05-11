@@ -1,21 +1,42 @@
 package it.polimi.se2018.view.view_util;
 
+import it.polimi.se2018.model.ColorModel;
+import it.polimi.se2018.util.Pair;
+
 /**
- * Interface to define GridViewCreator's Object
+ * Class to define GridViewCreator's Object
  *
  * @param <E>
  * @param <V>
  * @author Mathyas Giudici
  */
 
-public interface GridViewCreator<E, V> {
+public abstract class GridViewCreator<E, V> {
+
+    protected DieViewCreator dieViewCreator;
+
+    protected Pair<Integer, ColorModel>[][] grid;
+
+    protected Pair<Integer, ColorModel>[][] gridPattern;
+
+
+    /**
+     * Class constructor
+     *
+     * @param grid        contains user grid
+     * @param gridPattern contains user pattern
+     */
+    public GridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern) {
+        this.grid = grid;
+        this.gridPattern = gridPattern;
+    }
 
     /**
      * Use to show the current grid
      *
      * @return grid
      */
-    E display();
+    public abstract E display();
 
     /**
      * Use to add a die in the grid
@@ -24,7 +45,7 @@ public interface GridViewCreator<E, V> {
      * @param height contains the height position on the grid
      * @param width  contains the width position on the grid
      */
-    void addADie(V die, int height, int width);
+    public abstract void addADie(V die, int height, int width);
 
     /**
      * Use to pick a die from the grid
@@ -33,5 +54,23 @@ public interface GridViewCreator<E, V> {
      * @param width  contains the width position in the grid
      * @return die
      */
-    V pickDie(int height, int width);
+    public abstract V pickDie(int height, int width);
+
+    /**
+     * Getter for Grid
+     *
+     * @return the grid
+     */
+    public Pair<Integer, ColorModel>[][] getGrid() {
+        return grid;
+    }
+
+    /**
+     * Setter for Grid
+     *
+     * @param grid contains the grid to set
+     */
+    public void setGrid(Pair<Integer, ColorModel>[][] grid) {
+        this.grid = grid;
+    }
 }

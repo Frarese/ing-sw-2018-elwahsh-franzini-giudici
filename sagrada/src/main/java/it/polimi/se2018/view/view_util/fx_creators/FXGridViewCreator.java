@@ -1,8 +1,9 @@
 package it.polimi.se2018.view.view_util.fx_creators;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.view_util.GridViewCreator;
-import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -11,34 +12,30 @@ import javafx.scene.layout.GridPane;
  * @author Mathyas Giudici
  */
 
-public class FXGridViewCreator implements GridViewCreator<GridPane,Group> {
+public class FXGridViewCreator extends GridViewCreator<GridPane,Image> {
 
-    private FXDieViewCreator fxDieViewCreator;
-
-    private Pair grid;
+    /**
+     * Class constructor
+     *
+     * {@link GridViewCreator}
+     */
+    public FXGridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern) {
+        super(grid, gridPattern);
+        this.dieViewCreator = new FXDieViewCreator();
+    }
 
     @Override
     public GridPane display() {
-        //TODO
         return null;
     }
 
     @Override
-    public void addADie(Group die, int height, int width) {
-        //TODO
+    public void addADie(Image die, int height, int width) {
+
     }
 
     @Override
-    public Group pickDie(int height, int width) {
-        //TODO
+    public Image pickDie(int height, int width) {
         return null;
-    }
-
-    public Pair getGrid() {
-        return grid;
-    }
-
-    public void setGrid(Pair grid) {
-        this.grid = grid;
     }
 }

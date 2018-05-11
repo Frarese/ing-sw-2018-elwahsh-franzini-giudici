@@ -13,39 +13,98 @@ public class CLIReader {
     private Scanner scanner;
     private CLIPrinter printer;
 
+    /**
+     * Class constructor
+     */
     public CLIReader() {
         scanner = new Scanner(System.in);
         printer = new CLIPrinter();
     }
 
-    public String read(){
+    /**
+     * To read a String in System.in
+     *
+     * @return the result string
+     */
+    public String read() {
+        //Print message
         String message = scanner.next();
         return message;
     }
 
-    public int readInt(){
-        int number = scanner.nextInt();
+    /**
+     * To read a int number in System.in
+     *
+     * @return the result number
+     */
+    public int readInt() {
+        int number;
+        try {
+            number = scanner.nextInt();
+        }
+        catch (Exception e){
+            printer.print("Non hai inserito un numero, riprova");
+            number = readInt();
+        }
+
         return number;
     }
 
-    public boolean choise(){
+    /**
+     * Yes or no question
+     *
+     * @return the result
+     */
+    public boolean choose() {
+        //Ask option
         printer.print("[Y=si, N= no] ");
         String response = scanner.next();
-        if (response.equals("Y")){
+
+        //Check option
+        if (response.equals("Y")) {
+            //Valid -> yes
             return true;
-        }else{
-            if (response.equals("N")){
+        } else {
+            if (response.equals("N")) {
+                //Valid -> no
                 return false;
-            }
-            else{
+            } else {
+                //Invalid option, recall
                 printer.print("Risposta non valida, riprovare");
-                return choise();
+                return choose();
             }
         }
 
     }
 
-    public void close(){
+    /**
+     * Choose int value in a range
+     *
+     * @param minValue contains the min value of the range
+     * @param maxValue contains the max value of the range
+     * @return the result of the choice
+     */
+    public int choose(int minValue, int maxValue){
+        //Ask option
+        printer.print("Opzione: ");
+        int response = readInt();
+
+        //Check option
+        if (response>=minValue && response <= maxValue){
+            //Valid option
+            return response;
+        }
+        else{
+            //Invalid option, recall
+            printer.print("Risposta non valida, riprovare");
+            return choose(minValue, maxValue);
+        }
+    }
+
+    /**
+     * To close the input reader
+     */
+    public void close() {
         scanner.close();
     }
 }

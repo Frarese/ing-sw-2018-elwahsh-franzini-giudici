@@ -1,8 +1,9 @@
 package it.polimi.se2018.view.view_util.fx_creators;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.view_util.ReserveViewCreator;
-import javafx.scene.Group;
+import javafx.scene.image.Image;
 
 /**
  * Class to create and to handle reserve in GUI
@@ -10,30 +11,27 @@ import javafx.scene.Group;
  * @author Mathyas Giudici
  */
 
-public class FXReserveViewCreator implements ReserveViewCreator<Group> {
+public class FXReserveViewCreator extends ReserveViewCreator<Image> {
 
-    private FXDieViewCreator fxDieViewCreator;
-
-    private Pair reserve;
-
+    /**
+     * Class constructor
+     * <p>
+     * {@link ReserveViewCreator}
+     */
+    public FXReserveViewCreator(Pair<Integer, ColorModel>[] reserve) {
+        super(reserve);
+        this.dieViewCreator = new FXDieViewCreator();
+    }
 
     @Override
-    public Group display() {
+    public Image display() {
         //TODO
         return null;
     }
 
     @Override
-    public Group pickDie(int index) {
+    public Image pickDie(int index) {
         //TODO
         return null;
-    }
-
-    public Pair getReserve() {
-        return reserve;
-    }
-
-    public void setReserve(Pair reserve) {
-        this.reserve = reserve;
     }
 }

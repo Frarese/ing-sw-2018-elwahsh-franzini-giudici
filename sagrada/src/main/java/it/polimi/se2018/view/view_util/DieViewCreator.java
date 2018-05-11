@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.view_util;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 
 /**
@@ -17,5 +18,5 @@ public interface DieViewCreator<E> {
      * @param die contains the die's information
      * @return die
      */
-    E makeDie(Pair die);
+    E makeDie(Pair<Integer, ColorModel> die);
 }

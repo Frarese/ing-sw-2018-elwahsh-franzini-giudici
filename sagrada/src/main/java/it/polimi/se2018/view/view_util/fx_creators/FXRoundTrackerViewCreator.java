@@ -1,8 +1,9 @@
 package it.polimi.se2018.view.view_util.fx_creators;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.view_util.RoundTrackerViewCreator;
-import javafx.scene.Group;
+import javafx.scene.image.Image;
 
 /**
  * Class to create round tracker in GUI
@@ -10,32 +11,21 @@ import javafx.scene.Group;
  * @author Mathyas Giudici
  */
 
-public class FXRoundTrackerViewCreator implements RoundTrackerViewCreator<Group> {
+public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<Image> {
 
-    private FXDieViewCreator fxDieViewCreator;
-
-    private int round;
-    private Pair roundTracker;
+    /**
+     * Class constructor
+     * <p>
+     * {@link RoundTrackerViewCreator}
+     */
+    public FXRoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] rondTracker) {
+        super(round, rondTracker);
+        this.dieViewCreator = new FXDieViewCreator();
+    }
 
     @Override
-    public Group display() {
+    public Image display() {
         //TODO
         return null;
-    }
-
-    public int getRound() {
-        return round;
-    }
-
-    public void setRound(int round) {
-        this.round = round;
-    }
-
-    public Pair getRoundTracker() {
-        return roundTracker;
-    }
-
-    public void setRoundTracker(Pair roundTracker) {
-        this.roundTracker = roundTracker;
     }
 }

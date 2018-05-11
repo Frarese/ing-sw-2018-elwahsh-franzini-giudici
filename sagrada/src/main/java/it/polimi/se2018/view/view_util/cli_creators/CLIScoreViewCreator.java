@@ -1,8 +1,7 @@
 package it.polimi.se2018.view.view_util.cli_creators;
 
+import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.view_util.ScoreViewCreator;
-
-import java.util.ArrayList;
 
 /**
  * Class to create score visualizer in CLI
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 public class CLIScoreViewCreator implements ScoreViewCreator<String> {
 
     @Override
-    public String display(ArrayList scores) {
+    public String display(ScoreEntry scores) {
         return null;
     }
 }

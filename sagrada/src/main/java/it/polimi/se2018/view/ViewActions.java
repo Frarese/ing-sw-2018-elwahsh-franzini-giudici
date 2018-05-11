@@ -1,8 +1,8 @@
 package it.polimi.se2018.view;
 
+import it.polimi.se2018.model.ColorModel;
+import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
-
-import java.util.List;
 
 /**
  * Class for View -> Controller communication
@@ -52,6 +52,15 @@ public class ViewActions {
 
     }
 
+//    /**
+//     * To select a type of game (Solo or Battle Royale)
+//     *
+//     * @param isSoloGame boolean value
+//     */
+//    public void selectedGame(boolean isSoloGame) {
+//
+//    }
+
     /**
      * To ask the lobby
      */
@@ -62,9 +71,9 @@ public class ViewActions {
     /**
      * To send invites to other player to match
      *
-     * @param inviteList contains a list of players (max 4)
+     * @param invite contains a list of players (max 4)
      */
-    public void pushInviteList(List inviteList) {
+    public void pushInvite(MatchIdentifier invite) {
 
     }
 
@@ -75,12 +84,7 @@ public class ViewActions {
 
     }
 
-    /**
-     * To select a type of game (Solo or Battle Royale)
-     *
-     * @param isSoloGame boolean value
-     */
-    public void selectedGame(boolean isSoloGame) {
+    public void acceptInvite(MatchIdentifier matchIdentifier){
 
     }
 
@@ -89,7 +93,7 @@ public class ViewActions {
      *
      * @param selected
      */
-    public void selectedPattern(List selected) {
+    public void selectedPattern(Pair<Integer,ColorModel>[][] selected) {
 
     }
 
