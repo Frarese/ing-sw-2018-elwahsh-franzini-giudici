@@ -52,7 +52,7 @@ public class ColumnShadeVariety extends ObjectiveCard {
     public int score(Player player) {
         int temp = 0;
         for(int i = 0; i< Grid.WIDTH; i++)
-            temp = temp + differentShadeColumn(player.getGrid().getRow(i));
+            temp = temp + differentShadeColumn(player.getGrid().getColumn(i));
 
         return temp*multiplier;
     }

@@ -28,12 +28,13 @@ public class MediumShades extends ObjectiveCard {
         int temp1 = 0;
         int temp2 = 0;
         for(int i = 0; i< Grid.HEIGHT; i++)
-            for(int j = 0; j<Grid.WIDTH; j++)
-            {
-                if(player.getGrid().getDie(i,j).getValue() == 3)
-                    temp1++;
-                else if(player.getGrid().getDie(i,j).getValue() == 4)
-                    temp2++;
+            for(int j = 0; j<Grid.WIDTH; j++) {
+                if (player.getGrid().getDie(i, j) != null) {
+                    if (player.getGrid().getDie(i, j).getValue() == 3)
+                        temp1++;
+                    else if (player.getGrid().getDie(i, j).getValue() == 4)
+                        temp2++;
+                }
             }
         return Math.min(temp1,temp2)*multiplier;
     }

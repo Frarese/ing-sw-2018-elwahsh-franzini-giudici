@@ -12,20 +12,20 @@ import java.util.Observable;
 public class Player extends Observable {
 
     /*Info about the player*/
-    protected String name;
-    protected int id;
-    protected int favourPoints;
-    protected PrivateObjectiveCard privateObjective;
+    private String name;
+    private int id;
+    private int favourPoints;
+    private PrivateObjectiveCard privateObjective;
 
     /*Placement and card usage rights*/
-    protected boolean firstTurnPlacement;
-    protected boolean firstTurnCard;
-    protected boolean secondTurnPlacement;
-    protected boolean secondTurnCard;
+    private boolean firstTurnPlacement;
+    private boolean firstTurnCard;
+    private boolean secondTurnPlacement;
+    private boolean secondTurnCard;
 
     /*His/Hers grid and the pattern beneath it*/
-    protected Grid grid;
-    protected Pattern pattern;
+    private Grid grid;
+    private Pattern pattern;
 
 
     /**
@@ -37,6 +37,7 @@ public class Player extends Observable {
     {
         this.name = name;
         this.id = id;
+        this.grid = new Grid();
     }
 
     /**
@@ -110,7 +111,7 @@ public class Player extends Observable {
         if(firstTurn)
             return firstTurnCard;
         else
-            return secondTurnPlacement;
+            return secondTurnCard;
     }
 
     /**

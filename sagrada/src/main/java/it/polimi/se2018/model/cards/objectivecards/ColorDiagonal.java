@@ -18,9 +18,9 @@ public class ColorDiagonal extends ObjectiveCard {
         this.text = "Number of dice of the same color diagonally adjacent";
     }
 
-    private  int recursiveDiagonalsFinder(Grid grid, int h, int w)
+    private  int recursiveDiagonalsFinder(Grid grid, int h, int w, int score)
     {
-        int temp = 0;
+
 
        if(grid.getDie(h,w) == null || visited[h][w] ){
            return 0;
@@ -28,18 +28,30 @@ public class ColorDiagonal extends ObjectiveCard {
        else {
            visited[h][w] = true;
 
-           if(grid.getDie(h-1,w+1) != null
-                   && grid.getDie(h-1,w+1).getColor() == grid.getDie(h,w).getColor())
-               temp += recursiveDiagonalsFinder(grid, h-1, w+1)+1;
+           if(grid.getDie(h+1,w+1) != null
+                   &&
+                   grid.getDie(h+1,w+1).getColor() == grid.getDie(h,w).getColor())
+               score = recursiveDiagonalsFinder(grid, h+1, w+1,score +1);
 
-           if(grid.getDie(h-1,w-1) != null
-                   && grid.getDie(h-1,w-1).getColor() == grid.getDie(h,w).getColor())
-               temp += recursiveDiagonalsFinder(grid, h-1, w-1)+1;
+           if(grid.getDie(h+1,w-1) != null
+                   &&
+                   grid.getDie(h+1,w-1).getColor() == grid.getDie(h,w).getColor())
+               score = recursiveDiagonalsFinder(grid, h+1, w-1,score +1);
+
+           if(score>0
+                   &&
+                   (grid.getDie(h-1,w-1) == null
+                   ||
+                           grid.getDie(h-1,w-1).getColor() != grid.getDie(h,w).getColor())
+                   &&
+                   (grid.getDie(h-1,w+1) == null
+                   ||
+                           grid.getDie(h-1,w+1).getColor() != grid.getDie(h,w).getColor()))
+               score++;
+
        }
-       if(temp > 0)
-           return temp +1;
-       else
-           return temp;
+       return  score;
+
     }
 
 
@@ -49,7 +61,7 @@ public class ColorDiagonal extends ObjectiveCard {
         visited = new boolean[Grid.HEIGHT][Grid.WIDTH];
         for(int h = 0; h<Grid.HEIGHT; h++ )
             for(int w = 0; w<Grid.WIDTH; w++)
-                temp += recursiveDiagonalsFinder(player.getGrid(), h , w);
+                    temp += recursiveDiagonalsFinder(player.getGrid(), h , w,0);
 
         return temp*multiplier;
     }

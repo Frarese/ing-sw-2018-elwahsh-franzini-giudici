@@ -58,10 +58,10 @@ public class Die {
       * @param newValue new die's upper face
      *  @return true if the new value is valid, false otherwise
      */
-     boolean setFace(int newValue)
+     public boolean setFace(int newValue)
     {
         if(newValue > 0 && newValue < 7) {
-            value = newValue;
+            this.value = newValue;
             return true;
         }
         else
