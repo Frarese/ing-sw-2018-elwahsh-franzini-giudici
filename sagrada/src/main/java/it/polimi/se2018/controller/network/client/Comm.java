@@ -226,7 +226,7 @@ public class Comm {
         }else{
             commLayer=new SocketCommLayer(this);
         }
-        String outcome=commLayer.establishCon(host,reqPort,objectPort,isRecovery,usn,pw,newUser);
+        String outcome=commLayer.establishCon(host,requestPort,objectPort,isRecovery,usn,pw,newUser);
         if(outcome!=null)return outcome;
         setUsername(username);
         setPassword(password);

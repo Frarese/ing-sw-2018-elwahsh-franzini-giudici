@@ -3,8 +3,11 @@ package it.polimi.se2018.controller.network.server;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.ScoreEntry;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -12,14 +15,14 @@ import java.util.List;
  * @author Francesco Franzini
  */
 public class ServerMain {
-    private static int defaultPendingMatchTimeout = 60;
-    private ServerComm server;
-    private HashMap<String,Client> clientMap;
-    private HashMap<MatchIdentifier,Match> matches;
-    private UserBase userBase;
-    private HashMap<MatchIdentifier,PendingApprovalMatch> pendingMatchesMap;
-    private ServerCLI cli;
-    private MatchMakingQueue matchMakingQueue;
+    private final ServerComm serverRMI;
+    private final ServerComm serverSoc;
+    private final ConcurrentHashMap<String,Client> clientMap;
+    private final ConcurrentHashMap<MatchIdentifier,Match> matches;
+    private final UserBase userBase;
+    private final ConcurrentHashMap<MatchIdentifier,PendingApprovalMatch> pendingMatchesMap;
+    private final MatchMakingQueue matchMakingQueue;
+    private final Logger logger;
 
     /**
      * Creates a new server with the given parameters
@@ -29,8 +32,25 @@ public class ServerMain {
      * @param rmiPort rmi port
      * @param rmiName rmi name
      */
-    public ServerMain(int objPort,int reqPort, boolean useDB, int rmiPort, String rmiName){
-        throw new UnsupportedOperationException();
+    public ServerMain(int objPort,int reqPort, boolean useDB, int rmiPort, String rmiName) throws IOException{
+        logger=Logger.getGlobal();
+        clientMap=new ConcurrentHashMap<>();
+        matches=new ConcurrentHashMap<>();
+        pendingMatchesMap=new ConcurrentHashMap<>();
+        matchMakingQueue=new MatchMakingQueue(this);
+        try {
+            if (useDB) {
+                userBase = new DBUserBase();
+            }else{
+                userBase= new FileUserBase(FileUserBase.DEFAULT_FILENAME);
+            }
+        } catch (IOException e) {
+            logger.log(Level.SEVERE,"Could not open UserBase"+e.getMessage());
+            throw e;
+        }
+        serverRMI=new RMIServer(this,rmiPort,rmiName);
+        serverSoc=new SocketServer(this,objPort,reqPort);
+
     }
 
     /**
@@ -40,7 +60,11 @@ public class ServerMain {
      * @return true if the process is completed with success
      */
     public boolean addClient(Client client, boolean isNew) {
-        throw new UnsupportedOperationException();
+        Client outcome=clientMap.putIfAbsent(client.usn,client);
+        if(outcome==null){
+            logger.log(Level.FINEST,"{0} logged in",client.usn);
+        }
+        return outcome==null;
     }
 
     /**
@@ -58,7 +82,7 @@ public class ServerMain {
      * @param pw password
      * @return true if the username exists and the password is correct
      */
-    public boolean isPwCorrect(String usn, String pw) {
+    boolean isPwCorrect(String usn, String pw) {
         if(userBase.containsUser(usn)){
             return userBase.getPw(usn).equals(pw);
         }
@@ -70,7 +94,7 @@ public class ServerMain {
      * @param usn username
      * @return true if the username exists
      */
-    public boolean existsUsn(String usn) {
+    boolean existsUsn(String usn) {
         return userBase.containsUser(usn);
     }
 
@@ -88,31 +112,29 @@ public class ServerMain {
      * @return a List of {@link it.polimi.se2018.util.ScoreEntry}
      */
     public List<ScoreEntry> getUserListCopy() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Notifies the server that a {@link it.polimi.se2018.controller.network.server.PendingApprovalMatch} has timed out
-     * @param match the timed out PendingApprovalMatch
-     */
-    public void notifyTimedOutMatch(PendingApprovalMatch match) {
-        throw new UnsupportedOperationException();
+        List<ScoreEntry> list=userBase.getLeaderBoard();
+        list.removeIf(a->!clientMap.containsKey(a.usn));
+        return list;
     }
 
     /**
      * Closes this server down and blocks until closure has been completed
      */
     public void closeDown() {
+        serverSoc.close();
+        serverRMI.close();
+        matches.forEach((mId,m)->m.abort());
         throw new UnsupportedOperationException();
     }
 
     /**
      * Removes a Client from the logged users map
      * @param usn username
-     * @param pendingMatch eventual {@link it.polimi.se2018.controller.network.server.PendingApprovalMatch} that was accepted
      */
-    public void removeClient(String usn, boolean pendingMatch) {
-        throw new UnsupportedOperationException();
+    public void removeClient(String usn) {
+        Client c=clientMap.get(usn);
+        if(c==null)return;
+        c.purge();
     }
 
     /**
@@ -166,7 +188,7 @@ public class ServerMain {
      * @return true if success, false otherwise
      */
     boolean createUser(String usn,String pw){
-        throw new UnsupportedOperationException();
+        return userBase.addUser(usn,pw);
     }
 
     /**
@@ -174,7 +196,7 @@ public class ServerMain {
      * @param m the match to add
      */
     void addMatch(Match m){
-        throw new UnsupportedOperationException();
+        this.matches.putIfAbsent(m.matchId,m);
     }
 
     /**
@@ -182,13 +204,13 @@ public class ServerMain {
      * @param m the match to remove
      */
     void removeMatch(Match m){
-        throw new UnsupportedOperationException();
+        this.matches.remove(m.matchId,m);
     }
 
     /**
      * Returns a List of {@link it.polimi.se2018.util.ScoreEntry} with all the registered users, unordered
      */
     public List<ScoreEntry> getRegisteredUsers() {
-        throw new UnsupportedOperationException();
+        return userBase.getLeaderBoard();
     }
 }

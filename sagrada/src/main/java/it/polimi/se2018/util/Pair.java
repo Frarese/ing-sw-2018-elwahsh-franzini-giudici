@@ -64,7 +64,7 @@ public class Pair<E,T> {
     }
 
     /**
-     * Ovveride of the hashCode() method, it makes the class compatible with hash tables
+     * Override of the hashCode() method, it makes the class compatible with hash tables
      * For now it uses an "arbitrary" hash generation, may change if needed
      * @return the hash code of the pair
      */

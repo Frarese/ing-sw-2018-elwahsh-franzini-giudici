@@ -10,12 +10,12 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  * A socket implementation of the client network layer
  * @author Francesco Franzini
  */
 class SocketCommLayer extends CommLayer {
-    private static final long DEFAULT_TIMEOUT=1000;
     private SafeSocket reqSoc;
     private SafeSocket objSoc;
 
@@ -39,12 +39,12 @@ class SocketCommLayer extends CommLayer {
             return "Already logged";
         }
         try {
-            reqSoc=new SafeSocket(DEFAULT_TIMEOUT);
+            reqSoc=new SafeSocket(SafeSocket.DEFAULT_TIMEOUT);
             reqSoc.connect(host,reqPort);
             reqSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
             LoginResponsesEnum answer= (LoginResponsesEnum) reqSoc.receive();
             if(answer.equals(LoginResponsesEnum.LOGIN_OK)){
-                objSoc=new SafeSocket(DEFAULT_TIMEOUT);
+                objSoc=new SafeSocket(SafeSocket.DEFAULT_TIMEOUT);
                 objSoc.connect(host,objPort);
                 objSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
                 answer= (LoginResponsesEnum) objSoc.receive();

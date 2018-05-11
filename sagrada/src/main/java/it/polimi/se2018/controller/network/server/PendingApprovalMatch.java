@@ -48,6 +48,7 @@ public class PendingApprovalMatch extends TimerTask {
         int pos;
         if((pos=matchId.findPos(client.usn))!=-1 && !clients.containsKey(pos)){
             clients.put(pos,client);
+            client.acceptPAMatch(this);
             return true;
         }
         return false;
@@ -89,7 +90,7 @@ public class PendingApprovalMatch extends TimerTask {
         t.cancel();
 
         clients.forEach((pos,c)-> c.pushOutReq(new MatchAbortedRequest(matchId)));
-
+        clients.forEach((pos,c)-> c.removePAMInstance());
         clients.forEach((pos,c)-> c.resetAccepted());
 
         serverMain.removePendingMatch(this);

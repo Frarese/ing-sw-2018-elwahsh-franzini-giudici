@@ -1,6 +1,9 @@
 package it.polimi.se2018.controller.network.server;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
@@ -24,10 +27,9 @@ class RMIServer extends ServerComm {
      * Creates a RMI login service
      *
      * @param handler the handler for the requests
-     * @throws MalformedURLException if the given name is not valid
      * @throws RemoteException if errors occurred
      */
-    RMIServer(ServerMain handler, int port, String name) throws MalformedURLException,RemoteException{
+    RMIServer(ServerMain handler, int port, String name) throws RemoteException{
         super(handler);
         this.port=port;
         this.name=name;
@@ -36,17 +38,17 @@ class RMIServer extends ServerComm {
         try {
             rmiObj=new RMIServerIntImpl(this);
             LocateRegistry.createRegistry(port);
+
             this.tryUnexport();
             RMIServerInt stub = (RMIServerInt) UnicastRemoteObject.exportObject(rmiObj, 0);
-            Naming.rebind(name, stub);
+            LocateRegistry.getRegistry(port).rebind(name,stub);
+            logger.log(Level.INFO,"RMI server listening on {0}",InetAddress.getLocalHost().getHostAddress());
         } catch (RemoteException e) {
-            logger.log(Level.SEVERE, "Couldn't create remote server "+e.getMessage());
+            logger.log(Level.SEVERE, "Couldn't create RMI server ",e);
             this.close();
             throw e;
-        } catch (MalformedURLException e) {
-            logger.log(Level.SEVERE,"Given name is not valid "+e.getMessage());
-            this.close();
-            throw e;
+        } catch (UnknownHostException e) {
+            logger.log(Level.WARNING,"Error reading hostname");
         }
     }
 

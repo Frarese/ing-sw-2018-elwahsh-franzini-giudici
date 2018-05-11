@@ -16,7 +16,7 @@ import java.util.*;
 public class Match {
     private int hostI;
     private final HashMap<Integer,Client> clientMap;
-    private final MatchIdentifier matchId;
+    public final MatchIdentifier matchId;
     private final Set<String> dc;
     private final ServerMain serverMain;
     /**

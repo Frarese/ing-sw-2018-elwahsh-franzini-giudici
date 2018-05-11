@@ -13,64 +13,73 @@ class RMISessionImpl implements RMISession {
      * Initializes this session object with the given login output string
      * @param loginOutput the textual representation of the login output
      */
-    public RMISessionImpl(LoginResponsesEnum loginOutput) {
+    RMISessionImpl(LoginResponsesEnum loginOutput) {
         this.loginOutput=loginOutput;
-        throw new UnsupportedOperationException();
+        this.terminated=false;
     }
 
     /**
      * Terminates this session object
      */
-    public void terminate() {
-        throw new UnsupportedOperationException();
+    void terminate() {
+        this.terminated=true;
+        cComm=null;
     }
 
     /**
      * Sets the client RMI comm layer to call
      * @param cComm the comm layer
      */
-    public void setCComm(RMIClientComm cComm) {
+    void setCComm(RMIClientComm cComm) {
         this.cComm=cComm;
     }
 
     @Override
     public boolean hasReq() {
-        throw new UnsupportedOperationException();
+        if(cComm==null)return false;
+        return cComm.hasReq();
     }
 
     @Override
     public AbsReq getReq() {
-        throw new UnsupportedOperationException();
+        if(cComm==null)return null;
+        return cComm.getOutReq();
     }
 
     @Override
-    public boolean sendReq(AbsReq obj) {
-        throw new UnsupportedOperationException();
+    public boolean sendReq(AbsReq req) {
+        if(cComm==null)return false;
+        cComm.pushInReq(req);
+        return true;
     }
 
     @Override
     public boolean hasObj() {
-        throw new UnsupportedOperationException();
+        if(cComm==null)return false;
+        return cComm.hasObj();
     }
 
     @Override
     public Serializable getObj() {
-        throw new UnsupportedOperationException();
+        if(cComm==null)return null;
+        return cComm.getOutObj();
     }
 
     @Override
     public boolean sendObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+        if(cComm==null)return false;
+        cComm.pushInObj(obj);
+        return true;
     }
 
     @Override
     public boolean isTerminated() {
-        throw new UnsupportedOperationException();
+        return terminated;
     }
 
     @Override
     public LoginResponsesEnum getLoginOutput() {
-        throw new UnsupportedOperationException();
+        return this.loginOutput;
     }
 
 

@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  * @author  Francesco Franzini
  */
 public class SafeSocket implements Runnable {
+    public static final long DEFAULT_TIMEOUT=1000;
     private Logger logger;
     private long timeout;
     private final Socket s;

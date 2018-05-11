@@ -30,6 +30,7 @@ public class Client {
 
     private ClientComm cComm;
     private Match match;
+    private PendingApprovalMatch pAM;
 
     private ServerInQueueEmptier inQueueEmpReq;
     private ServerInQueueEmptier inQueueEmpObj;
@@ -65,6 +66,14 @@ public class Client {
     }
 
     /**
+     * Gets the current pending approval match, if present
+     * @return the current {@link it.polimi.se2018.controller.network.server.PendingApprovalMatch} or {@code null} if not present
+     */
+    public PendingApprovalMatch getPAM() {
+        return this.pAM;
+    }
+
+    /**
      * Builds a Socket comm layer for this client
      * @param reqSoc the request {@link it.polimi.se2018.util.SafeSocket}
      * @param objSoc the object {@link it.polimi.se2018.util.SafeSocket}
@@ -78,6 +87,7 @@ public class Client {
      * @param sessionObj the {@link it.polimi.se2018.controller.network.server.RMISessionImpl} that is used as session object
      */
     public void createRMIComm(RMISessionImpl sessionObj) {
+        sessionObj.setCComm(null);
         throw new UnsupportedOperationException();
     }
 
@@ -140,6 +150,27 @@ public class Client {
     public boolean removeMatchInstance() {
         if(this.match==null)return false;
         this.match=null;
+        return true;
+    }
+
+    /**
+     * Notifies this object that the user has accepted a PendingApprovalMatch
+     * @param match match
+     * @return true if no other match was already active
+     */
+    public boolean acceptPAMatch(PendingApprovalMatch match) {
+        if(this.pAM!=null)return false;
+        this.pAM=match;
+        return true;
+    }
+
+    /**
+     * Removes the Pending approval instance from this client
+     * @return true if no errors occur
+     */
+    public boolean removePAMInstance() {
+        if(this.pAM==null)return false;
+        this.pAM=null;
         return true;
     }
 

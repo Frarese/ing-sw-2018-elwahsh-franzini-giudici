@@ -7,6 +7,7 @@ import java.io.Serializable;
  * @author Francesco Franzini
  */
 public class SocketLoginRequest implements Serializable {
+    private final String toMatch="[a-zA-Z]+";
     public final String username;
     public final String password;
     public final boolean isRecovery;
@@ -25,5 +26,11 @@ public class SocketLoginRequest implements Serializable {
         if(isRecovery&&isNewUser)throw new IllegalArgumentException("A user cannot be registering and reconnecting at the same time");
         this.isRecovery = isRecovery;
         this.isNewUser = isNewUser;
+    }
+
+    public final boolean isValid(){
+        if(username==null||password==null)return false;
+        return username.matches(toMatch)&& password.matches(toMatch)
+                && (!(isRecovery&&isNewUser));
     }
 }

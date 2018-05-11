@@ -104,21 +104,24 @@ class RMICommLayer extends CommLayer {
             return "Already logged";
         }
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", reqPort);
+            logger.log(Level.INFO,"Attempting login through rmi at {0}",host+":"+reqPort);
+            Registry registry = LocateRegistry.getRegistry(host, reqPort);
             RMIServerInt loginObj = (RMIServerInt) registry.lookup(LoginResponsesEnum.RESOURCE_NAME.msg);
             RMISession session=loginObj.login(usn,pw,isRecovery,newUser);
             if(session.getLoginOutput().equals(LoginResponsesEnum.LOGIN_OK)){
+                logger.log(Level.INFO,"Login was successful");
                 this.sessionObj=session;
                 this.serverLoginObj=loginObj;
                 listenerReq.start();
                 listenerObj.start();
                 return null;
             }else{
+                logger.log(Level.INFO,"Login failed");
                 cleanUp();
                 return session.getLoginOutput().msg;
             }
         } catch(RemoteException e){
-            logger.log(Level.SEVERE,"Error connecting through RMI "+e.getMessage());
+            logger.log(Level.SEVERE,"Error connecting through RMI ",e);
             cleanUp();
             return "Failed initializing connection";
         } catch (NotBoundException e) {
