@@ -35,7 +35,7 @@ public class FXGridViewCreator extends GridViewCreator<GridPane,Image> {
     }
 
     @Override
-    public String pickDie(int height, int width) {
+    public Image pickDie(int height, int width) {
         return null;
     }
 }
