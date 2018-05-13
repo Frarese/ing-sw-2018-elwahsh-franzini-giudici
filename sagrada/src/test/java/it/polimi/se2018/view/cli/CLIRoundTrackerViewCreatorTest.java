@@ -36,6 +36,7 @@ public class CLIRoundTrackerViewCreatorTest {
     @Test
     public void displayTest() {
         ArrayList<String> strings = new ArrayList<>();
+        strings.add("Siamo al turno: 1");
         strings.add("Turno 1 : ");
         strings.add("1-RED");
         strings.add("2-RED");

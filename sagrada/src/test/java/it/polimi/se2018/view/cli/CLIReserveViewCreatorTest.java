@@ -31,7 +31,7 @@ public class CLIReserveViewCreatorTest {
 
     @Test
     public void displayTest() {
-        assertEquals("1-RED\n2-RED\n", this.cliReserveViewCreator.display());
+        assertEquals("0)1-RED\n1)2-RED\n", this.cliReserveViewCreator.display());
     }
 
     @Test
