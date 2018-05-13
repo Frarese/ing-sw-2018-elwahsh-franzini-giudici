@@ -6,8 +6,6 @@ import it.polimi.se2018.util.Pair;
 /**
  * Class to define GridViewCreator's Object
  *
- * @param <E>
- * @param <V>
  * @author Mathyas Giudici
  */
 

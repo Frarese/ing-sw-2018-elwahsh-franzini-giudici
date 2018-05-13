@@ -29,6 +29,7 @@ public class SafeSocket implements Runnable {
 
     /**Creates a new SafeSocket and initializes a new {@link java.net.Socket} for it
      * @param timeout the timeout(in milliseconds) for this SafeSocket
+     * @throws IOException if an I/O error occurs
      */
     public SafeSocket(long timeout) throws IOException {
         this(new Socket(),timeout);
@@ -38,6 +39,7 @@ public class SafeSocket implements Runnable {
      * Creates a new SafeSocket wrapper around a given(and already connected) {@link java.net.Socket}
      * @param s the connected socket to wrap
      * @param timeout the timeout(in milliseconds) for this SafeSocket
+     * @throws IOException if an I/O error occurs
      */
     public SafeSocket(Socket s, long timeout) throws IOException {
         this.s=s;

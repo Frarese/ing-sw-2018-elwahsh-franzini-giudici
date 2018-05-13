@@ -15,17 +15,16 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<Image> {
 
     /**
      * Class constructor
-     * <p>
-     * {@link RoundTrackerViewCreator}
+     * @param round       contains the round
+     * @param roundTracker contains the round tracker
      */
-    public FXRoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] rondTracker) {
-        super(round, rondTracker);
+    public FXRoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] roundTracker) {
+        super(round, roundTracker);
         this.dieViewCreator = new FXDieViewCreator();
     }
 
     @Override
     public Image display() {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

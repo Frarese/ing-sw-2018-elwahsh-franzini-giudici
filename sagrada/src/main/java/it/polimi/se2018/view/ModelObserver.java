@@ -6,7 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Class for View -> Model communication
+ * Class for View-Model communication
  *
  */
 
@@ -16,6 +16,7 @@ public class ModelObserver implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        throw new UnsupportedOperationException();
 
     }
 }

@@ -10,7 +10,7 @@ import static it.polimi.se2018.model.ColorModel.*;
 /**
  * Tests for ColorModel class
  *
- * @author Alì El Wahsh & Mathyas Giudici
+ * @author Alì El Wahsh &amp; Mathyas Giudici
  */
 public class ColorModelTest {
 

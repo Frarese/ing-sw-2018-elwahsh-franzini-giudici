@@ -31,11 +31,13 @@ public abstract class ToolCard extends CardModel {
 
     /**
      * All Tool Cards need this method. It applies the Tool card effect to the player
+     * @param player the player to apply this Tool Card to
      */
     public abstract void applyToolCard(Player player);
 
     /**
      * To use a Tool card a player must spend its favour points
+     * @param player the player to use
      */
     protected void burnFavourPoints(Player player)
     {

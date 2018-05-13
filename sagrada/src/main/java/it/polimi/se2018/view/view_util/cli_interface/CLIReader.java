@@ -28,8 +28,7 @@ public class CLIReader {
      */
     public String read() {
         //Print message
-        String message = scanner.next();
-        return message;
+        return scanner.next();
     }
 
     /**

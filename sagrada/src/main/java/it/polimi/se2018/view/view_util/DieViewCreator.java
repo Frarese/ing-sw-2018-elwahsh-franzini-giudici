@@ -6,7 +6,6 @@ import it.polimi.se2018.util.Pair;
 /**
  * Interface to define DieViewCreator's Object
  *
- * @param <E>
  * @author Mathyas Giudici
  */
 

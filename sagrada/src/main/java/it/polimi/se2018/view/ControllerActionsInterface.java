@@ -12,7 +12,7 @@ import it.polimi.se2018.util.ScoreEntry;
 import java.util.List;
 
 /**
- * Interface for Controller -> View communication
+ * Interface for Controller-View communication
  *
  * @author Mathyas Giudici
  */
@@ -28,7 +28,7 @@ public interface ControllerActionsInterface {
 
     /**
      * To start login operations
-     * @param displayWelcome
+     * @param displayWelcome true if a welcome is to be shown
      */
     void startLogin(boolean displayWelcome);
 

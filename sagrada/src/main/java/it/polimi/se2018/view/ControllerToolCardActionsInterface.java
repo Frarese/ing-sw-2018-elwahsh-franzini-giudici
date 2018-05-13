@@ -4,7 +4,7 @@ import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 
 /**
- * Interface for Controller -> View communication
+ * Interface for Controller-View communication
  * (this interface is for the Tool Card use)
  *
  * @author Mathyas Giudici

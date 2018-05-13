@@ -31,7 +31,7 @@ public class RoundTrackerTest {
     @Test
     public void testPublicInfo()
     {
-        assertEquals(10,RoundTracker.ROUNDS); /*True for Sagrada*/
+        assertEquals(RoundTracker.ROUNDS,10); /*True for Sagrada*/
         assertEquals(null,test.getDie(-1,-1)); /*Must be always true*/
     }
 

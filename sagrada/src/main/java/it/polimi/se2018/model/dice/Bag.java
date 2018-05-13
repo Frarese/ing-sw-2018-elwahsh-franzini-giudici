@@ -89,7 +89,7 @@ public class Bag {
     /**
      * Extract dice from the bag popping them out of content
      * @param numberOfDice number of dice to be popped
-     * @return an ArrayList of Dice w/ size <= numberOfDice
+     * @return an ArrayList of Dice w/ size &lt;= numberOfDice
      */
     public List<Die> popDice(int numberOfDice)
     {

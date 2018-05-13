@@ -33,6 +33,7 @@ public class ServerMain {
      * @param useDB true if a database is to be used for the user credentials validation
      * @param rmiPort rmi port
      * @param rmiName rmi name
+     * @throws IOException if an I/O error occurs
      */
     public ServerMain(int objPort,int reqPort, boolean useDB, int rmiPort, String rmiName) throws IOException{
         logger=Logger.getGlobal();
@@ -225,6 +226,7 @@ public class ServerMain {
 
     /**
      * Returns a List of {@link it.polimi.se2018.util.ScoreEntry} with all the registered users, unordered
+     * @return a List of {@link it.polimi.se2018.util.ScoreEntry} with all the registered users
      */
     public List<ScoreEntry> getRegisteredUsers() {
         return userBase.getLeaderBoard();

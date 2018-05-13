@@ -14,8 +14,7 @@ public class CLIReserveViewCreator extends ReserveViewCreator<String> {
 
     /**
      * Class constructor
-     * <p>
-     * {@link ReserveViewCreator}
+     * @param reserve contains the reserve
      */
     public CLIReserveViewCreator(Pair<Integer, ColorModel>[] reserve) {
         super(reserve);

@@ -3,7 +3,7 @@ package it.polimi.se2018.view;
 import it.polimi.se2018.util.Pair;
 
 /**
- * Class for View -> Controller communication
+ * Class for View-Controller communication
  * (this class is for the Tool Card use)
  *
  * @author Mathyas Giudici
@@ -17,6 +17,7 @@ public class ViewToolCardActions {
      * @param die contains the die's ID
      */
     public void selectedDieFromReserve(Pair die) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -26,6 +27,7 @@ public class ViewToolCardActions {
      * @param value contains the die's value
      */
     public void selectedValueForDie(int value) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -35,6 +37,7 @@ public class ViewToolCardActions {
      * @param die contains the die's ID
      */
     public void selectedDieFromGrid(Pair die) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -44,6 +47,7 @@ public class ViewToolCardActions {
      * @param die contains the die's ID
      */
     public void selectedDieFromRoundTracker(Pair die) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -54,6 +58,7 @@ public class ViewToolCardActions {
      * @param value contains the die's value
      */
     public void selectedFace(Pair die, int value) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -63,6 +68,7 @@ public class ViewToolCardActions {
      * @param die contains the die
      */
     public void selectedDieFromGridByColor(Pair die) {
+        throw new UnsupportedOperationException();
 
     }
 }

@@ -5,7 +5,7 @@ import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 
 /**
- * Class for View -> Controller communication
+ * Class for View-Controller communication
  *
  * @author Mathyas Giudici
  */
@@ -23,16 +23,17 @@ public class ViewActions {
      * @param requestPort contains the request port number
      */
     public void login(String name, String password, boolean newUser, String host, Boolean isRMI, int objectPort, int requestPort) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
      * To change layer from Socket to RMI or vice versa
-     *  @param toRMI boolean value
+     * @param toRMI boolean value
      * @param objectPort  contains the object port number
      * @param requestPort contains the request port number
      */
     public void changeLayer(boolean toRMI, int objectPort, int requestPort) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -40,6 +41,7 @@ public class ViewActions {
      * To leave the current match
      */
     public void leaveMatch() {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -48,22 +50,15 @@ public class ViewActions {
      *
      */
     public void logout() {
+        throw new UnsupportedOperationException();
 
     }
-
-//    /**
-//     * To select a type of game (Solo or Battle Royale)
-//     *
-//     * @param isSoloGame boolean value
-//     */
-//    public void selectedGame(boolean isSoloGame) {
-//
-//    }
 
     /**
      * To ask the lobby
      */
     public void askLobby() {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -73,6 +68,7 @@ public class ViewActions {
      * @param invite contains a list of players (max 4)
      */
     public void pushInvite(MatchIdentifier invite) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -80,19 +76,22 @@ public class ViewActions {
      * To participate to match
      */
     public void autoCompleteGame() {
+        throw new UnsupportedOperationException();
 
     }
 
     public void acceptInvite(MatchIdentifier matchIdentifier){
+        throw new UnsupportedOperationException();
 
     }
 
     /**
      * To communicate to the Controller the pattern that user has select
      *
-     * @param selected
+     * @param selected the selected pattern
      */
     public void selectedPattern(Pair<Integer,ColorModel>[][] selected) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -100,6 +99,7 @@ public class ViewActions {
      * To communicate to the Controller that View ended init operations
      */
     public void endInitGame() {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -111,6 +111,7 @@ public class ViewActions {
      * @param width  contains width on the grid
      */
     public void setDie(Pair<Integer,ColorModel> die, int height, int width) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -120,6 +121,7 @@ public class ViewActions {
      * @param card contains the Tool Card's ID
      */
     public void useToolCard(int card) {
+        throw new UnsupportedOperationException();
 
     }
 
@@ -127,6 +129,7 @@ public class ViewActions {
      * To pass Turn
      */
     public void passTurn() {
+        throw new UnsupportedOperationException();
 
     }
 }

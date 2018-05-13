@@ -15,8 +15,7 @@ public class FXReserveViewCreator extends ReserveViewCreator<Image> {
 
     /**
      * Class constructor
-     * <p>
-     * {@link ReserveViewCreator}
+     * @param reserve contains the reserve
      */
     public FXReserveViewCreator(Pair<Integer, ColorModel>[] reserve) {
         super(reserve);
@@ -25,13 +24,11 @@ public class FXReserveViewCreator extends ReserveViewCreator<Image> {
 
     @Override
     public Image display() {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Image pickDie(int index) {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

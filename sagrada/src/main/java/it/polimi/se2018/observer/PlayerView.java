@@ -14,37 +14,30 @@ public class PlayerView {
     private boolean hasChanged;
 
     public String getPlayerName() {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public int getPlayerFavours() {
-        //TODO
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     public Pair<Integer,ColorModel>[][] getPlayerTemplate() {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public int getPlayerID() {
-        //TODO
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     public Pair<Integer,ColorModel>[][] getPlayerGrid() {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public boolean hasPlacementRights() {
-        //TODO
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     public boolean hasCardRights() {
-        //TODO
-        return false;
+        throw new UnsupportedOperationException();
     }
 }

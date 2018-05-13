@@ -25,12 +25,12 @@ public class Deck<E extends CardModel> {
     /**
      * Pop cards from the deck to a list
      * @param numberOfCards number of desired cards
-     * @return the list of card with size <= numberOfCards (if numberOfCards > size())
+     * @return the list of card with size &lt;= numberOfCards (if numberOfCards &gt; size())
      */
     public List<E> draw(int numberOfCards)
     {
         ArrayList<E> temp = new ArrayList<>();
-        for(int i=0; i<numberOfCards && deckOfCards.size()>0; i++)
+        for(int i=0; i<numberOfCards && !deckOfCards.isEmpty(); i++)
         {
                 temp.add(deckOfCards.remove(0));
         }

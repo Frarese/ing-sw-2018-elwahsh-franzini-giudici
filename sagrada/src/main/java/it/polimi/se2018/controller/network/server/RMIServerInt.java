@@ -17,6 +17,7 @@ public interface RMIServerInt extends Remote {
      * @param isRecover flag to indicate that this is a connection recovery
      * @param register flag to indicate that this is a new user
      * @return an Object describing the result
+     * @throws RemoteException if an I/O error occurs
      */
     RMISession login(String usn, String pw, boolean isRecover, boolean register) throws RemoteException;
 
@@ -25,6 +26,7 @@ public interface RMIServerInt extends Remote {
      * @param usn username
      * @param pw password
      * @return a textual representation of the outcome
+     * @throws RemoteException if an I/O error occurs
      */
     String delete(String usn, String pw) throws RemoteException;
 

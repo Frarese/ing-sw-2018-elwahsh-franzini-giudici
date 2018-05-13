@@ -23,10 +23,6 @@ public class JavaFXStageProducer extends Application {
         launch(args);
     }
 
-    @Override
-    public void stop() throws Exception {
-        super.stop();
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {

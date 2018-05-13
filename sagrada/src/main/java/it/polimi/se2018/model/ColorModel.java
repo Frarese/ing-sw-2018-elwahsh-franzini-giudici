@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * This enumeration represents all the possible colors visible in game
  *
- * @author Alì El Wahsh & Mathyas Giudici
+ * @author Alì El Wahsh &amp; Mathyas Giudici
  */
 public enum ColorModel {
 
@@ -26,9 +26,8 @@ public enum ColorModel {
     }
 
     /**
-     * @autor Mathyas Giudici
-     * This function convert a ColorModel in a value useful for visual representation.
-     * For now it will support JavaFX, next releases may use different standards
+     * This function converts a ColorModel into a value useful for visual representation.
+     * For now it supports JavaFX, next releases may use different standards
      * @return JavaFX version of my color
      */
     public Color toJavaFXColor(){

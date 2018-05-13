@@ -31,7 +31,8 @@ public abstract class CLICommand {
     public abstract void doAction();
 
     /**
-     * To show the message of the command in System.out
+     * Returns the message of the command in System.out
+     * @return the message to display
      */
     public String display() {
         return this.message;

@@ -6,7 +6,6 @@ import it.polimi.se2018.util.Pair;
 /**
  * Class to define ReserveViewCreator's Object
  *
- * @param <E>
  * @author Mathyas Giudici
  */
 

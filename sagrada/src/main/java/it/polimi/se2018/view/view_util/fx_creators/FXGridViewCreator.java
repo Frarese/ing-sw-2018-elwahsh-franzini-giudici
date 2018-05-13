@@ -16,8 +16,8 @@ public class FXGridViewCreator extends GridViewCreator<GridPane,Image> {
 
     /**
      * Class constructor
-     *
-     * {@link GridViewCreator}
+     * @param grid the grid to use
+     * @param gridPattern the pattern to use
      */
     public FXGridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern) {
         super(grid, gridPattern);
@@ -26,16 +26,16 @@ public class FXGridViewCreator extends GridViewCreator<GridPane,Image> {
 
     @Override
     public GridPane display() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void addADie(Image die, int height, int width) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Image pickDie(int height, int width) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

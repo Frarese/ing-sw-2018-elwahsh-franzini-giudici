@@ -16,8 +16,8 @@ public class CLIRoundTrackerViewCreator extends RoundTrackerViewCreator<ArrayLis
 
     /**
      * Class constructor
-     * <p>
-     * {@link RoundTrackerViewCreator}
+     * @param round       contains the round
+     * @param roundTracker contains the round tracker
      */
     public CLIRoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] roundTracker) {
         super(round, roundTracker);

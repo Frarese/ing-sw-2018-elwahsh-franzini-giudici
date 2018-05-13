@@ -20,6 +20,7 @@ public abstract class ObjectiveCard extends CardModel {
     /**
      * Each Objective card must have this method
      * It calculates the score from the player's Grid
+     * @param player the player to score
      * @return the score reached according to the card's objective
      */
     public abstract int score(Player player);

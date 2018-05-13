@@ -16,7 +16,6 @@ public class FXScoreViewCreator extends ScoreViewCreator<Group> {
 
     @Override
     public Group display(List<ScoreEntry> scores) {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

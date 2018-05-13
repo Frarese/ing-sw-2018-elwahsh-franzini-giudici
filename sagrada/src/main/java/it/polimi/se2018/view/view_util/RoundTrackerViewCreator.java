@@ -6,7 +6,6 @@ import it.polimi.se2018.util.Pair;
 /**
  * Interface to define RoundTrackerViewCreator's Object
  *
- * @param <E>
  * @author Mathyas Giudici
  */
 
@@ -20,7 +19,7 @@ public abstract class RoundTrackerViewCreator<E> {
 
     /**
      * Class constructor
-     *  @param round       contains the round
+     * @param round       contains the round
      * @param roundTracker contains the round tracker
      */
     public RoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] roundTracker) {

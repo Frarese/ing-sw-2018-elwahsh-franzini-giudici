@@ -14,12 +14,10 @@ public class RoundTrackerView {
     private boolean hasChanged;
 
     public int getRound() {
-        //TODO
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     public Pair<Integer, ColorModel>[][] getRoundTracker() {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

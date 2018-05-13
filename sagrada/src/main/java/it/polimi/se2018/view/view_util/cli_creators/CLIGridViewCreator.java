@@ -19,8 +19,8 @@ public class CLIGridViewCreator extends GridViewCreator<ArrayList<String>, Strin
 
     /**
      * Class constructor
-     * <p>
-     * {@link GridViewCreator}
+     * @param grid        contains user grid
+     * @param gridPattern contains user pattern
      */
     public CLIGridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern) {
         super(grid, gridPattern);

@@ -25,6 +25,7 @@ public abstract class ThreadHandler implements Runnable {
 
     /**
      * Starts this handler
+     * @return true if no errors are raised and this thread wasn't already running
      */
     public synchronized boolean start() {
         Logger logger=Logger.getGlobal();

@@ -424,42 +424,48 @@ public class CLIApp extends App {
 
     @Override
     public void selectDieFromReserve() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void selectNewValueForDie(int up, int down) {
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
     public void updateReserve() {
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
     public void selectDieFromGrid() {
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
     public void setDieOnGrid(Pair<Integer, ColorModel> die) {
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
     public void selectDieFromRoundTracker() {
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
     public void selectFace(Pair<Integer, ColorModel> die) {
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
     public void selectDieFromGridByColor(ColorModel color) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**

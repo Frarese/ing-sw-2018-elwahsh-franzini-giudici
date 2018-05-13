@@ -5,7 +5,6 @@ import it.polimi.se2018.util.CardIdentifier;
 /**
  * Class to define CardViewCreator's Object
  *
- * @param <E>
  * @author Mathyas Giudici
  */
 
@@ -13,7 +12,8 @@ public abstract class CardViewCreator<E> {
 
     protected CardIdentifier cardIdentifier;
     protected int privateObjectiveCard;
-    protected int[] publicObjectiveCards, toolCards;
+    protected int[] publicObjectiveCards;
+    protected int[] toolCards;
 
     /**
      * Class constructor

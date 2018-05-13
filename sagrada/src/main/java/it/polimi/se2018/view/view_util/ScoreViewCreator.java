@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Class to define ScoreViewCreator's Object
  *
- * @param <E>
  * @author Mathyas Giudici
  */
 
@@ -15,9 +14,8 @@ public abstract class ScoreViewCreator<E> {
 
     /**
      * Use to show the score at the game's end
-     *
-     * @return score
-     * @param scores
+     *@param scores the scores to use
+     *@return score the object to display
      */
     public abstract E display(List<ScoreEntry> scores);
 }

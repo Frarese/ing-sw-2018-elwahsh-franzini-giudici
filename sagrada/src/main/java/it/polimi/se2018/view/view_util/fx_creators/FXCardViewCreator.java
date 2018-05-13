@@ -13,8 +13,9 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
 
     /**
      * Class constructor
-     *
-     * {@link CardViewCreator}
+     * @param privateObjectiveCard contains the private objective
+     * @param publicObjectiveCards contains the public objectives
+     * @param toolCards contains the tool cards
      */
     public FXCardViewCreator(int privateObjectiveCard, int[] publicObjectiveCards, int[] toolCards) {
         super(privateObjectiveCard, publicObjectiveCards, toolCards);
@@ -22,7 +23,6 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
 
     @Override
     public Image makeCart(int cardID) {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

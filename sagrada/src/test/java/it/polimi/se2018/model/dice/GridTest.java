@@ -32,8 +32,8 @@ public class GridTest {
     @Test
     public void testPublicInfo()
     {
-        assertEquals(4,Grid.HEIGHT);
-        assertEquals(5, Grid.WIDTH);
+        assertEquals(Grid.HEIGHT,4);
+        assertEquals(Grid.WIDTH,5);
         assertEquals(0,grid.getPlacedDice());
     }
 

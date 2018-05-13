@@ -14,7 +14,6 @@ public class ReserveView {
     private boolean hasChanged;
 
     public Pair<Integer,ColorModel>[] getReserve() {
-        //TODO
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

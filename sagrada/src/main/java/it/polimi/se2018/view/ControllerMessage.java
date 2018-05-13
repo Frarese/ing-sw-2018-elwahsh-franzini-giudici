@@ -3,7 +3,7 @@ package it.polimi.se2018.view;
 import it.polimi.se2018.util.MessageTypes;
 
 /**
- * Interface for Controller -> View communication
+ * Interface for Controller-View communication
  *
  * @author Mathyas Giudici
  */

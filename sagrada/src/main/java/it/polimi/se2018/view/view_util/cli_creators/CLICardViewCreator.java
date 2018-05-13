@@ -15,8 +15,9 @@ public class CLICardViewCreator extends CardViewCreator<String> {
 
     /**
      * Class constructor
-     *
-     * {@link CardViewCreator}
+     *@param privateObjectiveCard contains the private objective
+     *@param publicObjectiveCards contains the public objectives
+     *@param toolCards contains the tool cards
      */
     public CLICardViewCreator(int privateObjectiveCard, int[] publicObjectiveCards, int[] toolCards) {
         super(privateObjectiveCard, publicObjectiveCards, toolCards);
