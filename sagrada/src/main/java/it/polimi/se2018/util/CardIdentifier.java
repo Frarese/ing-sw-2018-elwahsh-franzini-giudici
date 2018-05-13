@@ -28,14 +28,14 @@ public class CardIdentifier {
      * @param card contains cardID
      * @return card's name
      */
-    public String getCardInfo(int card){
+    public String getCardInfo(int card) {
         return this.cards.get(card);
     }
 
     /**
      * To initialize HashMap of cards
      */
-    private void initCards(){
+    private void initCards() {
         //Start with private objective card
         this.cards.put(0, "Sfumature Rosse");
         this.cards.put(1, "Sfumature Gialle");

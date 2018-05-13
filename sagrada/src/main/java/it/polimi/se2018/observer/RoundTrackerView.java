@@ -1,5 +1,6 @@
 package it.polimi.se2018.observer;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 
 /**
@@ -17,7 +18,7 @@ public class RoundTrackerView {
         return 0;
     }
 
-    public Pair getRoundDie(int index) {
+    public Pair<Integer, ColorModel>[][] getRoundTracker() {
         //TODO
         return null;
     }

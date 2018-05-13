@@ -14,24 +14,37 @@ public class CLIPrinter {
      * Class constructor
      */
     public CLIPrinter() {
+        super();
     }
 
     /**
      * To print a message in System.out
      *
-     * @param message contains the message to print
+     * @param input contains the message to print
      */
-    public void print(String message) {
+    public void print(Object input) {
+        String message;
+        try {
+            message = (String) input;
+        } catch (Exception e) {
+            message = input.toString();
+        }
         System.out.println(message);
         System.out.flush();
     }
 
     /**
-     * To print an array of messages in Sysem.out
+     * To print an array of messages in System.out
      *
-     * @param array contains the array of messages
+     * @param input contains the array of messages
      */
-    public void printArray(ArrayList<String> array) {
-        array.forEach(this::print);
+    public void printArray(Object input) {
+        ArrayList<String> array;
+        try {
+            array = (ArrayList<String>) input;
+            array.forEach(this::print);
+        } catch (Exception e) {
+            print(input.toString());
+        }
     }
 }

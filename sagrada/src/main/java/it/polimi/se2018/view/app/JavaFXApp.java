@@ -19,7 +19,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,11 +137,6 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void cannotUseReserve() {
-
-    }
-
-    @Override
     public void addUpdate(int playerID, int height, int width, int reserveIndex) {
 
     }
@@ -168,7 +162,7 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void gameEnd(ArrayList scores) {
+    public void gameEnd(List<ScoreEntry> scores) {
 
     }
 

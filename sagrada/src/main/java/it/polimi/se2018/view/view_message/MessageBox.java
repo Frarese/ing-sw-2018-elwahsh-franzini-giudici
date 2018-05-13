@@ -15,7 +15,7 @@ public class MessageBox implements ControllerMessage {
     private ViewMessage viewMessage;
 
     @Override
-    public void receiveMessagge( String sender, MessageTypes type, String message ) {
+    public void receiveMessage(String sender, MessageTypes type, String message ) {
 
     }
 

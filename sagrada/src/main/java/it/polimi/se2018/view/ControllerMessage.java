@@ -16,5 +16,5 @@ public interface ControllerMessage {
      * @param type    contains the message's type
      * @param message contains the message
      */
-    void receiveMessagge(String sender, MessageTypes type, String message);
+    void receiveMessage(String sender, MessageTypes type, String message);
 }

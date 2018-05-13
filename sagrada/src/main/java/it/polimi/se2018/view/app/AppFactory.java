@@ -1,8 +1,11 @@
 package it.polimi.se2018.view.app;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * This Class represents the App maker.
- * Creates an App (CLI or JavaFX) according to the user's choise
+ * Creates an App (CLI or JavaFX) according to the user's choice
  *
  * @author Mathyas Giudici
  */
@@ -21,7 +24,7 @@ public class AppFactory {
             try {
                 this.app = new JavaFXApp();
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getGlobal().log(Level.WARNING,e.getMessage());
             }
         } else {
             this.app = new CLIApp();

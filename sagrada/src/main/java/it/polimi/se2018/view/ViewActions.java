@@ -19,7 +19,7 @@ public class ViewActions {
      * @param newUser     to communicate if user has to sign up
      * @param host        IP address
      * @param isRMI       boolean value contains the type of connection
-     * @param objectPort  contains the onject port number
+     * @param objectPort  contains the object port number
      * @param requestPort contains the request port number
      */
     public void login(String name, String password, boolean newUser, String host, Boolean isRMI, int objectPort, int requestPort) {
@@ -29,7 +29,7 @@ public class ViewActions {
     /**
      * To change layer from Socket to RMI or vice versa
      *  @param toRMI boolean value
-     * @param objectPort  contains the onject port number
+     * @param objectPort  contains the object port number
      * @param requestPort contains the request port number
      */
     public void changeLayer(boolean toRMI, int objectPort, int requestPort) {
@@ -46,9 +46,8 @@ public class ViewActions {
     /**
      * To do a logout
      *
-     * @param quitGame communicate if player is playing in a match
      */
-    public void logout(boolean quitGame) {
+    public void logout() {
 
     }
 
@@ -78,7 +77,7 @@ public class ViewActions {
     }
 
     /**
-     * To partecipate to match
+     * To participate to match
      */
     public void autoCompleteGame() {
 
@@ -111,7 +110,7 @@ public class ViewActions {
      * @param height contains height on the grid
      * @param width  contains width on the grid
      */
-    public void setDie(Pair die, int height, int width) {
+    public void setDie(Pair<Integer,ColorModel> die, int height, int width) {
 
     }
 

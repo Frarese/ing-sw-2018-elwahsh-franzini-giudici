@@ -16,17 +16,16 @@ public abstract class RoundTrackerViewCreator<E> {
 
     protected int round;
 
-    protected Pair<Integer, ColorModel>[][] rondTracker;
+    protected Pair<Integer, ColorModel>[][] roundTracker;
 
     /**
      * Class constructor
-     *
-     * @param round       contains the round
-     * @param rondTracker contains the round tracker
+     *  @param round       contains the round
+     * @param roundTracker contains the round tracker
      */
-    public RoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] rondTracker) {
+    public RoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] roundTracker) {
         this.round = round;
-        this.rondTracker = rondTracker;
+        this.roundTracker = roundTracker;
     }
 
     /**
@@ -59,16 +58,16 @@ public abstract class RoundTrackerViewCreator<E> {
      *
      * @return the round tracker
      */
-    public Pair<Integer, ColorModel>[][] getRondTracker() {
-        return rondTracker;
+    public Pair<Integer, ColorModel>[][] getRoundTracker() {
+        return roundTracker;
     }
 
     /**
      * Setter for round tracker
      *
-     * @param rondTracker contains the round tracker to set
+     * @param roundTracker contains the round tracker to set
      */
-    public void setRondTracker(Pair<Integer, ColorModel>[][] rondTracker) {
-        this.rondTracker = rondTracker;
+    public void setRoundTracker(Pair<Integer, ColorModel>[][] roundTracker) {
+        this.roundTracker = roundTracker;
     }
 }

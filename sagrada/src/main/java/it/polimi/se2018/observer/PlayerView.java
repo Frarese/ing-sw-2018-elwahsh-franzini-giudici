@@ -1,5 +1,6 @@
 package it.polimi.se2018.observer;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 
 /**
@@ -22,7 +23,7 @@ public class PlayerView {
         return 0;
     }
 
-    public Pair getPlayerTemplate() {
+    public Pair<Integer,ColorModel>[][] getPlayerTemplate() {
         //TODO
         return null;
     }
@@ -32,7 +33,7 @@ public class PlayerView {
         return 0;
     }
 
-    public Pair getPlayerGrid() {
+    public Pair<Integer,ColorModel>[][] getPlayerGrid() {
         //TODO
         return null;
     }

@@ -40,7 +40,7 @@ public interface ControllerToolCardActionsInterface {
      *
      * @param die contains the die that player have to place
      */
-    void setDieOnGrid(Pair die);
+    void setDieOnGrid(Pair<Integer,ColorModel> die);
 
     /**
      * To ask at currentPlayer to select a die from the Round Tracker
@@ -52,7 +52,7 @@ public interface ControllerToolCardActionsInterface {
      *
      * @param die contains the die
      */
-    void selectFace(Pair die);
+    void selectFace(Pair<Integer,ColorModel> die);
 
     /**
      * To ask at currentPlayer to select a die from his grid with a color limit

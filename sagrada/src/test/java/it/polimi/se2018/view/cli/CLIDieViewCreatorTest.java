@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Class to test the die create in CLI
+ * Tests for CLIDieViewCreator class
  *
  * @author Mathyas Giudici
  */
@@ -19,13 +19,13 @@ public class CLIDieViewCreatorTest {
     private CLIDieViewCreator cliDieViewCreator;
 
     @Before
-    public void testInit(){
+    public void testInit() {
         cliDieViewCreator = new CLIDieViewCreator();
     }
 
     @Test
-    public void testMakeDie(){
-        assertEquals("1-RED",cliDieViewCreator.makeDie(new Pair<>(1,ColorModel.RED)));
-        assertEquals("2-BLUE",cliDieViewCreator.makeDie(new Pair<>(2,ColorModel.BLUE)));
+    public void testMakeDie() {
+        assertEquals("1-RED", cliDieViewCreator.makeDie(new Pair<>(1, ColorModel.RED)));
+        assertEquals("2-BLUE", cliDieViewCreator.makeDie(new Pair<>(2, ColorModel.BLUE)));
     }
 }

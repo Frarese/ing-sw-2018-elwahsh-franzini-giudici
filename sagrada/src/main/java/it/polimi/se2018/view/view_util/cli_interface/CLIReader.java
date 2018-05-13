@@ -55,7 +55,7 @@ public class CLIReader {
      *
      * @return the result
      */
-    public boolean choose() {
+    public boolean chooseYes() {
         //Ask option
         printer.print("[Y=si, N= no] ");
         String response = scanner.next();
@@ -71,7 +71,7 @@ public class CLIReader {
             } else {
                 //Invalid option, recall
                 printer.print("Risposta non valida, riprovare");
-                return choose();
+                return chooseYes();
             }
         }
 

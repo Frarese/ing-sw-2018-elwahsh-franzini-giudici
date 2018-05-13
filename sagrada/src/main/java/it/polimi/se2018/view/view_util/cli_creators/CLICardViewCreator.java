@@ -42,7 +42,8 @@ public class CLICardViewCreator extends CardViewCreator<String> {
             }
 
         //Problems
-        Logger.getGlobal().log(Level.WARNING, "Qualcosa non va nella creazione della carta" + cardID);
+        String message = "Qualcosa non va nella creazione ne della carta: " + cardID;
+        Logger.getGlobal().log(Level.WARNING, message);
         return null;
     }
 }

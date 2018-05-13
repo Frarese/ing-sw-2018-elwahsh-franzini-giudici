@@ -20,7 +20,7 @@ public abstract class CardViewCreator<E> {
      *
      * @param privateObjectiveCard contains the private objective
      * @param publicObjectiveCards contains the public objectives
-     * @param toolCards contians the tool cards
+     * @param toolCards contains the tool cards
      */
     public CardViewCreator(int privateObjectiveCard, int[] publicObjectiveCards, int[] toolCards) {
         this.privateObjectiveCard = privateObjectiveCard;
@@ -36,4 +36,16 @@ public abstract class CardViewCreator<E> {
      * @return card
      */
     public abstract E makeCart(int cardID);
+
+    public int getPrivateObjectiveCard() {
+        return privateObjectiveCard;
+    }
+
+    public int[] getPublicObjectiveCards() {
+        return publicObjectiveCards;
+    }
+
+    public int[] getToolCards() {
+        return toolCards;
+    }
 }

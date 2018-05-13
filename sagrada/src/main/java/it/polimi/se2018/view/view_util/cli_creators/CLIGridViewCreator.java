@@ -33,16 +33,18 @@ public class CLIGridViewCreator extends GridViewCreator<ArrayList<String>, Strin
 
         //Start to create grid
         for (int i = 0; i < gridPattern.length; i++) {
-            StringBuilder currentSring = new StringBuilder();
-            for (int j = 0; i < gridPattern[i].length; j++) {
-                currentSring.append("|");
-                currentSring.append(fixPrintSpace((String) dieViewCreator.makeDie(gridPattern[i][j])));
+            StringBuilder currentString = new StringBuilder();
+            for (int j = 0; j < gridPattern[i].length; j++) {
+                currentString.append("|");
+                currentString.append(fixPrintSpace((String) dieViewCreator.makeDie(gridPattern[i][j])));
+                currentString.append("|");
                 if (grid != null && grid[i][j] != null) {
-                    currentSring.append("|");
-                    currentSring.append(fixPrintSpace((String) dieViewCreator.makeDie(grid[i][j])));
+                    currentString.append("|");
+                    currentString.append(fixPrintSpace((String) dieViewCreator.makeDie(grid[i][j])));
+                    currentString.append("|");
                 }
             }
-            strings.add(i, currentSring.toString());
+            strings.add(i, currentString.toString());
         }
 
         //Fix line separator on grid
@@ -67,13 +69,13 @@ public class CLIGridViewCreator extends GridViewCreator<ArrayList<String>, Strin
 
     private String fixPrintSpace(String toFix) {
         //Check length
-        if (toFix.length() < 9) {
+        if (toFix.length() < 8) {
             //Create String Builder
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(toFix);
 
-            //Fix String to 9 characters
-            while (stringBuilder.toString().length() < 10) {
+            //Fix String to 8 characters
+            while (stringBuilder.toString().length() < 8) {
                 stringBuilder.append(" ");
             }
             return stringBuilder.toString();

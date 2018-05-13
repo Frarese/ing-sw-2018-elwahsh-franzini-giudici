@@ -9,7 +9,6 @@ import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.ScoreEntry;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -126,11 +125,6 @@ public interface ControllerActionsInterface {
     void setDieResult(boolean result, String errorString);
 
     /**
-     * To disable the Reserve usability
-     */
-    void cannotUseReserve();
-
-    /**
      * To notify a Die placement in a player's grid
      *
      * @param playerID     contains the playerID of the player has just done placement
@@ -175,6 +169,6 @@ public interface ControllerActionsInterface {
      *
      * @param scores contains a list of score,player (order)
      */
-    void gameEnd(ArrayList scores);
+    void gameEnd(List<ScoreEntry> scores);
 
 }

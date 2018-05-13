@@ -14,7 +14,7 @@ public class CLIReserveViewCreator extends ReserveViewCreator<String> {
 
     /**
      * Class constructor
-     *
+     * <p>
      * {@link ReserveViewCreator}
      */
     public CLIReserveViewCreator(Pair<Integer, ColorModel>[] reserve) {
@@ -24,13 +24,22 @@ public class CLIReserveViewCreator extends ReserveViewCreator<String> {
 
     @Override
     public String display() {
-        //TODO
-        return null;
+        //Create StringBuilder
+        StringBuilder stringBuilder = new StringBuilder();
+
+        //Iterate on reserve
+        for (int i = 0; i < this.reserve.length; i++) {
+            stringBuilder.append(i + ")" + (String) this.dieViewCreator.makeDie(this.reserve[i]));
+            stringBuilder.append("\n");
+        }
+
+        //Return
+        return stringBuilder.toString();
     }
 
     @Override
     public String pickDie(int index) {
-        //TODO
-        return null;
+        //Return die
+        return (String) this.dieViewCreator.makeDie(this.reserve[index]);
     }
 }
