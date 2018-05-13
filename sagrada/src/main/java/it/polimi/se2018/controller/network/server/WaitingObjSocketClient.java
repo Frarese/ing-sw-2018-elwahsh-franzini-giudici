@@ -13,7 +13,7 @@ class WaitingObjSocketClient {
     final boolean isRecovery;
 
     /**
-     * Initializes a wrapper with the given paramenters
+     * Initializes a wrapper with the given parameters
      * @param reqS the request {@link it.polimi.se2018.util.SafeSocket}
      * @param usn username
      * @param psw password

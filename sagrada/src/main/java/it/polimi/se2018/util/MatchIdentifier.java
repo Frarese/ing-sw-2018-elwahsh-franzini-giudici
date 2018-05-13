@@ -66,7 +66,7 @@ public class MatchIdentifier implements Serializable {
     }
 
     /**
-     * Finds the given client's position in this id
+     * Finds the given client's position in this id between 0 and 3 inclusive
      * @param usn the username to put in
      * @return the index of the client, -1 if not valid
      */

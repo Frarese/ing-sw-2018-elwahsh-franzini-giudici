@@ -17,9 +17,9 @@ import java.util.logging.Logger;
  * @author Francesco Franzini
  */
 public class Client {
-    private static long defaultDeathTimeout = 1000;
-    private static long defaultWarningTimeout = 1000;
-    private static long defaultPurgeTimeout = 1000;
+    private static final long DEFAULT_DEATH_TIMEOUT = 1000;
+    private static final long DEFAULT_WARNING_TIMEOUT = 1000;
+    private static final long DEFAULT_PURGE_TIMEOUT = 1000;
 
     private final ServerMain serverMain;
     public final String usn;
@@ -38,12 +38,12 @@ public class Client {
     private ServerOutQueueEmptier outQueueEmpObj;
     private DisconnectChecker disconnectChecker;
 
-    private Queue<Serializable> inObjQueue;
-    private Queue<AbsReq> inReqQueue;
-    private Queue<Serializable> outObjQueue;
-    private Queue<AbsReq> outReqQueue;
+    private final Queue<Serializable> inObjQueue;
+    private final Queue<AbsReq> inReqQueue;
+    private final Queue<Serializable> outObjQueue;
+    private final Queue<AbsReq> outReqQueue;
 
-    private Logger logger;
+    private final Logger logger;
 
     /**
      * Builds a client with the given username
@@ -54,9 +54,29 @@ public class Client {
         this.usn=usn;
         this.serverMain=server;
         this.logger=Logger.getGlobal();
-        //TODO
+        outReqQueue=new LinkedList<>();
+        outObjQueue=new LinkedList<>();
+
+        inReqQueue=new LinkedList<>();
+        inObjQueue=new LinkedList<>();
     }
 
+    /**
+     * Inits the listeners for this client
+     */
+    private void init(){
+        if(inQueueEmpObj==null)inQueueEmpObj=new ServerInQueueEmptier(this,false);
+        if(inQueueEmpReq==null)inQueueEmpReq=new ServerInQueueEmptier(this,true);
+        if(outQueueEmpObj==null)outQueueEmpObj=new ServerOutQueueEmptier(this,false);
+        if(outQueueEmpReq==null)outQueueEmpReq=new ServerOutQueueEmptier(this,false);
+        if(disconnectChecker==null)disconnectChecker=new DisconnectChecker(DEFAULT_WARNING_TIMEOUT, DEFAULT_DEATH_TIMEOUT, DEFAULT_PURGE_TIMEOUT,this);
+
+        inQueueEmpObj.start();
+        inQueueEmpReq.start();
+        outQueueEmpObj.start();
+        outQueueEmpReq.start();
+        disconnectChecker.reschedule();
+    }
     /**
      * Gets the current match, if present
      * @return the current {@link it.polimi.se2018.controller.network.server.Match} or {@code null} if not present
@@ -196,6 +216,7 @@ public class Client {
      * @param obj the received object
      */
     void pushInObj(Serializable obj) {
+        updateTs();
         UtilMethods.pushAndNotifyTS(inObjQueue,obj);
     }
 
@@ -220,6 +241,7 @@ public class Client {
      * @param req the received request
      */
      void pushInReq(AbsReq req) {
+         updateTs();
         UtilMethods.pushAndNotifyTS(inReqQueue,req);
     }
 

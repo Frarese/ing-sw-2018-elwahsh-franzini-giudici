@@ -23,16 +23,27 @@ public class ClientRequest extends AbsReqServerLogic {
     public ClientRequest(String destUsn, Serializable request) {
         this.destUsn=destUsn;
         this.serializedReq=request;
+        if(!checkValid())throw new IllegalArgumentException("Parameters cannot be null");
     }
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+        if(!checkValid())return;
         commUtilizer.receiveRequest(serializedReq);
     }
 
     @Override
+    public boolean checkValid() {
+        return destUsn!=null && serializedReq !=null;
+    }
+
+    @Override
     public void serverHandle(Client client, ServerMain server) {
-        throw new UnsupportedOperationException();
+        if(!checkValid())return;
+        Client dstC=server.getClient(destUsn);
+        if(dstC!=null && dstC.getMatch()!=null && dstC.getMatch().equals(client.getMatch())){
+            dstC.pushOutReq(this);
+        }
     }
 
 

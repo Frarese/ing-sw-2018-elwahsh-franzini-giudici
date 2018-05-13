@@ -49,6 +49,7 @@ public class PendingApprovalMatch extends TimerTask {
         if((pos=matchId.findPos(client.usn))!=-1 && !clients.containsKey(pos)){
             clients.put(pos,client);
             client.acceptPAMatch(this);
+            isComplete();
             return true;
         }
         return false;
@@ -86,7 +87,7 @@ public class PendingApprovalMatch extends TimerTask {
     /**
      * Aborts this pending match
      */
-    synchronized void abort(){
+    public synchronized void abort(){
         t.cancel();
 
         clients.forEach((pos,c)-> c.pushOutReq(new MatchAbortedRequest(matchId)));

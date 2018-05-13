@@ -8,7 +8,7 @@ import it.polimi.se2018.controller.network.client.CommUtilizer;
  * @author Francesco Franzini
  */
 public class UserReconnectedRequest extends AbsReqServerLogic {
-    public final String usn;
+    private final String usn;
 
     /**
      * Initializes this request with the given username
@@ -20,7 +20,13 @@ public class UserReconnectedRequest extends AbsReqServerLogic {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+        if(!checkValid())return;
         commUtilizer.notifyUserReconnected(usn);
+    }
+
+    @Override
+    public boolean checkValid() {
+        return usn!=null;
     }
 }
 

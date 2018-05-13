@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
  * @author Francesco Franzini
  */
 class FileUserBase implements UserBase {
-    private ConcurrentHashMap<String,Pair<String,ScoreEntry>> userMap;
+    private final ConcurrentHashMap<String,Pair<String,ScoreEntry>> userMap;
     private final String filename;
-    public static final String DEFAULT_FILENAME="users.csv";
+    static final String DEFAULT_FILENAME="users.csv";
 
     /**
      * Loads from file the User Base

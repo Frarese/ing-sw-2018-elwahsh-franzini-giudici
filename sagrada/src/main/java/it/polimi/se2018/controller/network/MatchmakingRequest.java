@@ -20,6 +20,12 @@ public class MatchmakingRequest extends AbsReqServerLogic{
 
     @Override
     public void serverHandle(Client client, ServerMain server) {
-        throw new UnsupportedOperationException();
+        if(join)server.addToMatchMaking(client);
+        else server.removeFromMatchMaking(client);
+    }
+
+    @Override
+    public boolean checkValid() {
+        return true;
     }
 }

@@ -92,6 +92,7 @@ public class FileUserBaseTest {
         assertEquals("user1,pw,0,0",bf.readLine());
 
         assertEquals("user1",uut.getLeaderBoard().get(0).usn);
+        bf.close();
     }
 
     @Test

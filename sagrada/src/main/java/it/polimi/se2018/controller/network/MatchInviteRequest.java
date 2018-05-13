@@ -19,11 +19,13 @@ public class MatchInviteRequest extends AbsMatchReq {
      */
     public MatchInviteRequest(MatchIdentifier match) {
         super(match);
+        if(!checkValid())throw new IllegalArgumentException("Match id cannot be null");
     }
 
     @Override
     public void serverHandle(Client client, ServerMain server) {
-        throw new UnsupportedOperationException();
+        if(!checkValid())return;
+        server.addPendingMatch(matchId,client);
     }
 
 
@@ -32,5 +34,9 @@ public class MatchInviteRequest extends AbsMatchReq {
         commUtilizer.notifyInvite(this.matchId);
     }
 
+    @Override
+    public boolean checkValid() {
+        return matchId!=null;
+    }
 
 }

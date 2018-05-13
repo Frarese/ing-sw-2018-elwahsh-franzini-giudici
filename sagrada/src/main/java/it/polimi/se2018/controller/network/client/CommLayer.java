@@ -57,7 +57,7 @@ abstract class CommLayer {
      * @param obj the object that has been received
      */
     void receiveInObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+        cComm.pushInObj(obj);
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class CommLayer {
      * @param req the request that has been received
      */
     void receiveInReq(AbsReq req) {
-        throw new UnsupportedOperationException();
+        cComm.pushInReq(req);
     }
 
     /**

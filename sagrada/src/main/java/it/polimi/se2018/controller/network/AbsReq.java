@@ -20,7 +20,6 @@ public abstract class AbsReq implements Serializable {
      * @param server the {@link it.polimi.se2018.controller.network.server.ServerMain} object
      */
     public void serverHandle(Client client, ServerMain server) {
-
     }
 
     /**
@@ -30,8 +29,9 @@ public abstract class AbsReq implements Serializable {
      * @param commUtilizer the {@link it.polimi.se2018.controller.network.client.CommUtilizer} object
      */
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-
     }
 
-
+    public boolean checkValid(){
+        return false;
+    }
 }

@@ -20,7 +20,7 @@ interface UserBase {
     /**
      * Gets the given username's corresponding password
      * @param usn username
-     * @return the password or {@code nulll} if the user is not existing
+     * @return the password or {@code null} if the user is not existing
      */
     String getPw(String usn);
 

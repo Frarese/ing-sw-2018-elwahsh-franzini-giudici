@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Francesco Franzini
  */
 public class CommFE {
-    private Comm comm;
+    private final Comm comm;
 
     /**
      * Initializes the client front end

@@ -1,10 +1,7 @@
 package it.polimi.se2018.controller.network.server;
 
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.UnknownHostException;
-import java.rmi.Naming;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -21,7 +18,7 @@ class RMIServer extends ServerComm {
     private RMIServerIntImpl rmiObj;
     private final int port;
     private final String name;
-    private Logger logger;
+    private final Logger logger;
 
     /**
      * Creates a RMI login service

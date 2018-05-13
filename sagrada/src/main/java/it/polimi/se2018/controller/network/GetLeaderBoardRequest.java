@@ -19,8 +19,14 @@ public class GetLeaderBoardRequest extends AbsReqServerLogic {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+        if(leaderboard==null)return;
         leaderboard=leaderboard.stream().sorted(Comparator.comparingInt(o->o.wins)).collect(Collectors.toList());
         commUtilizer.pushLeaderboard(leaderboard);
+    }
+
+    @Override
+    public boolean checkValid() {
+        return true;
     }
 
     @Override

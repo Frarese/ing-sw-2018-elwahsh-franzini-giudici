@@ -12,8 +12,8 @@ import java.io.Serializable;
 class SocClientComm extends ClientComm {
     private final SafeSocket objSoc;
     private final SafeSocket reqSoc;
-    private InputStreamWaiter waiterReq;
-    private InputStreamWaiter waiterObj;
+    private final InputStreamWaiter waiterReq;
+    private final InputStreamWaiter waiterObj;
 
     /**
      * Initializes this Socket comm layer with the given parameters

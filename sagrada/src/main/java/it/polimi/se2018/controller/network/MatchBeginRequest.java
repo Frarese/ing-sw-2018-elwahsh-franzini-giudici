@@ -20,11 +20,17 @@ public class MatchBeginRequest extends AbsMatchReq {
     public MatchBeginRequest(MatchIdentifier match,boolean host) {
         super(match);
         this.host=host;
+        if(!checkValid())throw new IllegalArgumentException("Parameters cannot be null");
     }
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
         commUtilizer.notifyMatchStart(host);
+    }
+
+    @Override
+    public boolean checkValid() {
+        return matchId!=null;
     }
 
 

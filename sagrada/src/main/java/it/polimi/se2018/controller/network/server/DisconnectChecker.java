@@ -13,10 +13,10 @@ import java.util.TimerTask;
  */
 class DisconnectChecker extends TimerTask {
     private boolean continua;
-    private long warningTimeout;
-    private long deathTimeout;
-    private long purgeTimeout;
-    private Client client;
+    private final long warningTimeout;
+    private final long deathTimeout;
+    private final long purgeTimeout;
+    private final Client client;
     private volatile boolean warned;
     private Timer t;
 

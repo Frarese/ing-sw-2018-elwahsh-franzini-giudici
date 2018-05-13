@@ -2,6 +2,7 @@ package it.polimi.se2018.controller.network.client;
 
 import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.controller.network.ChangeCLayerRequest;
+import it.polimi.se2018.controller.network.LogoutRequest;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.UtilMethods;
 import java.io.Serializable;
@@ -32,8 +33,8 @@ public class Comm {
     private final Queue<AbsReq> inReqQueue;
 
 
-    private ClientDiscTimer discTimer;
-    private ReconnectWaker reconnectW;
+    private final ClientDiscTimer discTimer;
+    private final ReconnectWaker reconnectW;
     private final OutQueueEmptier qEmpReq;
     private final OutQueueEmptier qEmpObj;
     private CommLayer commLayer;
@@ -42,7 +43,7 @@ public class Comm {
 
     private CommUtilizer utilizer;
 
-    private Logger logger;
+    private final Logger logger;
 
     /**
      * Initializes a new comm object
@@ -253,13 +254,21 @@ public class Comm {
      * @return true if no errors were raised
      */
     boolean logout() {
-        throw new UnsupportedOperationException();
+        this.stop();
+        commLayer.sendOutReq(new LogoutRequest());
+        commLayer.endCon();
+
+        this.purgeComm();
+
+        outObjQueue.retainAll(new LinkedList<>());
+        inObjQueue.retainAll(new LinkedList<>());
+        return true;
     }
 
     /**
      * Handles a logout request from the server
      */
-    void logoutReqeustReceived() {
+    void logoutRequestReceived() {
         throw new UnsupportedOperationException();
     }
 
@@ -298,7 +307,7 @@ public class Comm {
     /**
      * Updates this object's last seen timestamp
      */
-    public void updateTs() {
+    private void updateTs() {
         synchronized (tsLock){
             lastSeen=Instant.now();
         }
@@ -318,5 +327,16 @@ public class Comm {
      */
     public String getHost() {
         return host;
+    }
+
+    /**
+     * Stops the current listeners/handlers
+     */
+    public void stop(){
+        discTimer.stop();
+        inListenerObj.stop();
+        inListenerReq.stop();
+        qEmpObj.stop();
+        qEmpReq.stop();
     }
 }

@@ -12,8 +12,8 @@ class ReconnectWaker extends TimerTask {
     public static final int DEFAULT_ATTEMPTS=5;
     private Timer t;
     private final Comm cComm;
-    private int attemps;
-    private int maxAttemps;
+    private int attempts;
+    private int maxAttempts;
 
     /**
      * Initializes this waker with the given parameters
@@ -22,14 +22,14 @@ class ReconnectWaker extends TimerTask {
     ReconnectWaker(Comm cComm) {
         this.cComm=cComm;
         t=new Timer();
-        this.maxAttemps=-1;
+        this.maxAttempts=-1;
     }
 
     @Override
     public void run() {
-        attemps++;
-        boolean result=cComm.tryRecover(attemps==maxAttemps);
-        if(maxAttemps==attemps || result)this.cancel();
+        attempts++;
+        boolean result=cComm.tryRecover(attempts==maxAttempts);
+        if(maxAttempts==attempts || result)this.cancel();
     }
 
     /**
@@ -41,8 +41,8 @@ class ReconnectWaker extends TimerTask {
 
         t.cancel();
         t.purge();
-        this.attemps=0;
-        this.maxAttemps=noOfAttempts;
+        this.attempts=0;
+        this.maxAttempts=noOfAttempts;
         t=new Timer();
         t.schedule(this,period,period);
 

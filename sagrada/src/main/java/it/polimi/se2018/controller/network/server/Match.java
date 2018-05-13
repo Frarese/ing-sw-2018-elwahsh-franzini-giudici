@@ -54,7 +54,11 @@ public class Match {
      * @param source the client that has sent the object
      */
     public synchronized void handleObj(Serializable obj, Client source) {
-        throw new UnsupportedOperationException();
+        clientMap.forEach((i,c)->{
+            if(!dc.contains(c.usn) && (source!=c)){
+                c.pushOutObj(obj);
+            }
+        });
     }
 
     /**
@@ -66,11 +70,12 @@ public class Match {
     }
 
     /**
-     * Notifies that a player has left
+     * Notifies that a player has left or disconnected
      * @param username the player's username
+     * @param hasDc true if this was a disconnection and a return may be possible
      */
-    public synchronized void playerLeft(String username) {
-        if(matchId.findPos(username)==-1)return;
+    public synchronized void playerLeft(String username,boolean hasDc) {
+        if(matchId.findPos(username)==-1 || dc.contains(username))return;
         dc.add(username);
         if(matchId.playerCount-dc.size()<2){
             this.abort();
@@ -105,8 +110,9 @@ public class Match {
      */
     public synchronized void abort(){
         clientMap.forEach((pos,c)->c.pushOutReq(new MatchAbortedRequest(matchId)));
-        serverMain.removeMatch(this);
         clientMap.forEach((pos,c)->{c.resetAccepted();c.removeMatchInstance();});
+        serverMain.removeMatch(this);
+
     }
 
     /**
@@ -123,4 +129,27 @@ public class Match {
         }
     }
 
+    /**
+     * Checks if the given client is the current host
+     * @param client the client to check
+     * @return true if the given client is the host
+     */
+    public synchronized boolean isHost(Client client) {
+        if(client==null)return false;
+        return client.equals(clientMap.get(hostI));
+    }
+
+    public synchronized void end(int playerScore0, int playerScore1, int playerScore2, int playerScore3) {
+        int max=(playerScore0>playerScore1)?playerScore0:playerScore1;
+        max=(max>playerScore2)?max:playerScore2;
+        max=(max>playerScore3)?max:playerScore3;
+        int[]scores={playerScore0,playerScore1,playerScore2,playerScore3};
+        for(int i=0;i<matchId.playerCount;i++){
+            Client c=clientMap.get(i);
+            if(c==null)continue;
+            serverMain.updateScore(c.usn,scores[i],(scores[i]==max)?1:0);
+        }
+        clientMap.forEach((pos,c)->{c.resetAccepted();c.removeMatchInstance();});
+        serverMain.removeMatch(this);
+    }
 }

@@ -20,6 +20,11 @@ public class TerminationReq extends AbsReqServerComm {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public boolean checkValid() {
+        return false;
+    }
+
 
 }
 

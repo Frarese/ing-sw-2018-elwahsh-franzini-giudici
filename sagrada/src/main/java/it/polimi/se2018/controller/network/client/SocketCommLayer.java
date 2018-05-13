@@ -22,7 +22,7 @@ class SocketCommLayer extends CommLayer {
     private SocketInQueueFiller sockListenerReq;
     private SocketInQueueFiller sockListenerObj;
 
-    private Logger logger;
+    private final Logger logger;
     /**
      * Initializes this socket comm layer
      * @param comm the main comm object
@@ -99,10 +99,18 @@ class SocketCommLayer extends CommLayer {
 
     @Override
     synchronized boolean close() {
-        reqSoc.close(false);
-        objSoc.close(false);
-        sockListenerReq.stop();
-        sockListenerObj.stop();
+        if(reqSoc!=null){
+            reqSoc.close(false);
+        }
+        if(objSoc!=null){
+            objSoc.close(false);
+        }
+        if(sockListenerObj!=null){
+            sockListenerObj.stop();
+        }
+        if(sockListenerReq!=null){
+            sockListenerReq.stop();
+        }
         return true;
     }
 

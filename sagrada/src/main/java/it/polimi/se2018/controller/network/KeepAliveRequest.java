@@ -6,7 +6,7 @@ import it.polimi.se2018.controller.network.server.Client;
 import it.polimi.se2018.controller.network.server.ServerMain;
 
 /**
- * A request used as a timely keepalive
+ * A request used as a timely keep-alive
  *
  * @author Francesco Franzini
  */
@@ -26,6 +26,11 @@ public class KeepAliveRequest extends AbsReqServerComm {
             bounced=true;
             clientComm.pushOutReq(this);
         }
+    }
+
+    @Override
+    public boolean checkValid() {
+        return true;
     }
 
 

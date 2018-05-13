@@ -65,6 +65,7 @@ public class SafeSocketTest {
 
     @Test
     public void testFailConnection() {
+        clientSS.setTimeout(200);
         assertFalse(clientSS.connect("localhost",9998));
     }
 

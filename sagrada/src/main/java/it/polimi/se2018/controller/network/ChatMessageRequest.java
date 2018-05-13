@@ -28,22 +28,27 @@ public class ChatMessageRequest extends AbsReqServerLogic {
      * @param type type of this message
      */
     public ChatMessageRequest(String sender, String destination, String msg, MessageTypes type) {
-        if(sender==null || destination==null|| msg==null || type==null) {
-            throw new IllegalArgumentException("Parameters cannot be null");
-        }
         this.destination=destination;
         this.sender=sender;
         this.msg=msg;
         this.type=type;
+        if(!checkValid())throw new IllegalArgumentException("Parameters cannot be null");
     }
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+        if(!checkValid())return;
         commUtilizer.pushChatMessage(msg,type,sender);
     }
 
     @Override
+    public boolean checkValid() {
+        return sender!=null && destination!=null && msg!=null && type!=null;
+    }
+
+    @Override
     public void serverHandle(Client client, ServerMain server) {
+        if(!checkValid())return;
         if(!sender.equals(client.usn)){
             Logger.getGlobal().log(Level.FINE,"Client attempted to cheat on username {0}",client.usn);
         }

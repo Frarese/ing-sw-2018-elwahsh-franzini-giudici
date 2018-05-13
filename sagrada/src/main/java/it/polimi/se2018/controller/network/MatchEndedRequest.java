@@ -3,6 +3,7 @@ package it.polimi.se2018.controller.network;
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.controller.network.server.Client;
+import it.polimi.se2018.controller.network.server.Match;
 import it.polimi.se2018.controller.network.server.ServerMain;
 import it.polimi.se2018.util.MatchIdentifier;
 
@@ -30,6 +31,7 @@ public class MatchEndedRequest extends AbsMatchReq {
         this.playerScore1=playerScore1;
         this.playerScore2=playerScore2;
         this.playerScore3=playerScore3;
+        if(!checkValid())throw new IllegalArgumentException("Invalid parameters");
     }
 
     @Override
@@ -38,8 +40,16 @@ public class MatchEndedRequest extends AbsMatchReq {
     }
 
     @Override
+    public boolean checkValid() {
+        return matchId!=null && playerScore3>0 && playerScore2>0 && playerScore1>0 && playerScore0>0;
+    }
+
+    @Override
     public void serverHandle(Client client, ServerMain server) {
-        throw new UnsupportedOperationException();
+        if(!checkValid())return;
+        Match m=client.getMatch();
+        if(m==null || !m.isHost(client))return;
+        m.end(playerScore0,playerScore1,playerScore2,playerScore3);
     }
 
 

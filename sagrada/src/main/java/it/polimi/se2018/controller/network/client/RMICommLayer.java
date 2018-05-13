@@ -18,9 +18,9 @@ import java.util.logging.Logger;
  */
 class RMICommLayer extends CommLayer {
     private RMISession sessionObj;
-    private RMIClientListener listenerReq;
-    private RMIClientListener listenerObj;
-    private Logger logger;
+    private final RMIClientListener listenerReq;
+    private final RMIClientListener listenerObj;
+    private final Logger logger;
     private RMIServerInt serverLoginObj;
 
 

@@ -1,9 +1,11 @@
 package it.polimi.se2018.controller.network.server;
 
+import it.polimi.se2018.controller.network.MatchInviteRequest;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.ScoreEntry;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -155,13 +157,19 @@ public class ServerMain {
 
     /**
      * Registers a {@link it.polimi.se2018.controller.network.server.PendingApprovalMatch}
-     * @param timeout timeout for the invites
      * @param mId the id
      * @param c the source client
      */
-    public void addPendingMatch(int timeout, MatchIdentifier mId, Client c) {
-        PendingApprovalMatch pA=new PendingApprovalMatch(timeout,mId,this,c);
+    public void addPendingMatch(MatchIdentifier mId, Client c) {
+        if(this.getPendingMatch(mId)!=null || this.getMatch(mId)!=null )return;
+        List<Client> list=new ArrayList<>();
+        PendingApprovalMatch pA=new PendingApprovalMatch(PendingApprovalMatch.DEFAULT_TIMEOUT,mId,this,c);
+        if(!checkPALogged(list,pA)){
+            pA.abort();
+            return;
+        }
         pendingMatchesMap.put(mId,pA);
+        list.forEach(cl->cl.pushOutReq(new MatchInviteRequest(mId)));
     }
 
     /**
@@ -200,6 +208,14 @@ public class ServerMain {
     }
 
     /**
+     * Gets a match from the match list
+     * @param mId the match id to fetch
+     * @return the match or {@code null} if not found
+     */
+    public Match getMatch(MatchIdentifier mId){
+        return this.matches.get(mId);
+    }
+    /**
      * Removes a match to the match list
      * @param m the match to remove
      */
@@ -212,5 +228,56 @@ public class ServerMain {
      */
     public List<ScoreEntry> getRegisteredUsers() {
         return userBase.getLeaderBoard();
+    }
+
+    /**
+     * Updates the score of a player
+     * @param usn username
+     * @param dTot amount to add to the total points
+     * @param dW amount to add to the wins
+     */
+    public void updateScore(String usn, int dTot,int dW){
+        userBase.alterUserScore(usn,dTot,dW);
+    }
+
+
+    /**
+     * Checks that the required clients are logged and not taken and takes them
+     * @return true if this request can proceed
+     */
+    private boolean checkPALogged(List<Client> list,PendingApprovalMatch pA){
+        Client c;
+        if(( c=checkClientLoggedFree(pA.matchId.player0))!=null){
+            list.add(c);
+        }else{
+            return false;
+        }
+        if(( c=checkClientLoggedFree(pA.matchId.player1))!=null){
+            list.add(c);
+        }else{
+            return false;
+        }
+        if(( c=checkClientLoggedFree(pA.matchId.player2))!=null){
+            list.add(c);
+        }else{
+            return false;
+        }
+        if(( c=checkClientLoggedFree(pA.matchId.player3))!=null){
+            list.add(c);
+        }else{
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Checks if a username is logged and free
+     * @param username username
+     * @return the Client if logged and free, {@code null} otherwise
+     */
+    private Client checkClientLoggedFree(String username){
+        Client c=this.getClient(username);
+        if(c==null)return null;
+        return (c.hasAcceptedInvite())?c:null;
     }
 }

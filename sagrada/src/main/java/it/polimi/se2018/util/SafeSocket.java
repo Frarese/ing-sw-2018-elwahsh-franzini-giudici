@@ -83,7 +83,7 @@ public class SafeSocket implements Runnable {
         if(s.isConnected())return false;
         boolean out=true;
         try {
-            s.connect(new InetSocketAddress(host,port),1000);
+            s.connect(new InetSocketAddress(host,port),(int)timeout);
             start();
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error connecting to host "+e.getLocalizedMessage());

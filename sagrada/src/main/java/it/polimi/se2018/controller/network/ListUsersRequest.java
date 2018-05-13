@@ -24,7 +24,13 @@ public class ListUsersRequest extends AbsReqServerLogic {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+        if(list==null)return;
         commUtilizer.pushUserList(list);
+    }
+
+    @Override
+    public boolean checkValid() {
+        return true;
     }
 
     /**

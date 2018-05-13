@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  */
 class ServerCLI implements Runnable{
     private final ServerMain serverMain;
-    private Logger logger;
+    private final Logger logger;
     private final Thread t;
 
     /**

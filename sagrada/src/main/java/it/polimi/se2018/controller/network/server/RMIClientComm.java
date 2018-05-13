@@ -5,7 +5,6 @@ import it.polimi.se2018.util.UtilMethods;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -17,7 +16,7 @@ import java.util.logging.Logger;
  */
 class RMIClientComm extends ClientComm {
     private RMISessionImpl sessionObj;
-    private Logger logger;
+    private final Logger logger;
     private Queue<Serializable> rmiOutObjQueue;
     private Queue<AbsReq> rmiOutReqQueue;
 

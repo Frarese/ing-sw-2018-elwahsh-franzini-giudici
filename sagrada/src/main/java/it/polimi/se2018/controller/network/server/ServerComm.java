@@ -5,7 +5,7 @@ package it.polimi.se2018.controller.network.server;
  * @author Francesco Franzini
  */
 abstract class ServerComm {
-    protected ServerMain handler;
+    final ServerMain handler;
 
     /**
      * Creates a login service

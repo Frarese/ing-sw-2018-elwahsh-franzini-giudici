@@ -3,6 +3,7 @@ package it.polimi.se2018.controller.network;
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.controller.network.server.Client;
+import it.polimi.se2018.controller.network.server.Match;
 import it.polimi.se2018.controller.network.server.ServerMain;
 
 /**
@@ -20,10 +21,12 @@ public class KickRequest extends AbsReqServerLogic {
      */
     public KickRequest(String usnToKick) {
         this.usnToKick = usnToKick;
+        if(!checkValid())throw new IllegalArgumentException("Parameters cannot be null");
     }
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+        if(!checkValid())return;
         commUtilizer.notifyKicked(usnToKick);
         if(usnToKick.equals(clientComm.getUsername())){
             throw new UnsupportedOperationException();
@@ -31,8 +34,17 @@ public class KickRequest extends AbsReqServerLogic {
     }
 
     @Override
+    public boolean checkValid() {
+        return usnToKick!=null;
+    }
+
+    @Override
     public void serverHandle(Client client, ServerMain server) {
-        throw new UnsupportedOperationException();
+        if(!checkValid() ||client.usn.equals(usnToKick))return;
+        Match m=client.getMatch();
+        if(m==null || !m.isHost(client))return;
+        m.playerLeft(usnToKick,false);
+        m.getClients().forEach(c->client.pushOutReq(this));
     }
 
 

@@ -18,7 +18,7 @@ class SocketServer extends ServerComm {
     private ServerSocket objSSoc;
     private ServerSocket reqSSoc;
     private final HashMap<String,WaitingObjSocketClient> waitingObjConnClients;
-    private Logger logger;
+    private final Logger logger;
 
     private Thread reqT;
     private Thread objT;
@@ -47,7 +47,7 @@ class SocketServer extends ServerComm {
     }
 
     @Override
-    public void close() {
+    void close() {
         if(objSSoc!=null){
             try {
                 objSSoc.close();

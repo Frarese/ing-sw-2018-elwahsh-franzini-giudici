@@ -7,7 +7,7 @@ import it.polimi.se2018.controller.network.ThreadHandler;
  * @author Francesco Franzini
  */
 class RMIClientListener extends ThreadHandler implements Runnable {
-    private RMICommLayer commLayer;
+    private final RMICommLayer commLayer;
 
     /**
      * Initializes this listener with the given parameters
