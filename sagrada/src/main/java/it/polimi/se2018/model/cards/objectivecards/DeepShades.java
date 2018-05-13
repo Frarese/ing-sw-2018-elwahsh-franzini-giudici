@@ -6,6 +6,7 @@ import it.polimi.se2018.model.dice.Grid;
 
 /**
  * Deep Shade's objective card
+ * @author Alì El Wahsh
  */
 public class DeepShades extends ObjectiveCard {
 

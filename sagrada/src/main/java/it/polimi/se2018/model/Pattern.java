@@ -3,6 +3,7 @@ import it.polimi.se2018.util.Pair;
 
 /**
  * Model representation of a window pattern
+ * @author Alì El Wahsh
  */
 public class Pattern {
     public static final int HEIGHT = 4;

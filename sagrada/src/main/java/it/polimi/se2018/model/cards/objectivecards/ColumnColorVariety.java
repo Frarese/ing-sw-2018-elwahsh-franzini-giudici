@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 
 /**
  * Column Color Variety's objective card
+ * @author Alì El Wahsh
  */
 public class ColumnColorVariety extends ObjectiveCard {
 

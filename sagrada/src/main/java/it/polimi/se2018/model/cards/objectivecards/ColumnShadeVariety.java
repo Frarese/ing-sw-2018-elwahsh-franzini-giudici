@@ -7,6 +7,7 @@ import it.polimi.se2018.model.dice.Grid;
 
 /**
  * Column Shade Variety's objective card
+ * @author Alì El Wahsh
  */
 public class ColumnShadeVariety extends ObjectiveCard {
 

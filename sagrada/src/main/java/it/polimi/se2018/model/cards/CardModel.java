@@ -2,6 +2,7 @@ package it.polimi.se2018.model.cards;
 
 /**
  * Model representation of a generic card
+ * @author Alì El Wahsh
  */
 public abstract class CardModel {
 

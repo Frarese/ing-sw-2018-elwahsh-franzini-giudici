@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 /**
  * Shade Variety's objective card
+ * @author Alì El Wahsh
  */
 public class ShadeVariety extends ObjectiveCard {
 

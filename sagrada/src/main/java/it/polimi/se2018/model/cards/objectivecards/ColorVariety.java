@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 /**
  * Color Variety's objective card
+ * @author Alì El Wahsh
  */
 public class ColorVariety extends ObjectiveCard {
 

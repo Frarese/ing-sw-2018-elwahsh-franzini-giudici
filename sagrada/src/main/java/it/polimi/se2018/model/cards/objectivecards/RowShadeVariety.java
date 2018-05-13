@@ -8,6 +8,7 @@ import it.polimi.se2018.model.dice.Grid;
 
 /**
  * Row Shade Variety's objective card
+ * @author Alì El Wahsh
  */
 public class RowShadeVariety extends ObjectiveCard {
 

@@ -6,6 +6,7 @@ import it.polimi.se2018.model.dice.Grid;
 
 /**
  * Medium Shade's objective card
+ * @author Alì El Wahsh
  */
 public class MediumShades extends ObjectiveCard {
 

@@ -6,6 +6,7 @@ import it.polimi.se2018.model.Player;
 
 /**
  * Abstract class representing a generic Tool Card behaviour
+ * @author Alì El Wahsh
  */
 public abstract class ToolCard extends CardModel {
     protected boolean used; /*Unused card cost 1 favour points, while used ones 2*/

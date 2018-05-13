@@ -5,6 +5,7 @@ import it.polimi.se2018.model.cards.ObjectiveCard;
 import it.polimi.se2018.model.dice.Grid;
 /**
  * Light Shade's objective card
+ * @author Alì El Wahsh
  */
 public class LightShades extends ObjectiveCard {
 

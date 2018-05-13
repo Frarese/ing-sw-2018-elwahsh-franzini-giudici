@@ -4,6 +4,7 @@ import it.polimi.se2018.model.Pattern;
 
 /**
  * Model representation of a window pattern card
+ * @author Alì El Wahsh
  */
 public class PatternCard extends CardModel {
 

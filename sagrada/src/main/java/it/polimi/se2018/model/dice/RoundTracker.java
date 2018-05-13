@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Model representation of the round track, since there is only one it's a Singleton
+ * @author Alì El Wahsh
  */
 
 public class RoundTracker {

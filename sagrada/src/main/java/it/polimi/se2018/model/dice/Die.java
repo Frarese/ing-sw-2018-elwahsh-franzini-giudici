@@ -5,7 +5,8 @@ import it.polimi.se2018.model.ColorModel;
 import java.util.Random;
 
 /**
- *  Model representation of a die with six faces(d6).
+ *  Model representation of a die with six faces(d6)
+ *  @author Alì El Wahsh
  */
 public class Die {
 

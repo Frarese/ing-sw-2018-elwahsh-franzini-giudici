@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Model representation of a deck of cards
  * @param <E> A class that extends CardModel
+ * @author Alì El Wahsh
  */
 public class Deck<E extends CardModel> {
     private ArrayList<E> deckOfCards;
@@ -29,7 +30,7 @@ public class Deck<E extends CardModel> {
     public List<E> draw(int numberOfCards)
     {
         ArrayList<E> temp = new ArrayList<>();
-        for(int i=0; i<numberOfCards; i++)
+        for(int i=0; i<numberOfCards && deckOfCards.size()>0; i++)
         {
                 temp.add(deckOfCards.remove(0));
         }

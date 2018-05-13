@@ -12,7 +12,8 @@ import static it.polimi.se2018.model.ColorModel.WHITE;
 
 /**
  * Model representation of the dice bag
- * Since it will exists only one bag it's a Singleton
+ * Since it will exist only one bag it's a Singleton
+ * @author Alì El Wahsh
  */
 public class Bag {
     public static final int MAX_SIZE = 90;

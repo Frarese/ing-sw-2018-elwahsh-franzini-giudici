@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 
 /**
  * Row Color Variety's objective card
+ * @author Alì El Wahsh
  */
 public class RowColorVariety extends ObjectiveCard {
 

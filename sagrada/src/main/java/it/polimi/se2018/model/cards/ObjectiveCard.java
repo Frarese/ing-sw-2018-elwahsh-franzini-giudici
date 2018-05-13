@@ -4,6 +4,7 @@ import it.polimi.se2018.model.Player;
 
 /**
  * Abstract class representing a generic Objective Card behaviour
+ * @author Alì El Wahsh
  */
 public abstract class ObjectiveCard extends CardModel {
     protected int multiplier; /*Card score multiplier*/

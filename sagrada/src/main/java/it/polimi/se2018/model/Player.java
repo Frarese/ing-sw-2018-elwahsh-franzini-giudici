@@ -8,6 +8,7 @@ import java.util.Observable;
 
 /**
  * Model representation of a player in game
+ * @author Alì El wahsh
  */
 public class Player extends Observable {
 

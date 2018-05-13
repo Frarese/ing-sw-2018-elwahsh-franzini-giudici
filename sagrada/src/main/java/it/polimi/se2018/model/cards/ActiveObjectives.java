@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Model representation of the public objectives in game
+ * @author Alì El Wahsh
  */
 public class ActiveObjectives {
 
@@ -36,17 +37,27 @@ public class ActiveObjectives {
         objectives.addAll(objectiveCardDeck.draw(3));
     }
 
-    public ObjectiveCard getObjective(int numberOfObjective)
+    /**
+     * Getter of in game objectives
+     * @param objectivePosition position of the objective
+     * @return an objective card or null if the value is invalid
+     */
+    public ObjectiveCard getObjective(int objectivePosition)
     {
         try
         {
-            return objectives.get(numberOfObjective);
+            return objectives.get(objectivePosition);
         } catch (IndexOutOfBoundsException e)
         {
             return null;
         }
     }
 
+    /**
+     * Calculates the total public score of a player
+     * @param player the player to be scored
+     * @return the total score
+     */
     public int totalScore(Player player)
     {
         int temp = 0;

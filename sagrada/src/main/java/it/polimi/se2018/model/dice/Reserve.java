@@ -7,6 +7,7 @@ import java.util.List;
  * Model representation of the dice reserve, in which players can pick a die
  * to be put on their grid
  * Since it will exists only one reserve it's a Singleton
+ * @author Alì El Wahsh
  */
 public class Reserve {
     private static Reserve instance;

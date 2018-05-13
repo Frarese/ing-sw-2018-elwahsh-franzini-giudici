@@ -3,6 +3,7 @@ package it.polimi.se2018.model.dice;
 /**
  * Model representation of the game grid where the players
  * insert their dice
+ * @author Alì El Wahsh
  */
 public class Grid {
 
