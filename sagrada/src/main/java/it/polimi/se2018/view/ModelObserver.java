@@ -7,7 +7,6 @@ import java.util.Observer;
 
 /**
  * Class for View-Model communication
- *
  */
 
 public class ModelObserver implements Observer {

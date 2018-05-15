@@ -38,9 +38,9 @@ public class CardIdentifier {
     private void initCards() {
         //Start with private objective card
         this.cards.put(0, "Sfumature Rosse");
-        this.cards.put(1, "Sfumature Gialle");
+        this.cards.put(1, "Sfumature Blu");
         this.cards.put(2, "Sfumature Verdi");
-        this.cards.put(3, "Sfumature Blu");
+        this.cards.put(3, "Sfumature Gialle");
         this.cards.put(4, "Sfumature Viola");
 
         //Start with public objective card

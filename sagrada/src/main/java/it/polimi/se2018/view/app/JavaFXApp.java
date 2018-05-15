@@ -7,10 +7,10 @@ import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.ScoreEntry;
-import it.polimi.se2018.view.view_util.fx_creators.FXCardViewCreator;
-import it.polimi.se2018.view.view_util.fx_creators.FXGridViewCreator;
-import it.polimi.se2018.view.view_util.fx_creators.FXRoundTrackerViewCreator;
-import it.polimi.se2018.view.view_util.fx_creators.FXScoreViewCreator;
+import it.polimi.se2018.view.tools.fx.creators.FXCardViewCreator;
+import it.polimi.se2018.view.tools.fx.creators.FXGridViewCreator;
+import it.polimi.se2018.view.tools.fx.creators.FXRoundTrackerViewCreator;
+import it.polimi.se2018.view.tools.fx.creators.FXScoreViewCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -63,7 +63,7 @@ public class JavaFXApp extends App {
     public void startLogin(boolean displayWelcome) {
         //TODO check displayWelcome
         stageProducer.getStage().setTitle("Sagrada Game");
-        stageProducer.getStage().getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/view_img/others/icon.png")));
+        stageProducer.getStage().getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/images/others/icon.png")));
 
         try {
             Parent root = FXMLLoader.load(stageProducer.getClass().getResource("fxml_files/start.fxml"));

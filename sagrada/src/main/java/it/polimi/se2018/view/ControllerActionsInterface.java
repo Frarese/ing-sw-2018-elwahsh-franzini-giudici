@@ -28,6 +28,7 @@ public interface ControllerActionsInterface {
 
     /**
      * To start login operations
+     *
      * @param displayWelcome true if a welcome is to be shown
      */
     void startLogin(boolean displayWelcome);
@@ -76,6 +77,7 @@ public interface ControllerActionsInterface {
 
     /**
      * Before game starts player has to choose a pattern
+     *
      * @param pattern1 first pattern
      * @param pattern2 second patter
      * @param pattern3 third patter
@@ -85,6 +87,7 @@ public interface ControllerActionsInterface {
 
     /**
      * View's method to initialize a game
+     *
      * @param players                  contains game's players
      * @param yourPrivateObjectiveCard contains localPlayer's private objective card
      * @param publicObjectiveCards     contains public objective cards

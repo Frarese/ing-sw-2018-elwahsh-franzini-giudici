@@ -24,7 +24,7 @@ public class AppFactory {
             try {
                 this.app = new JavaFXApp();
             } catch (Exception e) {
-                Logger.getGlobal().log(Level.WARNING,e.getMessage());
+                Logger.getGlobal().log(Level.WARNING, e.getMessage());
             }
         } else {
             this.app = new CLIApp();

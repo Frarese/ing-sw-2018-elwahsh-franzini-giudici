@@ -7,13 +7,15 @@ import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.ScoreEntry;
-import it.polimi.se2018.view.view_util.cli_command.*;
-import it.polimi.se2018.view.view_util.cli_creators.*;
-import it.polimi.se2018.view.view_util.cli_interface.CLIPrinter;
-import it.polimi.se2018.view.view_util.cli_interface.CLIReader;
+import it.polimi.se2018.view.tools.cli.command.*;
+import it.polimi.se2018.view.tools.cli.creators.CLICardViewCreator;
+import it.polimi.se2018.view.tools.cli.creators.CLIGridViewCreator;
+import it.polimi.se2018.view.tools.cli.creators.CLIRoundTrackerViewCreator;
+import it.polimi.se2018.view.tools.cli.creators.CLIScoreViewCreator;
+import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
+import it.polimi.se2018.view.tools.cli.ui.CLIReader;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -174,11 +176,11 @@ public class CLIApp extends App {
             return;
         }
 
-        this.commands.add(0,new CommandCreateInvite(this));
-        this.commands.add(0,new CommandAutoComplete(this));
-        this.commands.add(0,new CommandAcceptInvite(this));
-        this.commands.add(0,new CommandShowInvites(this));
-        this.commands.add(0,new CommandShowLeaderBoard(this));
+        this.commands.add(0, new CommandCreateInvite(this));
+        this.commands.add(0, new CommandAutoComplete(this));
+        this.commands.add(0, new CommandAcceptInvite(this));
+        this.commands.add(0, new CommandShowInvites(this));
+        this.commands.add(0, new CommandShowLeaderBoard(this));
 
         //Call menu method
         this.menu();
@@ -545,8 +547,8 @@ public class CLIApp extends App {
 
         //Print options
         ArrayList<CLICommand> printArray = new ArrayList<>();
-        printArray.addAll((Collection<? extends CLICommand>) gameCommands.clone());
-        printArray.addAll((Collection<? extends CLICommand>) commands.clone());
+        printArray.addAll(this.gameCommands);
+        printArray.addAll(this.commands);
 
         printer.print("Comandi disponibili: ");
         for (int i = 0; i < printArray.size(); i++) {

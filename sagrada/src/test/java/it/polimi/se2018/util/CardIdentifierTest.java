@@ -22,7 +22,7 @@ public class CardIdentifierTest {
 
     @Test
     public void getCardInfoTest(){
-        assertEquals("Sfumature Gialle",cardIdentifier.getCardInfo(1));
+        assertEquals("Sfumature Gialle",cardIdentifier.getCardInfo(3));
         assertEquals("Colori Diversi - Riga (6 punti)",cardIdentifier.getCardInfo(10));
         assertEquals("Martelleto",cardIdentifier.getCardInfo(26));
         assertEquals(null,cardIdentifier.getCardInfo(32));

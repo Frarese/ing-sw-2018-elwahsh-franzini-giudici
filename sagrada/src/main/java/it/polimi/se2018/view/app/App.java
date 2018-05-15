@@ -4,10 +4,9 @@ import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.*;
-import it.polimi.se2018.view.view_message.MessageBox;
-import it.polimi.se2018.view.view_util.*;
+import it.polimi.se2018.view.message.MessageBox;
+import it.polimi.se2018.view.tools.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +40,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     protected List<PlayerView> players;
 
-    protected ArrayList<MatchIdentifier> invites;
+    protected List<MatchIdentifier> invites;
 
     protected List<ScoreEntry> leaderBoard;
 
@@ -198,7 +197,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      *
      * @return the user's matches invites
      */
-    public ArrayList<MatchIdentifier> getInvites() {
+    public List<MatchIdentifier> getInvites() {
         return invites;
     }
 

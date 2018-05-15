@@ -14,6 +14,7 @@ public class ViewActions {
 
     /**
      * To try a login to the server
+     *
      * @param name        contains user'name
      * @param password    contains user's password
      * @param newUser     to communicate if user has to sign up
@@ -28,7 +29,8 @@ public class ViewActions {
 
     /**
      * To change layer from Socket to RMI or vice versa
-     * @param toRMI boolean value
+     *
+     * @param toRMI       boolean value
      * @param objectPort  contains the object port number
      * @param requestPort contains the request port number
      */
@@ -47,7 +49,6 @@ public class ViewActions {
 
     /**
      * To do a logout
-     *
      */
     public void logout() {
         throw new UnsupportedOperationException();
@@ -80,7 +81,7 @@ public class ViewActions {
 
     }
 
-    public void acceptInvite(MatchIdentifier matchIdentifier){
+    public void acceptInvite(MatchIdentifier matchIdentifier) {
         throw new UnsupportedOperationException();
 
     }
@@ -90,7 +91,7 @@ public class ViewActions {
      *
      * @param selected the selected pattern
      */
-    public void selectedPattern(Pair<Integer,ColorModel>[][] selected) {
+    public void selectedPattern(Pair<Integer, ColorModel>[][] selected) {
         throw new UnsupportedOperationException();
 
     }
@@ -110,7 +111,7 @@ public class ViewActions {
      * @param height contains height on the grid
      * @param width  contains width on the grid
      */
-    public void setDie(Pair<Integer,ColorModel> die, int height, int width) {
+    public void setDie(Pair<Integer, ColorModel> die, int height, int width) {
         throw new UnsupportedOperationException();
 
     }
