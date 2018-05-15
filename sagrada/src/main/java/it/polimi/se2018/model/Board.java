@@ -59,7 +59,7 @@ public class Board {
 
     /**
      * Getter for the round track
-     * @return istance of Round Track
+     * @return instance of Round Track
      */
     public RoundTracker getRoundTrack() {
         return roundTrack;

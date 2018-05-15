@@ -76,7 +76,7 @@ public class Reserve {
 
     /**
      * Popper for a single die in the reserve
-     * @param diePosition position of the sie inseide the reserve
+     * @param diePosition position of the die inside the reserve
      * @return the desired die or null in case of invalid position
      */
     public Die popDie(int diePosition)
