@@ -98,8 +98,12 @@ public class CLIApp extends App {
 
         if (success) {
             printer.print("Login riuscito con successo!");
+
+            this.commands.clear();
             this.commands.add(new CommandLogout(this));
             this.commands.add(new CommandChangeLayer(this));
+
+            this.invites = new ArrayList<>();
             this.viewActions.askLobby();
         } else {
             printer.print("Login NON riuscito! Riprova.");
@@ -116,8 +120,14 @@ public class CLIApp extends App {
 
         if (successRMI) {
             printer.print("L'attuale layer e\' RMI.");
+
+            //Call menu method
+            this.menu();
         } else {
             printer.print("L'attuale layer e\' Socket.");
+
+            //Call menu method
+            this.menu();
         }
     }
 
@@ -133,6 +143,9 @@ public class CLIApp extends App {
             this.viewActions.askLobby();
         } else {
             printer.print("Non sono riuscito a disconnettermi dal match.");
+
+            //Call menu method
+            this.menu();
         }
     }
 
@@ -148,6 +161,9 @@ public class CLIApp extends App {
             this.startLogin(true);
         } else {
             printer.print("Logout NON riuscito!");
+
+            //Call menu method
+            this.menu();
         }
     }
 
@@ -158,33 +174,20 @@ public class CLIApp extends App {
             return;
         }
 
-        printer.print("Leader Board (Utente, Punti, Vittorie):");
-        printer.print("____________________________");
-        for (int i = 0; i < leaderBoard.size(); i++) {
-            printer.print(i + ") " +
-                    leaderBoard.get(i).usn + ", " +
-                    leaderBoard.get(i).tot + ", " +
-                    leaderBoard.get(i).wins);
-        }
-        //TODO
-        //Visualizzare primi 10, poi chiedere successivi?
-        //Manca menus
+        this.commands.add(0,new CommandCreateInvite(this));
+        this.commands.add(0,new CommandAutoComplete(this));
+        this.commands.add(0,new CommandAcceptInvite(this));
+        this.commands.add(0,new CommandShowInvites(this));
+        this.commands.add(0,new CommandShowLeaderBoard(this));
+
+        //Call menu method
+        this.menu();
     }
 
     @Override
     public void pullInvitate(MatchIdentifier invite) {
         //Add invite add list
         this.invites.add(invite);
-
-        //Show to user
-        printer.print("C'è un nuovo invito, lo vuoi visualizzare?");
-        if (reader.chooseYes()) {
-            printer.print(invite.toString());
-            printer.print("Vuoi partecipare?");
-            if (reader.chooseYes()) {
-                viewActions.acceptInvite(invite);
-            }
-        }
     }
 
 
@@ -227,7 +230,6 @@ public class CLIApp extends App {
             default:
                 Logger.getGlobal().log(Level.WARNING, "Qualcosa e\' andato storto nella selezione del pattern.");
         }
-        this.menuControl();
     }
 
     @Override
@@ -236,6 +238,13 @@ public class CLIApp extends App {
         if (!this.animationEnable) {
             return;
         }
+
+        //Command array set
+        this.commands.clear();
+        this.commands.add(new CommandWaitYourTurn(this));
+        this.commands.add(new CommandLeaveMatch(this));
+        this.commands.add(new CommandLogout(this));
+        this.commands.add(new CommandChangeLayer(this));
 
         //Initialize elements
         this.players = players;
@@ -271,7 +280,8 @@ public class CLIApp extends App {
             return;
         }
 
-        printer.print(players.get(playerID).getPlayerName() + " ha lasciato il gioco.");
+        String message = players.get(playerID).getPlayerName() + " ha lasciato il gioco.";
+        printer.print(message);
     }
 
     @Override
@@ -281,11 +291,13 @@ public class CLIApp extends App {
             return;
         }
 
-        printer.print(players.get(playerID).getPlayerName() + " e\' rientrato in gioco.");
+        String message = players.get(playerID).getPlayerName() + " e\' rientrato in gioco.";
+        printer.print(message);
     }
 
     @Override
     public void startTurn(PlayerView player, ReserveView reserve, RoundTrackerView roundTracker) {
+        this.isYourTurn = true;
         //Control if animation is enabled
         if (!this.animationEnable) {
             return;
@@ -294,8 +306,8 @@ public class CLIApp extends App {
         this.reserveViewCreator.setReserve(reserve.getReserve());
         this.roundTrackerViewCreator.setRoundTracker(roundTracker.getRoundTracker());
 
-        //Call menuTurn method
-        this.menuTurnControl();
+        //Call menu method
+        this.menu();
     }
 
     @Override
@@ -312,7 +324,8 @@ public class CLIApp extends App {
             printer.print("Non sei riuscito a piazzare il dado: " + errorString);
         }
 
-        this.menuTurnControl();
+        //Call menu method
+        this.menu();
     }
 
     @Override
@@ -334,6 +347,8 @@ public class CLIApp extends App {
             printer.print(playerView.getPlayerName() + " ha posizionato il dado: " + this.reserveViewCreator.pickDie(reserveIndex) + " in posizione (" + height + "," + width + ").");
         }
 
+        //Call menu method
+        this.menu();
     }
 
     @Override
@@ -350,7 +365,8 @@ public class CLIApp extends App {
             printer.print("Non sei riuscito ad usare la carta: " + errorString);
         }
 
-        this.menuTurnControl();
+        //Call menu method
+        this.menu();
     }
 
     @Override
@@ -384,9 +400,16 @@ public class CLIApp extends App {
         //Print result
         if (result) {
             printer.print("Turno passato con successo!");
+            this.isYourTurn = false;
+
+            //Call menu method
+            this.menu();
         } else {
             printer.print("Non sei riuscito a passare il turno");
         }
+
+        //Call menu method
+        this.menu();
     }
 
     @Override
@@ -420,11 +443,20 @@ public class CLIApp extends App {
         //Print
         this.scoreViewCreator = new CLIScoreViewCreator();
         printer.printArray(scoreViewCreator.display(scores));
+
+        //Call menu method
+        this.menu();
     }
 
     @Override
     public void selectDieFromReserve() {
-        throw new UnsupportedOperationException();
+        //Print and read operations
+        printer.print("Seleziona un dado dalla riserva: ");
+        printer.print(this.reserveViewCreator.display());
+        int reserveIndex = reader.choose(0, this.reserveViewCreator.getReserve().length - 1);
+
+        //Call ViewToolCardActions
+        this.viewToolCardActions.selectedDieFromReserve(this.reserveViewCreator.getReserve()[reserveIndex]);
     }
 
     @Override
@@ -487,11 +519,10 @@ public class CLIApp extends App {
     }
 
 
-
     /**
      * To show the turn options during a turn
      */
-    public void menuTurnControl() {
+    private void menuTurnControl() {
         //Search PlayerView
         PlayerView me = this.searchPlayerViewByName(this.players, this.ownerPlayerName);
 
@@ -518,24 +549,32 @@ public class CLIApp extends App {
         printArray.addAll((Collection<? extends CLICommand>) commands.clone());
 
         printer.print("Comandi disponibili: ");
-        for(int i =0; i< printArray.size(); i++){
+        for (int i = 0; i < printArray.size(); i++) {
             printer.print(i + "-" + printArray.get(i).display());
         }
         printer.print("Seleziona un comando");
-        int actionID = reader.choose(0,printArray.size()-1);
+        int actionID = reader.choose(0, printArray.size() - 1);
         printArray.get(actionID).doAction();
     }
 
     /**
      * To show basic menu options
      */
-    public void menuControl() {
+    private void menuControl() {
         printer.print("Comandi disponibili: ");
-        for(int i =0; i< this.commands.size(); i++){
+        for (int i = 0; i < this.commands.size(); i++) {
             printer.print(i + "-" + this.commands.get(i).display());
         }
         printer.print("Seleziona un comando");
-        int actionID = reader.choose(0,this.commands.size()-1);
+        int actionID = reader.choose(0, this.commands.size() - 1);
         this.commands.get(actionID).doAction();
+    }
+
+    public void menu() {
+        if (this.isYourTurn) {
+            this.menuTurnControl();
+        } else {
+            this.menuControl();
+        }
     }
 }

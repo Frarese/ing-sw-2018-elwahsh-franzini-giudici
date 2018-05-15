@@ -17,6 +17,8 @@ public class CommandShowRoundTracker extends CLICommand {
     @Override
     public void doAction() {
         this.app.getPrinter().printArray(this.app.getRoundTrackerViewCreator().display());
-        this.app.menuTurnControl();
+
+        //Call menu method
+        this.app.menu();
     }
 }

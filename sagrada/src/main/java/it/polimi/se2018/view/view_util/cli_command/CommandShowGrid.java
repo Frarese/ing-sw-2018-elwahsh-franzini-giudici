@@ -31,6 +31,8 @@ public class CommandShowGrid extends CLICommand {
                 this.app.getPrinter().printArray(cliGridViewCreator.display());
             }
         }
-        this.app.menuTurnControl();
+
+        //Call menu method
+        this.app.menu();
     }
 }

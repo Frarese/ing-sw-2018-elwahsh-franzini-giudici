@@ -2,6 +2,7 @@ package it.polimi.se2018.view.app;
 
 import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.util.MatchIdentifier;
+import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.view_message.MessageBox;
 import it.polimi.se2018.view.view_util.*;
@@ -33,12 +34,16 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
     protected boolean useRMI;
 
+    protected boolean isYourTurn;
+
     /**
      * Game variables
      */
     protected List<PlayerView> players;
 
     protected ArrayList<MatchIdentifier> invites;
+
+    protected List<ScoreEntry> leaderBoard;
 
     /**
      * Communication variables
@@ -52,7 +57,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     protected ModelObserver modelObserver;
 
     /**
-     * Creators componets
+     * Creators components
      */
     protected CardViewCreator cardViewCreator;
 
@@ -70,6 +75,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
         this.ownerPlayerID = 0;
         this.ownerPlayerName = null;
         this.useRMI = false;
+        this.isYourTurn = false;
         this.players = null;
         this.viewActions = new ViewActions();
         this.viewToolCardActions = new ViewToolCardActions();
@@ -176,5 +182,32 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     public int getOwnerPlayerID() {
         return ownerPlayerID;
+    }
+
+    /**
+     * Getter method
+     *
+     * @return the player's name
+     */
+    public String getOwnerPlayerName() {
+        return ownerPlayerName;
+    }
+
+    /**
+     * Getter method
+     *
+     * @return the user's matches invites
+     */
+    public ArrayList<MatchIdentifier> getInvites() {
+        return invites;
+    }
+
+    /**
+     * Getter method
+     *
+     * @return the leader board
+     */
+    public List<ScoreEntry> getLeaderBoard() {
+        return leaderBoard;
     }
 }

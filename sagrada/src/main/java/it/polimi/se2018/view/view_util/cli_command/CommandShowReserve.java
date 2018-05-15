@@ -17,6 +17,8 @@ public class CommandShowReserve extends CLICommand {
     @Override
     public void doAction() {
         this.app.getPrinter().print(this.app.getReserveViewCreator().display());
-        this.app.menuTurnControl();
+
+        //Call menu method
+        this.app.menu();
     }
 }

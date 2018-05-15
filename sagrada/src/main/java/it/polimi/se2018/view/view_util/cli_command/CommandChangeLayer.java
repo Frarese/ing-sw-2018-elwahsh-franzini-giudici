@@ -30,6 +30,7 @@ public class CommandChangeLayer extends CLICommand {
                 this.app.getViewActions().changeLayer(true, objectPort, 0);
             }
         }
+
     }
 }
 

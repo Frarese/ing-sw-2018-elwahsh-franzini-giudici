@@ -43,6 +43,12 @@ public class CLIGridViewCreatorTest {
     }
 
     @Test
+    public void addDieTest(){
+        this.cliGridViewCreator = new CLIGridViewCreator(null,null);
+        cliGridViewCreator.addADie("Test Add",0,0);
+    }
+
+    @Test
     public void pickDieTest(){
         grid = new Pair[1][1];
         grid[0][0] = new Pair<>(1,ColorModel.RED);

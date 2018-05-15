@@ -29,6 +29,8 @@ public class CommandShowFavours extends CLICommand {
                 this.app.getPrinter().print("Punti favore: " + this.app.getPlayers().get(player).getPlayerFavours());
             }
         }
-        this.app.menuTurnControl();
+
+        //Call menu method
+        this.app.menu();
     }
 }

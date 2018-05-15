@@ -84,7 +84,7 @@ public interface ControllerActionsInterface {
     void askPattern(Pair<Integer, ColorModel>[][] pattern1, Pair<Integer, ColorModel>[][] pattern2, Pair<Integer, ColorModel>[][] pattern3, Pair<Integer, ColorModel>[][] pattern4);
 
     /**
-     * View's metod to initialize a game
+     * View's method to initialize a game
      * @param players                  contains game's players
      * @param yourPrivateObjectiveCard contains localPlayer's private objective card
      * @param publicObjectiveCards     contains public objective cards

@@ -25,6 +25,7 @@ public class CLIGridViewCreator extends GridViewCreator<ArrayList<String>, Strin
     public CLIGridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern) {
         super(grid, gridPattern);
         this.dieViewCreator = new CLIDieViewCreator();
+        this.printer = new CLIPrinter();
     }
 
     @Override

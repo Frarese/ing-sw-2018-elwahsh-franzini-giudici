@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 public class JavaFXApp extends App {
 
     /**
-     * Componets for GUI
+     * Components for GUI
      */
     private JavaFXStageProducer stageProducer;
 
