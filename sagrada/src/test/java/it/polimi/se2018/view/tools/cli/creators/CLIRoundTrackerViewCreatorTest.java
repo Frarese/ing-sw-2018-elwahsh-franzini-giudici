@@ -2,7 +2,6 @@ package it.polimi.se2018.view.tools.cli.creators;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
-import it.polimi.se2018.view.tools.cli.creators.CLIRoundTrackerViewCreator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,12 +24,12 @@ public class CLIRoundTrackerViewCreatorTest {
     private CLIRoundTrackerViewCreator cliRoundTrackerViewCreator;
 
     @Before
-    public void testInit(){
+    public void testInit() {
         round = 1;
         roundTracker = new Pair[2][2];
-        roundTracker[0][0] = new Pair<>(1,ColorModel.RED);
-        roundTracker[0][1] = new Pair<>(2,ColorModel.RED);
-        cliRoundTrackerViewCreator = new CLIRoundTrackerViewCreator(round,roundTracker);
+        roundTracker[0][0] = new Pair<>(1, ColorModel.RED);
+        roundTracker[0][1] = new Pair<>(2, ColorModel.RED);
+        cliRoundTrackerViewCreator = new CLIRoundTrackerViewCreator(round, roundTracker);
     }
 
     @Test
@@ -38,8 +37,8 @@ public class CLIRoundTrackerViewCreatorTest {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("Siamo al turno: 1");
         strings.add("Turno 1 : ");
-        strings.add("1-RED");
-        strings.add("2-RED");
-        assertEquals(strings,cliRoundTrackerViewCreator.display());
+        strings.add("0) 1-RED");
+        strings.add("1) 2-RED");
+        assertEquals(strings, cliRoundTrackerViewCreator.display());
     }
 }

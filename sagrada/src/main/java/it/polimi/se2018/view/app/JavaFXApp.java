@@ -190,7 +190,7 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void selectNewValueForDie(int up, int down) {
+    public void selectNewValueForDie(int low, int high) {
         throw new UnsupportedOperationException();
 
     }

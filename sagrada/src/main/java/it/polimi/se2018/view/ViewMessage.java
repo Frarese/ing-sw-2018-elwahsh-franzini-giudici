@@ -11,7 +11,7 @@ import it.polimi.se2018.util.MessageTypes;
 public class ViewMessage {
 
     /**
-     * To send a message
+     * Sends a message
      *
      * @param destination contains the destination of the message (user)
      * @param type        contains message's type

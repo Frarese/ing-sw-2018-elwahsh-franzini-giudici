@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
 import it.polimi.se2018.util.ScoreEntry;
-import it.polimi.se2018.view.tools.cli.creators.CLIScoreViewCreator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,14 +28,14 @@ public class CLIScoreViewCreatorTest {
         scoreViewCreator = new CLIScoreViewCreator();
         result = new ArrayList<>();
         scores = new ArrayList();
-        scores.add(new ScoreEntry("Marco",2,0));
-        scores.add(new ScoreEntry("Luca",1,0));
+        scores.add(new ScoreEntry("Marco", 2, 0));
+        scores.add(new ScoreEntry("Luca", 1, 0));
         result.add("Marco, Punti 2");
         result.add("Luca, Punti 1");
     }
 
     @Test
     public void displayTest() {
-        assertEquals(result,scoreViewCreator.display(scores));
+        assertEquals(result, scoreViewCreator.display(scores));
     }
 }

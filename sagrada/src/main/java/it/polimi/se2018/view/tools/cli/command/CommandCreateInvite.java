@@ -12,7 +12,7 @@ public class CommandCreateInvite extends CLICommand {
     @Override
     public void doAction() {
         //variables
-        String player1 = null;
+        String player1;
         String player2 = null;
         String player3 = null;
         final String personMessage = "Inserire nome persona da invitare: ";

@@ -10,7 +10,7 @@ import it.polimi.se2018.util.MessageTypes;
 public interface ControllerMessage {
 
     /**
-     * To receive a message
+     * Receives a message
      *
      * @param sender  contains the message's sender
      * @param type    contains the message's type

@@ -27,35 +27,35 @@ public interface ControllerActionsInterface {
     void animation(boolean enable);
 
     /**
-     * To start login operations
+     * Starts login operations
      *
      * @param displayWelcome true if a welcome is to be shown
      */
     void startLogin(boolean displayWelcome);
 
     /**
-     * To communicate if login has success
+     * Communicates if login has success
      *
      * @param success represents the response
      */
     void loginResult(boolean success);
 
     /**
-     * To communicate if layer has changed
+     * Communicates if layer has changed
      *
      * @param successRMI represents the response
      */
     void changeLayerResult(boolean successRMI);
 
     /**
-     * To communicate if player successfully left match
+     * Communicates if player successfully left match
      *
      * @param success represents the response
      */
     void leaveMatchResult(boolean success);
 
     /**
-     * To communicate if player successfully logout
+     * Communicates if player successfully logout
      *
      * @param success represents the response
      */
@@ -97,21 +97,21 @@ public interface ControllerActionsInterface {
     void initGame(List<PlayerView> players, int yourPrivateObjectiveCard, int[] publicObjectiveCards, int[] toolCards, RoundTrackerView roundTracker);
 
     /**
-     * To communicate to player when another player has left the match
+     * Communicates to player when another player has left the match
      *
      * @param playerID contains the playerID of the player has just left
      */
     void otherPlayerLeave(int playerID);
 
     /**
-     * To communicate to player when another player reconnect
+     * Communicates to player when another player reconnect
      *
      * @param playerID contains the playerID of the player has just left
      */
     void otherPlayerReconnection(int playerID);
 
     /**
-     * To communicate a player's turn start
+     * Communicates a player's turn start
      *
      * @param player       contains the ID of the player
      * @param reserve      contains a ReserveView object
@@ -128,7 +128,7 @@ public interface ControllerActionsInterface {
     void setDieResult(boolean result, String errorString);
 
     /**
-     * To notify a Die placement in a player's grid
+     * Notifies a Die placement in a player's grid
      *
      * @param playerID     contains the playerID of the player has just done placement
      * @param height       contains the height position on the grid
@@ -146,7 +146,7 @@ public interface ControllerActionsInterface {
     void useToolCardResult(boolean result, String errorString);
 
     /**
-     * To notify a Tool Card use
+     * Notifies a Tool Card use
      *
      * @param playerID contains the playerID of the player has just used a Tool Card
      * @param card     contains Tool Card's index
@@ -154,21 +154,21 @@ public interface ControllerActionsInterface {
     void useToolCardUpdate(int playerID, int card);
 
     /**
-     * To communicate if player correctly has passed a turn
+     * Communicates if player correctly has passed a turn
      *
      * @param result boolean value
      */
     void passTurnResult(boolean result);
 
     /**
-     * To notify when a player pass his turn
+     * Notifies when a player pass his turn
      *
      * @param playerID contains the playerID of the player just passed
      */
     void passTurnUpdate(int playerID);
 
     /**
-     * To notify when match ends
+     * Notifies when match ends
      *
      * @param scores contains a list of score,player (order)
      */

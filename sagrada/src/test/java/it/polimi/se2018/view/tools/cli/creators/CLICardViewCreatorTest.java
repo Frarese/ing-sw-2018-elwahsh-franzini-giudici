@@ -1,10 +1,10 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
-import it.polimi.se2018.view.tools.cli.creators.CLICardViewCreator;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests for CLICardViewCreator class

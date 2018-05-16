@@ -16,9 +16,9 @@ public class CLIReader {
     /**
      * Class constructor
      */
-    public CLIReader() {
+    public CLIReader(CLIPrinter printer) {
         scanner = new Scanner(System.in);
-        printer = new CLIPrinter();
+        this.printer = printer;
     }
 
     /**
@@ -26,7 +26,7 @@ public class CLIReader {
      *
      * @return the result string
      */
-    public String read() {
+    public synchronized String read() {
         //Print message
         return scanner.next();
     }
@@ -36,7 +36,7 @@ public class CLIReader {
      *
      * @return the result number
      */
-    public int readInt() {
+    public synchronized int readInt() {
         int number;
         try {
             number = scanner.nextInt();
@@ -53,7 +53,7 @@ public class CLIReader {
      *
      * @return the result
      */
-    public boolean chooseYes() {
+    public synchronized boolean chooseYes() {
         //Ask option
         printer.print("[Y=si, N= no] ");
         String response = scanner.next();
@@ -82,7 +82,7 @@ public class CLIReader {
      * @param maxValue contains the max value of the range
      * @return the result of the choice
      */
-    public int choose(int minValue, int maxValue) {
+    public synchronized int chooseInRange(int minValue, int maxValue) {
         //Ask option
         printer.print("Opzione: ");
         int response = readInt();
@@ -94,14 +94,37 @@ public class CLIReader {
         } else {
             //Invalid option, recall
             printer.print("Risposta non valida, riprovare");
-            return choose(minValue, maxValue);
+            return chooseInRange(minValue, maxValue);
+        }
+    }
+
+    /**
+     * Choose between two values
+     *
+     * @param low contains lower value
+     * @param high contains higher value
+     * @return the user choice
+     */
+    public synchronized int chooseBetweenTwo(int low, int high) {
+        //Ask option
+        printer.print("Opzione: ");
+        int response = readInt();
+
+        //Check option
+        if (response == low || response == high) {
+            //Valid option
+            return response;
+        } else {
+            //Invalid option, recall
+            printer.print("Risposta non valida, riprovare");
+            return chooseInRange(low, high);
         }
     }
 
     /**
      * To close the input reader
      */
-    public void close() {
+    public synchronized void close() {
         scanner.close();
     }
 }

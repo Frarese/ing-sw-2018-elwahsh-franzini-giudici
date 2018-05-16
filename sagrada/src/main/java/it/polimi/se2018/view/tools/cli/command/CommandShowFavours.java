@@ -25,7 +25,7 @@ public class CommandShowFavours extends CLICommand {
             for (int i = 0; i < this.app.getPlayers().size(); i++) {
                 this.app.getPrinter().print(i + ") " + this.app.getPlayers().get(i).getPlayerName());
                 this.app.getPrinter().print("Seleziona il giocatore");
-                int player = this.app.getReader().choose(0, this.app.getPlayers().size() - 1);
+                int player = this.app.getReader().chooseInRange(0, this.app.getPlayers().size() - 1);
                 this.app.getPrinter().print("Punti favore: " + this.app.getPlayers().get(player).getPlayerFavours());
             }
         }

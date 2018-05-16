@@ -24,15 +24,15 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
      * @param grid        contains user grid
      * @param gridPattern contains user pattern
      */
-    public CLIGridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern) {
+    public CLIGridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern, CLIPrinter printer) {
         super(grid, gridPattern);
         this.dieViewCreator = new CLIDieViewCreator();
-        this.printer = new CLIPrinter();
+        this.printer = printer;
     }
 
     @Override
     public List<String> display() {
-        ArrayList<String> strings = new ArrayList<>();
+        ArrayList<String> strings;
 
         //Start to create Pattern
         strings = gridHelper(this.gridPattern);
@@ -56,6 +56,12 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
         return (String) dieViewCreator.makeDie(this.grid[height][width]);
     }
 
+    /**
+     * Fixes string spaces for a correct indentation
+     *
+     * @param toFix contains the string to fix
+     * @return fixed string
+     */
     private String fixPrintSpace(String toFix) {
         //Check length
         if (toFix.length() < 8) {
@@ -73,6 +79,12 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
         return toFix;
     }
 
+    /**
+     * Creates a dash string for grid row separator
+     *
+     * @param value contains the number of dash
+     * @return the dash string
+     */
     private String lineCreator(int value) {
         //Create a String Builder
         StringBuilder string = new StringBuilder();
@@ -84,6 +96,12 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
         return string.toString();
     }
 
+    /**
+     * Creates a generic grid to print
+     *
+     * @param toPrint contains the grid matrix
+     * @return string that represents the grid
+     */
     private ArrayList<String> gridHelper(Pair<Integer, ColorModel>[][] toPrint) {
         ArrayList<String> returnArray = new ArrayList<>();
 

@@ -1,7 +1,5 @@
 package it.polimi.se2018.view;
 
-import it.polimi.se2018.util.Pair;
-
 /**
  * Class for View-Controller communication
  * (this class is for the Tool Card use)
@@ -12,17 +10,17 @@ import it.polimi.se2018.util.Pair;
 public class ViewToolCardActions {
 
     /**
-     * To communicate to the Controller the die that player selected from the Reserve
+     * Communicates to the Controller the die that player selected from the Reserve
      *
-     * @param die contains the die's ID
+     * @param index contains the die's ID
      */
-    public void selectedDieFromReserve(Pair die) {
+    public void selectedDieFromReserve(int index) {
         throw new UnsupportedOperationException();
 
     }
 
     /**
-     * To communicate to the Controller the die's value that player selected
+     * Communicates to the Controller the die's value that player selected
      *
      * @param value contains the die's value
      */
@@ -32,42 +30,54 @@ public class ViewToolCardActions {
     }
 
     /**
-     * To communicate to the Controller the die's that player selected from the grid
+     * Communicates to the Controller the die's that player selected from the grid
      *
-     * @param die contains the die's ID
+     * @param width  contains the x coordinate
+     * @param height contains the y coordinate
      */
-    public void selectedDieFromGrid(Pair die) {
+    public void selectedDieFromGrid(int width, int height) {
         throw new UnsupportedOperationException();
 
     }
 
     /**
-     * To communicate to the Controller the die's that player selected from the Round Tracker
-     *
-     * @param die contains the die's ID
+     * Communicates to the Controller the die's that player selected to add in the grid
+     *  @param width  contains the x coordinate
+     * @param height contains the y coordinate
      */
-    public void selectedDieFromRoundTracker(Pair die) {
+    public void selectedDieToGrid(int width, int height) {
         throw new UnsupportedOperationException();
 
     }
 
     /**
-     * To communicate to the Controller the die's that player selected
+     * Communicates to the Controller the die's that player selected from the Round Tracker
      *
-     * @param die   contains the die
+     * @param roundIndex contains the roundIndex in roundTracker
+     * @param dieIndex   contains the dieIndex in roundTracker[roundIndex]
+     */
+    public void selectedDieFromRoundTracker(int roundIndex, int dieIndex) {
+        throw new UnsupportedOperationException();
+
+    }
+
+    /**
+     * Communicates to the Controller the die's that player selected
+     *
      * @param value contains the die's value
      */
-    public void selectedFace(Pair die, int value) {
+    public void selectedFace(int value) {
         throw new UnsupportedOperationException();
 
     }
 
     /**
-     * To communicate to the Controller the die's that player selected
+     * Communicates to the Controller the die's that player selected
      *
-     * @param die contains the die
+     * @param width  contains the x coordinate
+     * @param height contains the y coordinate
      */
-    public void selectedDieFromGridByColor(Pair die) {
+    public void selectedDieFromGridByColor(int width, int height) {
         throw new UnsupportedOperationException();
 
     }

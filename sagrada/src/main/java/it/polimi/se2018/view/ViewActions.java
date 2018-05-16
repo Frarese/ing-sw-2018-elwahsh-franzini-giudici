@@ -13,7 +13,7 @@ import it.polimi.se2018.util.Pair;
 public class ViewActions {
 
     /**
-     * To try a login to the server
+     * Tries login operation to the server
      *
      * @param name        contains user'name
      * @param password    contains user's password
@@ -28,7 +28,7 @@ public class ViewActions {
     }
 
     /**
-     * To change layer from Socket to RMI or vice versa
+     * Changes layer from Socket to RMI or vice versa
      *
      * @param toRMI       boolean value
      * @param objectPort  contains the object port number
@@ -40,7 +40,7 @@ public class ViewActions {
     }
 
     /**
-     * To leave the current match
+     * Leaves the current match
      */
     public void leaveMatch() {
         throw new UnsupportedOperationException();
@@ -48,7 +48,7 @@ public class ViewActions {
     }
 
     /**
-     * To do a logout
+     * Tries logout operation
      */
     public void logout() {
         throw new UnsupportedOperationException();
@@ -56,7 +56,7 @@ public class ViewActions {
     }
 
     /**
-     * To ask the lobby
+     * Asks the lobby
      */
     public void askLobby() {
         throw new UnsupportedOperationException();
@@ -64,7 +64,7 @@ public class ViewActions {
     }
 
     /**
-     * To send invites to other player to match
+     * Sends invites to other player to match
      *
      * @param invite contains a list of players (max 4)
      */
@@ -74,20 +74,25 @@ public class ViewActions {
     }
 
     /**
-     * To participate to match
+     * Participates to a match
      */
     public void autoCompleteGame() {
         throw new UnsupportedOperationException();
 
     }
 
+    /**
+     * Accepts an invite from another user
+     *
+     * @param matchIdentifier contains the matchIdentifier object of the match
+     */
     public void acceptInvite(MatchIdentifier matchIdentifier) {
         throw new UnsupportedOperationException();
 
     }
 
     /**
-     * To communicate to the Controller the pattern that user has select
+     * Communicates to the Controller the pattern that user has select
      *
      * @param selected the selected pattern
      */
@@ -97,7 +102,7 @@ public class ViewActions {
     }
 
     /**
-     * To communicate to the Controller that View ended init operations
+     * Communicates to the Controller that View ended init operations
      */
     public void endInitGame() {
         throw new UnsupportedOperationException();
@@ -105,19 +110,19 @@ public class ViewActions {
     }
 
     /**
-     * To try a die placement
+     * Tries a die placement
      *
-     * @param die    contains die's ID
-     * @param height contains height on the grid
-     * @param width  contains width on the grid
+     * @param reserveIndex contains the reserveIndex of the die
+     * @param height       contains height on the grid
+     * @param width        contains width on the grid
      */
-    public void setDie(Pair<Integer, ColorModel> die, int height, int width) {
+    public void setDie(int reserveIndex, int height, int width) {
         throw new UnsupportedOperationException();
 
     }
 
     /**
-     * To try to use a Tool Card
+     * Tries to use a Tool Card
      *
      * @param card contains the Tool Card's ID
      */
@@ -127,7 +132,7 @@ public class ViewActions {
     }
 
     /**
-     * To pass Turn
+     * Pass Turn operation
      */
     public void passTurn() {
         throw new UnsupportedOperationException();

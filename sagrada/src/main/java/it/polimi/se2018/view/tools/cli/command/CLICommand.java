@@ -15,7 +15,7 @@ public abstract class CLICommand {
     protected CLIApp app;
 
     /**
-     * Class constructor
+     * Class constructor that initializes private attributes with passed attributes
      *
      * @param message contains the command text displayed
      * @param app     contains the CLIApp reference
@@ -26,12 +26,12 @@ public abstract class CLICommand {
     }
 
     /**
-     * To perform the action of the command
+     * To perform the command's action
      */
     public abstract void doAction();
 
     /**
-     * Returns the message of the command in System.out
+     * Returns the message of the command to print in CLI' menu
      *
      * @return the message to display
      */

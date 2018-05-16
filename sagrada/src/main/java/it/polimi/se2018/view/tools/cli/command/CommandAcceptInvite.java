@@ -12,7 +12,7 @@ public class CommandAcceptInvite extends CLICommand {
     public void doAction() {
         this.app.getPrinter().print("Inserire ID invito (numerazione da 0)");
 
-        int invite = this.app.getReader().choose(0, this.app.getInvites().size() - 1);
+        int invite = this.app.getReader().chooseInRange(0, this.app.getInvites().size() - 1);
 
         this.app.getViewActions().acceptInvite(this.app.getInvites().get(invite));
     }

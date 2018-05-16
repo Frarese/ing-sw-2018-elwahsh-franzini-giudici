@@ -19,7 +19,6 @@ public class CommandPassTurn extends CLICommand {
         this.app.getPrinter().print("Sei sicuro di voler passare il turno?");
         if (this.app.getReader().chooseYes()) {
             this.app.getViewActions().passTurn();
-            return;
         }
     }
 }

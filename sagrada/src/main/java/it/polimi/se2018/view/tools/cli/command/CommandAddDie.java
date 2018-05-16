@@ -18,13 +18,13 @@ public class CommandAddDie extends CLICommand {
     public void doAction() {
         this.app.getPrinter().print("Seleziona un dado dalla riserva: ");
         this.app.getPrinter().print(this.app.getReserveViewCreator().display());
-        int reserveIndex = this.app.getReader().choose(0, this.app.getReserveViewCreator().getReserve().length - 1);
+        int reserveIndex = this.app.getReader().chooseInRange(0, this.app.getReserveViewCreator().getReserve().length - 1);
         this.app.getPrinter().print("Seleziona la posizione (la numerazione parte da 0)");
         this.app.getPrinter().printArray(this.app.getGridViewCreator().display());
         this.app.getPrinter().print("Inserisci coordinata x:");
-        int x = this.app.getReader().choose(0, 4);
+        int width = this.app.getReader().chooseInRange(0, 4);
         this.app.getPrinter().print("Inserisci coordinata y:");
-        int y = this.app.getReader().choose(0, 3);
-        this.app.getViewActions().setDie(this.app.getReserveViewCreator().getReserve()[reserveIndex], x, y);
+        int height = this.app.getReader().chooseInRange(0, 3);
+        this.app.getViewActions().setDie(reserveIndex,height,width );
     }
 }

@@ -68,7 +68,9 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
     protected ScoreViewCreator scoreViewCreator;
 
-
+    /**
+     * Class constructor that initializes variables to defaults values
+     */
     public App() {
         this.animationEnable = true;
         this.ownerPlayerID = 0;
@@ -82,6 +84,13 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
         this.modelObserver = new ModelObserver();
     }
 
+    /**
+     * Searches in the players' list a player identified by his name ad return his PlayerView object
+     *
+     * @param players contains the players' list
+     * @param wanted contains the String name of the wanted player
+     * @return the PlayerView of the wanted player
+     */
     public PlayerView searchPlayerViewByName(List<PlayerView> players, String wanted) {
         for (PlayerView player : players) {
             if (player.getPlayerName().equals(wanted)) {
@@ -92,6 +101,13 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
         return null;
     }
 
+    /**
+     * Searches in the players' list a player identified by his ID ad return his PlayerView object
+     *
+     * @param players contains the players' list
+     * @param wanted contains the ID of the wanted player
+     * @return the PlayerView of the wanted player
+     */
     public PlayerView searchPlayerViewById(List<PlayerView> players, int wanted) {
         for (PlayerView player : players) {
             if (player.getPlayerID() == wanted) {
@@ -103,7 +119,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for ViewActions
      *
      * @return ViewActions class reference
      */
@@ -112,7 +128,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for boolean value that represents current type of connection
      *
      * @return boolean value that represents if user is using RMI connection
      */
@@ -121,7 +137,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for CardViewCreator
      *
      * @return the current CardViewCreator
      */
@@ -130,7 +146,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for GridViewCreator
      *
      * @return the current GridViewCreator
      */
@@ -139,7 +155,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for RoundTrackerViewCreator
      *
      * @return the current RoundTrackerViewCreator
      */
@@ -148,7 +164,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for ReserveViewCreator
      *
      * @return the current ReserveViewCreator
      */
@@ -157,16 +173,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
-     *
-     * @return the current ScoreViewCreator
-     */
-    public ScoreViewCreator getScoreViewCreator() {
-        return scoreViewCreator;
-    }
-
-    /**
-     * Getter method
+     * Getter method for players' list
      *
      * @return the current players
      */
@@ -175,7 +182,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for current player's ID
      *
      * @return the playerID
      */
@@ -184,7 +191,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for current player's name
      *
      * @return the player's name
      */
@@ -193,7 +200,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for invites' list
      *
      * @return the user's matches invites
      */
@@ -202,7 +209,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method
+     * Getter method for leaderBoard's list
      *
      * @return the leader board
      */

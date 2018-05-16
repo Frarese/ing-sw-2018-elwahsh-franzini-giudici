@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.tools.cli.ui;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to handle print in console
@@ -25,7 +25,7 @@ public class CLIPrinter {
      *
      * @param input contains the message to print
      */
-    public void print(Object input) {
+    public synchronized void print(Object input) {
         String message;
         try {
             message = (String) input;
@@ -41,10 +41,10 @@ public class CLIPrinter {
      *
      * @param input contains the array of messages
      */
-    public void printArray(Object input) {
-        ArrayList<String> array;
+    public synchronized void printArray(Object input) {
+        List<String> array;
         try {
-            array = (ArrayList<String>) input;
+            array = (List<String>) input;
             array.forEach(this::print);
         } catch (Exception e) {
             print(input.toString());
@@ -54,7 +54,7 @@ public class CLIPrinter {
     /**
      * To close the input reader
      */
-    public void close() {
+    public synchronized void close() {
         printWriter.close();
     }
 }

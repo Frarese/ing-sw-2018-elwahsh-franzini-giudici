@@ -24,10 +24,10 @@ public class CommandShowGrid extends CLICommand {
             for (int i = 0; i < this.app.getPlayers().size(); i++) {
                 this.app.getPrinter().print(i + ") " + this.app.getPlayers().get(i).getPlayerName());
                 this.app.getPrinter().print("Seleziona il giocatore");
-                int player = this.app.getReader().choose(0, this.app.getPlayers().size() - 1);
+                int player = this.app.getReader().chooseInRange(0, this.app.getPlayers().size() - 1);
                 CLIGridViewCreator cliGridViewCreator = new CLIGridViewCreator(
                         this.app.getPlayers().get(player).getPlayerGrid(),
-                        this.app.getPlayers().get(player).getPlayerTemplate());
+                        this.app.getPlayers().get(player).getPlayerTemplate(), this.app.getPrinter());
                 this.app.getPrinter().printArray(cliGridViewCreator.display());
             }
         }

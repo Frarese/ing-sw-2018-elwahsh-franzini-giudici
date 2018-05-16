@@ -8,10 +8,7 @@ import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.tools.cli.command.*;
-import it.polimi.se2018.view.tools.cli.creators.CLICardViewCreator;
-import it.polimi.se2018.view.tools.cli.creators.CLIGridViewCreator;
-import it.polimi.se2018.view.tools.cli.creators.CLIRoundTrackerViewCreator;
-import it.polimi.se2018.view.tools.cli.creators.CLIScoreViewCreator;
+import it.polimi.se2018.view.tools.cli.creators.*;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
 import it.polimi.se2018.view.tools.cli.ui.CLIReader;
 
@@ -21,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class CLIApp represents the command line interface
+ * Class CLIApp that represents the command line interface
  *
  * @author Mathyas Giudici
  */
@@ -34,15 +31,16 @@ public class CLIApp extends App {
     private ArrayList<CLICommand> gameCommands;
 
     /**
-     * Class constructor
+     * Class constructor that creates CLICreators' objects and CLIui' objects
      */
     CLIApp() {
         super();
         this.printer = new CLIPrinter();
-        this.reader = new CLIReader();
+        this.reader = new CLIReader(this.printer);
 
         this.invites = new ArrayList<>();
         this.commands = new ArrayList<>();
+        this.gameCommands = new ArrayList<>();
     }
 
     @Override
@@ -176,6 +174,8 @@ public class CLIApp extends App {
             return;
         }
 
+        this.leaderBoard = leaderBoard;
+
         this.commands.add(0, new CommandCreateInvite(this));
         this.commands.add(0, new CommandAutoComplete(this));
         this.commands.add(0, new CommandAcceptInvite(this));
@@ -202,20 +202,20 @@ public class CLIApp extends App {
 
         //Show patterns
         printer.print("Carta Schema 1:");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern1);
+        this.gridViewCreator = new CLIGridViewCreator(null, pattern1, this.printer);
         printer.printArray(this.gridViewCreator.display());
         printer.print("Carta Schema 2;");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern2);
+        this.gridViewCreator = new CLIGridViewCreator(null, pattern2, this.printer);
         printer.printArray(this.gridViewCreator.display());
         printer.print("Carta Schema 3:");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern3);
+        this.gridViewCreator = new CLIGridViewCreator(null, pattern3, this.printer);
         printer.printArray(this.gridViewCreator.display());
         printer.print("Carta Schema 4:");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern4);
+        this.gridViewCreator = new CLIGridViewCreator(null, pattern4, this.printer);
         printer.printArray(this.gridViewCreator.display());
 
         //Ask pattern
-        int pattern = reader.choose(1, 4);
+        int pattern = reader.chooseInRange(1, 4);
         switch (pattern) {
             case 1:
                 viewActions.selectedPattern(pattern1);
@@ -252,11 +252,14 @@ public class CLIApp extends App {
         this.players = players;
         this.cardViewCreator = new CLICardViewCreator(yourPrivateObjectiveCard, publicObjectiveCards, toolCards);
         this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator(roundTracker.getRound(), roundTracker.getRoundTracker());
+        this.reserveViewCreator = new CLIReserveViewCreator(null);
+
         PlayerView me = searchPlayerViewByName(players, this.ownerPlayerName);
         if (me != null) {
             this.ownerPlayerID = me.getPlayerID();
-            this.gridViewCreator = new CLIGridViewCreator(me.getPlayerGrid(), me.getPlayerTemplate());
+            this.gridViewCreator = new CLIGridViewCreator(me.getPlayerGrid(), me.getPlayerTemplate(), this.printer);
         }
+        this.isYourTurn = false;
 
         //Print cards
         printer.print("Carta obiettivo privato: ");
@@ -447,6 +450,7 @@ public class CLIApp extends App {
         printer.printArray(scoreViewCreator.display(scores));
 
         //Call menu method
+        this.isYourTurn = false;
         this.menu();
     }
 
@@ -455,55 +459,103 @@ public class CLIApp extends App {
         //Print and read operations
         printer.print("Seleziona un dado dalla riserva: ");
         printer.print(this.reserveViewCreator.display());
-        int reserveIndex = reader.choose(0, this.reserveViewCreator.getReserve().length - 1);
+        int reserveIndex = reader.chooseInRange(0, this.reserveViewCreator.getReserve().length - 1);
 
         //Call ViewToolCardActions
-        this.viewToolCardActions.selectedDieFromReserve(this.reserveViewCreator.getReserve()[reserveIndex]);
+        viewToolCardActions.selectedDieFromReserve(reserveIndex);
     }
 
     @Override
-    public void selectNewValueForDie(int up, int down) {
-        throw new UnsupportedOperationException();
+    public void selectNewValueForDie(int low, int high) {
+        //Print and read operations
+        printer.print("Seleziona il valore del dado tra " + low + " e " + high);
+        int choice = reader.chooseBetweenTwo(low, high);
 
+        //Call ViewToolCardActions
+        viewToolCardActions.selectedValueForDie(choice);
     }
 
     @Override
     public void updateReserve() {
-        throw new UnsupportedOperationException();
-
+        //Print operation
+        printer.print("Nuova riserva:");
+        printer.print(reserveViewCreator.display());
     }
 
     @Override
     public void selectDieFromGrid() {
-        throw new UnsupportedOperationException();
+        //Print and read operation
+        printer.print("Seleziona un dado dalla griglia (la numerazione parte da 0)");
+        printer.printArray(gridViewCreator.display());
+        printer.print("Inserisci coordinata x:");
+        int x = reader.chooseInRange(0, 4);
+        printer.print("Inserisci coordinata y:");
+        int y = reader.chooseInRange(0, 3);
 
+        //Call ViewToolCardActions
+        viewToolCardActions.selectedDieFromGrid(x, y);
     }
 
     @Override
     public void setDieOnGrid(Pair<Integer, ColorModel> die) {
-        throw new UnsupportedOperationException();
+        CLIDieViewCreator dieCreator = new CLIDieViewCreator();
 
+        //Print and read operation
+        printer.print("Devi posizionare il dado: " + dieCreator.makeDie(die));
+        printer.print("(la numerazione sulla griglia parte da 0)");
+        printer.printArray(gridViewCreator.display());
+        printer.print("Inserisci coordinata x:");
+        int x = reader.chooseInRange(0, 4);
+        printer.print("Inserisci coordinata y:");
+        int y = reader.chooseInRange(0, 3);
+
+        //Call ViewToolCardActions
+        viewToolCardActions.selectedDieToGrid(x, y);
     }
 
     @Override
     public void selectDieFromRoundTracker() {
-        throw new UnsupportedOperationException();
+        //Print and read operation
+        printer.printArray(roundTrackerViewCreator.display());
+        printer.print("Inserire il numero del round da cui si vuole estrarre il dado:");
+        int roundIndex = reader.chooseInRange(1, roundTrackerViewCreator.getRound() - 1) - 1;
+        printer.print("Inserire il numero del dado nel round selezionato");
+        int dieIndex = reader.chooseInRange(0, roundTrackerViewCreator.getRoundTracker()[roundIndex].length - 1);
 
+        //Call ViewToolCardActions
+        viewToolCardActions.selectedDieFromRoundTracker(roundIndex, dieIndex);
     }
 
     @Override
     public void selectFace(Pair<Integer, ColorModel> die) {
-        throw new UnsupportedOperationException();
+        CLIDieViewCreator dieCreator = new CLIDieViewCreator();
 
+        //Print and read operation
+        printer.print("Devi selezionare il nuovo valore del dado: " + dieCreator.makeDie(die));
+        printer.print("Inserisci nuovo valore:");
+        int value = reader.chooseInRange(1, 6);
+
+        //Call ViewToolCardActions
+        viewToolCardActions.selectedFace(value);
     }
 
     @Override
     public void selectDieFromGridByColor(ColorModel color) {
-        throw new UnsupportedOperationException();
+        //Print and read operation
+        printer.print("Seleziona un dado dalla griglia che ha colore: " + color.toString());
+        printer.print("(la numerazione parte da 0)");
+        printer.printArray(gridViewCreator.display());
+        printer.print("Inserisci coordinata x:");
+        int x = reader.chooseInRange(0, 4);
+        printer.print("Inserisci coordinata y:");
+        int y = reader.chooseInRange(0, 3);
+
+        //Call ViewToolCardActions
+        viewToolCardActions.selectedDieFromGridByColor(x, y);
     }
 
     /**
-     * Getter method
+     * Getter method for unique CLIPrinter
      *
      * @return the cli printer
      */
@@ -512,7 +564,7 @@ public class CLIApp extends App {
     }
 
     /**
-     * Getter method
+     * Getter method for unique CLIReader
      *
      * @return the cli reader
      */
@@ -555,7 +607,7 @@ public class CLIApp extends App {
             printer.print(i + "-" + printArray.get(i).display());
         }
         printer.print("Seleziona un comando");
-        int actionID = reader.choose(0, printArray.size() - 1);
+        int actionID = reader.chooseInRange(0, printArray.size() - 1);
         printArray.get(actionID).doAction();
     }
 
@@ -568,10 +620,13 @@ public class CLIApp extends App {
             printer.print(i + "-" + this.commands.get(i).display());
         }
         printer.print("Seleziona un comando");
-        int actionID = reader.choose(0, this.commands.size() - 1);
+        int actionID = reader.chooseInRange(0, this.commands.size() - 1);
         this.commands.get(actionID).doAction();
     }
 
+    /**
+     * Selects the right menu to show
+     */
     public void menu() {
         if (this.isYourTurn) {
             this.menuTurnControl();
