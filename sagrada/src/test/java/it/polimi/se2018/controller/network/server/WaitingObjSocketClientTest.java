@@ -1,7 +1,6 @@
 package it.polimi.se2018.controller.network.server;
 
 import it.polimi.se2018.util.SafeSocket;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

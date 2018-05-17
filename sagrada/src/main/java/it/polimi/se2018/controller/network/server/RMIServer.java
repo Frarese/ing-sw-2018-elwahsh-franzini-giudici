@@ -52,22 +52,30 @@ class RMIServer extends ServerComm {
 
     @Override
     RMISession login(String usn, String pw, boolean isRecover, boolean register) {
-        String toLog="Attempted login from "+usn+" rec:"+isRecover+" reg:"+register;
-        logger.log(Level.FINER,toLog);
-        LoginResponsesEnum result=super.tryLogin(usn,pw,isRecover,register);
-        RMISessionImpl rmiS;
-        if(result.equals(LoginResponsesEnum.LOGIN_OK)){
-            Client c=new Client(usn,handler);
-            if(this.handler.addClient(c,register)){
-                rmiS=new RMISessionImpl(result);
-                c.createRMIComm(rmiS);
-            }else{
-                rmiS=new RMISessionImpl(LoginResponsesEnum.USER_ALREADY_LOGGED);
-            }
+        RMISessionImpl rmiS=null;
+        try {
+            String toLog="Attempted login from "+usn+" rec:"+isRecover+" reg:"+register;
+            logger.log(Level.FINER,toLog);
+            LoginResponsesEnum result=super.tryLogin(usn,pw,isRecover,register);
 
-        }else{
-            rmiS=new RMISessionImpl(result);
-            rmiS.terminate();
+            if (result.equals(LoginResponsesEnum.LOGIN_OK)) {
+                Client c = new Client(usn, handler);
+                if (this.handler.addClient(c, register)) {
+                    rmiS = new RMISessionImpl(result);
+                    c.createRMIComm(rmiS);
+                } else {
+                    rmiS = new RMISessionImpl(LoginResponsesEnum.USER_ALREADY_LOGGED);
+                }
+
+            } else {
+                rmiS = new RMISessionImpl(result);
+                rmiS.terminate();
+            }
+        }catch (RemoteException e){
+            logger.log(Level.SEVERE,"Error creating session object "+e);
+            return null;
+        }catch (Exception e){
+            logger.log(Level.SEVERE,"Exception trying to login "+usn+" on RMI "+e.getMessage());
         }
         return rmiS;
     }

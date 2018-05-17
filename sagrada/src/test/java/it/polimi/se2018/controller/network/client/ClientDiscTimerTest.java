@@ -23,16 +23,16 @@ public class ClientDiscTimerTest {
     }
 
     @Test(timeout=1000)
-    public void testInit() throws Exception {
+    public void testInit() {
         long timeout=1;
         uut.reschedule(timeout);
         while(!(called.get()>1));
         uut.stop();
-        assertEquals(false,failed.get());
+        assertFalse(failed.get());
     }
 
     @Test(timeout=1000)
-    public void testFail() throws Exception {
+    public void testFail() {
         long timeout=1;
         fail=true;
         uut.reschedule(timeout);

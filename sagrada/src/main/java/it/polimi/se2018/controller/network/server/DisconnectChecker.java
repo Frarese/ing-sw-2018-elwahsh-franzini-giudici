@@ -6,6 +6,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Object that checks if a username is timing out
@@ -17,8 +20,9 @@ class DisconnectChecker extends TimerTask {
     private final long deathTimeout;
     private final long purgeTimeout;
     private final Client client;
-    private volatile boolean warned;
+    private volatile AtomicBoolean warned;
     private Timer t;
+    private final Logger logger;
 
     /**
      * Builds and runs a death timer on the given client
@@ -27,12 +31,13 @@ class DisconnectChecker extends TimerTask {
      * @param purgeTimeout time(in milliseconds) after becoming zombie before it is removed from the logged users
      * @param client client to check
      */
-    public DisconnectChecker(long warningTimeout, long deathTimeout, long purgeTimeout, Client client) {
+    DisconnectChecker(long warningTimeout, long deathTimeout, long purgeTimeout, Client client) {
         this.warningTimeout = warningTimeout;
         this.deathTimeout = deathTimeout;
         this.purgeTimeout = purgeTimeout;
         this.client = client;
-        warned=false;
+        this.logger=Logger.getGlobal();
+        warned=new AtomicBoolean(false);
         continua=true;
         t=new Timer();
     }
@@ -43,15 +48,18 @@ class DisconnectChecker extends TimerTask {
             Instant i=client.lastSeen();
             Duration d=Duration.between(i,Instant.now());
             long value=d.getSeconds()*1000+(d.getNano()/1000000);
-            if(!warned && value>warningTimeout){
-                warned=true;
+            if(!warned.get() && value>warningTimeout){
+                logger.log(Level.FINE,"Warning {0} of disconnect", client.usn);
+                warned.set(true);
                 boolean out=client.sendReq(new KeepAliveRequest());
                 if(!out){
                     client.zombiefy(true,null);
                 }
-            }else if(warned && value>deathTimeout && !client.isZombie()){
+            }else if(warned.get() && value>deathTimeout && !client.isZombie()){
+                logger.log(Level.FINE,"Zombiefying {0}", client.usn);
                 client.zombiefy(true,null);
             }else if(client.isZombie() && value>purgeTimeout){
+                logger.log(Level.FINE,"Purging {0}", client.usn);
                 client.purge();
                 this.stop();
             }
@@ -66,10 +74,10 @@ class DisconnectChecker extends TimerTask {
         t.purge();
         t=new Timer();
         continua=true;
-        warned=false;
+        warned.set(false);
         long minT=(warningTimeout<deathTimeout)?warningTimeout:deathTimeout;
         minT=(purgeTimeout<minT)?purgeTimeout:minT;
-        t.schedule(this,0,minT);
+        t.schedule(this,0,minT/2);
     }
 
     /**
@@ -77,5 +85,9 @@ class DisconnectChecker extends TimerTask {
      */
     void stop(){
         continua=false;
+    }
+
+    void resetWarned(){
+        this.warned.set(false);
     }
 }

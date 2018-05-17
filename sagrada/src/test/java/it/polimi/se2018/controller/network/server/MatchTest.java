@@ -20,7 +20,7 @@ public class MatchTest {
     private List<Client> list;
     private MatchIdentifier mId;
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         c1=new ClientTest("us1",null);
         c2=new ClientTest("us2",null);
         c3=new ClientTest("us3",null);
@@ -48,7 +48,7 @@ public class MatchTest {
         uut=new Match(mId,list,null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testDuplicateInit() {
         list=new ArrayList<>();
         list.add(c1);

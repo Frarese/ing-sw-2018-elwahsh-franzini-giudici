@@ -15,7 +15,8 @@ public class LogoutRequest extends AbsReqServerLogic {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        throw new UnsupportedOperationException();
+        clientComm.logoutRequestReceived();
+        commUtilizer.notifyCommDropped();
     }
 
     @Override

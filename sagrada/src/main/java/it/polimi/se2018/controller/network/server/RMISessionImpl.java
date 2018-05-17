@@ -3,9 +3,11 @@ package it.polimi.se2018.controller.network.server;
 import it.polimi.se2018.controller.network.AbsReq;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
-class RMISessionImpl implements RMISession {
-    private RMIClientComm cComm;
+class RMISessionImpl extends UnicastRemoteObject implements RMISession {
+    private transient RMIClientComm cComm;
     private boolean terminated;
     private final LoginResponsesEnum loginOutput;
 
@@ -13,7 +15,8 @@ class RMISessionImpl implements RMISession {
      * Initializes this session object with the given login output string
      * @param loginOutput the textual representation of the login output
      */
-    RMISessionImpl(LoginResponsesEnum loginOutput) {
+    RMISessionImpl(LoginResponsesEnum loginOutput) throws RemoteException {
+        super();
         this.loginOutput=loginOutput;
         this.terminated=false;
     }
@@ -83,4 +86,14 @@ class RMISessionImpl implements RMISession {
     }
 
 
+    @Override
+    public boolean equals(Object o){
+        if(o!=null && !o.getClass().equals(this.getClass()))return false;
+        return super.equals(o) && ((RMISessionImpl)o).loginOutput.equals(this.loginOutput);
+    }
+
+    @Override
+    public int hashCode(){
+        return super.hashCode()^loginOutput.hashCode();
+    }
 }

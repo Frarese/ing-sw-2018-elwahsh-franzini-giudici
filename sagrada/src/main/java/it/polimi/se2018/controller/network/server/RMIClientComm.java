@@ -28,6 +28,7 @@ class RMIClientComm extends ClientComm {
     RMIClientComm(RMISessionImpl sessionObj,Client client) {
         super(client);
         this.sessionObj=sessionObj;
+        sessionObj.setCComm(this);
         logger=Logger.getGlobal();
         rmiOutObjQueue=new LinkedList<>();
         rmiOutReqQueue=new LinkedList<>();

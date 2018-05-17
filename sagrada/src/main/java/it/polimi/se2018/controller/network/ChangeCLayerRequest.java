@@ -32,7 +32,7 @@ public class ChangeCLayerRequest extends AbsReqServerLogic {
 
     @Override
     public boolean checkValid() {
-        return reqPort>0 && reqPort<65025 && objPort>0 && objPort<65025;
+        return reqPort!=objPort && reqPort>0 && reqPort<65025 && objPort>0 && objPort<65025;
     }
 
 

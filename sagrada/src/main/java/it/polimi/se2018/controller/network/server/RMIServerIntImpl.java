@@ -26,5 +26,14 @@ class RMIServerIntImpl extends UnicastRemoteObject implements RMIServerInt {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(o!=null && !o.getClass().equals(this.getClass()))return false;
+        return super.equals(o) && ((RMIServerIntImpl)o).server.equals(this.server);
+    }
 
+    @Override
+    public int hashCode(){
+        return super.hashCode()^server.hashCode();
+    }
 }

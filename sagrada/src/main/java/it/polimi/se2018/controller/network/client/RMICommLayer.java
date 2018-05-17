@@ -47,6 +47,7 @@ class RMICommLayer extends CommLayer {
                 return sessionObj.getReq();
             } catch (RemoteException e) {
                 logger.log(Level.SEVERE, "Error retrieving request through RMI");
+                listenerReq.stop();
             }
         }
         return null;
@@ -77,6 +78,7 @@ class RMICommLayer extends CommLayer {
                 return sessionObj.hasReq();
             } catch (RemoteException e) {
                 logger.log(Level.SEVERE, "Error retrieving request availability through RMI");
+                listenerReq.stop();
             }
         }
         return false;
@@ -92,6 +94,7 @@ class RMICommLayer extends CommLayer {
                 return sessionObj.getObj();
             } catch (RemoteException e) {
                 logger.log(Level.SEVERE, "Error retrieving object through RMI");
+                listenerObj.stop();
             }
         }
         return null;
@@ -108,6 +111,7 @@ class RMICommLayer extends CommLayer {
             Registry registry = LocateRegistry.getRegistry(host, reqPort);
             RMIServerInt loginObj = (RMIServerInt) registry.lookup(LoginResponsesEnum.RESOURCE_NAME.msg);
             RMISession session=loginObj.login(usn,pw,isRecovery,newUser);
+            if(session==null)return "Login failed";
             if(session.getLoginOutput().equals(LoginResponsesEnum.LOGIN_OK)){
                 logger.log(Level.INFO,"Login was successful");
                 this.sessionObj=session;
@@ -146,6 +150,7 @@ class RMICommLayer extends CommLayer {
                 return sessionObj.sendObj(obj);
             } catch (RemoteException e) {
                 logger.log(Level.SEVERE, "Error sending object through RMI");
+                listenerObj.stop();
             }
         }
         return false;
@@ -153,11 +158,13 @@ class RMICommLayer extends CommLayer {
 
     @Override
     boolean sendOutReq(AbsReq req) {
+        logger.log(Level.FINEST,"Sending out req {0}",req);
         if(sessionObj!=null){
             try {
                 return sessionObj.sendReq(req);
             } catch (RemoteException e) {
                 logger.log(Level.SEVERE, "Error sending request through RMI");
+                listenerReq.stop();
             }
         }
         return false;

@@ -112,7 +112,9 @@ public class Comm {
     public void sendOutObj() throws InterruptedException {
         if(commLayer==null)return;
         Serializable obj=UtilMethods.waitAndPopTS(outObjQueue);
-        commLayer.sendOutObj(obj);
+        if(!commLayer.sendOutObj(obj)){
+            this.beginDisconnectedRoutines();
+        }
     }
 
     /**
@@ -122,7 +124,9 @@ public class Comm {
     public void sendOutReq() throws InterruptedException {
         if(commLayer==null)return;
         AbsReq req=UtilMethods.waitAndPopTS(outReqQueue);
-        commLayer.sendOutReq(req);
+        if(!commLayer.sendOutReq(req)){
+            this.beginDisconnectedRoutines();
+        }
     }
 
     /**
@@ -148,6 +152,7 @@ public class Comm {
      * @param obj the object that has been received
      */
     public void pushInObj(Serializable obj) {
+        updateTs();
         UtilMethods.pushAndNotifyTS(inObjQueue,obj);
     }
 
@@ -156,6 +161,7 @@ public class Comm {
      * @param req the request that has been received
      */
     public void pushInReq(AbsReq req) {
+        updateTs();
         UtilMethods.pushAndNotifyTS(inReqQueue,req);
     }
 
@@ -229,12 +235,17 @@ public class Comm {
         }
         String outcome=commLayer.establishCon(host,requestPort,objectPort,isRecovery,usn,pw,newUser);
         if(outcome!=null)return outcome;
-        setUsername(username);
-        setPassword(password);
+        setUsername(usn);
+        setPassword(pw);
         this.host=host;
         this.reqPort=requestPort;
         this.objPort=objectPort;
         updateTs();
+
+        this.utilizer=utilizer;
+
+        inListenerObj.setUtilizer(utilizer);
+        inListenerReq.setUtilizer(utilizer);
 
         inListenerReq.start();
         inListenerObj.start();
@@ -242,7 +253,6 @@ public class Comm {
         qEmpObj.start();
         qEmpReq.start();
 
-        this.utilizer=utilizer;
 
         discTimer.reschedule(ClientDiscTimer.DEFAULT_CLIENT_TIMEOUT);
         logger.log(Level.INFO,"Successful login");
@@ -268,7 +278,7 @@ public class Comm {
     /**
      * Handles a logout request from the server
      */
-    void logoutRequestReceived() {
+    public void logoutRequestReceived() {
         throw new UnsupportedOperationException();
     }
 
@@ -278,11 +288,14 @@ public class Comm {
      * @return true if the connection has been recovered
      */
     boolean tryRecover(boolean purgeOnFail) {
+        logger.log(Level.WARNING,"Attempting to reconnect to {0}",host);
         String result=login(host,reqPort,objPort,true,username,password,false,true,utilizer);
         if(result==null){
+            logger.log(Level.INFO,"Successfully reconnected");
             return true;
         }
         logger.log(Level.SEVERE,"Failed to reconnect");
+        if(purgeOnFail)beginDisconnectedRoutines();
         return false;
     }
 
@@ -301,7 +314,14 @@ public class Comm {
      * @return true if no errors were raised
      */
     public boolean beginDisconnectedRoutines() {
-        throw new UnsupportedOperationException();
+        inListenerReq.stop();
+        inListenerObj.stop();
+        qEmpReq.stop();
+        qEmpObj.stop();
+        discTimer.stop();
+        this.purgeComm();
+        reconnectW.reschedule(200,4);
+        return true;
     }
 
     /**

@@ -1,6 +1,5 @@
 package it.polimi.se2018.controller.network.server;
 
-import it.polimi.se2018.util.MatchIdentifier;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,13 +10,14 @@ import static org.junit.Assert.*;
 
 public class MatchMakingQueueTest {
     MatchMakingQueue m;
-    Queue<Client> q;
+    Queue q;
     @Before
     public void setUp() throws Exception{
         m=new MatchMakingQueue(null);
         Field f=m.getClass().getDeclaredField("q");
         f.setAccessible(true);
-        q=(Queue<Client>)f.get(m);
+        q=(Queue)f.get(m);
+
     }
 
     @Test

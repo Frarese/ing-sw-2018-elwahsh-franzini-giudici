@@ -3,7 +3,6 @@ package it.polimi.se2018.controller.network.server;
 import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.controller.network.ChangeCLayerRequest;
 import it.polimi.se2018.controller.network.KeepAliveRequest;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,9 +28,9 @@ public class DisconnectCheckerTest {
 
     @Test(timeout = 1000)
     public void testInit() {
-        long warningTimeout=1;
-        long deathTimeout=1;
-        long purgeTimeout=1;
+        long warningTimeout=2;
+        long deathTimeout=2;
+        long purgeTimeout=2;
         uut=new DisconnectChecker(warningTimeout,deathTimeout,purgeTimeout,new ClientTest());
         uut.reschedule();
         while(!purge.get());
@@ -41,9 +40,9 @@ public class DisconnectCheckerTest {
 
     @Test(timeout = 1000)
     public void testFail() {
-        long warningTimeout=1;
-        long deathTimeout=1;
-        long purgeTimeout=1;
+        long warningTimeout=2;
+        long deathTimeout=2;
+        long purgeTimeout=2;
         fail.set(true);
         uut=new DisconnectChecker(warningTimeout,deathTimeout,purgeTimeout,new ClientTest());
         uut.reschedule();
