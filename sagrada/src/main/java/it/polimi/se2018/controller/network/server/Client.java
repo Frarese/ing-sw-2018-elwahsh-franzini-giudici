@@ -101,8 +101,10 @@ public class Client {
      * @param reqSoc the request {@link it.polimi.se2018.util.SafeSocket}
      * @param objSoc the object {@link it.polimi.se2018.util.SafeSocket}
      */
-    public void createSocketComm(SafeSocket reqSoc, SafeSocket objSoc) {
-        throw new UnsupportedOperationException();
+    void createSocketComm(SafeSocket reqSoc, SafeSocket objSoc) {
+        if(this.cComm!=null)return;
+        this.cComm=new SocClientComm(reqSoc,objSoc,this);
+        this.init();
     }
 
     /**
@@ -174,12 +176,10 @@ public class Client {
 
     /**
      * Removes the match instance from this client
-     * @return true if no errors occur
      */
-    public boolean removeMatchInstance() {
-        if(this.match==null)return false;
+    public void removeMatchInstance() {
+        if(this.match==null)return;
         this.match=null;
-        return true;
     }
 
     /**
@@ -188,7 +188,7 @@ public class Client {
      * @return true if no other match was already active
      */
     public boolean acceptPAMatch(PendingApprovalMatch match) {
-        if(this.pAM!=null)return false;
+        if(this.pAM!=null || this.match!=null)return false;
         this.pAM=match;
         return true;
     }
@@ -351,8 +351,8 @@ public class Client {
      * @param req the request to put back on top
      */
     void pushRequestBack(AbsReq req){
-        synchronized (outObjQueue){
-            LinkedList<Serializable> asList=(LinkedList<Serializable>)outObjQueue;
+        synchronized (outReqQueue){
+            LinkedList<AbsReq> asList=(LinkedList<AbsReq>)outReqQueue;
             asList.addFirst(req);
         }
     }

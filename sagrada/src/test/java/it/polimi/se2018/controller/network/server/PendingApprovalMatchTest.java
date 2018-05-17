@@ -48,7 +48,7 @@ public class PendingApprovalMatchTest {
     @Test(expected = NullPointerException.class)
     public void abort(){
         uut=new PendingApprovalMatch(1000,mId,null,c1);
-        uut.run();
+        uut.abort();
         assertTrue(c1.aborted);
     }
 

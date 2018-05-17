@@ -8,20 +8,17 @@ import it.polimi.se2018.util.SafeSocket;
  */
 class WaitingObjSocketClient {
     final SafeSocket reqS;
-    final String usn;
     final String psw;
     final boolean isRecovery;
 
     /**
      * Initializes a wrapper with the given parameters
      * @param reqS the request {@link it.polimi.se2018.util.SafeSocket}
-     * @param usn username
      * @param psw password
      * @param isRecovery recovery flag
      */
-    public WaitingObjSocketClient(SafeSocket reqS, String usn, String psw, boolean isRecovery) {
+    WaitingObjSocketClient(SafeSocket reqS, String psw, boolean isRecovery) {
         this.reqS = reqS;
-        this.usn = usn;
         this.psw = psw;
         this.isRecovery = isRecovery;
     }

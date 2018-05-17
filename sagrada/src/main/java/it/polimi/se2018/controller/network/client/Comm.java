@@ -76,8 +76,9 @@ public class Comm {
      * @param objPort object port to use, not used if RMI
      */
     public void changeLayer(boolean toRMI, int reqPort,int objPort) {
+        if(commLayer==null)return;
         //Only a disparity between the two requires actions taken
-        if(toRMI ^ commLayer.getClass().equals(RMICommLayer.class))return;
+        if(toRMI == commLayer.getClass().equals(RMICommLayer.class))return;
 
         if(!commLayer.sendOutReq(new ChangeCLayerRequest(toRMI,reqPort,objPort))){
             logger.log(Level.SEVERE,"Failed to send change layer request");
@@ -201,7 +202,7 @@ public class Comm {
      * Returns the password that has been used in the login phase
      * @return the password that has been used in the login phase, {@code null} if none is in use
      */
-    public String getsPassword() {
+    public String getPassword() {
         return this.password;
     }
 
@@ -239,7 +240,12 @@ public class Comm {
         setPassword(pw);
         this.host=host;
         this.reqPort=requestPort;
-        this.objPort=objectPort;
+        if(useRMI){
+            this.objPort=objectPort;
+        }else{
+            this.objPort=0;
+        }
+
         updateTs();
 
         this.utilizer=utilizer;
@@ -264,6 +270,7 @@ public class Comm {
      * @return true if no errors were raised
      */
     boolean logout() {
+        if(commLayer==null)return false;
         this.stop();
         commLayer.sendOutReq(new LogoutRequest());
         commLayer.endCon();
@@ -289,13 +296,15 @@ public class Comm {
      */
     boolean tryRecover(boolean purgeOnFail) {
         logger.log(Level.WARNING,"Attempting to reconnect to {0}",host);
-        String result=login(host,reqPort,objPort,true,username,password,false,true,utilizer);
+        String result=login(host,reqPort,objPort,true,username,password,false,(objPort==0),utilizer);
         if(result==null){
             logger.log(Level.INFO,"Successfully reconnected");
             return true;
         }
         logger.log(Level.SEVERE,"Failed to reconnect");
-        if(purgeOnFail)beginDisconnectedRoutines();
+        if(purgeOnFail){
+            purgeComm();
+        }
         return false;
     }
 
@@ -311,17 +320,12 @@ public class Comm {
 
     /**
      * Disconnects the comm layer
-     * @return true if no errors were raised
      */
-    public boolean beginDisconnectedRoutines() {
-        inListenerReq.stop();
-        inListenerObj.stop();
-        qEmpReq.stop();
-        qEmpObj.stop();
-        discTimer.stop();
+    public void beginDisconnectedRoutines() {
+        logger.log(Level.INFO,"Beginning disconnect routines");
+        this.stop();
         this.purgeComm();
-        reconnectW.reschedule(200,4);
-        return true;
+        reconnectW.reschedule(ReconnectWaker.DEFAULT_RECON_PERIOD,ReconnectWaker.DEFAULT_ATTEMPTS);
     }
 
     /**
@@ -337,7 +341,7 @@ public class Comm {
      * Purges the comm layer
      */
     public void purgeComm() {
-        commLayer.close();
+        if(commLayer!=null)commLayer.close();
         commLayer=null;
     }
 
@@ -352,7 +356,7 @@ public class Comm {
     /**
      * Stops the current listeners/handlers
      */
-    public void stop(){
+    void stop(){
         discTimer.stop();
         inListenerObj.stop();
         inListenerReq.stop();

@@ -16,8 +16,6 @@ import java.util.logging.Logger;
 class RMIServer extends ServerComm {
 
     private RMIServerIntImpl rmiObj;
-    private final int port;
-    private final String name;
     private final Logger logger;
 
     /**
@@ -28,8 +26,6 @@ class RMIServer extends ServerComm {
      */
     RMIServer(ServerMain handler, int port, String name) throws RemoteException{
         super(handler);
-        this.port=port;
-        this.name=name;
         logger=Logger.getGlobal();
 
         try {
@@ -60,7 +56,7 @@ class RMIServer extends ServerComm {
 
             if (result.equals(LoginResponsesEnum.LOGIN_OK)) {
                 Client c = new Client(usn, handler);
-                if (this.handler.addClient(c, register)) {
+                if (this.handler.addClient(c)) {
                     rmiS = new RMISessionImpl(result);
                     c.createRMIComm(rmiS);
                 } else {

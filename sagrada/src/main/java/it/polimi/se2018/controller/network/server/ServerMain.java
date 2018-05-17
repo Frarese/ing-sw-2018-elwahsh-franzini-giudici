@@ -59,10 +59,9 @@ public class ServerMain {
     /**
      * Tries to register a new client
      * @param client the client object to register
-     * @param isNew flag indicating a new user
      * @return true if the process is completed with success
      */
-    public boolean addClient(Client client, boolean isNew) {
+    boolean addClient(Client client) {
         Client outcome=clientMap.putIfAbsent(client.usn,client);
         if(outcome==null){
             logger.log(Level.FINEST,"{0} logged in",client.usn);

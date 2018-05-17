@@ -47,6 +47,7 @@ abstract class ServerComm {
      * @return the {@link it.polimi.se2018.controller.network.server.LoginResponsesEnum} that represents the result
      */
     LoginResponsesEnum tryLogin(String usn,String pw,boolean isRecover,boolean register){
+        if(handler.getClient(usn)==null && isRecover)return LoginResponsesEnum.USER_NOT_LOGGED;
         if(register && !handler.existsUsn(usn) && handler.createUser(usn, pw)){
             return LoginResponsesEnum.LOGIN_OK;
         }else{

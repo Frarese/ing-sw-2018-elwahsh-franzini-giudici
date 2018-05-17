@@ -48,26 +48,22 @@ public class CommFE {
     /**
      * Attempts to send an object to the server
      * @param obj the object to send
-     * @return true if no errors were raised
      */
-    public boolean sendObj(Serializable obj) {
+    public void sendObj(Serializable obj) {
         if(obj!=null) {
             comm.pushOutObj(obj);
         }
-        return true;
     }
 
     /**
      * Attempts to send an object to another client through the request comm line
      * @param req the object to send
      * @param dst the user to forward the request to
-     * @return true if no errors were raised
      */
-    public boolean sendReq(Serializable req, String dst) {
+    public void sendReq(Serializable req, String dst) {
         if(req!=null && dst!=null) {
             comm.pushOutReq(new ClientRequest(dst,req));
         }
-        return true;
     }
 
     /**

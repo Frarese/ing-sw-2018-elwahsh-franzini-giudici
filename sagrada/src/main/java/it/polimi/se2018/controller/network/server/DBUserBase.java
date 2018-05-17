@@ -13,7 +13,7 @@ class DBUserBase implements UserBase {
     /**
      * Loads the User Base from the database
      */
-    public DBUserBase() {
+    DBUserBase() {
         throw new UnsupportedOperationException();
     }
 

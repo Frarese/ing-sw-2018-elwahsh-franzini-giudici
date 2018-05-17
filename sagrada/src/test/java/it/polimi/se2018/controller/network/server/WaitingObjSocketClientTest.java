@@ -10,9 +10,8 @@ public class WaitingObjSocketClientTest {
     @Test
     public void testInit() throws Exception{
         SafeSocket s=new SafeSocket(0);
-        WaitingObjSocketClient uut=new WaitingObjSocketClient(s,"usn","pw",false);
+        WaitingObjSocketClient uut=new WaitingObjSocketClient(s,"pw",false);
         assertEquals(s,uut.reqS);
-        assertEquals("usn",uut.usn);
         assertEquals("pw",uut.psw);
         assertFalse(uut.isRecovery);
     }

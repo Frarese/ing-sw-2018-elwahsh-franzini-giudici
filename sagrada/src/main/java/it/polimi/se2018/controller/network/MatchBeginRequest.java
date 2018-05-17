@@ -25,6 +25,8 @@ public class MatchBeginRequest extends AbsMatchReq {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+        checkValid();
+        clientComm.setMatchInfo(this.matchId);
         commUtilizer.notifyMatchStart(host);
     }
 

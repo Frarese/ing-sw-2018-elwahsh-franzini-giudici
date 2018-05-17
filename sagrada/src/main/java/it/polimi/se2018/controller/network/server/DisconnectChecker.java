@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * Object that checks if a username is timing out
  * @author Francesco Franzini
  */
-class DisconnectChecker extends TimerTask {
+class DisconnectChecker{
     private boolean continua;
     private final long warningTimeout;
     private final long deathTimeout;
@@ -42,8 +42,7 @@ class DisconnectChecker extends TimerTask {
         t=new Timer();
     }
 
-    @Override
-    public void run() {
+    private void runTask() {
         if(continua){
             Instant i=client.lastSeen();
             Duration d=Duration.between(i,Instant.now());
@@ -77,7 +76,14 @@ class DisconnectChecker extends TimerTask {
         warned.set(false);
         long minT=(warningTimeout<deathTimeout)?warningTimeout:deathTimeout;
         minT=(purgeTimeout<minT)?purgeTimeout:minT;
-        t.schedule(this,0,minT/2);
+
+        TimerTask tS=new TimerTask() {
+            @Override
+            public void run() {
+                runTask();
+            }
+        };
+        t.schedule(tS,0,minT/2);
     }
 
     /**

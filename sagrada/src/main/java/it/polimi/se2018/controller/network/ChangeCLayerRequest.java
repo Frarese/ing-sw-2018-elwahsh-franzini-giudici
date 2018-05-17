@@ -26,7 +26,7 @@ public class ChangeCLayerRequest extends AbsReqServerLogic {
         if(!checkValid())return;
         clientComm.purgeComm();
         clientComm.login(clientComm.getHost(),reqPort,objPort,true
-                ,clientComm.getUsername(),clientComm.getsPassword()
+                ,clientComm.getUsername(),clientComm.getPassword()
                 ,false,toRMI,commUtilizer);
     }
 

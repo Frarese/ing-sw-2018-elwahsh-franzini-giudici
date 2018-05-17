@@ -154,10 +154,10 @@ class SocketServer extends ServerComm {
             LoginResponsesEnum response=SocketServer.super.tryLogin(logReq.username,logReq.password,logReq.isRecovery,logReq.isNewUser);
             if(response.equals(LoginResponsesEnum.LOGIN_OK)){
                 Client c=new Client(logReq.username,handler);
-                if(SocketServer.this.handler.addClient(c,logReq.isNewUser)){
+                if(SocketServer.this.handler.addClient(c)){
                     ss.send(LoginResponsesEnum.LOGIN_OK);
                     waitingObjConnClients.put(logReq.username,
-                            new WaitingObjSocketClient(ss,logReq.username,logReq.password,logReq.isRecovery));
+                            new WaitingObjSocketClient(ss,logReq.password,logReq.isRecovery));
                 }else{
                     ss.send(LoginResponsesEnum.USER_ALREADY_LOGGED);
                     ss.close(true);
@@ -217,14 +217,8 @@ class SocketServer extends ServerComm {
             }
             if(wObj.psw.equals(password) && wObj.isRecovery==isRecovery){
                 waitingObjConnClients.remove(username);
-                Client c=new Client(username,handler);
-                if(SocketServer.this.handler.addClient(c,cReq.isRecovery)){
-                    c.createSocketComm(wObj.reqS,ss);
-                }else{
-                    ss.send(LoginResponsesEnum.USER_ALREADY_LOGGED);
-                    ss.close(true);
-                }
-
+                Client c=SocketServer.this.handler.getClient(username);
+                c.createSocketComm(wObj.reqS,ss);
             }else{
                 logger.log(Level.FINEST,"A client is trying to complete with wrong credentials");
                 ss.send(LoginResponsesEnum.WRONG_CREDENTIALS);

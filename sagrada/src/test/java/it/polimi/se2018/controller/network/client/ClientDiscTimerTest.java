@@ -24,7 +24,7 @@ public class ClientDiscTimerTest {
 
     @Test(timeout=1000)
     public void testInit() {
-        long timeout=1;
+        long timeout=50;
         uut.reschedule(timeout);
         while(!(called.get()>1));
         uut.stop();
@@ -44,9 +44,8 @@ public class ClientDiscTimerTest {
 
     private class CommTest extends Comm{
         @Override
-        public boolean beginDisconnectedRoutines(){
+        public void beginDisconnectedRoutines(){
             failed.set(true);
-            return false;
         }
 
         @Override
