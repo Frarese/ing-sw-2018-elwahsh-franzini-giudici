@@ -9,26 +9,26 @@ public class Pattern {
     public static final int HEIGHT = 4;
     public static final int WIDTH = 5;
 
-    private Pair<ColorModel,Integer>[][] schema = new Pair[HEIGHT][WIDTH];
+    private Pair[][] schema;
     private int favourPoints;
+    private String name;
 
 
     /**
-     * Build the pattern from a file
-     * @param path file's path
+     * Pattern's constructor
+     * @param schema pattern's grid
+     * @param name pattern's name
+     * @param favourPoints pattern's favour points
      */
-    private void loadFromFile(String path)
+    public Pattern(Pair[][] schema, String name, int favourPoints)
     {
-       throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Pattern constructor
-     * @param path file's path
-     */
-    public Pattern(String path)
-    {
-        loadFromFile(path);
+        this.schema = schema;
+        this.name = name;
+        this.favourPoints = favourPoints;
+        for(int h=0; h<Pattern.HEIGHT;h++)
+            for(int w = 0; w<Pattern.WIDTH;w++)
+                if(schema[h][w] == null)
+                    schema[h][w] = new Pair<>(ColorModel.WHITE,0);
     }
 
     /**
@@ -40,6 +40,14 @@ public class Pattern {
     }
 
     /**
+     * Getter for pattern's name
+     * @return pattern's name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Get the color of a cell inside the pattern
      * @param h cell's height
      * @param w cell's width
@@ -47,7 +55,7 @@ public class Pattern {
      */
     public ColorModel getColor(int h, int w )
     {
-        return schema[h][w].getFirst();
+        return (ColorModel) schema[h][w].getFirst();
     }
 
     /**
@@ -58,7 +66,7 @@ public class Pattern {
      */
     public int getValue(int h, int w)
     {
-        return schema[h][w].getSecond();
+        return (Integer) schema[h][w].getSecond();
     }
 
     /**
@@ -68,14 +76,13 @@ public class Pattern {
     public String toString()
     {
         StringBuilder strb = new StringBuilder();
+        strb.append(name).append(" ").append(favourPoints).append("\n");
         for (int i = 0; i <HEIGHT ; i++) {
             for (int j = 0; j <WIDTH ; j++) {
                 strb.append(schema[i][j].getFirst()).append(" ").append(schema[i][j].getSecond()).append(" ");
             }
            strb.append("\n");
         }
-        strb.append(favourPoints);
-
         return strb.toString();
     }
 

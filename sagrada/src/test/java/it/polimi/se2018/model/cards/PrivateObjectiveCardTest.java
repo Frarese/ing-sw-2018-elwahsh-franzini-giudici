@@ -1,6 +1,5 @@
 package it.polimi.se2018.model.cards;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.dice.Die;

@@ -1,6 +1,18 @@
 package it.polimi.se2018.model.cards;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.Pattern;
+import it.polimi.se2018.util.Pair;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Model representation of a window pattern card
@@ -8,18 +20,70 @@ import it.polimi.se2018.model.Pattern;
  */
 public class PatternCard extends CardModel {
 
-    Pattern frontSide; /*first pattern*/
-    Pattern backSide; /*second pattern*/
+    private Logger logger = Logger.getGlobal();
+    private Pattern frontSide; /*first pattern*/
+    private Pattern backSide; /*second pattern*/
 
     /**
      * PatternCard's constructor
-     * @param path1 first side's filepath
-     * @param path2 second side's filepath
+     * Builds frontSide and backSide from a XML file
+     * @param path file's path
      */
-    public PatternCard(String path1, String path2)
+    public PatternCard(String path)
     {
-        frontSide = new Pattern(path1);
-        backSide = new Pattern(path2);
+        Pair[][] schema;
+        int height;
+        int width;
+        int value;
+        ColorModel color;
+        String name;
+        int favourPoints;
+
+        try {
+            File fXmlFile = new File(path);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+
+            doc.getDocumentElement().normalize();
+
+            NodeList lList = doc.getElementsByTagName("pattern");
+            for (int j = 0; j < 2; j++) {
+                schema  = new Pair[Pattern.HEIGHT][Pattern.WIDTH];
+                Node lNode = lList.item(j);
+
+                Element xElement = (Element) lNode;
+                favourPoints = Integer.parseInt(xElement.getAttribute("difficulty"));
+                name = xElement.getAttribute("name");
+
+                NodeList nList = lNode.getChildNodes();
+
+                for (int temp = 0; temp < nList.getLength(); temp++) {
+
+                    Node nNode = nList.item(temp);
+
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                        Element eElement = (Element) nNode;
+
+                        height = Integer.parseInt(eElement.getAttribute("height"));
+                        width = Integer.parseInt(eElement.getAttribute("width"));
+                        color = ColorModel.valueOf(eElement.getElementsByTagName("color").item(0).getTextContent());
+                        value = Integer.parseInt(eElement.getElementsByTagName("value").item(0).getTextContent());
+
+                        schema[height][width] = new Pair<>(color,value);
+                    }
+
+                    if(j == 0)
+                        frontSide = new Pattern(schema.clone(),name,favourPoints);
+                    else
+                        backSide = new Pattern(schema.clone(),name,favourPoints);
+                }
+            }
+            } catch(Exception e){
+                logger.log(Level.SEVERE, e.toString());
+
+        }
     }
 
     /**

@@ -1,13 +1,11 @@
 package it.polimi.se2018.model.cards.objectivecards;
 
-import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.dice.Die;
 import org.junit.Test;
 
 import static it.polimi.se2018.model.ColorModel.RED;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class DeepShadesTest {
 

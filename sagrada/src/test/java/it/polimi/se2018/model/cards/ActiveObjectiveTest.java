@@ -19,7 +19,7 @@ public class ActiveObjectiveTest {
     @Test
     public void testTotalScore()
     {
-        Player player = new Player("Cipher", 0);
+        Player player = new Player("Cypher", 0);
         assertEquals(0,test.totalScore(player));
     }
 }

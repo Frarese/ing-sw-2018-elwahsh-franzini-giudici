@@ -110,7 +110,7 @@ public class ColorDiagonal extends ObjectiveCard {
         visited = new boolean[Grid.HEIGHT][Grid.WIDTH];
         for(int h = 0; h<Grid.HEIGHT; h++ )
             for(int w = 0; w<Grid.WIDTH; w++)
-                    temp += findFirstSpot(player.getGrid(), h , w,0);
+                    temp = findFirstSpot(player.getGrid(), h , w,temp);
 
         return temp*multiplier;
     }

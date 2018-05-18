@@ -4,9 +4,6 @@ import it.polimi.se2018.model.ColorModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import static org.junit.Assert.*;
 
 
@@ -32,8 +29,7 @@ public class GridTest {
     @Test
     public void testPublicInfo()
     {
-        assertEquals(Grid.HEIGHT,4);
-        assertEquals(Grid.WIDTH,5);
+
         assertEquals(0,grid.getPlacedDice());
     }
 

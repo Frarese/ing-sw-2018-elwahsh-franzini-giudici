@@ -7,8 +7,6 @@ import org.junit.Test;
 import static it.polimi.se2018.model.ColorModel.WHITE;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class RoundTrackerTest {
@@ -31,7 +29,6 @@ public class RoundTrackerTest {
     @Test
     public void testPublicInfo()
     {
-        assertEquals(RoundTracker.ROUNDS,10); /*True for Sagrada*/
         assertEquals(null,test.getDie(-1,-1)); /*Must be always true*/
     }
 
