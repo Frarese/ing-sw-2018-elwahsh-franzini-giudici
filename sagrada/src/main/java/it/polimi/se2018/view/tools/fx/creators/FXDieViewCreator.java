@@ -15,6 +15,7 @@ public class FXDieViewCreator implements DieViewCreator<Image> {
 
     @Override
     public Image makeDie(Pair<Integer, ColorModel> die) {
-        return new Image("/it/polimi/se2018/view/images/die/value_color/val" + die.getFirst() + "c" + die.getSecond().toString() + ".png");
+        String url = "it/polimi/se2018/view/images/die/value_color/val" + die.getFirst() + "c" + die.getSecond().toString() + ".png";
+        return new Image(url);
     }
 }

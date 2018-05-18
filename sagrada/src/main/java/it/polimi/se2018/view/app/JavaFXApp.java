@@ -15,8 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,6 +28,10 @@ import java.util.logging.Logger;
  */
 
 public class JavaFXApp extends App {
+
+    public JavaFXStageProducer getStageProducer() {
+        return stageProducer;
+    }
 
     /**
      * Components for GUI
@@ -46,12 +48,13 @@ public class JavaFXApp extends App {
      * Class constructor
      */
     JavaFXApp() {
-        this.stageProducer = new JavaFXStageProducer();
-        try {
-            this.stageProducer.start(new Stage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        super();
+        // this.stageProducer = new JavaFXStageProducer(this);
+//        try {
+//            this.stageProducer.start(new Stage());
+//        } catch (Exception e) {
+//            Logger.getGlobal().log(Level.SEVERE, e.getMessage());
+//        }
     }
 
     @Override
@@ -61,19 +64,26 @@ public class JavaFXApp extends App {
 
     @Override
     public void startLogin(boolean displayWelcome) {
-        //TODO check displayWelcome
-        stageProducer.getStage().setTitle("Sagrada Game");
-        stageProducer.getStage().getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/images/others/icon.png")));
-
-        try {
-            Parent root = FXMLLoader.load(stageProducer.getClass().getResource("fxml_files/start.fxml"));
-            stageProducer.getStage().setScene(new Scene(root));
-        } catch (IOException e) {
-            Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
+        //Control if animation is enabled
+        if (!this.animationEnable) {
+            return;
         }
 
-        stageProducer.getStage().show();
-        stageProducer.getStage().setResizable(false);
+        //Check if have to display welcome page
+        if (displayWelcome) {
+            stageProducer.getStage().setTitle("Sagrada Game");
+            stageProducer.getStage().getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/images/others/icon.png")));
+
+            try {
+                Parent root = FXMLLoader.load(stageProducer.getClass().getResource("fxmlsFiles/start.fxml"));
+                stageProducer.getStage().setScene(new Scene(root));
+            } catch (IOException e) {
+                Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
+            }
+
+            stageProducer.getStage().show();
+            stageProducer.getStage().setResizable(false);
+        }
     }
 
     @Override
@@ -229,11 +239,5 @@ public class JavaFXApp extends App {
     public void selectDieFromGridByColor(ColorModel color) {
         throw new UnsupportedOperationException();
 
-    }
-
-    public void createLoginPage() {
-        Scene scene = new Scene(new AnchorPane());
-
-        stageProducer.getStage().setScene(scene);
     }
 }

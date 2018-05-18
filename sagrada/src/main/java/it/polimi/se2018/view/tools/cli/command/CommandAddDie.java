@@ -21,10 +21,8 @@ public class CommandAddDie extends CLICommand {
         int reserveIndex = this.app.getReader().chooseInRange(0, this.app.getReserveViewCreator().getReserve().length - 1);
         this.app.getPrinter().print("Seleziona la posizione (la numerazione parte da 0)");
         this.app.getPrinter().printArray(this.app.getGridViewCreator().display());
-        this.app.getPrinter().print("Inserisci coordinata x:");
-        int width = this.app.getReader().chooseInRange(0, 4);
-        this.app.getPrinter().print("Inserisci coordinata y:");
-        int height = this.app.getReader().chooseInRange(0, 3);
-        this.app.getViewActions().setDie(reserveIndex,height,width );
+        int width = this.app.getCoordinateX();
+        int height = this.app.getCoordinateY();
+        this.app.getViewActions().setDie(reserveIndex, height, width);
     }
 }

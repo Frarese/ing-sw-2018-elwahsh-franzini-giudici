@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -40,5 +41,30 @@ public class CLIRoundTrackerViewCreatorTest {
         strings.add("0) 1-RED");
         strings.add("1) 2-RED");
         assertEquals(strings, cliRoundTrackerViewCreator.display());
+    }
+
+    @Test
+    public void getRoundTest() {
+        assertEquals(round,cliRoundTrackerViewCreator.getRound());
+    }
+
+    @Test
+    public void setRoundTest() {
+        this.round = 2;
+        this.cliRoundTrackerViewCreator.setRound(round);
+        assertEquals(round,cliRoundTrackerViewCreator.getRound());
+    }
+
+
+    @Test
+    public void getRoundTrackerTest() {
+        assertArrayEquals(roundTracker,cliRoundTrackerViewCreator.getRoundTracker());
+    }
+
+    @Test
+    public void setRoundTrackerTest(){
+        this.roundTracker = new Pair[1][1];
+        cliRoundTrackerViewCreator.setRoundTracker(roundTracker);
+        assertArrayEquals(roundTracker,cliRoundTrackerViewCreator.getRoundTracker());
     }
 }

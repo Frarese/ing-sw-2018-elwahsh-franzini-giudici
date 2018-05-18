@@ -30,7 +30,7 @@ public class CLIPrinter {
         try {
             message = (String) input;
         } catch (Exception e) {
-            message = input.toString();
+            message = e.getMessage();
         }
         printWriter.println(message);
         printWriter.flush();
@@ -47,7 +47,7 @@ public class CLIPrinter {
             array = (List<String>) input;
             array.forEach(this::print);
         } catch (Exception e) {
-            print(input.toString());
+            print(e.getMessage());
         }
     }
 

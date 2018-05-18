@@ -1,8 +1,10 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
+import it.polimi.se2018.view.tools.CardViewCreator;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -14,12 +16,14 @@ import static org.junit.Assert.assertNull;
 
 public class CLICardViewCreatorTest {
 
-    private CLICardViewCreator cliCardViewCreator;
+    private CardViewCreator cliCardViewCreator;
+
+    private int[] public_o, tool;
 
     @Before
     public void testInit() {
-        int[] public_o = new int[3];
-        int[] tool = new int[3];
+        public_o = new int[3];
+        tool = new int[3];
         public_o[0] = 10;
         tool[0] = 26;
         cliCardViewCreator = new CLICardViewCreator(3, public_o, tool);
@@ -32,4 +36,20 @@ public class CLICardViewCreatorTest {
         assertEquals("Martelleto", cliCardViewCreator.makeCart(26));
         assertNull(cliCardViewCreator.makeCart(32));
     }
+
+    @Test
+    public void getPrivateObjectiveCardtest() {
+        assertEquals(3,cliCardViewCreator.getPrivateObjectiveCard());
+    }
+
+    @Test
+    public void getPublicObjectiveCardsTest() {
+        assertArrayEquals(public_o,cliCardViewCreator.getPublicObjectiveCards());
+    }
+
+    @Test
+    public void getToolCardsTest() {
+        assertArrayEquals(tool,cliCardViewCreator.getToolCards());
+    }
+
 }

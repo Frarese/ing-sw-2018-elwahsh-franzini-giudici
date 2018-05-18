@@ -11,7 +11,10 @@ import java.util.Scanner;
 public class CLIReader {
 
     private Scanner scanner;
+
     private CLIPrinter printer;
+
+    private String globalErrorMessage = "Risposta non valida, riprovare";
 
     /**
      * Class constructor
@@ -42,6 +45,7 @@ public class CLIReader {
             number = scanner.nextInt();
         } catch (Exception e) {
             printer.print("Non hai inserito un numero, riprova");
+            scanner.nextLine();
             number = readInt();
         }
 
@@ -55,8 +59,11 @@ public class CLIReader {
      */
     public synchronized boolean chooseYes() {
         //Ask option
-        printer.print("[Y=si, N= no] ");
+        printer.print("[Y=si, N= no]");
         String response = scanner.next();
+
+        //Upper case
+        response = response.toUpperCase();
 
         //Check option
         if (response.equals("Y")) {
@@ -68,7 +75,8 @@ public class CLIReader {
                 return false;
             } else {
                 //Invalid option, recall
-                printer.print("Risposta non valida, riprovare");
+                printer.print(globalErrorMessage);
+                scanner.nextLine();
                 return chooseYes();
             }
         }
@@ -93,7 +101,8 @@ public class CLIReader {
             return response;
         } else {
             //Invalid option, recall
-            printer.print("Risposta non valida, riprovare");
+            printer.print(globalErrorMessage);
+            scanner.nextLine();
             return chooseInRange(minValue, maxValue);
         }
     }
@@ -101,7 +110,7 @@ public class CLIReader {
     /**
      * Choose between two values
      *
-     * @param low contains lower value
+     * @param low  contains lower value
      * @param high contains higher value
      * @return the user choice
      */
@@ -116,7 +125,8 @@ public class CLIReader {
             return response;
         } else {
             //Invalid option, recall
-            printer.print("Risposta non valida, riprovare");
+            printer.print(globalErrorMessage);
+            scanner.nextLine();
             return chooseInRange(low, high);
         }
     }
@@ -125,6 +135,7 @@ public class CLIReader {
      * To close the input reader
      */
     public synchronized void close() {
+        scanner.reset();
         scanner.close();
     }
 }

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -35,12 +36,12 @@ public class CLIGridViewCreatorTest {
         result = new ArrayList<String>();
         result.add("Pattern\n");
         result.add("--------------------");
-        result.add("|1-RED   ||1-RED   |");
+        result.add("|1-RED   ||1-VIOLET|");
         result.add("--------------------");
         grid = null;
         pattern = new Pair[1][2];
         pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        pattern[0][1] = new Pair<>(1, ColorModel.VIOLET);
         this.cliGridViewCreator = new CLIGridViewCreator(grid, pattern, printer);
 
         assertEquals(result, cliGridViewCreator.display());
@@ -83,14 +84,14 @@ public class CLIGridViewCreatorTest {
         pattern[0][1] = new Pair<>(1, ColorModel.RED);
         grid[0][0] = new Pair<>(1, ColorModel.RED);
         grid[0][1] = new Pair<>(1, ColorModel.RED);
-        this.cliGridViewCreator = new CLIGridViewCreator(grid, pattern,printer);
+        this.cliGridViewCreator = new CLIGridViewCreator(grid, pattern, printer);
 
         assertEquals(result, cliGridViewCreator.display());
     }
 
     @Test
     public void addDieTest() {
-        this.cliGridViewCreator = new CLIGridViewCreator(null, null,printer);
+        this.cliGridViewCreator = new CLIGridViewCreator(null, null, printer);
         cliGridViewCreator.addADie("Test Add", 0, 0);
     }
 
@@ -98,7 +99,24 @@ public class CLIGridViewCreatorTest {
     public void pickDieTest() {
         grid = new Pair[1][1];
         grid[0][0] = new Pair<>(1, ColorModel.RED);
-        this.cliGridViewCreator = new CLIGridViewCreator(grid, null,printer);
+        this.cliGridViewCreator = new CLIGridViewCreator(grid, null, printer);
         assertEquals("1-RED", cliGridViewCreator.pickDie(0, 0));
+    }
+
+    @Test
+    public void getGridTest() {
+        grid = new Pair[1][2];
+        grid[0][0] = new Pair<>(1, ColorModel.RED);
+        grid[0][1] = new Pair<>(1, ColorModel.RED);
+        this.cliGridViewCreator = new CLIGridViewCreator(grid, null, printer);
+        assertArrayEquals(grid, cliGridViewCreator.getGrid());
+    }
+
+    @Test
+    public void setGridTest() {
+        grid = new Pair[1][1];
+        this.cliGridViewCreator = new CLIGridViewCreator(null, null, printer);
+        this.cliGridViewCreator.setGrid(grid);
+        assertArrayEquals(grid, cliGridViewCreator.getGrid());
     }
 }

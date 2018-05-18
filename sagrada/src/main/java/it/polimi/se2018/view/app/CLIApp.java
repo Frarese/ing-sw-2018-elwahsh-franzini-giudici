@@ -50,6 +50,11 @@ public class CLIApp extends App {
 
     @Override
     public void startLogin(boolean displayWelcome) {
+        //Control if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
+
         //Check if have to display welcome page
         if (displayWelcome) {
             String welcome = "---------------------------------\n";
@@ -487,10 +492,8 @@ public class CLIApp extends App {
         //Print and read operation
         printer.print("Seleziona un dado dalla griglia (la numerazione parte da 0)");
         printer.printArray(gridViewCreator.display());
-        printer.print("Inserisci coordinata x:");
-        int x = reader.chooseInRange(0, 4);
-        printer.print("Inserisci coordinata y:");
-        int y = reader.chooseInRange(0, 3);
+        int x = this.getCoordinateX();
+        int y = this.getCoordinateY();
 
         //Call ViewToolCardActions
         viewToolCardActions.selectedDieFromGrid(x, y);
@@ -504,10 +507,8 @@ public class CLIApp extends App {
         printer.print("Devi posizionare il dado: " + dieCreator.makeDie(die));
         printer.print("(la numerazione sulla griglia parte da 0)");
         printer.printArray(gridViewCreator.display());
-        printer.print("Inserisci coordinata x:");
-        int x = reader.chooseInRange(0, 4);
-        printer.print("Inserisci coordinata y:");
-        int y = reader.chooseInRange(0, 3);
+        int x = this.getCoordinateX();
+        int y = this.getCoordinateY();
 
         //Call ViewToolCardActions
         viewToolCardActions.selectedDieToGrid(x, y);
@@ -545,13 +546,31 @@ public class CLIApp extends App {
         printer.print("Seleziona un dado dalla griglia che ha colore: " + color.toString());
         printer.print("(la numerazione parte da 0)");
         printer.printArray(gridViewCreator.display());
-        printer.print("Inserisci coordinata x:");
-        int x = reader.chooseInRange(0, 4);
-        printer.print("Inserisci coordinata y:");
-        int y = reader.chooseInRange(0, 3);
+        int x = this.getCoordinateX();
+        int y = this.getCoordinateY();
 
         //Call ViewToolCardActions
         viewToolCardActions.selectedDieFromGridByColor(x, y);
+    }
+
+    /**
+     * Asks to user the x coordinate on grid (enumeration from 0 to 4)
+     *
+     * @return the x coordinate
+     */
+    public int getCoordinateX(){
+        printer.print("Inserisci coordinata x:");
+        return reader.chooseInRange(0, 4);
+    }
+
+    /**
+     * Asks to user the y coordinate on grid (enumeration from 0 to 3)
+     *
+     * @return the y coordinate
+     */
+    public int getCoordinateY(){
+        printer.print("Inserisci coordinata y:");
+        return reader.chooseInRange(0, 3);
     }
 
     /**
@@ -606,7 +625,7 @@ public class CLIApp extends App {
         for (int i = 0; i < printArray.size(); i++) {
             printer.print(i + "-" + printArray.get(i).display());
         }
-        printer.print("Seleziona un comando");
+        printer.print("Seleziona un comando: ");
         int actionID = reader.chooseInRange(0, printArray.size() - 1);
         printArray.get(actionID).doAction();
     }
@@ -619,7 +638,7 @@ public class CLIApp extends App {
         for (int i = 0; i < this.commands.size(); i++) {
             printer.print(i + "-" + this.commands.get(i).display());
         }
-        printer.print("Seleziona un comando");
+        printer.print("Seleziona un comando: ");
         int actionID = reader.chooseInRange(0, this.commands.size() - 1);
         this.commands.get(actionID).doAction();
     }

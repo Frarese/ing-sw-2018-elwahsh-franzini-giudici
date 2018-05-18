@@ -22,6 +22,5 @@ public class MessageBox implements ControllerMessage {
 
     public void sendMessage(String destination, MessageTypes type, String message) {
         throw new UnsupportedOperationException();
-
     }
 }
