@@ -53,4 +53,8 @@ class MatchMakingQueue {
             serverMain.addPendingMatch(mId,c1);
         }
     }
+
+    boolean contains(Client c){
+        return q.contains(c);
+    }
 }

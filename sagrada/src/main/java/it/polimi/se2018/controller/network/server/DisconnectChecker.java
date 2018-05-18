@@ -91,6 +91,7 @@ class DisconnectChecker{
      */
     void stop(){
         continua=false;
+        t.cancel();
     }
 
     void resetWarned(){

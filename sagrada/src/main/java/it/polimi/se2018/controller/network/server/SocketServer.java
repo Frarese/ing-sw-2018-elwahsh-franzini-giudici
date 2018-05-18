@@ -28,23 +28,14 @@ class SocketServer extends ServerComm {
      *
      * @param handler the handler for the requests
      */
-    SocketServer(ServerMain handler,int objPort,int reqPort) {
+    SocketServer(ServerMain handler,int objPort,int reqPort) throws IOException {
         super(handler);
         logger=Logger.getGlobal();
         waitingObjConnClients=new HashMap<>();
-        this.init(objPort,reqPort);
+        if(!this.init(objPort,reqPort))throw new IOException("Failed to initialize socket server");
+
     }
 
-
-    @Override
-    Object login(String usn, String pw, boolean isRecover, boolean register) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    String delete(String usn, String pw) {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     void close() {

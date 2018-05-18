@@ -17,8 +17,12 @@ import java.util.logging.Logger;
  * @author Francesco Franzini
  */
 public class ServerMain {
-    private final ServerComm serverRMI;
-    private final ServerComm serverSoc;
+    public final int rmiPort;
+    public final int objPort;
+    public final int reqPort;
+    public final String rmiName;
+    private ServerComm serverRMI;
+    private ServerComm serverSoc;
     private final ConcurrentHashMap<String,Client> clientMap;
     private final ConcurrentHashMap<MatchIdentifier,Match> matches;
     private final UserBase userBase;
@@ -51,9 +55,18 @@ public class ServerMain {
             logger.log(Level.SEVERE,"Could not open UserBase"+e.getMessage());
             throw e;
         }
-        serverRMI=new RMIServer(this,rmiPort,rmiName);
-        serverSoc=new SocketServer(this,objPort,reqPort);
+        this.rmiPort=rmiPort;
+        this.rmiName=rmiName;
+        this.objPort=objPort;
+        this.reqPort=reqPort;
+    }
 
+    /**
+     * Builds the server objects that are going to be used
+     */
+    public void buildServers() throws IOException {
+        if(serverRMI==null){serverRMI=new RMIServer(this,rmiPort,rmiName);}
+        if(serverSoc==null)serverSoc=new SocketServer(this,objPort,reqPort);
     }
 
     /**
@@ -123,8 +136,14 @@ public class ServerMain {
      * Closes this server down and blocks until closure has been completed
      */
     public void closeDown() {
-        serverSoc.close();
-        serverRMI.close();
+        if(serverSoc!=null){
+            serverSoc.close();
+        }
+        serverSoc=null;
+        if(serverRMI!=null){
+            serverRMI.close();
+        }
+        serverRMI=null;
         matches.forEach((mId,m)->m.abort());
         throw new UnsupportedOperationException();
     }
@@ -134,9 +153,7 @@ public class ServerMain {
      * @param usn username
      */
     public void removeClient(String usn) {
-        Client c=clientMap.get(usn);
-        if(c==null)return;
-        c.purge();
+        clientMap.remove(usn);
     }
 
     /**
@@ -168,6 +185,7 @@ public class ServerMain {
             pA.abort();
             return;
         }
+        c.acceptInvite();
         pendingMatchesMap.put(mId,pA);
         list.forEach(cl->cl.pushOutReq(new MatchInviteRequest(mId)));
     }
@@ -243,27 +261,33 @@ public class ServerMain {
 
 
     /**
-     * Checks that the required clients are logged and not taken and takes them
+     * Checks that the required clients are logged and not taken
      * @return true if this request can proceed
      */
     private boolean checkPALogged(List<Client> list,PendingApprovalMatch pA){
+        MatchIdentifier mId=pA.matchId;
         Client c;
-        if(( c=checkClientLoggedFree(pA.matchId.player0))!=null){
+        if(( c=checkClientLoggedFree(mId.player0))!=null){
             list.add(c);
         }else{
             return false;
         }
-        if(( c=checkClientLoggedFree(pA.matchId.player1))!=null){
+
+        if(( c=checkClientLoggedFree(mId.player1))!=null){
             list.add(c);
         }else{
             return false;
         }
-        if(( c=checkClientLoggedFree(pA.matchId.player2))!=null){
+        if(mId.playerCount==2)return true;
+
+        if(( c=checkClientLoggedFree(mId.player2))!=null){
             list.add(c);
         }else{
             return false;
         }
-        if(( c=checkClientLoggedFree(pA.matchId.player3))!=null){
+        if(mId.playerCount==3)return true;
+
+        if(( c=checkClientLoggedFree(mId.player3))!=null){
             list.add(c);
         }else{
             return false;
@@ -279,6 +303,6 @@ public class ServerMain {
     private Client checkClientLoggedFree(String username){
         Client c=this.getClient(username);
         if(c==null)return null;
-        return (c.hasAcceptedInvite())?c:null;
+        return (c.hasAcceptedInvite())?null:c;
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.se2018.controller.network.server;
 import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.controller.network.KeepAliveRequest;
 import it.polimi.se2018.util.MatchIdentifier;
+import it.polimi.se2018.util.SafeSocket;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -130,5 +131,18 @@ public class ClientTest {
 
         assertEquals(kA2,outReqQueue.peek());
         assertEquals("test2",outObjQueue.peek());
+    }
+
+    @Test
+    public void testInitRMI() throws Exception{
+        assertTrue(uut.createRMIComm(new RMISessionImpl(LoginResponsesEnum.LOGIN_OK)));
+        assertFalse(uut.createRMIComm(new RMISessionImpl(LoginResponsesEnum.LOGIN_OK)));
+        assertFalse(uut.createSocketComm(new SafeSocket(100),new SafeSocket(100)));
+    }
+
+    @Test
+    public void testInitSocket() throws Exception{
+        assertTrue(uut.createSocketComm(new SafeSocket(100),new SafeSocket(100)));
+        assertFalse(uut.createSocketComm(new SafeSocket(100),new SafeSocket(100)));
     }
 }

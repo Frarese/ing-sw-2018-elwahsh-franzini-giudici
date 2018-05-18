@@ -6,6 +6,7 @@ import it.polimi.se2018.controller.network.KeepAliveRequest;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -51,8 +52,23 @@ public class DisconnectCheckerTest {
         assertTrue(zombied.get());
     }
 
+    @Test(timeout=1000)
+    public void testResetWarned() throws Exception{
+        long warningTimeout=2;
+        long deathTimeout=2;
+        long purgeTimeout=2;
+        uut=new DisconnectChecker(warningTimeout,deathTimeout,purgeTimeout,new ClientTest());
+        uut.reschedule();
+        while(!warned.get());
+        uut.stop();
+        uut.resetWarned();
+        Field f=DisconnectChecker.class.getDeclaredField("warned");
+        f.setAccessible(true);
+        assertFalse(((AtomicBoolean)f.get(uut)).get());
+    }
+
     private class ClientTest extends Client{
-        Instant i;
+        final Instant i;
         ClientTest(){
             super("",null);
             i=Instant.now().minusNanos(100);

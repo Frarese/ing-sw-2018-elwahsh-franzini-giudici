@@ -21,14 +21,5 @@ public interface RMIServerInt extends Remote {
      */
     RMISession login(String usn, String pw, boolean isRecover, boolean register) throws RemoteException;
 
-    /**
-     * Attempts to delete a user
-     * @param usn username
-     * @param pw password
-     * @return a textual representation of the outcome
-     * @throws RemoteException if an I/O error occurs
-     */
-    String delete(String usn, String pw) throws RemoteException;
-
 }
 

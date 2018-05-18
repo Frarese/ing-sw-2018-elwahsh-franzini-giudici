@@ -34,7 +34,6 @@ public class PendingApprovalMatch {
         int pos=matchId.findPos(source.usn);
         if(pos==-1)throw new IllegalArgumentException("Client is not in the matchID");
         clients.put(pos,source);
-
         t=new Timer();
         TimerTask tS=new TimerTask() {
             @Override
@@ -55,6 +54,7 @@ public class PendingApprovalMatch {
         if((pos=matchId.findPos(client.usn))!=-1 && !clients.containsKey(pos)){
             clients.put(pos,client);
             client.acceptPAMatch(this);
+            client.acceptInvite();
             isComplete();
             return true;
         }

@@ -20,12 +20,6 @@ class RMIServerIntImpl extends UnicastRemoteObject implements RMIServerInt {
         return server.login(usn, pw, isRecover, register);
     }
 
-
-    @Override
-    public String delete(String usn, String pw) {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public boolean equals(Object o){
         if(o!=null && !o.getClass().equals(this.getClass()))return false;

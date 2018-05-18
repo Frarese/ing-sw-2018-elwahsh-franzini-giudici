@@ -100,21 +100,25 @@ public class Client {
      * Builds a Socket comm layer for this client
      * @param reqSoc the request {@link it.polimi.se2018.util.SafeSocket}
      * @param objSoc the object {@link it.polimi.se2018.util.SafeSocket}
+     * @return true if the comm layer was created, false if it wasn't null or errors occurred
      */
-    void createSocketComm(SafeSocket reqSoc, SafeSocket objSoc) {
-        if(this.cComm!=null)return;
+    boolean createSocketComm(SafeSocket reqSoc, SafeSocket objSoc) {
+        if(this.cComm!=null)return false;
         this.cComm=new SocClientComm(reqSoc,objSoc,this);
         this.init();
+        return true;
     }
 
     /**
      * Builds a RMI comm layer for this client
      * @param sessionObj the {@link it.polimi.se2018.controller.network.server.RMISessionImpl} that is used as session object
+     * @return true if the comm layer was created, false if it wasn't null or errors occurred
      */
-    void createRMIComm(RMISessionImpl sessionObj) {
-        if(this.cComm!=null)return;
+    boolean createRMIComm(RMISessionImpl sessionObj) {
+        if(this.cComm!=null)return false;
         this.cComm=new RMIClientComm(sessionObj,this);
         this.init();
+        return true;
     }
 
     /**
@@ -216,6 +220,7 @@ public class Client {
      * Purges this client from the server
      */
     public void purge() {
+        serverMain.removeClient(usn);
         if(!this.isZombie())this.zombiefy(true,null);
         throw new UnsupportedOperationException();
     }

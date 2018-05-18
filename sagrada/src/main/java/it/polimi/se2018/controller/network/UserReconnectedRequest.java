@@ -16,6 +16,7 @@ public class UserReconnectedRequest extends AbsReqServerLogic {
      */
     public UserReconnectedRequest(String usn) {
         this.usn = usn;
+        if(!checkValid())throw new IllegalArgumentException("Argument cannot be null");
     }
 
     @Override

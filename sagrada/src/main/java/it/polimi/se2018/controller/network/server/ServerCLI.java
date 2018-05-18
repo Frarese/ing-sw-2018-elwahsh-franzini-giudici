@@ -33,6 +33,7 @@ class ServerCLI implements Runnable{
         logger.log(Level.INFO,"Initiating server startup");
         try {
             this.serverMain=new ServerMain(objPort,reqPort,useDB,rmiPort,rmiName);
+            serverMain.buildServers();
         } catch (IOException e) {
             logger.log(Level.SEVERE,"Server init failed "+e.getMessage());
             throw e;

@@ -27,11 +27,9 @@ class RMIServer extends ServerComm {
     RMIServer(ServerMain handler, int port, String name) throws RemoteException{
         super(handler);
         logger=Logger.getGlobal();
-
         try {
             rmiObj=new RMIServerIntImpl(this);
             LocateRegistry.createRegistry(port);
-
             this.tryUnexport();
             RMIServerInt stub = (RMIServerInt) UnicastRemoteObject.exportObject(rmiObj, 0);
             LocateRegistry.getRegistry(port).rebind(name,stub);
@@ -46,7 +44,14 @@ class RMIServer extends ServerComm {
     }
 
 
-    @Override
+    /**
+     * Attempts a login with the given parameters
+     * @param usn username
+     * @param pw password
+     * @param isRecover flag to indicate that this is a connection recovery
+     * @param register flag to indicate that this is a new user
+     * @return an Object describing the result
+     */
     RMISession login(String usn, String pw, boolean isRecover, boolean register) {
         RMISessionImpl rmiS=null;
         try {
@@ -55,13 +60,20 @@ class RMIServer extends ServerComm {
             LoginResponsesEnum result=super.tryLogin(usn,pw,isRecover,register);
 
             if (result.equals(LoginResponsesEnum.LOGIN_OK)) {
-                Client c = new Client(usn, handler);
-                if (this.handler.addClient(c)) {
-                    rmiS = new RMISessionImpl(result);
-                    c.createRMIComm(rmiS);
-                } else {
-                    rmiS = new RMISessionImpl(LoginResponsesEnum.USER_ALREADY_LOGGED);
+                Client c;
+                boolean createResult=true;
+                if(isRecover){
+                    c=handler.getClient(usn);
+                }else{
+                    c=new Client(usn,this.handler);
+                    createResult=this.handler.addClient(c);
                 }
+                if(createResult){
+                    rmiS = new RMISessionImpl(result);
+                    createResult=c.createRMIComm(rmiS);
+                    if(createResult)return rmiS;
+                }
+                rmiS = new RMISessionImpl(LoginResponsesEnum.USER_ALREADY_LOGGED);
 
             } else {
                 rmiS = new RMISessionImpl(result);
@@ -74,11 +86,6 @@ class RMIServer extends ServerComm {
             logger.log(Level.SEVERE,"Exception trying to login "+usn+" on RMI "+e.getMessage());
         }
         return rmiS;
-    }
-
-    @Override
-    String delete(String usn, String pw) {
-        throw new UnsupportedOperationException();
     }
 
     @Override

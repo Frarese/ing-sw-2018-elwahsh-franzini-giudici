@@ -235,7 +235,10 @@ public class Comm {
             commLayer=new SocketCommLayer(this);
         }
         String outcome=commLayer.establishCon(host,requestPort,objectPort,isRecovery,usn,pw,newUser);
-        if(outcome!=null)return outcome;
+        if(outcome!=null){
+            commLayer=null;
+            return outcome;
+        }
         setUsername(usn);
         setPassword(pw);
         this.host=host;
@@ -301,8 +304,14 @@ public class Comm {
             logger.log(Level.INFO,"Successfully reconnected");
             return true;
         }
-        logger.log(Level.SEVERE,"Failed to reconnect");
+        logger.log(Level.SEVERE,"Failed to reconnect {0}",result);
         if(purgeOnFail){
+            logger.log(Level.SEVERE,"Failed to restore connection, notifying drop");
+            try {
+                this.utilizer.notifyCommDropped();
+            }catch (Exception e){
+                logger.log(Level.SEVERE,"Exception caught from utilizer "+e.getMessage());
+            }
             purgeComm();
         }
         return false;
