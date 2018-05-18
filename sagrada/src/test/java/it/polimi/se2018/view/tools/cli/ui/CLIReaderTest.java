@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIReaderTest {
 
-    private String enter = "\r\n";
+    private String enter = System.lineSeparator();
 
     private CLIReader cliReader;
 

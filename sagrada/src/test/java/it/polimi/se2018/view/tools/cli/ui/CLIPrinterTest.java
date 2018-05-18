@@ -19,6 +19,8 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIPrinterTest {
 
+    private String enter = System.lineSeparator();
+
     private CLIPrinter printer;
 
     private ByteArrayOutputStream savedStream;
@@ -34,14 +36,14 @@ public class CLIPrinterTest {
     public void printTest() {
         printer.print("Test");
 
-        assertEquals("Test\n", savedStream.toString());
+        assertEquals("Test" + enter, savedStream.toString());
     }
 
     @Test
     public void printFailTest() {
         printer.print(new Exception());
 
-        assertEquals("java.lang.Exception cannot be cast to java.lang.String\n", savedStream.toString());
+        assertEquals("java.lang.Exception cannot be cast to java.lang.String" + enter, savedStream.toString());
     }
 
     @Test
@@ -51,14 +53,14 @@ public class CLIPrinterTest {
         stringArrayList.add("Test 2");
         printer.printArray(stringArrayList);
 
-        assertEquals("Test 1\nTest 2\n", savedStream.toString());
+        assertEquals("Test 1" + enter + "Test 2" + enter, savedStream.toString());
     }
 
     @Test
     public void printArrayFailTest() {
         printer.printArray(new Exception());
 
-        assertEquals("java.lang.Exception cannot be cast to java.util.List\n", savedStream.toString());
+        assertEquals("java.lang.Exception cannot be cast to java.util.List" + enter, savedStream.toString());
     }
 
     @After
