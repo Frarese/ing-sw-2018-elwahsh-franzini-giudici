@@ -20,7 +20,7 @@ public class MatchTest {
     private List<Client> list;
     private MatchIdentifier mId;
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         c1=new ClientTest("us1",null);
         c2=new ClientTest("us2",null);
         c3=new ClientTest("us3",null);
@@ -31,14 +31,15 @@ public class MatchTest {
         list.add(c2);
         list.add(c3);
         list.add(c4);
+        uut=new Match(mId,list,null);
     }
 
     @Test
     public void testInit() {
-        uut=new Match(mId,list,null);
-
         List<Client> listRetr=uut.getClients();
         assertEquals(list,listRetr);
+        assertFalse(uut.isHost(null));
+        if(list.stream().map(c->uut.isHost(c)).noneMatch(val->true))fail();
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -48,7 +49,7 @@ public class MatchTest {
         uut=new Match(mId,list,null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testDuplicateInit() {
         list=new ArrayList<>();
         list.add(c1);
@@ -66,7 +67,6 @@ public class MatchTest {
 
     @Test
     public void testPushObj() {
-        uut=new Match(mId,list,null);
         uut.handleObj("test",c1);
         assertFalse(c1.pushed);
         assertTrue(c2.pushed);
@@ -76,7 +76,6 @@ public class MatchTest {
 
     @Test
     public void testLeave() {
-        uut=new Match(mId,list,null);
         uut.playerLeft("us1",true);
         assertFalse(c1.dc);
         assertTrue(c2.dc);
@@ -86,7 +85,6 @@ public class MatchTest {
 
     @Test
     public void testTerminalLeave() {
-        uut=new Match(mId,list,null);
         uut.playerLeft("us1",true);
         uut.playerLeft("us2",true);
         try{
@@ -102,13 +100,17 @@ public class MatchTest {
 
     @Test
     public void testReconnection() {
-        uut=new Match(mId,list,null);
         uut.playerLeft("us1",true);
         uut.playerReconnected("us1");
         assertFalse(c1.rec);
         assertTrue(c2.rec);
         assertTrue(c3.rec);
         assertTrue(c4.rec);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testEnd(){
+        uut.end(0,1,2,3);
     }
 
     private class ClientTest extends Client{

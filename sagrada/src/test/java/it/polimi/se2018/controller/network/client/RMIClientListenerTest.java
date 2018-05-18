@@ -24,7 +24,7 @@ public class RMIClientListenerTest {
     }
 
     @Test
-    public void testObjectHandle() throws Exception{
+    public void testObjectHandle() {
 
         RMIClientListener rC=new RMIClientListener(testComm,false);
         rC.methodToCall();
@@ -32,7 +32,7 @@ public class RMIClientListenerTest {
     }
 
     @Test
-    public void testReqHandle() throws Exception{
+    public void testReqHandle() {
 
         RMIClientListener rC=new RMIClientListener(testComm,true);
         rC.methodToCall();

@@ -17,18 +17,14 @@ public class InListenerTest {
     private CommUtilizer testUt;
     private Comm testComm;
     private boolean dc;
+    private boolean fail;
     @Before
     public void setUp() {
         testUt=new TestUtilizer();
         testComm=new TestCComm();
         receivedObj=null;
         dc=false;
-    }
-
-    @After
-    public void tearDown() {
-        receivedObj=null;
-        dc=false;
+        fail=false;
     }
 
     @Test
@@ -45,6 +41,13 @@ public class InListenerTest {
         InListener inL=new InListener(testComm,testUt,true);
         inL.methodToCall();
         assertEquals("TestReq",receivedObj);
+    }
+
+    @Test
+    public void testExceptionHandle() throws Exception{
+        fail=true;
+        InListener inL=new InListener(testComm,testUt,false);
+        inL.methodToCall();
     }
 
     @Test
@@ -68,6 +71,7 @@ public class InListenerTest {
 
         @Override
         public void receiveObject(Serializable obj) {
+            if(fail)throw new IllegalArgumentException("Test");
             receivedObj=(String)obj;
         }
 

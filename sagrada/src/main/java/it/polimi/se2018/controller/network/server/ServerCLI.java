@@ -3,6 +3,7 @@ package it.polimi.se2018.controller.network.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,7 +14,6 @@ import java.util.logging.Logger;
 class ServerCLI implements Runnable{
     private final ServerMain serverMain;
     private final Logger logger;
-    private final Thread t;
 
     /**
      * Creates a new server with the given parameters
@@ -25,6 +25,11 @@ class ServerCLI implements Runnable{
      */
     public ServerCLI(int objPort,int reqPort, boolean useDB, int rmiPort, String rmiName) throws IOException {
         logger=Logger.getGlobal();
+        logger.setUseParentHandlers(false);
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setLevel(Level.ALL);
+        logger.addHandler(handler);
+        logger.setLevel(Level.ALL);
         logger.log(Level.INFO,"Initiating server startup");
         try {
             this.serverMain=new ServerMain(objPort,reqPort,useDB,rmiPort,rmiName);
@@ -32,7 +37,7 @@ class ServerCLI implements Runnable{
             logger.log(Level.SEVERE,"Server init failed "+e.getMessage());
             throw e;
         }
-        t=new Thread(this);
+        Thread t = new Thread(this);
         t.start();
         logger.log(Level.INFO,"Server up and running");
     }

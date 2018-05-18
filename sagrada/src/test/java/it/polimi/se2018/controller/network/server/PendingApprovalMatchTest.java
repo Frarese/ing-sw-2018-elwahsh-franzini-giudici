@@ -1,14 +1,10 @@
 package it.polimi.se2018.controller.network.server;
 
 import it.polimi.se2018.controller.network.AbsReq;
-import it.polimi.se2018.controller.network.LeaveMatchRequest;
-import it.polimi.se2018.controller.network.MatchAbortedRequest;
-import it.polimi.se2018.controller.network.UserReconnectedRequest;
 import it.polimi.se2018.util.MatchIdentifier;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
@@ -52,7 +48,7 @@ public class PendingApprovalMatchTest {
     @Test(expected = NullPointerException.class)
     public void abort(){
         uut=new PendingApprovalMatch(1000,mId,null,c1);
-        uut.run();
+        uut.abort();
         assertTrue(c1.aborted);
     }
 

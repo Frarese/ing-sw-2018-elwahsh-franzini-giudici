@@ -17,14 +17,13 @@ import java.util.logging.Logger;
  * @author Francesco Franzini
  */
 public class Client {
-    private static final long DEFAULT_DEATH_TIMEOUT = 1000;
-    private static final long DEFAULT_WARNING_TIMEOUT = 1000;
-    private static final long DEFAULT_PURGE_TIMEOUT = 1000;
+    private static final long DEFAULT_DEATH_TIMEOUT = 2000;
+    private static final long DEFAULT_WARNING_TIMEOUT = 2000;
+    private static final long DEFAULT_PURGE_TIMEOUT = 2000;
 
     private final ServerMain serverMain;
     public final String usn;
 
-    private boolean isZombie;
     private boolean acceptedInvite;
     private Instant lastSeenTs;
 
@@ -45,6 +44,7 @@ public class Client {
 
     private final Logger logger;
 
+    private final Object tSLock;
     /**
      * Builds a client with the given username
      * @param usn username
@@ -59,12 +59,15 @@ public class Client {
 
         inReqQueue=new LinkedList<>();
         inObjQueue=new LinkedList<>();
+
+        this.tSLock=new Object();
     }
 
     /**
      * Inits the listeners for this client
      */
     private void init(){
+        updateTs();
         if(inQueueEmpObj==null)inQueueEmpObj=new ServerInQueueEmptier(this,false);
         if(inQueueEmpReq==null)inQueueEmpReq=new ServerInQueueEmptier(this,true);
         if(outQueueEmpObj==null)outQueueEmpObj=new ServerOutQueueEmptier(this,false);
@@ -98,24 +101,30 @@ public class Client {
      * @param reqSoc the request {@link it.polimi.se2018.util.SafeSocket}
      * @param objSoc the object {@link it.polimi.se2018.util.SafeSocket}
      */
-    public void createSocketComm(SafeSocket reqSoc, SafeSocket objSoc) {
-        throw new UnsupportedOperationException();
+    void createSocketComm(SafeSocket reqSoc, SafeSocket objSoc) {
+        if(this.cComm!=null)return;
+        this.cComm=new SocClientComm(reqSoc,objSoc,this);
+        this.init();
     }
 
     /**
      * Builds a RMI comm layer for this client
      * @param sessionObj the {@link it.polimi.se2018.controller.network.server.RMISessionImpl} that is used as session object
      */
-    public void createRMIComm(RMISessionImpl sessionObj) {
-        sessionObj.setCComm(null);
-        throw new UnsupportedOperationException();
+    void createRMIComm(RMISessionImpl sessionObj) {
+        if(this.cComm!=null)return;
+        this.cComm=new RMIClientComm(sessionObj,this);
+        this.init();
     }
 
     /**
      * Updates the last seen timestamp
      */
     private void updateTs() {
-        this.lastSeenTs=Instant.now();
+        synchronized (tSLock){
+            this.lastSeenTs=Instant.now();
+        }
+        if(disconnectChecker!=null)disconnectChecker.resetWarned();
     }
 
     /**
@@ -123,7 +132,9 @@ public class Client {
      * @return last seen timestamp
      */
     public Instant lastSeen() {
-        return this.lastSeenTs;
+        synchronized (tSLock){
+            return lastSeenTs;
+        }
     }
 
     /**
@@ -131,7 +142,7 @@ public class Client {
      * @return true if this client is zombie
      */
     public boolean isZombie() {
-        throw new UnsupportedOperationException();
+        return this.cComm==null;
     }
 
     /**
@@ -165,12 +176,10 @@ public class Client {
 
     /**
      * Removes the match instance from this client
-     * @return true if no errors occur
      */
-    public boolean removeMatchInstance() {
-        if(this.match==null)return false;
+    public void removeMatchInstance() {
+        if(this.match==null)return;
         this.match=null;
-        return true;
     }
 
     /**
@@ -179,7 +188,7 @@ public class Client {
      * @return true if no other match was already active
      */
     public boolean acceptPAMatch(PendingApprovalMatch match) {
-        if(this.pAM!=null)return false;
+        if(this.pAM!=null || this.match!=null)return false;
         this.pAM=match;
         return true;
     }
@@ -207,7 +216,7 @@ public class Client {
      * Purges this client from the server
      */
     public void purge() {
-        if(!this.isZombie)this.zombiefy(true,null);
+        if(!this.isZombie())this.zombiefy(true,null);
         throw new UnsupportedOperationException();
     }
 
@@ -241,8 +250,9 @@ public class Client {
      * @param req the received request
      */
      void pushInReq(AbsReq req) {
+         logger.log(Level.FINEST,"Received int req {0}",req);
          updateTs();
-        UtilMethods.pushAndNotifyTS(inReqQueue,req);
+         UtilMethods.pushAndNotifyTS(inReqQueue,req);
     }
 
     /**
@@ -270,7 +280,12 @@ public class Client {
      */
     public void processOutObj() {
         try {
-            cComm.pushInObj(UtilMethods.waitAndPopTS(outObjQueue));
+            Serializable obj=UtilMethods.waitAndPopTS(outObjQueue);
+            boolean result=this.sendObj(obj);
+            if(!result){
+                logger.log(Level.WARNING,"Failed to send object {0}",obj);
+                this.pushObjBack(obj);
+            }
         } catch (InterruptedException e) {
             logger.log(Level.SEVERE,"Interrupted processing out obj "+e.getMessage());
             Thread.currentThread().interrupt();
@@ -283,7 +298,7 @@ public class Client {
      * @return true if success(if supported)
      */
     public boolean sendObj(Serializable obj) {
-        throw new UnsupportedOperationException();
+        return cComm.sendObj(obj);
     }
 
     /**
@@ -299,7 +314,12 @@ public class Client {
      */
     public void processOutReq() {
         try {
-            cComm.pushInReq(UtilMethods.waitAndPopTS(outReqQueue));
+            AbsReq req=UtilMethods.waitAndPopTS(outReqQueue);
+            boolean result=this.sendReq(req);
+            if(!result){
+                logger.log(Level.WARNING,"Failed to send request {0}",req);
+                this.pushRequestBack(req);
+            }
         } catch (InterruptedException e) {
             logger.log(Level.SEVERE,"Interrupted processing out request "+e.getMessage());
             Thread.currentThread().interrupt();
@@ -312,7 +332,7 @@ public class Client {
      * @return true if success(if supported)
      */
     public boolean sendReq(AbsReq req) {
-        throw new UnsupportedOperationException();
+        return cComm.sendReq(req);
     }
 
     /**
@@ -331,8 +351,8 @@ public class Client {
      * @param req the request to put back on top
      */
     void pushRequestBack(AbsReq req){
-        synchronized (outObjQueue){
-            LinkedList<Serializable> asList=(LinkedList<Serializable>)outObjQueue;
+        synchronized (outReqQueue){
+            LinkedList<AbsReq> asList=(LinkedList<AbsReq>)outReqQueue;
             asList.addFirst(req);
         }
     }

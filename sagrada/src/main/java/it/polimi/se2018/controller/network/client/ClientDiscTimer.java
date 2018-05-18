@@ -9,11 +9,11 @@ import java.util.TimerTask;
  * Fallback class that ensures a graceful disconnect should the network fail abruptly
  * @author Francesco Franzini
  */
-class ClientDiscTimer extends TimerTask {
+class ClientDiscTimer {
     static final long DEFAULT_CLIENT_TIMEOUT = 10000;
     private final Comm cComm;
     private long timeout;
-    private boolean continua;
+    private volatile boolean continua;
     private Timer t;
 
     /**
@@ -25,8 +25,7 @@ class ClientDiscTimer extends TimerTask {
         t=new Timer();
     }
 
-    @Override
-    public void run() {
+    private void runTask() {
         if(continua){
             Instant i=cComm.getLastSeen();
             Duration d=Duration.between(i,Instant.now());
@@ -50,7 +49,13 @@ class ClientDiscTimer extends TimerTask {
         this.timeout=timeout;
         continua=true;
         //A check every 1 potential timeouts
-        t.schedule(this,0,timeout);
+        TimerTask tS=new TimerTask() {
+            @Override
+            public void run() {
+                runTask();
+            }
+        };
+        t.schedule(tS,0,timeout);
     }
 
     /**

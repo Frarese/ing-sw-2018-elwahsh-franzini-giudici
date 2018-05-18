@@ -3,6 +3,7 @@ package it.polimi.se2018.util;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ScoreEntryTest {
@@ -12,8 +13,8 @@ public class ScoreEntryTest {
         int tot=1;
         int w=25;
         ScoreEntry sE=new ScoreEntry(usn,tot,w);
-        assertTrue(sE.tot==1);
-        assertTrue(sE.wins==25);
-        assertTrue(sE.usn.equals(usn));
+        assertEquals(1, sE.tot);
+        assertEquals(25, sE.wins);
+        assertEquals(sE.usn, usn);
     }
 }

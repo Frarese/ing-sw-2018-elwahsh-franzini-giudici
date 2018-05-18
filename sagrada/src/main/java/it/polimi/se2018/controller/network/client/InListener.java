@@ -2,6 +2,10 @@ package it.polimi.se2018.controller.network.client;
 
 import it.polimi.se2018.controller.network.ThreadHandler;
 
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Processes all the inbound objects on one stream
  * @author Francesco Franzini
@@ -9,6 +13,7 @@ import it.polimi.se2018.controller.network.ThreadHandler;
 class InListener extends ThreadHandler implements Runnable {
     private final Comm cComm;
     private CommUtilizer utilizer;
+    private final Logger logger;
 
     /**
      * Initializes this listener with the given parameters
@@ -20,6 +25,7 @@ class InListener extends ThreadHandler implements Runnable {
         this.isReq=isReq;
         this.utilizer=utilizer;
         this.cComm=comm;
+        this.logger=Logger.getGlobal();
     }
 
     @Override
@@ -27,7 +33,12 @@ class InListener extends ThreadHandler implements Runnable {
         if(isReq){
             cComm.popInPendingReq().clientHandle(cComm,utilizer);
         }else{
-            utilizer.receiveObject(cComm.popInPendingObj());
+            try {
+                Serializable ser=cComm.popInPendingObj();
+                utilizer.receiveObject(ser);
+            }catch (Exception e){
+                logger.log(Level.WARNING,"Exception was thrown pushing to utilizer"+e.getMessage());
+            }
         }
     }
 

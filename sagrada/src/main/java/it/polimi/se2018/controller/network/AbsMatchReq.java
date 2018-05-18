@@ -9,7 +9,7 @@ import it.polimi.se2018.util.MatchIdentifier;
 public abstract class AbsMatchReq extends AbsReqServerLogic {
     public final MatchIdentifier matchId;
 
-    public AbsMatchReq(MatchIdentifier match) {
+    AbsMatchReq(MatchIdentifier match) {
         this.matchId=match;
     }
 

@@ -29,7 +29,7 @@ public class RMICommLayerTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         called=false;
     }
 

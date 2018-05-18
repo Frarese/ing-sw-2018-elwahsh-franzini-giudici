@@ -17,7 +17,7 @@ public class FileUserBaseTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         new File("test.csv").delete();
     }
 

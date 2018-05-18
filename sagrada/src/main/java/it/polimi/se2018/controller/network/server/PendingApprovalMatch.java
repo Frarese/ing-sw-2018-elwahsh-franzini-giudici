@@ -12,7 +12,7 @@ import java.util.TimerTask;
 /**
  * Represents a match that has not yet been approved by all players
  */
-public class PendingApprovalMatch extends TimerTask {
+public class PendingApprovalMatch {
     static final int DEFAULT_TIMEOUT = 60;
     private final HashMap<Integer,Client> clients;
     private Timer t;
@@ -36,7 +36,13 @@ public class PendingApprovalMatch extends TimerTask {
         clients.put(pos,source);
 
         t=new Timer();
-        t.schedule(this,timeout);
+        TimerTask tS=new TimerTask() {
+            @Override
+            public void run() {
+                abort();
+            }
+        };
+        t.schedule(tS,timeout);
     }
 
     /**
@@ -59,7 +65,7 @@ public class PendingApprovalMatch extends TimerTask {
      * Checks if this match has been approved by all the players and if so registers the match
      * @return true if this match has been approved by all the players
      */
-    public synchronized boolean isComplete() {
+    private synchronized boolean isComplete() {
         if(clients.keySet().size()!=matchId.playerCount){
             return false;
         }
@@ -70,16 +76,11 @@ public class PendingApprovalMatch extends TimerTask {
         return true;
     }
 
-    @Override
-    public void run() {
-        this.abort();
-    }
-
     /**
      * Builds a {@link it.polimi.se2018.controller.network.server.Match} from this object
      * @return the Match that was built
      */
-    synchronized Match buildMatch() {
+    private synchronized Match buildMatch() {
         return new Match(matchId,new ArrayList<>(clients.values()),serverMain);
     }
 

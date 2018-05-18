@@ -34,9 +34,10 @@ public class Match {
         }
         for(Client c:clients){
             int pos=matchId.findPos(c.usn);
-            if(pos!=-1 && !clientMap.containsKey(pos)){
+            if(pos!=-1 && !clientMap.containsKey(pos) && c.enrollInMatch(this)){
                 clientMap.put(pos,c);
             }else{
+                this.abort();
                 throw new IllegalArgumentException("Supplied Clients are not valid");
             }
         }

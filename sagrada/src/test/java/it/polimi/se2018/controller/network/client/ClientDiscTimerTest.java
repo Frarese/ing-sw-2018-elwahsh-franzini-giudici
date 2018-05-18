@@ -23,16 +23,16 @@ public class ClientDiscTimerTest {
     }
 
     @Test(timeout=1000)
-    public void testInit() throws Exception {
-        long timeout=1;
+    public void testInit() {
+        long timeout=50;
         uut.reschedule(timeout);
         while(!(called.get()>1));
         uut.stop();
-        assertEquals(false,failed.get());
+        assertFalse(failed.get());
     }
 
     @Test(timeout=1000)
-    public void testFail() throws Exception {
+    public void testFail() {
         long timeout=1;
         fail=true;
         uut.reschedule(timeout);
@@ -44,9 +44,8 @@ public class ClientDiscTimerTest {
 
     private class CommTest extends Comm{
         @Override
-        public boolean beginDisconnectedRoutines(){
+        public void beginDisconnectedRoutines(){
             failed.set(true);
-            return false;
         }
 
         @Override

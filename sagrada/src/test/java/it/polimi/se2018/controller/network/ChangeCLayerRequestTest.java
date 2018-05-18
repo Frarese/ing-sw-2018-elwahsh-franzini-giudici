@@ -1,0 +1,42 @@
+package it.polimi.se2018.controller.network;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.lang.reflect.Field;
+
+import static org.junit.Assert.*;
+
+public class ChangeCLayerRequestTest {
+    ChangeCLayerRequest uut;
+    Field portField;
+
+    @Before
+    public void setUp() throws NoSuchFieldException {
+        uut=new ChangeCLayerRequest(true,1,2);
+        portField=uut.getClass().getDeclaredField("reqPort");
+        portField.setAccessible(true);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInit() {
+        uut=new ChangeCLayerRequest(false,0,0);
+    }
+
+    @Test
+    public void testFail() throws IllegalAccessException {
+        portField.set(uut,0);
+        uut.serverHandle(null,null);
+        uut.clientHandle(null,null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testServer(){
+        uut.serverHandle(null,null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testClient(){
+        uut.clientHandle(null,null);
+    }
+}

@@ -26,13 +26,13 @@ public class ChangeCLayerRequest extends AbsReqServerLogic {
         if(!checkValid())return;
         clientComm.purgeComm();
         clientComm.login(clientComm.getHost(),reqPort,objPort,true
-                ,clientComm.getUsername(),clientComm.getsPassword()
+                ,clientComm.getUsername(),clientComm.getPassword()
                 ,false,toRMI,commUtilizer);
     }
 
     @Override
     public boolean checkValid() {
-        return reqPort>0 && reqPort<65025 && objPort>0 && objPort<65025;
+        return reqPort!=objPort && reqPort>0 && reqPort<65025 && objPort>0 && objPort<65025;
     }
 
 

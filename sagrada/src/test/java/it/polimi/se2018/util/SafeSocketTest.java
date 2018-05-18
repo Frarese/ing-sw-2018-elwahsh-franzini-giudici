@@ -9,9 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
@@ -116,7 +113,7 @@ public class SafeSocketTest {
         private boolean failClose;
         private Socket s;
 
-        public TestSocket(Socket s,boolean failInStrGet, boolean failOutStrGet, boolean failClose) {
+        TestSocket(Socket s,boolean failInStrGet, boolean failOutStrGet, boolean failClose) {
             this.failInStrGet = failInStrGet;
             this.failOutStrGet = failOutStrGet;
             this.failClose = failClose;

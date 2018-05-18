@@ -28,6 +28,7 @@ class RMIClientComm extends ClientComm {
     RMIClientComm(RMISessionImpl sessionObj,Client client) {
         super(client);
         this.sessionObj=sessionObj;
+        sessionObj.setCComm(this);
         logger=Logger.getGlobal();
         rmiOutObjQueue=new LinkedList<>();
         rmiOutReqQueue=new LinkedList<>();
@@ -38,7 +39,8 @@ class RMIClientComm extends ClientComm {
      * @return true if there are unread objects
      */
     boolean hasObj() {
-        return UtilMethods.checkEmpty(rmiOutObjQueue);
+        if(rmiOutObjQueue==null)return false;
+        return UtilMethods.checkNotEmpty(rmiOutObjQueue);
     }
 
     /**
@@ -46,7 +48,8 @@ class RMIClientComm extends ClientComm {
      * @return true if there are unread requests
      */
     boolean hasReq() {
-        return UtilMethods.checkEmpty(rmiOutReqQueue);
+        if(rmiOutReqQueue==null)return false;
+        return UtilMethods.checkNotEmpty(rmiOutReqQueue);
     }
 
     /**
@@ -54,6 +57,7 @@ class RMIClientComm extends ClientComm {
      * @return an object or {@code null} if errors occurred
      */
     Serializable getOutObj() {
+        if(rmiOutObjQueue==null)return null;
         try {
             return UtilMethods.waitAndPopTS(rmiOutObjQueue);
         } catch (InterruptedException e) {
@@ -68,6 +72,7 @@ class RMIClientComm extends ClientComm {
      * @return a request or {@code null} if errors occurred
      */
     AbsReq getOutReq() {
+        if(rmiOutReqQueue==null)return null;
         try {
             return UtilMethods.waitAndPopTS(rmiOutReqQueue);
         } catch (InterruptedException e) {
@@ -80,12 +85,14 @@ class RMIClientComm extends ClientComm {
 
     @Override
     boolean sendObj(Serializable obj) {
+        if(rmiOutObjQueue==null)return false;
         UtilMethods.pushAndNotifyTS(rmiOutObjQueue,obj);
         return true;
     }
 
     @Override
     boolean sendReq(AbsReq req) {
+        if(rmiOutReqQueue==null)return false;
         UtilMethods.pushAndNotifyTS(rmiOutReqQueue,req);
         return true;
     }
@@ -104,7 +111,6 @@ class RMIClientComm extends ClientComm {
         LinkedList<AbsReq> temp2=new LinkedList<>(rmiOutReqQueue);
         Collections.reverse(temp1);
         Collections.reverse(temp2);
-
         for (Serializable s:temp1) {
             this.client.pushObjBack(s);
         }

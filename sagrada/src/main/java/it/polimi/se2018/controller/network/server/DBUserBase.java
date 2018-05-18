@@ -1,8 +1,6 @@
 package it.polimi.se2018.controller.network.server;
 
 import it.polimi.se2018.util.ScoreEntry;
-
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -15,7 +13,7 @@ class DBUserBase implements UserBase {
     /**
      * Loads the User Base from the database
      */
-    public DBUserBase() throws IOException {
+    DBUserBase() {
         throw new UnsupportedOperationException();
     }
 
