@@ -6,7 +6,7 @@ import it.polimi.se2018.controller.network.ThreadHandler;
  * An active listener that extracts incoming objects from the RMI session object
  * @author Francesco Franzini
  */
-class RMIClientListener extends ThreadHandler implements Runnable {
+class RMIClientListener extends ThreadHandler{
     private final RMICommLayer commLayer;
 
     /**

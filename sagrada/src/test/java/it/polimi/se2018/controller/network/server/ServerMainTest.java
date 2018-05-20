@@ -24,7 +24,7 @@ public class ServerMainTest {
     @Before
     public void setUp() throws Exception {
         File uf=new File("users.csv");
-        assertTrue(uf.delete());
+        if(uf.exists())assertTrue(uf.delete());
         uut=new ServerMain(9999,10000,false,10001,LoginResponsesEnum.RESOURCE_NAME.msg);
 
         Field f=ServerMain.class.getDeclaredField("clientMap");

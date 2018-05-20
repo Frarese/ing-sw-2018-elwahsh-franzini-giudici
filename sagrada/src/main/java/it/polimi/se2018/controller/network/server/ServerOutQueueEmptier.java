@@ -15,7 +15,7 @@ class ServerOutQueueEmptier extends ThreadHandler {
      * @param client the client to call
      * @param isReq flag to choose request or object stream
      */
-    public ServerOutQueueEmptier(Client client, boolean isReq) {
+    ServerOutQueueEmptier(Client client, boolean isReq) {
         this.client=client;
         this.isReq=isReq;
     }

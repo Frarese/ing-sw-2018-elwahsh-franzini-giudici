@@ -32,7 +32,7 @@ public class ChatMessageRequest extends AbsReqServerLogic {
         this.sender=sender;
         this.msg=msg;
         this.type=type;
-        if(!checkValid())throw new IllegalArgumentException("Parameters cannot be null");
+        if(!checkValid())throw new IllegalArgumentException("Parameters invalid");
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ChatMessageRequest extends AbsReqServerLogic {
 
     @Override
     public boolean checkValid() {
-        return sender!=null && destination!=null && msg!=null && type!=null;
+        return sender!=null && destination!=null && !destination.equals(sender) && msg!=null && type!=null;
     }
 
     @Override
@@ -57,9 +57,10 @@ public class ChatMessageRequest extends AbsReqServerLogic {
                 throw new UnsupportedOperationException();
             case PM:
                 Client d=server.getClient(destination);
-                d.pushOutReq(this);
+                if(d!=null)d.pushOutReq(this);
                 break;
             case MATCH:
+                if(client.getMatch()==null)break;
                 List<Client> dst=client.getMatch().getClients();
                 dst.stream().filter(cl->(cl!=client)).forEach(cl->cl.pushOutReq(this));
         }

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Helper class used to wrap an object's id
  * @author Francesco Franzini
  */
-public class SafeSocketACK implements Serializable {
+class SafeSocketACK implements Serializable {
 
     int id;
 
@@ -14,7 +14,7 @@ public class SafeSocketACK implements Serializable {
      *Initializes the id to be stored
      * @param id the id to store
      */
-    public SafeSocketACK(int id) {
+    SafeSocketACK(int id) {
         this.id=id;
     }
 

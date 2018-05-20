@@ -10,7 +10,7 @@ import java.io.Serializable;
  * A listener that extracts incoming objects from a SafeSocket
  * @author Francesco Franzini
  */
-class SocketInQueueFiller extends ThreadHandler implements Runnable {
+class SocketInQueueFiller extends ThreadHandler{
     private final SafeSocket sSocket;
     private final SocketCommLayer commLayer;
 

@@ -30,24 +30,36 @@ abstract class ServerComm {
      * @return the {@link it.polimi.se2018.controller.network.server.LoginResponsesEnum} that represents the result
      */
     LoginResponsesEnum tryLogin(String usn,String pw,boolean isRecover,boolean register){
-        if(isRecover && handler.getClient(usn)==null){
-            return LoginResponsesEnum.USER_NOT_LOGGED;
-        }
-        if(register && handler.createUser(usn, pw)){
-            return LoginResponsesEnum.LOGIN_OK;
-        }
-        if(handler.existsUsn(usn)){
-            if(handler.isPwCorrect(usn,pw)){
-                if(!handler.isUserLogged(usn) || isRecover){
-                    return LoginResponsesEnum.LOGIN_OK;
-                }
+        if(isRecover){
+            if(!handler.isUserLogged(usn)){
+                return LoginResponsesEnum.USER_NOT_LOGGED;
+            }else if(handler.isPwCorrect(usn,pw)){
+                return LoginResponsesEnum.LOGIN_OK;
             }else{
                 return LoginResponsesEnum.WRONG_CREDENTIALS;
             }
-        }else{
+        }
+
+        if(register){
+            if(handler.createUser(usn, pw)){
+                return LoginResponsesEnum.LOGIN_OK;
+            }
+            return LoginResponsesEnum.USER_ALREADY_EXISTS;
+        }
+
+        if(!handler.existsUsn(usn)) {
             return LoginResponsesEnum.USER_NOT_EXISTING;
         }
-        return LoginResponsesEnum.USER_ALREADY_EXISTS;
+
+        if(handler.isPwCorrect(usn,pw)){
+            if(!handler.isUserLogged(usn)){
+                return LoginResponsesEnum.LOGIN_OK;
+            }
+            return LoginResponsesEnum.USER_ALREADY_LOGGED;
+        }else{
+            return LoginResponsesEnum.WRONG_CREDENTIALS;
+        }
+
     }
 
 }

@@ -12,6 +12,7 @@ class RMIServerIntImpl extends UnicastRemoteObject implements RMIServerInt {
 
     RMIServerIntImpl(RMIServer server) throws RemoteException {
         super();
+        if(server==null)throw new IllegalArgumentException("Server cannot be null");
         this.server = server;
     }
 

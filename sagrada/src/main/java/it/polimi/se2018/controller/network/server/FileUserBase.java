@@ -34,8 +34,8 @@ class FileUserBase implements UserBase {
                 if(line.length==4){
                     String usn=line[0];
                     String pw=line[1];
-                    Integer tot=this.parseInt(line[2]);
-                    Integer wins=this.parseInt(line[3]);
+                    Integer tot=FileUserBase.parseInt(line[2]);
+                    Integer wins=FileUserBase.parseInt(line[3]);
                     if(tot==null || wins==null){
                         logger.log(Level.WARNING,"Found faulty user entry {0}",line);
                         continue;
@@ -135,7 +135,7 @@ class FileUserBase implements UserBase {
      * @param s string to parse
      * @return the integer value or {@code null} if an Exception is thrown
      */
-    private Integer parseInt(String s){
+    private static Integer parseInt(String s){
         try{
             return Integer.parseInt(s);
         }catch(NumberFormatException e){

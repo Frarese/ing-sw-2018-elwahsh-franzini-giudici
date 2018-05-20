@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * Processes all the inbound objects on one stream
  * @author Francesco Franzini
  */
-class InListener extends ThreadHandler implements Runnable {
+class InListener extends ThreadHandler {
     private final Comm cComm;
     private CommUtilizer utilizer;
     private final Logger logger;

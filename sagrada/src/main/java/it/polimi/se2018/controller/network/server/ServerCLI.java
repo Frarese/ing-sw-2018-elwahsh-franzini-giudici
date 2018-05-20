@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * Listens on the CLI for server commands
  * @author Francesco Franzini
  */
-class ServerCLI implements Runnable{
+public class ServerCLI implements Runnable{
     private final ServerMain serverMain;
     private final Logger logger;
 
