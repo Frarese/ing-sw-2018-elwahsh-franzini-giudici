@@ -18,6 +18,7 @@ public class PrivateObjectiveCard extends ObjectiveCard {
      */
     public PrivateObjectiveCard( ColorModel color)
     {
+        this.id = color.ordinal();
         this.color = color;
     }
 

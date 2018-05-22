@@ -1,6 +1,5 @@
 package it.polimi.se2018.model.cards;
 
-import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.Player;
 
 
@@ -10,7 +9,6 @@ import it.polimi.se2018.model.Player;
  */
 public abstract class ToolCard extends CardModel {
     protected boolean used; /*Unused card cost 1 favour points, while used ones 2*/
-    protected ColorModel color; /*For singleplayer*/
 
     /**
      * When a card is used the used flag must be set on true
@@ -28,13 +26,6 @@ public abstract class ToolCard extends CardModel {
     {
         return used;
     }
-
-    /**
-     * All Tool Cards need this method. It applies the Tool card effect to the player
-     * @param player the player to apply this Tool Card to
-     */
-    public abstract void applyToolCard(Player player);
-
     /**
      * To use a Tool card a player must spend its favour points
      * @param player the player to use
@@ -52,7 +43,7 @@ public abstract class ToolCard extends CardModel {
      * if the player can use them or not
      * @return true if the card is usable by the player, false otherwise
      */
-    protected abstract boolean isUsable();
+    protected abstract boolean isUsable(Player player);
 
 
 }

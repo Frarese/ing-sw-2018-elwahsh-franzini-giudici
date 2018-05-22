@@ -8,6 +8,9 @@
 *.iml
 *.iws
 
+# CSV
+*.csv
+
 # Mac
 .DS_Store
 
