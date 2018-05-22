@@ -21,6 +21,7 @@ public class CommTest {
     private Field commLayerF;
     private boolean sentReq;
     private boolean closed;
+    private boolean failLogin;
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception{
@@ -35,6 +36,7 @@ public class CommTest {
         commLayerF.setAccessible(true);
         sentReq=false;
         closed=false;
+        failLogin=false;
     }
 
     @Test(timeout = 1000)
@@ -124,6 +126,43 @@ public class CommTest {
         assertEquals(kA,uut.popInPendingReq());
         assertEquals("test",uut.popInPendingObj());
     }
+
+    @Test
+    public void testReconnection(){
+        CommMock uut2=new CommMock();
+        assertTrue(uut2.tryRecover(false));
+        assertFalse(uut2.purged);
+        uut2.fail=true;
+        assertFalse(uut2.tryRecover(true));
+        assertTrue(uut2.purged);
+    }
+
+    @Test
+    public void testCreateComm() throws Exception{
+
+        commLayerF.set(uut,null);
+        assertTrue(uut.createComm(true));
+        assertEquals(RMICommLayer.class,commLayerF.get(uut).getClass());
+        assertFalse(uut.createComm(false));
+
+        commLayerF.set(uut,null);
+        assertTrue(uut.createComm(false));
+        assertEquals(SocketCommLayer.class,commLayerF.get(uut).getClass());
+    }
+
+    @Test
+    public void testLogin(){
+        CommMock uut2=new CommMock();
+        uut2.noMockLogin=true;
+        failLogin=true;
+        String result=uut2.login("host",1,2,true,"usn","pw",true,false,null);
+        assertNotNull(result);
+
+        failLogin=false;
+        result=uut2.login("host",1,2,true,"usn","pw",true,false,null);
+
+        assertNull(result);
+    }
     private class TestCommLayer extends CommLayer{
 
         TestCommLayer(Comm comm) {
@@ -132,6 +171,7 @@ public class CommTest {
 
         @Override
         String establishCon(String host, int reqPort, int objPort, boolean isRecovery, String usn, String pw, boolean newUser) {
+            if(failLogin)return "Login failed as requested";
             return null;
         }
 
@@ -156,6 +196,36 @@ public class CommTest {
         boolean close() {
             closed=true;
             return true;
+        }
+    }
+
+    private class CommMock extends Comm{
+        boolean fail;
+        boolean purged;
+        boolean noMockLogin=false;
+        CommMock(){
+            this.fail=false;
+            purged=false;
+        }
+        @Override
+        public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
+            if(noMockLogin)return super.login(host,requestPort,objectPort,isRecovery,usn,pw,newUser,useRMI,utilizer);
+            return (fail)?"Failed":null;
+        }
+
+        @Override
+        public void purgeComm() {
+            this.purged=true;
+        }
+
+        @Override
+        boolean createComm(boolean useRMI) {
+            try {
+                commLayerF.set(this,new TestCommLayer(this));
+            } catch (IllegalAccessException e) {
+                return false;
+            }
+            return !fail;
         }
     }
 }

@@ -24,6 +24,7 @@ public class SafeSocket implements Runnable {
     private ObjectInputStream inStr;
     private ObjectOutputStream outStr;
     private SafeSocketACK lastACK;
+    private Integer lastObjId;
     private Thread t;
     private boolean continua;
 
@@ -42,6 +43,7 @@ public class SafeSocket implements Runnable {
      * @throws IOException if an I/O error occurs
      */
     public SafeSocket(Socket s, long timeout) throws IOException {
+        lastObjId=null;
         this.s=s;
         inQueue=new LinkedList<>();
         init();
@@ -174,19 +176,24 @@ public class SafeSocket implements Runnable {
                     synchronized (this) {
                         lastACK = (SafeSocketACK) read;
                     }
-                }else{
-                    synchronized (inQueue){
+                    continue;
+                }
+                if(!hashObj(read).equals(lastObjId)) {
+                    synchronized (inQueue) {
                         inQueue.add(read);
                         inQueue.notifyAll();
+                        lastObjId = hashObj(read);
                     }
-                    synchronized (outStr){
-                        logger.log(Level.FINEST,"Received object, returning ack");
-                        int objHash=hashObj(read);
-                        outStr.writeObject(new SafeSocketACK(objHash));
-                        outStr.flush();
-                    }
-
+                }else{
+                    logger.log(Level.SEVERE,"Skipping on duplicated object {0}",read);
                 }
+                synchronized (outStr){
+                    logger.log(Level.FINEST,"Received object, returning ack");
+                    int objHash=hashObj(read);
+                    outStr.writeObject(new SafeSocketACK(objHash));
+                    outStr.flush();
+                }
+
             } catch (IOException e) {
                 if(!continua){
                     logger.log(Level.WARNING,"Interrupted while reading from safe socket"+e.getLocalizedMessage());
@@ -207,7 +214,7 @@ public class SafeSocket implements Runnable {
      * @param obj the object to hash
      * @return  the result of the hashing function
      */
-    private static int hashObj(Object obj) {
+    private static Integer hashObj(Object obj) {
         return obj.hashCode();
     }
 

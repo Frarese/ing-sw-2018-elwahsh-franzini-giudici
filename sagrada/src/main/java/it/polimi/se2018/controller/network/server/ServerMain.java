@@ -5,6 +5,7 @@ import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.ScoreEntry;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,6 +22,7 @@ public class ServerMain {
     public final int objPort;
     public final int reqPort;
     public final String rmiName;
+    public final InetAddress rmiIP;
     private ServerComm serverRMI;
     private ServerComm serverSoc;
     private final ConcurrentHashMap<String,Client> clientMap;
@@ -37,9 +39,10 @@ public class ServerMain {
      * @param useDB true if a database is to be used for the user credentials validation
      * @param rmiPort rmi port
      * @param rmiName rmi name
+     * @param rmiIp rmi ip to use
      * @throws IOException if an I/O error occurs
      */
-    public ServerMain(int objPort,int reqPort, boolean useDB, int rmiPort, String rmiName) throws IOException{
+    public ServerMain(int objPort, int reqPort, boolean useDB, int rmiPort, String rmiName, InetAddress rmiIp) throws IOException{
         logger=Logger.getGlobal();
         clientMap=new ConcurrentHashMap<>();
         matches=new ConcurrentHashMap<>();
@@ -57,6 +60,7 @@ public class ServerMain {
         }
         this.rmiPort=rmiPort;
         this.rmiName=rmiName;
+        this.rmiIP=rmiIp;
         this.objPort=objPort;
         this.reqPort=reqPort;
     }
@@ -65,7 +69,7 @@ public class ServerMain {
      * Builds the server objects that are going to be used
      */
     public void buildServers() throws IOException {
-        if(serverRMI==null){serverRMI=new RMIServer(this,rmiPort,rmiName);}
+        if(serverRMI==null){serverRMI=new RMIServer(this,rmiPort,rmiName,rmiIP);}
         if(serverSoc==null)serverSoc=new SocketServer(this,objPort,reqPort);
     }
 

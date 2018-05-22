@@ -228,12 +228,7 @@ public class Comm {
      * @return {@code null} if no errors were raised, a textual representation of the error otherwise
      */
     public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
-        if(commLayer!=null)return "Already connected";
-        if(useRMI){
-            commLayer=new RMICommLayer(this);
-        }else{
-            commLayer=new SocketCommLayer(this);
-        }
+        if(!this.createComm(useRMI))return "Already connected";
         String outcome=commLayer.establishCon(host,requestPort,objectPort,isRecovery,usn,pw,newUser);
         if(outcome!=null){
             commLayer=null;
@@ -266,6 +261,16 @@ public class Comm {
         discTimer.reschedule(ClientDiscTimer.DEFAULT_CLIENT_TIMEOUT);
         logger.log(Level.INFO,"Successful login");
         return null;
+    }
+
+    boolean createComm(boolean useRMI) {
+        if(commLayer!=null)return false;
+        if(useRMI){
+            commLayer=new RMICommLayer(this);
+        }else{
+            commLayer=new SocketCommLayer(this);
+        }
+        return true;
     }
 
     /**

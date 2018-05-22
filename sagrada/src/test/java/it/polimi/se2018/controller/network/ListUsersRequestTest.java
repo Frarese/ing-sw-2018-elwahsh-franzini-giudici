@@ -1,21 +1,26 @@
 package it.polimi.se2018.controller.network;
 
+import it.polimi.se2018.controller.network.server.ServerMain;
 import it.polimi.se2018.util.ScoreEntry;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class ListUsersRequestTest {
-    ListUsersRequest uut;
-    List<ScoreEntry> list;
+    private ListUsersRequest uut;
+    private List<ScoreEntry> list;
+    private ServerMain s;
     @Before
-    public void setUp() {
+    public void setUp() throws Exception{
         uut=new ListUsersRequest();
         list=new ArrayList<>();
+        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost());
+
     }
 
     @Test
@@ -40,6 +45,6 @@ public class ListUsersRequestTest {
     @Test(expected = NullPointerException.class)
     public void serverClientHandle() {
         uut.setList(list);
-        uut.serverHandle(null,null);
+        uut.serverHandle(null,s);
     }
 }

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +26,7 @@ public class ServerMainTest {
     public void setUp() throws Exception {
         File uf=new File("users.csv");
         if(uf.exists())assertTrue(uf.delete());
-        uut=new ServerMain(9999,10000,false,10001,LoginResponsesEnum.RESOURCE_NAME.msg);
+        uut=new ServerMain(9999,10000,false,10001,LoginResponsesEnum.RESOURCE_NAME.msg,InetAddress.getLocalHost());
 
         Field f=ServerMain.class.getDeclaredField("clientMap");
         f.setAccessible(true);

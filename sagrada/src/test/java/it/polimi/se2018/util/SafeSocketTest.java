@@ -39,10 +39,9 @@ public class SafeSocketTest {
 
     }
 
-    @Test
+    @Test(timeout=10000)
     public void testConnection() throws Exception {
         Thread t=makeTestThread(5);
-
         t.start();
         Socket s=servSocket.accept();
         serverSS=new SafeSocket(s,timeout);
@@ -85,7 +84,7 @@ public class SafeSocketTest {
 
         t.start();
         Socket s=servSocket.accept();
-        TestSocket wrapper=new TestSocket(s,true,true,false);
+        TestSocket wrapper=new TestSocket(s);
         serverSS=new SafeSocket(wrapper,timeout);
 
         t.join();
@@ -108,44 +107,27 @@ public class SafeSocketTest {
         });
     }
     private class TestSocket extends Socket{
-        private boolean failInStrGet;
-        private boolean failOutStrGet;
-        private boolean failClose;
-        private Socket s;
+        private final Socket s;
 
-        TestSocket(Socket s,boolean failInStrGet, boolean failOutStrGet, boolean failClose) {
-            this.failInStrGet = failInStrGet;
-            this.failOutStrGet = failOutStrGet;
-            this.failClose = failClose;
+        TestSocket(Socket s) {
             this.s=s;
         }
 
         @Override
         public InputStream getInputStream() throws IOException {
-
-            if(failInStrGet){
-
-                throw new IOException("Failed as requested");
-            }
-            return s.getInputStream();
+            throw new IOException("Failed as requested");
         }
 
         @Override
         public OutputStream getOutputStream() throws IOException {
-            if(failOutStrGet){
-                throw new IOException("Failed as requested");
-            }
-            return s.getOutputStream();
+            throw new IOException("Failed as requested");
         }
 
 
 
         @Override
         public synchronized void close() throws IOException {
-            if(failClose){
-                throw new IOException("Failed as requested");
-            }
-            s.close();
+            throw new IOException("Failed as requested");
         }
 
         @Override

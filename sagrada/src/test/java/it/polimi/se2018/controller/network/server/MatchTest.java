@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,19 +20,22 @@ public class MatchTest {
     private ClientTest c1,c2,c3,c4;
     private List<Client> list;
     private MatchIdentifier mId;
+    private ServerMain s;
     @Before
-    public void setUp() {
-        c1=new ClientTest("us1",null);
-        c2=new ClientTest("us2",null);
-        c3=new ClientTest("us3",null);
-        c4=new ClientTest("us4",null);
+    public void setUp() throws Exception{
+        c1=new ClientTest("us1");
+        c2=new ClientTest("us2");
+        c3=new ClientTest("us3");
+        c4=new ClientTest("us4");
         mId=new MatchIdentifier("us1","us2","us3","us4");
         list=new ArrayList<>();
         list.add(c1);
         list.add(c2);
         list.add(c3);
         list.add(c4);
-        uut=new Match(mId,list,null);
+        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost());
+        uut=new Match(mId,list,s);
+        s.addMatch(uut);
     }
 
     @Test
@@ -49,20 +53,15 @@ public class MatchTest {
         uut=new Match(mId,list,null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testDuplicateInit() {
         list=new ArrayList<>();
         list.add(c1);
         list.add(c1);
         list.add(c2);
         list.add(c3);
-        uut=new Match(mId,list,null);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testAbort() {
-        uut=new Match(mId,list,null);
-        uut.abort();
+        uut=new Match(mId,list,s);
+        assertNull(s.getMatch(mId));
     }
 
     @Test
@@ -87,15 +86,11 @@ public class MatchTest {
     public void testTerminalLeave() {
         uut.playerLeft("us1",true);
         uut.playerLeft("us2",true);
-        try{
-            uut.playerLeft("us3",true);
-            fail();
-        }catch (NullPointerException e){
-            assertTrue(c1.aborted);
-            assertTrue(c2.aborted);
-            assertTrue(c3.aborted);
-            assertTrue(c4.aborted);
-        }
+        uut.playerLeft("us3",true);
+        assertTrue(c1.aborted);
+        assertTrue(c2.aborted);
+        assertTrue(c3.aborted);
+        assertTrue(c4.aborted);
     }
 
     @Test
@@ -108,9 +103,10 @@ public class MatchTest {
         assertTrue(c4.rec);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testEnd(){
         uut.end(0,1,2,3);
+        assertNull(s.getMatch(mId));
     }
 
     private class ClientTest extends Client{
@@ -118,8 +114,8 @@ public class MatchTest {
         boolean aborted=false;
         boolean dc=false;
         boolean rec=false;
-        ClientTest(String usn, ServerMain server) {
-            super(usn, server);
+        ClientTest(String usn) {
+            super(usn, null);
         }
 
         @Override

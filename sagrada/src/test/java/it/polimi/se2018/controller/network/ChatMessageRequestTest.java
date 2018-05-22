@@ -9,6 +9,7 @@ import it.polimi.se2018.util.ScoreEntry;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -35,11 +36,12 @@ public class ChatMessageRequestTest {
         received=false;
         uut=new ChatMessageRequest("test","test2","test",MessageTypes.MATCH);
         uut.clientHandle(null,new TestUtilizer());
+        assertTrue(received);
     }
 
     @Test
     public void testServer() throws Exception{
-        ServerMain s=new ServerMain(1,3,false,2,"test");
+        ServerMain s=new ServerMain(1,3,false,2,"test",InetAddress.getLocalHost());
         uut=new ChatMessageRequest("test","test2","test",MessageTypes.PM);
         uut.serverHandle(new Client("test",s),s);
 

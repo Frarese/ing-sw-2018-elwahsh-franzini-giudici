@@ -22,12 +22,16 @@ class RMIServer extends ServerComm {
      * Creates a RMI login service
      *
      * @param handler the handler for the requests
+     * @param port the port to use
+     * @param name the name to use for the resource
+     * @param ip the name of the network interface to use
      * @throws RemoteException if errors occurred
      */
-    RMIServer(ServerMain handler, int port, String name) throws RemoteException{
+    RMIServer(ServerMain handler, int port, String name,InetAddress ip) throws RemoteException{
         super(handler);
         logger=Logger.getGlobal();
         try {
+            System.setProperty("java.rmi.server.hostname",ip.getHostAddress());
             rmiObj=new RMIServerIntImpl(this);
             LocateRegistry.createRegistry(port);
             this.tryUnexport();
@@ -39,7 +43,7 @@ class RMIServer extends ServerComm {
             this.close();
             throw e;
         } catch (UnknownHostException e) {
-            logger.log(Level.WARNING,"Error reading hostname");
+            logger.log(Level.SEVERE,"Error reading hostname");
         }
     }
 

@@ -31,10 +31,12 @@ public interface UtilMethods {
      */
     static <T> T waitAndPopTS(Queue<T> q) throws InterruptedException {
         final Queue<T>queue=q;
+        T out;
         synchronized (queue){
             while(queue.isEmpty())queue.wait();
-            return queue.poll();
+            out= queue.poll();
         }
+        return out;
     }
 
     /**
@@ -45,8 +47,10 @@ public interface UtilMethods {
      */
     static <T> boolean checkNotEmpty(Queue<T> q) {
         final Queue<T>queue=q;
+        boolean out;
         synchronized (queue){
-            return !q.isEmpty();
+            out= !q.isEmpty();
         }
+        return out;
     }
 }

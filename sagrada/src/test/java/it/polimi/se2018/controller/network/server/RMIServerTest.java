@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.net.InetAddress;
 
 import static org.junit.Assert.*;
 
@@ -15,14 +16,14 @@ public class RMIServerTest {
     public void setUp() throws Exception {
         File f=new File("users.csv");
         if(f.exists())assertTrue(f.delete());
-        s=new ServerMain(0,0,false,0,"tt");
+        s=new ServerMain(0,0,false,0,"tt",InetAddress.getLocalHost());
 
         s.createUser("test","pw");
     }
 
     @Test
     public void testRegister() throws Exception{
-        uut=new RMIServer(s,10002,"test");
+        uut=new RMIServer(s,10002,"test",InetAddress.getLocalHost());
         response=uut.login("test","pw",false,true);
         assertEquals(LoginResponsesEnum.USER_ALREADY_EXISTS,response.getLoginOutput());
 
@@ -33,7 +34,7 @@ public class RMIServerTest {
 
     @Test
     public void testRecover() throws Exception{
-        uut=new RMIServer(s,10003,"test");
+        uut=new RMIServer(s,10003,"test",InetAddress.getLocalHost());
         response=uut.login("test","pw",true,false);
         assertEquals(LoginResponsesEnum.USER_NOT_LOGGED,response.getLoginOutput());
 
@@ -47,7 +48,7 @@ public class RMIServerTest {
 
     @Test
     public void testNormal() throws Exception{
-        uut=new RMIServer(s,10004,"test");
+        uut=new RMIServer(s,10004,"test",InetAddress.getLocalHost());
         response=uut.login("test","pw2",false,false);
         assertEquals(LoginResponsesEnum.WRONG_CREDENTIALS,response.getLoginOutput());
 

@@ -1,6 +1,5 @@
 package it.polimi.se2018.controller.network;
 
-import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.controller.network.server.Client;
 import it.polimi.se2018.util.MatchIdentifier;
@@ -11,24 +10,33 @@ import org.junit.Test;
 import java.io.Serializable;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class LogoutRequestTest {
+public class LeaveMatchRequestTest {
 
+    private boolean notified;
     @Test
-    public void testClient(){
-        LogoutRequest uut=new LogoutRequest();
-        assertTrue(uut.checkValid());
+    public void testRequest() {
+        LeaveMatchRequest uut;
+        try {
+            uut = new LeaveMatchRequest(null, false);
+            fail();
+        }catch (IllegalArgumentException e){
+            uut=new LeaveMatchRequest("test",true);
+            assertEquals("test",uut.usn);
+            assertTrue(uut.host);
+        }
+        notified=false;
         CommUtilizerMock mock=new CommUtilizerMock();
-        uut.clientHandle(new CommMock(),mock);
-        assertTrue(mock.dropped);
-        ClientMock c=new ClientMock();
-        uut.serverHandle(c, null);
-        assertTrue(c.purged);
+        uut.clientHandle(null,mock);
+        assertTrue(notified);
+
+        uut.serverHandle(new Client("usn",null),null);
     }
 
-    private class CommUtilizerMock implements CommUtilizer {
-        boolean dropped=false;
+
+    private class CommUtilizerMock implements CommUtilizer{
+
         @Override
         public void receiveObject(Serializable obj) {
 
@@ -66,7 +74,7 @@ public class LogoutRequestTest {
 
         @Override
         public void notifyUserLeft(String usn, boolean isNewHost) {
-
+            notified=true;
         }
 
         @Override
@@ -81,7 +89,7 @@ public class LogoutRequestTest {
 
         @Override
         public void notifyCommDropped() {
-            dropped=true;
+
         }
 
         @Override
@@ -97,24 +105,6 @@ public class LogoutRequestTest {
         @Override
         public void notifyUserReconnected(String usn) {
 
-        }
-    }
-    private class CommMock extends Comm{
-        @Override
-        public void logoutRequestReceived() {
-
-        }
-    }
-
-    private class ClientMock extends Client{
-        boolean purged=false;
-        ClientMock() {
-            super("usn", null);
-        }
-
-        @Override
-        public void purge() {
-            purged=true;
         }
     }
 }
