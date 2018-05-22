@@ -1,0 +1,12 @@
+#anchor {
+    -fx-background-image: url("/it/polimi/se2018/view/images/others/background.jpg");
+    -fx-background-position: center center;
+}
+
+.label {
+    -fx-font-weight: bolder;
+}
+
+.RadioButton {
+    -fx-font-weight: bolder;
+}

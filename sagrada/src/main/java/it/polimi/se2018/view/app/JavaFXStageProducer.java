@@ -1,7 +1,12 @@
 package it.polimi.se2018.view.app;
 
+import it.polimi.se2018.view.tools.fx.controller.FXAbsController;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class JavaFXStageProducer represents the helper class for JavaFXApp
@@ -11,25 +16,23 @@ import javafx.stage.Stage;
 
 public class JavaFXStageProducer extends Application {
 
-    private JavaFXApp appController;
+    protected static JavaFXApp app;
 
-    private Stage stage;
+    static Stage stage;
 
-    public JavaFXStageProducer() {
-        super();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
+    static FXAbsController controller;
 
     @Override
-    public void start(Stage primaryStage) {
-        this.stage = primaryStage;
-    }
+    public synchronized void start(Stage primaryStage) {
 
-    public Stage getStage() {
-        return stage;
+        //Setting stage properties
+        primaryStage.setTitle("Sagrada Game");
+        primaryStage.getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/images/others/icon.png")));
+        primaryStage.show();
+
+        //Setting static public attributes
+        stage = primaryStage;
+
+        Logger.getGlobal().log(Level.WARNING, "Start JavaFX app");
     }
 }

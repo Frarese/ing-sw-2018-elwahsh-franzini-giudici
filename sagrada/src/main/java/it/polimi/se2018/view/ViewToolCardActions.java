@@ -42,7 +42,8 @@ public class ViewToolCardActions {
 
     /**
      * Communicates to the Controller the die's that player selected to add in the grid
-     *  @param width  contains the x coordinate
+     *
+     * @param width  contains the x coordinate
      * @param height contains the y coordinate
      */
     public void selectedDieToGrid(int width, int height) {

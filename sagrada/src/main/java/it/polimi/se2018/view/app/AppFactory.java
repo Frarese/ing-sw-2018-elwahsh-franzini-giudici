@@ -1,8 +1,5 @@
 package it.polimi.se2018.view.app;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * This Class represents the App maker.
  * Creates an App (CLI or JavaFX) according to the user's choice
@@ -17,15 +14,12 @@ public class AppFactory {
     /**
      * Constructor called to create an App
      *
-     * @param useGui boolean value to chose if use CLI or FX app
+     * @param useGui   boolean value to chose if use CLI or FX app
+     * @param mainArgs contains the arg passed at mains
      */
-    public AppFactory(boolean useGui) {
+    public AppFactory(boolean useGui, String[] mainArgs) {
         if (useGui) {
-            try {
-                this.app = new JavaFXApp();
-            } catch (Exception e) {
-                Logger.getGlobal().log(Level.WARNING, e.getMessage());
-            }
+            this.app = new JavaFXApp(mainArgs);
         } else {
             this.app = new CLIApp();
         }

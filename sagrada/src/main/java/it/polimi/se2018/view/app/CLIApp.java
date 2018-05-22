@@ -558,7 +558,7 @@ public class CLIApp extends App {
      *
      * @return the x coordinate
      */
-    public int getCoordinateX(){
+    public int getCoordinateX() {
         printer.print("Inserisci coordinata x:");
         return reader.chooseInRange(0, 4);
     }
@@ -568,7 +568,7 @@ public class CLIApp extends App {
      *
      * @return the y coordinate
      */
-    public int getCoordinateY(){
+    public int getCoordinateY() {
         printer.print("Inserisci coordinata y:");
         return reader.chooseInRange(0, 3);
     }

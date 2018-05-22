@@ -20,8 +20,8 @@ public interface ControllerToolCardActionsInterface {
     /**
      * Asks at currentPlayer the new die's value
      *
-     * @param low old(die's value) +1
-     * @param high   old(die's value) -1
+     * @param low  old(die's value) +1
+     * @param high old(die's value) -1
      */
     void selectNewValueForDie(int low, int high);
 

@@ -3,7 +3,7 @@ package it.polimi.se2018.view.tools.cli.command;
 import it.polimi.se2018.view.app.CLIApp;
 
 /**
- * Class to handle CLI command during game
+ * Abstract Class to handle CLI command during game
  *
  * @author Mathyas Giudici
  */

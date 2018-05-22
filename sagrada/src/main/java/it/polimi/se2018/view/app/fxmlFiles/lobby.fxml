@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="600.0" maxWidth="1000.0" prefHeight="600.0"
+            prefWidth="1000.0" xmlns="http://javafx.com/javafx/8">
+    <VBox alignment="CENTER" prefHeight="568.0" prefWidth="982.0" spacing="5.0">
+        <padding>
+            <Insets top="36.0"/>
+        </padding>
+        <HBox alignment="CENTER" prefHeight="400.0" prefWidth="961.0" spacing="20.0" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets/>
+            </VBox.margin>
+            <padding>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
+            </padding>
+            <VBox alignment="CENTER" layoutX="31.0" layoutY="20.0" prefHeight="427.0" prefWidth="327.0"
+                  style="-fx-background-color: Grey;">
+                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="452.0" prefWidth="349.0"
+                      spacing="10.0" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <VBox prefHeight="562.0" prefWidth="318.0" spacing="5.0">
+                        <Label text="Chat">
+                            <font>
+                                <Font name="System Bold" size="22.0"/>
+                            </font>
+                        </Label>
+                        <TextArea editable="false" prefHeight="1000.0" prefWidth="1000.0"/>
+                    </VBox>
+                    <HBox alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="318.0"
+                          spacing="10.0">
+                        <TextField prefHeight="27.0" prefWidth="249.0"
+                                   promptText="Scrivi qui il messaggio..." HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                        </TextField>
+                        <Button defaultButton="true" mnemonicParsing="false" prefHeight="27.0"
+                                prefWidth="125.0" text="Invia"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                <Label text="LeaderBoard">
+                    <font>
+                        <Font name="System Bold" size="22.0"/>
+                    </font>
+                </Label>
+                <TableView prefHeight="457.0" prefWidth="314.0" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn prefWidth="131.0" text="Utente"/>
+                        <TableColumn prefWidth="85.0" text="Punti"/>
+                        <TableColumn prefWidth="85.0" text="Vittorie"/>
+                    </columns>
+                </TableView>
+            </VBox>
+            <VBox layoutX="110.0" layoutY="10.0" prefHeight="400.0" prefWidth="323.0" spacing="10.0"
+                  HBox.hgrow="ALWAYS">
+                <Label text="Invita">
+                    <font>
+                        <Font name="System Bold" size="22.0"/>
+                    </font>
+                </Label>
+                <TableView prefHeight="326.0" prefWidth="311.0" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn prefWidth="307.0" text="Utenti"/>
+                    </columns>
+                </TableView>
+                <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="1000.0" text="Invita"/>
+                <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="1000.0"
+                        text="Lista inviti"/>
+            </VBox>
+        </HBox>
+        <ToolBar prefHeight="36.0" prefWidth="1003.0" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets/>
+            </VBox.margin>
+            <Button mnemonicParsing="false" text="Logout"/>
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Cambio Layer"/>
+        </ToolBar>
+    </VBox>
+</ScrollPane>

@@ -11,12 +11,12 @@ import it.polimi.se2018.view.tools.fx.creators.FXCardViewCreator;
 import it.polimi.se2018.view.tools.fx.creators.FXGridViewCreator;
 import it.polimi.se2018.view.tools.fx.creators.FXRoundTrackerViewCreator;
 import it.polimi.se2018.view.tools.fx.creators.FXScoreViewCreator;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,32 +29,20 @@ import java.util.logging.Logger;
 
 public class JavaFXApp extends App {
 
-    public JavaFXStageProducer getStageProducer() {
-        return stageProducer;
-    }
-
     /**
      * Components for GUI
      */
-    private JavaFXStageProducer stageProducer;
 
-    //Others
     private FXCardViewCreator fxCardViewCreator;
     private FXGridViewCreator fxGridViewCreator;
     private FXRoundTrackerViewCreator fxRoundTrackerViewCreator;
     private FXScoreViewCreator fxScoreViewCreator;
 
     /**
-     * Class constructor
+     * Class constructor to initialize creators
      */
-    JavaFXApp() {
-        super();
-        // this.stageProducer = new JavaFXStageProducer(this);
-//        try {
-//            this.stageProducer.start(new Stage());
-//        } catch (Exception e) {
-//            Logger.getGlobal().log(Level.SEVERE, e.getMessage());
-//        }
+    JavaFXApp(String[] args) {
+        this.openWindow(args);
     }
 
     @Override
@@ -71,19 +59,28 @@ public class JavaFXApp extends App {
 
         //Check if have to display welcome page
         if (displayWelcome) {
-            stageProducer.getStage().setTitle("Sagrada Game");
-            stageProducer.getStage().getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/images/others/icon.png")));
 
+            //Variables
+            FXMLLoader loader;
+            Pane root;
+
+            //Trying to load FXML
             try {
-                Parent root = FXMLLoader.load(stageProducer.getClass().getResource("fxmlsFiles/start.fxml"));
-                stageProducer.getStage().setScene(new Scene(root));
-            } catch (IOException e) {
+                loader = new FXMLLoader(getClass().getResource("fxmlFiles/start.fxml"));
+                root = loader.load();
+
+                //Create scene
+                Platform.runLater(() -> {
+                    JavaFXStageProducer.stage.setScene(new Scene(root));
+                    JavaFXStageProducer.controller = loader.getController();
+                    JavaFXStageProducer.stage.setResizable(false);
+                });
+            } catch (Exception e) {
                 Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
             }
-
-            stageProducer.getStage().show();
-            stageProducer.getStage().setResizable(false);
         }
+
+
     }
 
     @Override
@@ -239,5 +236,15 @@ public class JavaFXApp extends App {
     public void selectDieFromGridByColor(ColorModel color) {
         throw new UnsupportedOperationException();
 
+    }
+
+    /**
+     * Launches FX Application
+     *
+     * @param args contains the args passed at main
+     */
+    public void openWindow(String[] args) {
+        Application.launch(JavaFXStageProducer.class, args);
+        Platform.runLater(() -> JavaFXStageProducer.app = this);
     }
 }

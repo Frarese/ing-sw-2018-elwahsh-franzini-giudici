@@ -88,7 +88,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      * Searches in the players' list a player identified by his name ad return his PlayerView object
      *
      * @param players contains the players' list
-     * @param wanted contains the String name of the wanted player
+     * @param wanted  contains the String name of the wanted player
      * @return the PlayerView of the wanted player
      */
     public PlayerView searchPlayerViewByName(List<PlayerView> players, String wanted) {
@@ -105,7 +105,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      * Searches in the players' list a player identified by his ID ad return his PlayerView object
      *
      * @param players contains the players' list
-     * @param wanted contains the ID of the wanted player
+     * @param wanted  contains the ID of the wanted player
      * @return the PlayerView of the wanted player
      */
     public PlayerView searchPlayerViewById(List<PlayerView> players, int wanted) {
