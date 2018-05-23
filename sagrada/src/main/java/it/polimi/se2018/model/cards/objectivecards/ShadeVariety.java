@@ -17,7 +17,7 @@ public class ShadeVariety extends ObjectiveCard {
     public ShadeVariety()
     {
         this.multiplier = 5;
-        this.id = 8;
+        this.id = 17;
         this.text = "Sets of dice with every value on the grid";
     }
 

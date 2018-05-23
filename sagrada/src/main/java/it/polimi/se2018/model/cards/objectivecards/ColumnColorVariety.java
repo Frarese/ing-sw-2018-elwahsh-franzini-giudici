@@ -19,7 +19,7 @@ public class ColumnColorVariety extends ObjectiveCard {
      */
     public ColumnColorVariety() {
         this.multiplier = 5;
-        this.id = 2;
+        this.id = 11;
         this.text = "Columns with no repeated colors";
     }
 

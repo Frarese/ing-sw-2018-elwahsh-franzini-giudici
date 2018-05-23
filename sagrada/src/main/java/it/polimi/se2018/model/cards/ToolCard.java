@@ -1,5 +1,4 @@
 package it.polimi.se2018.model.cards;
-
 import it.polimi.se2018.model.Player;
 
 
@@ -43,7 +42,7 @@ public abstract class ToolCard extends CardModel {
      * if the player can use them or not
      * @return true if the card is usable by the player, false otherwise
      */
-    protected abstract boolean isUsable(Player player);
+    protected abstract boolean isUsable(Player player, boolean firstTurn);
 
 
 }

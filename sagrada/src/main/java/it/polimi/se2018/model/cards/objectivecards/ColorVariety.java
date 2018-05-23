@@ -18,7 +18,7 @@ public class ColorVariety extends ObjectiveCard {
     public ColorVariety()
     {
         this.multiplier = 4;
-        this.id = 10;
+        this.id = 19;
         this.text = "Sets of dice with every color on the grid";
     }
 

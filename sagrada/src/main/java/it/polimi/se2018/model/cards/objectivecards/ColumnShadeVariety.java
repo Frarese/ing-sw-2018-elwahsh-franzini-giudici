@@ -16,7 +16,7 @@ public class ColumnShadeVariety extends ObjectiveCard {
      */
     public ColumnShadeVariety() {
         this.multiplier = 4;
-        this.id = 4;
+        this.id = 13;
         this.text = "Columns with no repeated shades";
     }
 

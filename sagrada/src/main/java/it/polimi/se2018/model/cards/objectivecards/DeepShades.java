@@ -15,7 +15,7 @@ public class DeepShades extends ObjectiveCard {
      */
     public  DeepShades() {
         this.multiplier = 2;
-        this.id = 7;
+        this.id = 16;
         this.text = "Set of 5&6 on the grid";
     }
 

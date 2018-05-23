@@ -14,7 +14,7 @@ public class LightShades extends ObjectiveCard {
      */
     public LightShades() {
         this.multiplier = 2;
-        this.id = 5;
+        this.id = 14;
         this.text = "Set of 1&2 on the grid";
   }
 

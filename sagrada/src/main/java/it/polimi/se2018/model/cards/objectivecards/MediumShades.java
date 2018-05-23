@@ -15,7 +15,7 @@ public class MediumShades extends ObjectiveCard {
      */
     public MediumShades() {
         this.multiplier = 2;
-        this.id = 6;
+        this.id = 15;
         this.text = "Set of 3&4 on the grid";
     }
 

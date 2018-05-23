@@ -17,7 +17,7 @@ public class RowShadeVariety extends ObjectiveCard {
      */
     public RowShadeVariety() {
         this.multiplier = 5;
-        this.id = 3;
+        this.id = 12;
         this.text = "Rows with no repeated shades";
     }
 

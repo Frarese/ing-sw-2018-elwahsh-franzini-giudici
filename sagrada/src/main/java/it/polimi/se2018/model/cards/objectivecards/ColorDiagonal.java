@@ -18,7 +18,7 @@ public class ColorDiagonal extends ObjectiveCard {
     public ColorDiagonal()
     {
         this.multiplier = 1;
-        this.id = 9;
+        this.id = 18;
         this.text = "Number of dice of the same color diagonally adjacent";
     }
 

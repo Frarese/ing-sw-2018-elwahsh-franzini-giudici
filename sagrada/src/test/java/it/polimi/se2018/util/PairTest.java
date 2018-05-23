@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PairTest {
-    private Pair<ColorModel, Integer> test = new Pair <>(ColorModel.RED,0);
+    private final Pair<ColorModel, Integer> test = new Pair <>(ColorModel.RED,0);
 
     @Test
     public void testGetters()

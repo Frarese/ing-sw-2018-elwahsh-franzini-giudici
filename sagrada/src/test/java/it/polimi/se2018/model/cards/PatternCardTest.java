@@ -6,6 +6,7 @@ import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class PatternCardTest {
 
@@ -21,5 +22,12 @@ public class PatternCardTest {
         assertEquals(test.getBackSide(),test.chooseSide(false));
 
         assertNotNull(test.toString());
+    }
+
+    @Test
+    public void testException()
+    {
+        PatternCard notValid = new PatternCard("invalid position");
+        assertEquals("Invalid",notValid.getFrontSide().getName());
     }
 }

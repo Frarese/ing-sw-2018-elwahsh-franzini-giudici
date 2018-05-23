@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <card>
-
     <pattern name = "Virtus" difficulty = "5">
 	    <cell height ="0" width = "0">
 		    <color>WHITE</color>
@@ -106,5 +105,4 @@
             <value>0</value>
         </cell>
     </pattern>
-
 </card>

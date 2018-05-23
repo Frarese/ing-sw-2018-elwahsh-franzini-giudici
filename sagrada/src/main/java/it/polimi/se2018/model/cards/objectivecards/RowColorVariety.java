@@ -20,7 +20,7 @@ public class RowColorVariety extends ObjectiveCard {
      */
     public RowColorVariety() {
         this.multiplier = 6;
-        this.id = 1;
+        this.id = 10;
         this.text = "Rows with no repeated colors";
     }
 

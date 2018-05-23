@@ -5,8 +5,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class CardModelTest {
-    private int id = 0;
-    private String text = "This is a test";
+    private final int id = 0;
+    private final String text = "This is a test";
     private CardTest test;
 
     private class CardTest extends CardModel

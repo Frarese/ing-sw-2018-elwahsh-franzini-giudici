@@ -20,7 +20,6 @@ import java.util.logging.Logger;
  */
 public class PatternCard extends CardModel {
 
-    private Logger logger = Logger.getGlobal();
     private Pattern frontSide; /*first pattern*/
     private Pattern backSide; /*second pattern*/
 
@@ -81,8 +80,10 @@ public class PatternCard extends CardModel {
                 }
             }
             } catch(Exception e){
-                logger.log(Level.SEVERE, e.toString());
-
+            Logger logger = Logger.getGlobal();
+            logger.log(Level.SEVERE, e.toString());
+            frontSide = new Pattern(new Pair[Pattern.HEIGHT][Pattern.WIDTH],"Invalid",0);
+            backSide = new Pattern(new Pair[Pattern.HEIGHT][Pattern.WIDTH],"Invalid",0);
         }
     }
 

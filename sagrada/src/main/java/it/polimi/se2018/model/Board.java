@@ -92,11 +92,4 @@ public class Board {
         bag.add(d);
     }
 
-    /**
-     * Puts all the remaining dice inside the round tracker
-     */
-    public void putReserveOnRoundTrack()
-    {
-        roundTrack.addAll(reserve.popAllDice());
-    }
 }
