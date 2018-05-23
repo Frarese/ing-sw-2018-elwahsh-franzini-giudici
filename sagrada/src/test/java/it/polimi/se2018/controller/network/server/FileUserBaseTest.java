@@ -8,8 +8,9 @@ import java.io.*;
 
 import static org.junit.Assert.*;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class FileUserBaseTest {
-    FileUserBase uut;
+    private FileUserBase uut;
     @Before
     public void setUp(){
         File f=new File("test.csv");

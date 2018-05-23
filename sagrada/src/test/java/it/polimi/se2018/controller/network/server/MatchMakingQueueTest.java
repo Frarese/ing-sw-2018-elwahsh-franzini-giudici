@@ -9,8 +9,8 @@ import java.util.Queue;
 import static org.junit.Assert.*;
 
 public class MatchMakingQueueTest {
-    MatchMakingQueue m;
-    Queue q;
+    private MatchMakingQueue m;
+    private Queue q;
     @Before
     public void setUp() throws Exception{
         m=new MatchMakingQueue(null);

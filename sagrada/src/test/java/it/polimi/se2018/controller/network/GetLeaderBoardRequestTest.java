@@ -11,10 +11,10 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class GetLeaderBoardRequestTest {
-    GetLeaderBoardRequest uut;
+    private GetLeaderBoardRequest uut;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         uut=new GetLeaderBoardRequest();
     }
 

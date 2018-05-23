@@ -12,22 +12,21 @@ import java.lang.reflect.Field;
 import static org.junit.Assert.*;
 
 public class SocketCommLayerTest {
-    SocketCommLayer uut;
-    SocTest s1;
-    SocTest s2;
+    private SocketCommLayer uut;
+
     @Before
     public void setUp() throws Exception {
-        s1=new SocTest();
-        s2=new SocTest();
+        SocTest s1 = new SocTest();
+        SocTest s2 = new SocTest();
         uut=new SocketCommLayer(new Comm());
 
         Field soc1=uut.getClass().getDeclaredField("objSoc");
         soc1.setAccessible(true);
-        soc1.set(uut,s1);
+        soc1.set(uut, s1);
 
         Field soc2=uut.getClass().getDeclaredField("reqSoc");
         soc2.setAccessible(true);
-        soc2.set(uut,s2);
+        soc2.set(uut, s2);
     }
 
     @Test
@@ -58,14 +57,12 @@ public class SocketCommLayerTest {
     }
 
     private class SocTest extends SafeSocket{
-        boolean closed=false;
         SocTest() throws IOException {
             super(0);
         }
 
         @Override
         public void close(boolean force){
-            closed=true;
         }
 
         @Override

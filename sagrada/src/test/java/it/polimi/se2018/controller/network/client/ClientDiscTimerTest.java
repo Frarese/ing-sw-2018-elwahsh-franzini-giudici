@@ -54,8 +54,7 @@ public class ClientDiscTimerTest {
             if(fail){
                 return Instant.EPOCH;
             }
-            Instant i=Instant.now().minusNanos(100);
-            return i;
+            return Instant.now().minusNanos(100);
         }
     }
 }

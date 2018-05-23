@@ -8,8 +8,8 @@ import java.lang.reflect.Field;
 import static org.junit.Assert.*;
 
 public class KeepAliveRequestTest {
-    KeepAliveRequest uut;
-    Field bounceField;
+    private KeepAliveRequest uut;
+    private Field bounceField;
     @Before
     public void setUp() throws NoSuchFieldException {
         uut=new KeepAliveRequest();

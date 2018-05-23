@@ -12,17 +12,17 @@ import java.util.Queue;
 import static org.junit.Assert.*;
 
 public class RMIClientCommTest {
-    RMIClientComm uut;
+    private RMIClientComm uut;
     private Queue<AbsReq> outReqQueue;
     private Queue<Serializable> outObjQueue;
     private RMISessionImpl sesObj;
-    private Client c;
+
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
         sesObj=new RMISessionImpl(LoginResponsesEnum.USER_ALREADY_LOGGED);
-        c=new Client("test",null);
-        uut=new RMIClientComm(sesObj,c);
+        Client c = new Client("test", null);
+        uut=new RMIClientComm(sesObj, c);
         Field f=RMIClientComm.class.getDeclaredField("rmiOutObjQueue");
         f.setAccessible(true);
         outObjQueue=(Queue)f.get(uut);

@@ -16,8 +16,8 @@ import static org.junit.Assert.*;
 
 public class RMICommLayerTest {
     private RMICommLayer uut;
-    boolean called;
-    RMISessionTest c;
+    private boolean called;
+    private RMISessionTest c;
     @Before
     public void setUp() throws Exception {
         called=false;

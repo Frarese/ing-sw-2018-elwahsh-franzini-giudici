@@ -28,7 +28,7 @@ public class ServerInQueueEmptierTest {
     }
 
     private class ClientTest extends Client{
-        public ClientTest(){
+        ClientTest(){
             super("",null);
         }
 

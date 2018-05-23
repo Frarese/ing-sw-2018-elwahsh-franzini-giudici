@@ -53,7 +53,7 @@ public class InputStreamWaiterTest {
 
     private class TestSSocket extends SafeSocket {
         AbsReq requ;
-        public TestSSocket(AbsReq requ) throws IOException {
+        TestSSocket(AbsReq requ) throws IOException {
             super(100);
             this.requ=requ;
         }
@@ -67,6 +67,6 @@ public class InputStreamWaiterTest {
     }
 
     private class TestAbsReq extends AbsReq {
-        String str="Req";
+        final String str="Req";
     }
 }

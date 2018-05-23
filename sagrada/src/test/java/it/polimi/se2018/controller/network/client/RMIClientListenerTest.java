@@ -43,7 +43,7 @@ public class RMIClientListenerTest {
 
 
     private class TestCComm extends RMICommLayer{
-        AbsReq req;
+        final AbsReq req;
         TestCComm(AbsReq req){
             super(null);
             this.req=req;
@@ -66,6 +66,6 @@ public class RMIClientListenerTest {
         }
     }
     private class TestAbsReq extends AbsReq {
-        String str="Req";
+        final String str="Req";
     }
 }

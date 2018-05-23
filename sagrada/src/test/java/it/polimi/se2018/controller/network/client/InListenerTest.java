@@ -3,7 +3,6 @@ package it.polimi.se2018.controller.network.client;
 import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 

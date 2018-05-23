@@ -87,12 +87,8 @@ public class ClientTest {
         uut.handleObj();
         assertNull(inObjQueue.peek());
 
-        try{
-            uut.handleReq();
-            fail();
-        }catch (NullPointerException ex){
-            assertNull(inReqQueue.peek());
-        }
+        uut.handleReq();
+        assertNull(inReqQueue.peek());
     }
 
     @Test
@@ -104,19 +100,11 @@ public class ClientTest {
         assertEquals(kA,outReqQueue.peek());
         assertEquals("test",outObjQueue.peek());
 
-        try{
-            uut.processOutReq();
-            fail();
-        }catch (NullPointerException ex){
-            assertNull(outReqQueue.peek());
-        }
+        uut.processOutReq();
+        assertEquals(kA,outReqQueue.peek());
 
-        try{
-            uut.processOutObj();
-            fail();
-        }catch (NullPointerException ex){
-            assertNull(outObjQueue.peek());
-        }
+        uut.processOutObj();
+        assertEquals("test",outObjQueue.peek());
     }
 
     @Test

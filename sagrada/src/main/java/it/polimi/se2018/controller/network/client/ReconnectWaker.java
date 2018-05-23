@@ -26,7 +26,8 @@ class ReconnectWaker{
         this.logger=Logger.getGlobal();
         this.cComm=cComm;
         t=new Timer();
-        this.maxAttempts=-1;
+        this.attempts=0;
+        this.maxAttempts=0;
     }
 
     private void runTask() {
@@ -58,5 +59,12 @@ class ReconnectWaker{
 
     }
 
+    /**
+     * Checks if this waker is running
+     * @return true if this waker hasn't finished its attempts
+     */
+    boolean isRunning(){
+        return attempts!=maxAttempts;
+    }
 
 }

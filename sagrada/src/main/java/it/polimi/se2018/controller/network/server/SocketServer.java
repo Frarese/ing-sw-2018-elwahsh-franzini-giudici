@@ -97,6 +97,7 @@ class SocketServer extends ServerComm {
      */
     private SocketLoginRequest checkAndWrap(SafeSocket ss) throws InterruptedException {
         Serializable reqSer=ss.receive();
+        if(reqSer==null)return null;
         if(!reqSer.getClass().equals(SocketLoginRequest.class)){
             logger.log(Level.FINEST,"A Client is sending malformed login object");
             ss.close(true);

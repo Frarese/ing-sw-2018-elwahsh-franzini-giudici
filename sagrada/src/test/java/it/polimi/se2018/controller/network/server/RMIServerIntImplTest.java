@@ -16,7 +16,7 @@ public class RMIServerIntImplTest {
 
     @Test
     public void testEquals() throws Exception {
-        RMIServerMock s=new RMIServerMock(null,10001,"testname",InetAddress.getLocalHost());
+        RMIServerMock s=new RMIServerMock(InetAddress.getLocalHost());
         RMIServerIntImpl uut1=new RMIServerIntImpl(s);
         RMIServerIntImpl uut2=new RMIServerIntImpl(s);
         assertEquals(uut1,uut1);
@@ -30,8 +30,8 @@ public class RMIServerIntImplTest {
     private class RMIServerMock extends RMIServer{
 
 
-        RMIServerMock(ServerMain handler, int port, String name, InetAddress ip) throws RemoteException {
-            super(handler, port, name, ip);
+        RMIServerMock(InetAddress ip) throws RemoteException {
+            super(null, 10001, "testname", ip);
         }
 
         @Override

@@ -5,11 +5,9 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.*;
-
 public class ChangeCLayerRequestTest {
-    ChangeCLayerRequest uut;
-    Field portField;
+    private ChangeCLayerRequest uut;
+    private Field portField;
 
     @Before
     public void setUp() throws NoSuchFieldException {

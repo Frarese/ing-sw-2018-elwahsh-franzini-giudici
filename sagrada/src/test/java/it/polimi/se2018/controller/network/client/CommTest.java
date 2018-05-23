@@ -163,6 +163,16 @@ public class CommTest {
 
         assertNull(result);
     }
+
+    @Test
+    public void testDCRoutines() throws Exception{
+        Field f=Comm.class.getDeclaredField("reconnectW");
+        f.setAccessible(true);
+        uut.beginDisconnectedRoutines();
+        ReconnectWaker rW=(ReconnectWaker)f.get(uut);
+        assertTrue(rW.isRunning());
+
+    }
     private class TestCommLayer extends CommLayer{
 
         TestCommLayer(Comm comm) {

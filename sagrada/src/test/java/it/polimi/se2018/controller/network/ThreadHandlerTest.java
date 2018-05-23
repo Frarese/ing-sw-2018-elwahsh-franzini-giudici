@@ -86,7 +86,7 @@ public class ThreadHandlerTest {
 
     private class ThreadHandlerTestImpl extends ThreadHandler{
         int count;
-        AtomicBoolean blocked;
+        final AtomicBoolean blocked;
         final String a;
         ThreadHandlerTestImpl(){
             blocked=new AtomicBoolean(false);
