@@ -17,9 +17,9 @@ import java.util.logging.Logger;
  * @author Francesco Franzini
  */
 public class Client {
-    private static final long DEFAULT_DEATH_TIMEOUT = 2000;
+    private static final long DEFAULT_DEATH_TIMEOUT = 3000;
     private static final long DEFAULT_WARNING_TIMEOUT = 2000;
-    private static final long DEFAULT_PURGE_TIMEOUT = 2000;
+    private static final long DEFAULT_PURGE_TIMEOUT = 5000;
 
     private final ServerMain serverMain;
     public final String usn;
@@ -213,13 +213,20 @@ public class Client {
      * @param cReq eventual request to forward before terminating
      */
     public void zombiefy(boolean notifyMatchPlayers, ChangeCLayerRequest cReq) {
-        throw new UnsupportedOperationException();
+        logger.log(Level.FINE,"Zombiefying {0}", usn);
+        if(cReq!=null)this.sendReq(cReq);
+        if(this.cComm==null)return;
+        this.cComm.terminate();
+        this.cComm=null;
+        if(notifyMatchPlayers && match!=null)match.playerLeft(usn,true);
+
     }
 
     /**
      * Purges this client from the server
      */
     public void purge() {
+        logger.log(Level.FINE,"Purging {0}", usn);
         serverMain.removeClient(usn);
         if(!this.isZombie())this.zombiefy(true,null);
         throw new UnsupportedOperationException();
@@ -255,7 +262,7 @@ public class Client {
      * @param req the received request
      */
      void pushInReq(AbsReq req) {
-         logger.log(Level.FINEST,"Received int req {0}",req);
+         logger.log(Level.FINEST,"Received in req {0}",req);
          updateTs();
          UtilMethods.pushAndNotifyTS(inReqQueue,req);
     }
@@ -303,7 +310,10 @@ public class Client {
      * @return true if success(if supported)
      */
     public boolean sendObj(Serializable obj) {
-        return cComm.sendObj(obj);
+        if(cComm!=null){
+            return cComm.sendObj(obj);
+        }
+        return false;
     }
 
     /**
@@ -337,7 +347,10 @@ public class Client {
      * @return true if success(if supported)
      */
     public boolean sendReq(AbsReq req) {
-        return cComm.sendReq(req);
+        if(cComm!=null){
+            return cComm.sendReq(req);
+        }
+        return false;
     }
 
     /**

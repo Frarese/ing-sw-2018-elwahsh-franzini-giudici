@@ -34,6 +34,7 @@ class SocketCommLayer extends CommLayer {
 
     @Override
     synchronized String establishCon(String host, int reqPort, int objPort, boolean isRecovery, String usn, String pw, boolean newUser) {
+        logger.log(Level.INFO,"Attempting socket login to {0}",reqPort);
         if(reqSoc!=null || objSoc!=null){
             logger.log(Level.WARNING,"Attempted to create socket connection on already logged comm");
             return "Already logged";
@@ -53,6 +54,7 @@ class SocketCommLayer extends CommLayer {
                     sockListenerReq=new SocketInQueueFiller(this,reqSoc,true);
                     sockListenerObj.start();
                     sockListenerReq.start();
+                    logger.log(Level.INFO,"Login was successful");
                     return null;
                 }else{
                     cleanUp();

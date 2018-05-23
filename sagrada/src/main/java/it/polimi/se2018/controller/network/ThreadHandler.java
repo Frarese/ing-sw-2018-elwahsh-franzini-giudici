@@ -11,6 +11,7 @@ public abstract class ThreadHandler implements Runnable {
     private Thread t;
     private boolean continua;
     protected boolean isReq;
+    private Logger logger=Logger.getGlobal();
 
     @Override
     public void run() {
@@ -21,16 +22,17 @@ public abstract class ThreadHandler implements Runnable {
                 Thread.currentThread().interrupt();
             }
         }
+        logger.log(Level.INFO,"Thread handler finished execution {0}",this.getClass().getName());
     }
 
     /**
      * Starts this handler
-     * @return true if no errors are raised and this thread wasn't already running
+     * @return true if no errors are raised
      */
     public synchronized boolean start() {
-        Logger logger=Logger.getGlobal();
+        logger=Logger.getGlobal();
+        continua=true;
         if(!this.isRunning()){
-            continua=true;
             cleanUp();
             t=new Thread(this);
             t.start();
@@ -46,6 +48,7 @@ public abstract class ThreadHandler implements Runnable {
      * Signals this handler to stop, it will finish the current iteration however
      */
     public synchronized void stop() {
+        logger.log(Level.INFO,"Stopping handler {0}",this.getClass().getName());
         continua=false;
     }
 
@@ -63,7 +66,7 @@ public abstract class ThreadHandler implements Runnable {
      * Forces this handler to stop, interrupting the execution
      */
     public synchronized void forceStop() {
-        continua=false;
+        this.stop();
         t.interrupt();
     }
 

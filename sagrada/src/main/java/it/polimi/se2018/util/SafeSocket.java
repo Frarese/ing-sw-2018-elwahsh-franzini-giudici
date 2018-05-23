@@ -1,13 +1,10 @@
 package it.polimi.se2018.util;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +20,7 @@ public class SafeSocket implements Runnable {
     private final Queue<Serializable> inQueue;
     private ObjectInputStream inStr;
     private ObjectOutputStream outStr;
-    private SafeSocketACK lastACK;
+    private volatile SafeSocketACK lastACK;
     private Integer lastObjId;
     private Thread t;
     private boolean continua;
@@ -127,7 +124,7 @@ public class SafeSocket implements Runnable {
         int objHash=hashObj(obj);
         try {
             synchronized (outStr) {
-                outStr.writeObject(obj);
+                outStr.writeObject(new SafeSocketDatagram(obj));
                 outStr.flush();
             }
             while((System.currentTimeMillis()-time) <=timeout){
@@ -137,7 +134,8 @@ public class SafeSocket implements Runnable {
                         }
                     }
                     Thread.sleep(timeout/100);
-                }
+            }
+            logger.log(Level.SEVERE,"Timed out while sending {0}",obj);
         } catch (IOException e) {
             if(!continua){
                 logger.log(Level.WARNING,"Interrupted while writing to safe socket"+e.getLocalizedMessage());
@@ -149,7 +147,6 @@ public class SafeSocket implements Runnable {
             logger.log(Level.WARNING,"Interrupted while sending to safe socket"+e.getLocalizedMessage());
             Thread.currentThread().interrupt();
         }
-
         return false;
     }
 
@@ -172,25 +169,28 @@ public class SafeSocket implements Runnable {
         while(continua){
             try {
                 Serializable read=(Serializable)inStr.readObject();
+                SafeSocketDatagram readDgram;
                 if(read.getClass().equals(SafeSocketACK.class)){
+                    logger.log(Level.FINEST,"Received ack for {0}",((SafeSocketACK)read).id);
                     synchronized (this) {
                         lastACK = (SafeSocketACK) read;
                     }
                     continue;
                 }
-                if(!hashObj(read).equals(lastObjId)) {
+
+                readDgram=(SafeSocketDatagram)read;
+                if(!readDgram.id.equals(lastObjId)) {
                     synchronized (inQueue) {
-                        inQueue.add(read);
+                        inQueue.add(readDgram.payload);
                         inQueue.notifyAll();
-                        lastObjId = hashObj(read);
+                        lastObjId = readDgram.id;
                     }
                 }else{
                     logger.log(Level.SEVERE,"Skipping on duplicated object {0}",read);
                 }
+
                 synchronized (outStr){
-                    logger.log(Level.FINEST,"Received object, returning ack");
-                    int objHash=hashObj(read);
-                    outStr.writeObject(new SafeSocketACK(objHash));
+                    outStr.writeObject(new SafeSocketACK(readDgram.id));
                     outStr.flush();
                 }
 
@@ -202,7 +202,7 @@ public class SafeSocket implements Runnable {
                     continua=false;
                 }
 
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException | ClassCastException e) {
                 logger.log(Level.WARNING,"Unknown class received to SafeSocket"+e.getLocalizedMessage());
             }
         }
@@ -214,7 +214,7 @@ public class SafeSocket implements Runnable {
      * @param obj the object to hash
      * @return  the result of the hashing function
      */
-    private static Integer hashObj(Object obj) {
+    static Integer hashObj(Serializable obj) {
         return obj.hashCode();
     }
 

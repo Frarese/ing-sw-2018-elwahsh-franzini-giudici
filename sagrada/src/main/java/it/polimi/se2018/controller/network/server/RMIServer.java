@@ -37,7 +37,7 @@ class RMIServer extends ServerComm {
             this.tryUnexport();
             RMIServerInt stub = (RMIServerInt) UnicastRemoteObject.exportObject(rmiObj, 0);
             LocateRegistry.getRegistry(port).rebind(name,stub);
-            logger.log(Level.INFO,"RMI server listening on {0}",InetAddress.getLocalHost().getHostAddress());
+            logger.log(Level.INFO,"RMI server listening on {0}",InetAddress.getLocalHost().getHostAddress()+":"+port+" "+name);
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, "Couldn't create RMI server ",e);
             this.close();

@@ -18,11 +18,11 @@ import java.util.logging.Logger;
  * @author Francesco Franzini
  */
 public class ServerMain {
-    public final int rmiPort;
+    private final int rmiPort;
     public final int objPort;
     public final int reqPort;
-    public final String rmiName;
-    public final InetAddress rmiIP;
+    private final String rmiName;
+    private final InetAddress rmiIP;
     private ServerComm serverRMI;
     private ServerComm serverSoc;
     private final ConcurrentHashMap<String,Client> clientMap;
@@ -68,7 +68,7 @@ public class ServerMain {
     /**
      * Builds the server objects that are going to be used
      */
-    public void buildServers() throws IOException {
+    void buildServers() throws IOException {
         if(serverRMI==null){serverRMI=new RMIServer(this,rmiPort,rmiName,rmiIP);}
         if(serverSoc==null)serverSoc=new SocketServer(this,objPort,reqPort);
     }

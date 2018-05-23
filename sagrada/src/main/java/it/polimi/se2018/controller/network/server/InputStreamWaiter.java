@@ -6,6 +6,8 @@ import it.polimi.se2018.controller.network.ThreadHandler;
 import it.polimi.se2018.util.SafeSocket;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Waiter that reads inbound data from a SafeSocket
@@ -15,6 +17,7 @@ class InputStreamWaiter extends ThreadHandler {
 
     private final SocClientComm cComm;
     private final SafeSocket sSocket;
+    private final Logger logger;
 
     /**
      * Initializes this waiter with given parameters
@@ -26,14 +29,17 @@ class InputStreamWaiter extends ThreadHandler {
         this.cComm=cComm;
         this.sSocket=sSocket;
         this.isReq=isReq;
+        this.logger=Logger.getGlobal();
     }
 
     @Override
     protected void methodToCall() throws InterruptedException {
         Serializable obj=sSocket.receive();
         if(isReq){
+            logger.log(Level.INFO,"Received request from user {0}",obj);
             cComm.pushInReq((AbsReq)obj);
         }else{
+            logger.log(Level.INFO,"Received object from user {0}",obj);
             cComm.pushInObj(obj);
         }
     }

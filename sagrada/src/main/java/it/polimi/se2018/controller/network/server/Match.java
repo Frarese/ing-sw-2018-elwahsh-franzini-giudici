@@ -93,6 +93,11 @@ public class Match {
             }
         }
         notifyDisconnection(username);
+        if(!hasDc){
+            Client c=serverMain.getClient(username);
+            c.removeMatchInstance();
+            c.resetAccepted();
+        }
     }
 
     /**

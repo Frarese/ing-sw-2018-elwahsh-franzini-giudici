@@ -18,7 +18,6 @@ public class ServerMainTest {
     private ServerMain uut;
     private ConcurrentHashMap<String,Client> clientMap;
     private ConcurrentHashMap<MatchIdentifier,Match> matches;
-    private ConcurrentHashMap<MatchIdentifier,PendingApprovalMatch> pendingMatchesMap;
     private MatchMakingQueue matchMakingQueue;
 
     @SuppressWarnings("unchecked")
@@ -35,10 +34,6 @@ public class ServerMainTest {
         f=ServerMain.class.getDeclaredField("matches");
         f.setAccessible(true);
         matches=(ConcurrentHashMap)f.get(uut);
-
-        f=ServerMain.class.getDeclaredField("pendingMatchesMap");
-        f.setAccessible(true);
-        pendingMatchesMap=(ConcurrentHashMap)f.get(uut);
 
         f=ServerMain.class.getDeclaredField("matchMakingQueue");
         f.setAccessible(true);
@@ -106,14 +101,22 @@ public class ServerMainTest {
 
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void testPAMatch(){
-        Client c1=new Client("test",uut);
+    public void testPAMatch() throws Exception{
+        Client c1=new Client("test1",uut);
         Client c2=new Client("test2",uut);
-        MatchIdentifier mId=new MatchIdentifier("test","test2",null,null);
+        Client c3=new Client("test3",uut);
+        Client c4=new Client("test4",uut);
+        MatchIdentifier mId=new MatchIdentifier("test1","test2","test3","test4");
         uut.addClient(c1);
         uut.addClient(c2);
+        uut.addClient(c3);
+        uut.addClient(c4);
         uut.addPendingMatch(mId,c1);
+        Field f=ServerMain.class.getDeclaredField("pendingMatchesMap");
+        f.setAccessible(true);
+        ConcurrentHashMap<MatchIdentifier, PendingApprovalMatch> pendingMatchesMap = (ConcurrentHashMap) f.get(uut);
         assertTrue(pendingMatchesMap.containsKey(mId));
         assertTrue(c1.hasAcceptedInvite());
     }
@@ -121,8 +124,9 @@ public class ServerMainTest {
     @Test
     public void testMatch(){
         Client c1=new Client("test",uut);
-        Client c2=new Client("test2",uut);
-        MatchIdentifier mId=new MatchIdentifier("test","test2",null,null);
+        Client c2=new Client("test1",uut);
+
+        MatchIdentifier mId=new MatchIdentifier("test","test1",null,null);
         uut.addClient(c1);
         uut.addClient(c2);
         List<Client>list=new ArrayList<>();

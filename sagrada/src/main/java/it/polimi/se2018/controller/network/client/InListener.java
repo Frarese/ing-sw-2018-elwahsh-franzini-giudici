@@ -1,5 +1,6 @@
 package it.polimi.se2018.controller.network.client;
 
+import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.controller.network.ThreadHandler;
 
 import java.io.Serializable;
@@ -31,7 +32,10 @@ class InListener extends ThreadHandler {
     @Override
     protected void methodToCall() throws InterruptedException {
         if(isReq){
-            cComm.popInPendingReq().clientHandle(cComm,utilizer);
+            AbsReq req=cComm.popInPendingReq();
+            if(req!=null){
+                req.clientHandle(cComm,utilizer);
+            }
         }else{
             try {
                 Serializable ser=cComm.popInPendingObj();

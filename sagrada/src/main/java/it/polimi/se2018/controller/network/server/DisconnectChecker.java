@@ -52,13 +52,12 @@ class DisconnectChecker{
                 warned.set(true);
                 boolean out=client.sendReq(new KeepAliveRequest());
                 if(!out){
+                    logger.log(Level.FINE,"Failed to notify warning to {0}",client.usn);
                     client.zombiefy(true,null);
                 }
             }else if(warned.get() && value>deathTimeout && !client.isZombie()){
-                logger.log(Level.FINE,"Zombiefying {0}", client.usn);
                 client.zombiefy(true,null);
             }else if(client.isZombie() && value>purgeTimeout){
-                logger.log(Level.FINE,"Purging {0}", client.usn);
                 client.purge();
                 this.stop();
             }

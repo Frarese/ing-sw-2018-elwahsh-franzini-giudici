@@ -63,17 +63,15 @@ public class PendingApprovalMatch {
 
     /**
      * Checks if this match has been approved by all the players and if so registers the match
-     * @return true if this match has been approved by all the players
      */
-    private synchronized boolean isComplete() {
+    private synchronized void isComplete() {
         if(clients.keySet().size()!=matchId.playerCount){
-            return false;
+            return;
         }
         t.cancel();
         Match m= buildMatch();
         serverMain.addMatch(m);
         serverMain.removePendingMatch(this);
-        return true;
     }
 
     /**

@@ -77,9 +77,11 @@ public class Comm {
      */
     public void changeLayer(boolean toRMI, int reqPort,int objPort) {
         if(commLayer==null)return;
+
         //Only a disparity between the two requires actions taken
         if(toRMI == commLayer.getClass().equals(RMICommLayer.class))return;
 
+        logger.log(Level.INFO,"Attempting to change layer to {0}",(toRMI)?"RMI":"Socket");
         if(!commLayer.sendOutReq(new ChangeCLayerRequest(toRMI,reqPort,objPort))){
             logger.log(Level.SEVERE,"Failed to send change layer request");
             throw new UnsupportedOperationException();
@@ -126,6 +128,7 @@ public class Comm {
         if(commLayer==null)return;
         AbsReq req=UtilMethods.waitAndPopTS(outReqQueue);
         if(!commLayer.sendOutReq(req)){
+            logger.log(Level.SEVERE,"Failed to send request {0}",req);
             this.beginDisconnectedRoutines();
         }
     }
@@ -239,9 +242,9 @@ public class Comm {
         this.host=host;
         this.reqPort=requestPort;
         if(useRMI){
-            this.objPort=objectPort;
-        }else{
             this.objPort=0;
+        }else{
+            this.objPort=objectPort;
         }
 
         updateTs();

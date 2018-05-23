@@ -16,12 +16,27 @@ public class RMIServerIntImplTest {
 
     @Test
     public void testEquals() throws Exception {
-        RMIServer s=new RMIServer(null,10001,"testname",InetAddress.getLocalHost());
+        RMIServerMock s=new RMIServerMock(null,10001,"testname",InetAddress.getLocalHost());
         RMIServerIntImpl uut1=new RMIServerIntImpl(s);
         RMIServerIntImpl uut2=new RMIServerIntImpl(s);
         assertEquals(uut1,uut1);
         assertNotEquals(uut1,uut2);
 
         assertNotEquals(uut1.hashCode(),uut2.hashCode());
+
+        assertNull(uut1.login("test","pw",false,false));
+    }
+
+    private class RMIServerMock extends RMIServer{
+
+
+        RMIServerMock(ServerMain handler, int port, String name, InetAddress ip) throws RemoteException {
+            super(handler, port, name, ip);
+        }
+
+        @Override
+        RMISession login(String usn, String pw, boolean isRecover, boolean register) {
+            return null;
+        }
     }
 }

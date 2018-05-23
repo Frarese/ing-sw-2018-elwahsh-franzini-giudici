@@ -47,6 +47,7 @@ class SocClientComm extends ClientComm {
     void terminate() {
         waiterReq.stop();
         waiterObj.stop();
-        throw new UnsupportedOperationException();
+        reqSoc.close(true);
+        objSoc.close(true);
     }
 }
