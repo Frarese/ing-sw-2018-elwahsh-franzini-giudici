@@ -2,7 +2,6 @@ package it.polimi.se2018.model.cards.objectivecards;
 
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.cards.ObjectiveCard;
-import it.polimi.se2018.model.dice.Grid;
 
 /**
  * Deep Shade's objective card
@@ -26,17 +25,7 @@ public class DeepShades extends ObjectiveCard {
      */
     @Override
     public int score(Player player) {
-        int temp1 = 0;
-        int temp2 = 0;
-        for(int i = 0; i< Grid.HEIGHT; i++)
-            for(int j = 0; j<Grid.WIDTH; j++) {
-                if (player.getGrid().getDie(i, j) != null) {
-                    if (player.getGrid().getDie(i, j).getValue() == 5)
-                        temp1++;
-                    else if (player.getGrid().getDie(i, j).getValue() == 6)
-                        temp2++;
-                }
-            }
-        return Math.min(temp1,temp2)*multiplier;
+
+        return shadeScore(player,5,6)*multiplier;
     }
 }

@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<card>
+
+    <pattern name = "Via Lux" difficulty = "4">
+	    <cell height ="0" width = "0">
+		    <color>YELLOW</color>
+		    <value>0</value>
+	    </cell>
+        <cell height ="0" width = "2">
+		    <color>WHITE</color>
+		    <value>6</value>
+	    </cell>
+	    <cell height ="1" width = "1">
+		    <color>WHITE</color>
+		    <value>1</value>
+	    </cell>
+	    <cell height ="1" width = "2">
+		    <color>WHITE</color>
+		    <value>5</value>
+	    </cell>
+	    <cell height ="1" width = "4">
+		    <color>WHITE</color>
+		    <value>2</value>
+	    </cell>
+	    <cell height ="2" width = "0">
+		    <color>WHITE</color>
+		    <value>3</value>
+	    </cell>
+	    <cell height ="2" width = "1">
+		    <color>YELLOW</color>
+		    <value>0</value>
+	    </cell>
+	    <cell height ="2" width = "2">
+		    <color>RED</color>
+		    <value>0</value>
+	    </cell>
+	    <cell height ="2" width = "3">
+		    <color>VIOLET</color>
+		    <value>0</value>
+	    </cell>
+	    <cell height ="3" width = "2">
+		    <color>WHITE</color>
+		    <value>4</value>
+	    </cell>
+	    <cell height ="3" width = "3">
+		    <color>WHITE</color>
+		    <value>3</value>
+	    </cell>
+	    <cell height ="3" width = "4">
+		    <color>RED</color>
+		    <value>0</value>
+	    </cell>
+    </pattern>
+
+    <pattern name = "Aurorae Magnificus" difficulty="5">
+        <cell height="0" width="0">
+            <color>WHITE</color>
+            <value>5</value>
+        </cell>
+        <cell height="0" width="1">
+            <color>GREEN</color>
+            <value>0</value>
+        </cell>
+        <cell height="0" width="2">
+            <color>BLUE</color>
+            <value>0</value>
+        </cell>
+        <cell height="0" width="3">
+            <color>VIOLET</color>
+            <value>0</value>
+        </cell>
+        <cell height="0" width="4">
+            <color>WHITE</color>
+            <value>2</value>
+        </cell>
+        <cell height="1" width="0">
+            <color>VIOLET</color>
+            <value>0</value>
+        </cell>
+        <cell height="1" width="4">
+            <color>YELLOW</color>
+            <value>0</value>
+        </cell>
+        <cell height="2" width="0">
+            <color>YELLOW</color>
+            <value>0</value>
+        </cell>
+        <cell height="2" width="2">
+            <color>WHITE</color>
+            <value>6</value>
+        </cell>
+        <cell height="2" width="4">
+            <color>VIOLET</color>
+            <value>0</value>
+        </cell>
+        <cell height="3" width="0">
+            <color>WHITE</color>
+            <value>1</value>
+        </cell>
+        <cell height="3" width="3">
+            <color>GREEN</color>
+            <value>0</value>
+        </cell>
+        <cell height="3" width="4">
+            <color>WHITE</color>
+            <value>4</value>
+        </cell>
+    </pattern>
+
+</card>
