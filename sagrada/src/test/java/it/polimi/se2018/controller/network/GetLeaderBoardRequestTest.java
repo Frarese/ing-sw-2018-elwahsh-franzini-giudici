@@ -1,12 +1,20 @@
 package it.polimi.se2018.controller.network;
 
+import it.polimi.se2018.controller.network.client.CommUtilizer;
+import it.polimi.se2018.controller.network.server.Client;
+import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.util.MatchIdentifier;
+import it.polimi.se2018.util.MessageTypes;
 import it.polimi.se2018.util.ScoreEntry;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import static org.junit.Assert.*;
 
@@ -25,6 +33,17 @@ public class GetLeaderBoardRequestTest {
     }
 
     @Test
+    public void testServer() throws Exception{
+        ServerMain s=new ServerMain(0,0,false,0,"",InetAddress.getLocalHost());
+        Client c=new Client("test",s);
+        uut.serverHandle(c,s);
+        Field f=Client.class.getDeclaredField("outReqQueue");
+        f.setAccessible(true);
+        Queue q=(Queue)f.get(c);
+        assertNotNull(q.peek());
+    }
+
+    @Test
     public void testClient() throws Exception {
         uut.clientHandle(null,null);
         Field f=uut.getClass().getDeclaredField("leaderboard");
@@ -32,13 +51,10 @@ public class GetLeaderBoardRequestTest {
         List<ScoreEntry> list=new ArrayList<>();
         list.add(new ScoreEntry("user1",100,200));
         list.add(new ScoreEntry("user2",100,300));
-        try {
-            f.set(uut,list);
-            uut.clientHandle(null, null);
-            fail();
-        } catch (NullPointerException ex){
-            assertTrue(isOrderedVersion(list, (List) f.get(uut)));
-        }
+
+        f.set(uut,list);
+        uut.clientHandle(null, new UtilizerMock());
+        assertTrue(isOrderedVersion(list, (List) f.get(uut)));
 
     }
 
@@ -55,5 +71,77 @@ public class GetLeaderBoardRequestTest {
             prev=(ScoreEntry)e;
         }
         return true;
+    }
+
+    private class UtilizerMock implements CommUtilizer{
+
+        @Override
+        public void receiveObject(Serializable obj) {
+
+        }
+
+        @Override
+        public void receiveRequest(Serializable req) {
+
+        }
+
+        @Override
+        public void abortMatch() {
+
+        }
+
+        @Override
+        public void notifyInvite(MatchIdentifier match) {
+
+        }
+
+        @Override
+        public void notifyMatchEnd() {
+
+        }
+
+        @Override
+        public void notifyMatchStart(boolean isHost) {
+
+        }
+
+        @Override
+        public void notifyKicked(String usn) {
+
+        }
+
+        @Override
+        public void notifyUserLeft(String usn, boolean isNewHost) {
+
+        }
+
+        @Override
+        public void pushLeaderboard(List<ScoreEntry> list) {
+        }
+
+        @Override
+        public void pushUserList(List<ScoreEntry> list) {
+
+        }
+
+        @Override
+        public void notifyCommDropped() {
+
+        }
+
+        @Override
+        public void pushChatMessage(String msg, MessageTypes type, String source) {
+
+        }
+
+        @Override
+        public void notifyReconnect() {
+
+        }
+
+        @Override
+        public void notifyUserReconnected(String usn) {
+
+        }
     }
 }

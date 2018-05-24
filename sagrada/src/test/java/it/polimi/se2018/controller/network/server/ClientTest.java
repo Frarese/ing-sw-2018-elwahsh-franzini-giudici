@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -23,10 +24,13 @@ public class ClientTest {
     private Queue<AbsReq> inReqQueue;
     private Queue<Serializable> inObjQueue;
 
+    private ServerMain s;
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
-        uut=new Client("usn",null);
+        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost());
+
+        uut=new Client("usn",s);
 
         Field f=Client.class.getDeclaredField("outObjQueue");
         f.setAccessible(true);
@@ -132,5 +136,20 @@ public class ClientTest {
     public void testInitSocket() throws Exception{
         assertTrue(uut.createSocketComm(new SafeSocket(100),new SafeSocket(100)));
         assertFalse(uut.createSocketComm(new SafeSocket(100),new SafeSocket(100)));
+    }
+
+    @Test
+    public void testZombiefy() throws Exception{
+        uut.createSocketComm(new SafeSocket(100),new SafeSocket(100));
+        uut.zombiefy(false,null);
+        assertFalse(uut.sendReq(new KeepAliveRequest()));
+    }
+
+    @Test
+    public void testPurge() throws Exception{
+        s.addClient(uut);
+        uut.createSocketComm(new SafeSocket(100),new SafeSocket(100));
+        uut.purge();
+        assertNull(s.getClient(uut.usn));
     }
 }

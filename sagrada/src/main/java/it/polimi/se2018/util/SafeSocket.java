@@ -225,7 +225,7 @@ public class SafeSocket implements Runnable {
      */
     public void close(boolean force){
         continua=false;
-        if(force){
+        if(force && t!=null){
             t.interrupt();
         }
         try {

@@ -229,7 +229,29 @@ public class Client {
         logger.log(Level.FINE,"Purging {0}", usn);
         serverMain.removeClient(usn);
         if(!this.isZombie())this.zombiefy(true,null);
-        throw new UnsupportedOperationException();
+        if(inQueueEmpObj!=null) {
+            inQueueEmpObj.forceStop();
+            inQueueEmpObj=null;
+        }
+
+        if(inQueueEmpReq!=null) {
+            inQueueEmpReq.forceStop();
+            inQueueEmpReq=null;
+        }
+
+        if(outQueueEmpObj!=null) {
+            outQueueEmpObj.forceStop();
+            outQueueEmpObj=null;
+        }
+        if(outQueueEmpReq!=null) {
+            outQueueEmpReq.forceStop();
+            outQueueEmpReq=null;
+        }
+
+        if(disconnectChecker!=null) {
+            disconnectChecker.stop();
+            disconnectChecker=null;
+        }
     }
 
     /**
