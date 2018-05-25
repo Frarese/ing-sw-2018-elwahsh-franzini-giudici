@@ -79,6 +79,10 @@ public class Client {
         outQueueEmpObj.start();
         outQueueEmpReq.start();
         disconnectChecker.reschedule();
+
+        if(this.match!=null){
+            this.match.playerReconnected(usn);
+        }
     }
     /**
      * Gets the current match, if present
@@ -224,10 +228,14 @@ public class Client {
 
     /**
      * Purges this client from the server
+     * @param leaveMatch true if an eventual match is to be abandoned
      */
-    public void purge() {
+    public void purge(boolean leaveMatch) {
         logger.log(Level.FINE,"Purging {0}", usn);
         serverMain.removeClient(usn);
+
+        if(match!=null)match.playerLeft(usn,!leaveMatch);
+
         if(!this.isZombie())this.zombiefy(true,null);
         if(inQueueEmpObj!=null) {
             inQueueEmpObj.forceStop();

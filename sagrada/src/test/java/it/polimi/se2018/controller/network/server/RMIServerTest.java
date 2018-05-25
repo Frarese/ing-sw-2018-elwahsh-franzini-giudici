@@ -16,7 +16,7 @@ public class RMIServerTest {
     public void setUp() throws Exception {
         File f=new File("users.csv");
         if(f.exists())assertTrue(f.delete());
-        s=new ServerMain(0,0,false,0,"tt",InetAddress.getLocalHost());
+        s=new ServerMain(0,0,false,0,"tt",InetAddress.getLocalHost(),null);
 
         s.createUser("test","pw");
     }

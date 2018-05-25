@@ -33,7 +33,7 @@ public class MatchTest {
         list.add(c2);
         list.add(c3);
         list.add(c4);
-        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost());
+        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost(),new MockFactory());
         uut=new Match(mId,list,s);
         s.addMatch(uut);
     }
@@ -42,8 +42,6 @@ public class MatchTest {
     public void testInit() {
         List<Client> listRetr=uut.getClients();
         assertEquals(list,listRetr);
-        assertFalse(uut.isHost(null));
-        if(list.stream().map(c->uut.isHost(c)).noneMatch(val->true))fail();
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -131,6 +129,37 @@ public class MatchTest {
             }else if(req.getClass().equals(UserReconnectedRequest.class)){
                 rec=true;
             }
+        }
+    }
+
+    private class MockFactory implements MatchControllerFactory{
+
+        @Override
+        public MatchController buildMatch(MatchIdentifier mId, MatchNetworkInterface network) {
+            return new MockController();
+        }
+    }
+
+    private class MockController implements MatchController{
+
+        @Override
+        public void handleRequest(String sender, Serializable req) {
+
+        }
+
+        @Override
+        public void kill() {
+
+        }
+
+        @Override
+        public void userReconnected(String username) {
+
+        }
+
+        @Override
+        public void playerLeft(String username, boolean permanent) {
+
         }
     }
 }

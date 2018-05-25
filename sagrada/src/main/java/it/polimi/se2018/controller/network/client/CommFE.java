@@ -56,13 +56,12 @@ public class CommFE {
     }
 
     /**
-     * Attempts to send an object to another client through the request comm line
+     * Sends a request to the match controller
      * @param req the object to send
-     * @param dst the user to forward the request to
      */
-    public void sendReq(Serializable req, String dst) {
-        if(req!=null && dst!=null) {
-            comm.pushOutReq(new ClientRequest(dst,req));
+    public void sendReq(Serializable req) {
+        if(req!=null) {
+            comm.pushOutReq(new ClientRequest(req));
         }
     }
 
@@ -98,33 +97,6 @@ public class CommFE {
         }
     }
 
-    /**
-     * Attempts to kick a player from a match(host only)
-     * @param usn the username of the user to kick
-     */
-    public void kickPlayer(String usn) {
-        if(usn!=null){
-            comm.pushOutReq(new KickRequest(usn));
-        }
-    }
-
-    /**
-     * Attempts to abort this match(host only)
-     */
-    public void abortMatch() {
-        comm.pushOutReq(new MatchAbortedRequest(comm.getMatchInfo()));
-    }
-
-    /**
-     * Uploads to the server the result of a match and signals that it has ended
-     * @param playerScore0 player0's score
-     * @param playerScore1 player1's score
-     * @param playerScore2 player2's score
-     * @param playerScore3 player3's score
-     */
-    public void uploadMatchResults(int playerScore0, int playerScore1, int playerScore2, int playerScore3) {
-        comm.pushOutReq(new MatchEndedRequest(comm.getMatchInfo(),playerScore0,playerScore1,playerScore2,playerScore3));
-    }
 
     /**
      * Sends a request for a leaderboard update to the server
@@ -156,7 +128,7 @@ public class CommFE {
      * Leaves the current match
      */
     public void leaveMatch() {
-        comm.pushOutReq(new LeaveMatchRequest(comm.getUsername(),false));
+        comm.pushOutReq(new LeaveMatchRequest(comm.getUsername()));
     }
 
     /**

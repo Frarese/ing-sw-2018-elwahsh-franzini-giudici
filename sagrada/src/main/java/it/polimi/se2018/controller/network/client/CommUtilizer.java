@@ -20,7 +20,7 @@ public interface CommUtilizer
     void receiveObject( Serializable obj );
 
     /**
-     * Pushes a request received from another client
+     * Pushes a request received from the server
      * @param req the req that was received
      */
     void receiveRequest( Serializable req );
@@ -38,27 +38,24 @@ public interface CommUtilizer
 
     /**
      * Notifies that the match has ended
+     * @param playerScore0 player0's score
+     * @param playerScore1 player1's score
+     * @param playerScore2 player2's score
+     * @param playerScore3 player3's score
      */
-    void notifyMatchEnd( );
+    void notifyMatchEnd(int playerScore0, int playerScore1, int playerScore2, int playerScore3);
 
     /**
      * Notifies that the accepted match is starting
-     * @param isHost true if this client is to be the host
      */
-    void notifyMatchStart( boolean isHost );
+    void notifyMatchStart( );
 
-    /**
-     * Notifies that a user has been kicked
-     * @param usn the username of the kicked user
-     */
-    void notifyKicked( String usn );
 
     /**
      * Notifies that a user has left
      * @param usn username
-     * @param isNewHost true if this client is to be the new host
      */
-    void notifyUserLeft( String usn, boolean isNewHost );
+    void notifyUserLeft( String usn);
 
     /**
      * Pushes the updated leaderboard

@@ -28,7 +28,7 @@ public class ClientTest {
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
-        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost());
+        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost(),new MockFactory());
 
         uut=new Client("usn",s);
 
@@ -64,7 +64,7 @@ public class ClientTest {
         List<Client> list=new ArrayList<>();
         list.add(new Client("a",null));
         list.add(new Client("b",null));
-        Match match=new Match(mId,list,null);
+        Match match=new Match(mId,list,s);
         PendingApprovalMatch pA=new PendingApprovalMatch(10000,mId,null,new Client("a",null));
 
         uut.enrollInMatch(match);
@@ -149,7 +149,15 @@ public class ClientTest {
     public void testPurge() throws Exception{
         s.addClient(uut);
         uut.createSocketComm(new SafeSocket(100),new SafeSocket(100));
-        uut.purge();
+        uut.purge(true);
         assertNull(s.getClient(uut.usn));
+    }
+
+    private class MockFactory implements MatchControllerFactory{
+
+        @Override
+        public MatchController buildMatch(MatchIdentifier mId, MatchNetworkInterface network) {
+            return null;
+        }
     }
 }

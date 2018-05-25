@@ -1,9 +1,6 @@
 package it.polimi.se2018.controller.network.server;
 
-import it.polimi.se2018.controller.network.LeaveMatchRequest;
-import it.polimi.se2018.controller.network.MatchAbortedRequest;
-import it.polimi.se2018.controller.network.MatchBeginRequest;
-import it.polimi.se2018.controller.network.UserReconnectedRequest;
+import it.polimi.se2018.controller.network.*;
 import it.polimi.se2018.util.MatchIdentifier;
 
 import java.io.Serializable;
@@ -13,12 +10,12 @@ import java.util.*;
  * Represents a match that is being played
  * @author Francesco Franzini
  */
-public class Match {
-    private int hostI;
+public class Match implements MatchNetworkInterface{
     private final HashMap<Integer,Client> clientMap;
     public final MatchIdentifier matchId;
     private final Set<String> dc;
     private final ServerMain serverMain;
+    private final MatchController control;
     /**
      * Builds a Match object with the given parameters
      * @param matchId {@link it.polimi.se2018.util.MatchIdentifier} of this match
@@ -29,6 +26,7 @@ public class Match {
         this.matchId=matchId;
         this.dc=new HashSet<>();
         this.clientMap=new HashMap<>(matchId.playerCount);
+
         if(matchId.playerCount!=clients.size()){
             throw new IllegalArgumentException("Not the right amount of clients");
         }
@@ -41,11 +39,11 @@ public class Match {
                 throw new IllegalArgumentException("Supplied Clients are not valid");
             }
         }
-        hostI=0;
 
         clientMap.forEach((pos,c)->
-                c.pushOutReq(new MatchBeginRequest(matchId,pos==hostI))
+                c.pushOutReq(new MatchBeginRequest(matchId))
         );
+        this.control=serverMain.factory.buildMatch(matchId,this);
 
     }
 
@@ -82,22 +80,13 @@ public class Match {
             this.abort();
             return;
         }
-        if(username.equals(clientMap.get(hostI).usn)){
-            for(Map.Entry<Integer,Client> e:clientMap.entrySet()){
-                Client c=e.getValue();
-                Integer pos=e.getKey();
-
-                if(!dc.contains(c.usn)){
-                    hostI=pos;
-                }
-            }
-        }
         notifyDisconnection(username);
         if(!hasDc){
             Client c=serverMain.getClient(username);
             c.removeMatchInstance();
             c.resetAccepted();
         }
+        control.playerLeft(username,!hasDc);
     }
 
     /**
@@ -109,17 +98,9 @@ public class Match {
         clientMap.values().stream().filter(c->!c.usn.equals(username))
                 .forEach(c->c.pushOutReq(new UserReconnectedRequest(username)));
         dc.remove(username);
+        control.userReconnected(username);
     }
 
-    /**
-     * Aborts this match
-     */
-    public synchronized void abort(){
-        clientMap.forEach((pos,c)->c.pushOutReq(new MatchAbortedRequest(matchId)));
-        clientMap.forEach((pos,c)->{c.resetAccepted();c.removeMatchInstance();});
-        serverMain.removeMatch(this);
-
-    }
 
     /**
      * Notifies players that a user has disconnected
@@ -128,23 +109,22 @@ public class Match {
     private synchronized void notifyDisconnection(String usn){
         for(Map.Entry<Integer,Client> e:clientMap.entrySet()) {
             Client c = e.getValue();
-            Integer pos = e.getKey();
             if(!c.usn.equals(usn)){
-                c.pushOutReq(new LeaveMatchRequest(usn,pos==hostI));
+                c.pushOutReq(new LeaveMatchRequest(usn));
             }
         }
     }
 
     /**
-     * Checks if the given client is the current host
-     * @param client the client to check
-     * @return true if the given client is the host
+     * Pushes a request from a client to the match controller
+     * @param usn sender username
+     * @param serializedReq the serialized request
      */
-    public synchronized boolean isHost(Client client) {
-        if(client==null)return false;
-        return client.equals(clientMap.get(hostI));
+    public void handleReq(String usn, Serializable serializedReq) {
+        this.control.handleRequest(usn,serializedReq);
     }
 
+    @Override
     public synchronized void end(int playerScore0, int playerScore1, int playerScore2, int playerScore3) {
         int max=(playerScore0>playerScore1)?playerScore0:playerScore1;
         max=(max>playerScore2)?max:playerScore2;
@@ -155,7 +135,31 @@ public class Match {
             if(c==null)continue;
             serverMain.updateScore(c.usn,scores[i],(scores[i]==max)?1:0);
         }
+        MatchEndedRequest mER=new MatchEndedRequest(matchId,playerScore0,playerScore1,playerScore2,playerScore3);
+        clientMap.forEach((pos,c)->{c.resetAccepted();c.removeMatchInstance();c.pushOutReq(mER);});
+        serverMain.removeMatch(this);
+    }
+
+    @Override
+    public void sendReq(Serializable req,String dst) {
+        Client c=clientMap.get(matchId.findPos(dst));
+        if(c!=null){
+            c.pushOutReq(new ClientRequest(req));
+        }
+    }
+
+    @Override
+    public void sendObj(Serializable obj) {
+        for (Client c:clientMap.values()) {
+            c.pushOutObj(obj);
+        }
+    }
+
+    @Override
+    public synchronized void abort(){
+        clientMap.forEach((pos,c)->c.pushOutReq(new MatchAbortedRequest(matchId)));
         clientMap.forEach((pos,c)->{c.resetAccepted();c.removeMatchInstance();});
         serverMain.removeMatch(this);
+        if(control!=null)control.kill();
     }
 }

@@ -106,7 +106,7 @@ public class DisconnectCheckerTest {
         }
 
         @Override
-        public void purge(){
+        public void purge(boolean leaveMatch){
             if(!zombied.get() || purge.get()){
                 fail("Error purging");
             }

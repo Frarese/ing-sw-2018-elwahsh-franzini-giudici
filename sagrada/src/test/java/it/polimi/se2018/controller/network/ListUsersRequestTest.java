@@ -27,7 +27,7 @@ public class ListUsersRequestTest {
         pushed=false;
         uut=new ListUsersRequest();
         list=new ArrayList<>();
-        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost());
+        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost(),null);
         c=new ClientMock();
     }
 
@@ -93,22 +93,18 @@ public class ListUsersRequestTest {
         }
 
         @Override
-        public void notifyMatchEnd() {
+        public void notifyMatchEnd(int playerScore0, int playerScore1, int playerScore2, int playerScore3) {
 
         }
 
         @Override
-        public void notifyMatchStart(boolean isHost) {
+        public void notifyMatchStart() {
 
         }
 
-        @Override
-        public void notifyKicked(String usn) {
-
-        }
 
         @Override
-        public void notifyUserLeft(String usn, boolean isNewHost) {
+        public void notifyUserLeft(String usn) {
 
         }
 

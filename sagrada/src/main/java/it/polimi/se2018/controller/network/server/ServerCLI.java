@@ -35,7 +35,7 @@ public class ServerCLI implements Runnable{
         logger.setLevel(Level.ALL);
         logger.log(Level.INFO,"Initiating server startup");
         try {
-            this.serverMain=new ServerMain(objPort,reqPort,useDB,rmiPort,rmiName,rmiIP);
+            this.serverMain=new ServerMain(objPort,reqPort,useDB,rmiPort,rmiName,rmiIP,null);
             serverMain.buildServers();
         } catch (IOException e) {
             logger.log(Level.SEVERE,"Server init failed "+e.getMessage());
@@ -81,7 +81,7 @@ public class ServerCLI implements Runnable{
                             logger.log(Level.INFO,"{0} is not logged",s[1]);
                             break;
                         }
-                        c.purge();
+                        c.purge(true);
                         break;
                     case "close":
                         logger.log(Level.INFO,"Closing down");

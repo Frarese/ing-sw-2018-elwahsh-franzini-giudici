@@ -58,7 +58,7 @@ class DisconnectChecker{
             }else if(warned.get() && value>deathTimeout && !client.isZombie()){
                 client.zombiefy(true,null);
             }else if(client.isZombie() && value>purgeTimeout){
-                client.purge();
+                client.purge(false);
                 this.stop();
             }
         }

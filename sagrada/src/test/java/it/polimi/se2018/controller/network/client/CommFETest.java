@@ -49,8 +49,8 @@ public class CommFETest {
 
     @Test
     public void testSendReq() {
-        uut.sendReq("test","testdst");
-        assertEquals("test:testdst",obj);
+        uut.sendReq("test");
+        assertEquals("test",obj);
     }
 
     @Test
@@ -71,24 +71,7 @@ public class CommFETest {
         assertEquals("a:c:d:e",obj);
     }
 
-    @Test
-    public void testKickPlayer() {
-        uut.kickPlayer("test");
-        assertEquals("test",obj);
-    }
 
-    @Test
-    public void testAbortMatch() {
-        uut.abortMatch();
-        assertEquals("a:c:d:e",obj);
-
-    }
-
-    @Test
-    public void testUploadMatchResults() {
-        uut.uploadMatchResults(1,2,3,4);
-        assertEquals("1:2:3:4",obj);
-    }
 
     @Test
     public void testRequestLeaderboard() {
@@ -146,14 +129,11 @@ public class CommFETest {
         public void pushOutReq(AbsReq r){
             if(r.getClass().equals(ClientRequest.class)){
                 ClientRequest cr=(ClientRequest)r;
-                obj= (cr.serializedReq)+":"+cr.destUsn;
+                obj= (cr.serializedReq)+"";
             }
             else if(r.getClass().equals(MatchInviteRequest.class)){
                 MatchInviteRequest ir=(MatchInviteRequest)r;
                 obj=ir.matchId.toString();
-            }
-            else if(r.getClass().equals(KickRequest.class)){
-                obj=((KickRequest)r).usnToKick;
             }
             else if(r.getClass().equals(MatchResponseRequest.class)){
                 MatchResponseRequest ir=(MatchResponseRequest) r;

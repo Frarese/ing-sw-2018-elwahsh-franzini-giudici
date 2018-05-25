@@ -12,22 +12,19 @@ import it.polimi.se2018.controller.network.server.ServerMain;
  */
 public class LeaveMatchRequest extends AbsReqServerLogic {
     public final String usn;
-    public final boolean host;
     /**
      * Initializes this request with the given parameter
      * @param usn username
-     * @param host flag to signal that this is the new host
      */
-    public LeaveMatchRequest(String usn,boolean host) {
+    public LeaveMatchRequest(String usn) {
         this.usn=usn;
-        this.host=host;
         if(!checkValid())throw new IllegalArgumentException("Parameters cannot be null");
     }
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
         if(!checkValid())return;
-        commUtilizer.notifyUserLeft(usn,host);
+        commUtilizer.notifyUserLeft(usn);
     }
 
     @Override

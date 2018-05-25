@@ -19,12 +19,11 @@ public class LeaveMatchRequestTest {
     public void testRequest() {
         LeaveMatchRequest uut;
         try {
-            uut = new LeaveMatchRequest(null, false);
+            uut = new LeaveMatchRequest(null);
             fail();
         }catch (IllegalArgumentException e){
-            uut=new LeaveMatchRequest("test",true);
+            uut=new LeaveMatchRequest("test");
             assertEquals("test",uut.usn);
-            assertTrue(uut.host);
         }
         notified=false;
         CommUtilizerMock mock=new CommUtilizerMock();
@@ -58,22 +57,17 @@ public class LeaveMatchRequestTest {
         }
 
         @Override
-        public void notifyMatchEnd() {
+        public void notifyMatchEnd(int playerScore0, int playerScore1, int playerScore2, int playerScore3) {
 
         }
 
         @Override
-        public void notifyMatchStart(boolean isHost) {
+        public void notifyMatchStart() {
 
         }
 
         @Override
-        public void notifyKicked(String usn) {
-
-        }
-
-        @Override
-        public void notifyUserLeft(String usn, boolean isNewHost) {
+        public void notifyUserLeft(String usn) {
             notified=true;
         }
 

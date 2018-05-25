@@ -12,16 +12,13 @@ import java.io.Serializable;
  * @author Francesco Franzini
  */
 public class ClientRequest extends AbsReqServerLogic {
-    public final String destUsn;
     public final Serializable serializedReq;
 
     /**
      * Initializes this wrapper with the given parameters
-     * @param destUsn username of the destination
      * @param request the serialized request to send
      */
-    public ClientRequest(String destUsn, Serializable request) {
-        this.destUsn=destUsn;
+    public ClientRequest( Serializable request) {
         this.serializedReq=request;
         if(!checkValid())throw new IllegalArgumentException("Parameters cannot be null");
     }
@@ -34,15 +31,14 @@ public class ClientRequest extends AbsReqServerLogic {
 
     @Override
     public boolean checkValid() {
-        return destUsn!=null && serializedReq !=null;
+        return serializedReq !=null;
     }
 
     @Override
     public void serverHandle(Client client, ServerMain server) {
         if(!checkValid())return;
-        Client dstC=server.getClient(destUsn);
-        if(dstC!=null && dstC.getMatch()!=null && dstC.getMatch().equals(client.getMatch())){
-            dstC.pushOutReq(this);
+        if(client!=null && client.getMatch()!=null){
+            client.getMatch().handleReq(client.usn,serializedReq);
         }
     }
 

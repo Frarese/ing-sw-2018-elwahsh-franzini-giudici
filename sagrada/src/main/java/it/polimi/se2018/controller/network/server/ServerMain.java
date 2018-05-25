@@ -30,6 +30,7 @@ public class ServerMain {
     private final UserBase userBase;
     private final ConcurrentHashMap<MatchIdentifier,PendingApprovalMatch> pendingMatchesMap;
     private final MatchMakingQueue matchMakingQueue;
+    final MatchControllerFactory factory;
     private final Logger logger;
 
     /**
@@ -42,7 +43,8 @@ public class ServerMain {
      * @param rmiIp rmi ip to use
      * @throws IOException if an I/O error occurs
      */
-    public ServerMain(int objPort, int reqPort, boolean useDB, int rmiPort, String rmiName, InetAddress rmiIp) throws IOException{
+    public ServerMain(int objPort, int reqPort, boolean useDB, int rmiPort, String rmiName, InetAddress rmiIp,MatchControllerFactory factory) throws IOException{
+        this.factory=factory;
         logger=Logger.getGlobal();
         clientMap=new ConcurrentHashMap<>();
         matches=new ConcurrentHashMap<>();

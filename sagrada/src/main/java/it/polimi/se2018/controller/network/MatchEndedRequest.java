@@ -2,9 +2,6 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.Match;
-import it.polimi.se2018.controller.network.server.ServerMain;
 import it.polimi.se2018.util.MatchIdentifier;
 
 /**
@@ -36,21 +33,14 @@ public class MatchEndedRequest extends AbsMatchReq {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        commUtilizer.notifyMatchEnd();
+        commUtilizer.notifyMatchEnd(playerScore0,playerScore1,playerScore2,playerScore3);
     }
 
     @Override
     public boolean checkValid() {
-        return matchId!=null && playerScore3>0 && playerScore2>0 && playerScore1>0 && playerScore0>0;
+        return matchId!=null && playerScore3>=0 && playerScore2>=0 && playerScore1>=0 && playerScore0>=0;
     }
 
-    @Override
-    public void serverHandle(Client client, ServerMain server) {
-        if(!checkValid())return;
-        Match m=client.getMatch();
-        if(m==null || !m.isHost(client))return;
-        m.end(playerScore0,playerScore1,playerScore2,playerScore3);
-    }
 
 
 }

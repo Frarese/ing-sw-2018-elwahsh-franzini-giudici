@@ -3,7 +3,6 @@ package it.polimi.se2018.controller.network;
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.Match;
 import it.polimi.se2018.controller.network.server.ServerMain;
 
 /**
@@ -26,9 +25,7 @@ public class LogoutRequest extends AbsReqServerLogic {
 
     @Override
     public void serverHandle(Client client, ServerMain server) {
-        Match m=client.getMatch();
-        if(m!=null)m.playerLeft(client.usn,false);
-        client.purge();
+        client.purge(true);
     }
 
 

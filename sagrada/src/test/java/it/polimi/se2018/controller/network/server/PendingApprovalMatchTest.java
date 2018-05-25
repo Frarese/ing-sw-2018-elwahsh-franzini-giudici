@@ -17,7 +17,7 @@ public class PendingApprovalMatchTest {
     private ServerMain s;
     @Before
     public void setUp() throws Exception{
-        s=new ServerMain(0,0,false,0,"test",InetAddress.getLocalHost());
+        s=new ServerMain(0,0,false,0,"test",InetAddress.getLocalHost(),new MockFactory());
         c1=new ClientTest("us1");
         c2=new ClientTest("us2");
         c3=new ClientTest("us3");
@@ -66,4 +66,12 @@ public class PendingApprovalMatchTest {
             aborted=true;
         }
     }
+    private class MockFactory implements MatchControllerFactory{
+
+        @Override
+        public MatchController buildMatch(MatchIdentifier mId, MatchNetworkInterface network) {
+            return null;
+        }
+    }
+
 }
