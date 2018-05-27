@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -27,7 +29,8 @@ public class FXDieViewCreatorTest {
     public void makeDieTest() {
         FXDieViewCreator dieViewCreator = new FXDieViewCreator(FXConstants.GRID_CELL_DIM_VALUE);
         Image die = dieViewCreator.makeDie(new Pair<>(1, ColorModel.RED));
-        Image aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cRED.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
+        String url="/it/polimi/se2018/view/images/die/value_color/val1cRED.png";
+        Image aspect = new Image(new File(url).toURI().toString(),FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
 
         int error = 0;
 

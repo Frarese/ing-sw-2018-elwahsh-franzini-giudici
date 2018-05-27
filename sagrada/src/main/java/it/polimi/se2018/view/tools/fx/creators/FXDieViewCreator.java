@@ -5,6 +5,8 @@ import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.tools.DieViewCreator;
 import javafx.scene.image.Image;
 
+import java.io.File;
+
 /**
  * Class to create dice in GUI
  *
@@ -22,6 +24,6 @@ public class FXDieViewCreator implements DieViewCreator<Image> {
     @Override
     public Image makeDie(Pair<Integer, ColorModel> die) {
         String url = "/it/polimi/se2018/view/images/die/value_color/val" + die.getFirst().toString() + "c" + die.getSecond().toString() + ".png";
-        return new Image(url, imageSize, imageSize, true, false);
+        return new Image(new File(url).toURI().toString(), imageSize, imageSize, true, false);
     }
 }
