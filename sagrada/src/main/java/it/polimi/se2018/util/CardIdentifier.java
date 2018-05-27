@@ -11,7 +11,6 @@ import java.util.HashMap;
 public class CardIdentifier {
 
     private HashMap<Integer, String> cards;
-    private HashMap<Integer, String> helper;
 
 
     /**
@@ -68,7 +67,6 @@ public class CardIdentifier {
         this.cards.put(29, "Tampone Diamantato");
         this.cards.put(30, "Diluente per Pasta Salda");
         this.cards.put(31, "Taglierina Manuale");
-//        this.cards.put(32, "Strip Cutter");
     }
 
 }

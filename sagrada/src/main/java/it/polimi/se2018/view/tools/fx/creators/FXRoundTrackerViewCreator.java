@@ -64,7 +64,6 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
                 }
             }
 
-
             //Add elements in correct row
             if (i > 4) {
                 HBox row = (HBox) container.getChildren().get(1);

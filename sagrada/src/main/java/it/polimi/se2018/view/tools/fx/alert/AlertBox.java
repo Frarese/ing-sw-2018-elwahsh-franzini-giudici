@@ -19,6 +19,10 @@ import javafx.stage.Stage;
 
 public class AlertBox {
 
+    private AlertBox(){
+
+    }
+
     /**
      * Shows the alert box
      *

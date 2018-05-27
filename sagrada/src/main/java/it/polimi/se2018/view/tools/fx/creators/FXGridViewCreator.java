@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.text.MessageFormat;
+
 /**
  * Class to create and to handle grid in GUI
  *
@@ -21,7 +23,7 @@ import javafx.scene.layout.VBox;
 
 public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
 
-    private String gridColor;
+    private final String gridColor;
 
     /**
      * Class constructor
@@ -50,38 +52,19 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
                 //Get equivalent view  cell
                 HBox row = (HBox) container.getChildren().get(i);
                 VBox cell = (VBox) row.getChildren().get(j);
-                if (gridPattern[i][j] != null) {
-                    if (gridPattern[i][j].getSecond() != ColorModel.WHITE) {
-                        //Set color restriction
-                        cell.setStyle(makeBackgroundColor(gridPattern[i][j].getSecond().toJavaFXColor()));
-                    } else {
-                        //Set value restriction
-                        String url = "/it/polimi/se2018/view/images/pattern/value" + gridPattern[i][j].getFirst().toString() + ".png";
-                        cell.setStyle("-fx-background-size: COVER;" + "-fx-background-image: url(" + url + ");");
-                    }
-                } else {
-                    //Set no restriction (white bg)
-                    cell.setStyle(makeBackgroundColor(ColorModel.WHITE.toJavaFXColor()));
-                }
 
-                cell.setStyle((new StringBuilder().append(cell.getStyle()).append("-fx-border-radius: 1; -fx-border-color: BLACK")).toString());
-            }
-        }
+                //Set cell bg color
+                this.setCellBackgroundColor(gridPattern[i][j], cell);
 
-        if (grid != null) {
-            //Iterate on grid
-            for (int i = 0; i < grid.length; i++) {
-                for (int j = 0; j < grid[i].length; j++) {
-                    if (grid[i][j] != null) {
-                        //Create die and insert in current cell
-                        HBox row = (HBox) container.getChildren().get(i);
-                        VBox cell = (VBox) row.getChildren().get(j);
-                        ImageView imageView = new ImageView((Image) dieViewCreator.makeDie(grid[i][j]));
-                        imageView.setPreserveRatio(true);
-                        imageView.setFitWidth(cell.getWidth());
-                        imageView.setFitHeight(cell.getHeight());
-                        cell.getChildren().add(0, imageView);
-                    }
+                cell.setStyle((new StringBuilder().append(cell.getStyle()).append("-fx-border-radius: 1; -fx-border-color: BLACK;")).toString());
+
+                if (grid != null && grid[i][j] != null) {
+                    //Create die and insert in current cell
+                    ImageView imageView = new ImageView((Image) dieViewCreator.makeDie(grid[i][j]));
+                    imageView.setPreserveRatio(true);
+                    imageView.setFitWidth(cell.getWidth());
+                    imageView.setFitHeight(cell.getHeight());
+                    cell.getChildren().add(0, imageView);
                 }
             }
         }
@@ -101,6 +84,29 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
     @Override
     public Image pickDie(int height, int width) {
         return (Image) dieViewCreator.makeDie(grid[height][width]);
+    }
+
+    /**
+     * Sets cell's background color in player's grid
+     *
+     * @param patternCell contains the cell restriction
+     * @param cell        contains the cell in the view grid
+     */
+    private void setCellBackgroundColor(Pair<Integer, ColorModel> patternCell, VBox cell) {
+        if (patternCell != null) {
+            if (patternCell.getSecond() != ColorModel.WHITE) {
+                //Set color restriction
+                cell.setStyle(makeBackgroundColor(patternCell.getSecond().toJavaFXColor()));
+            } else {
+                //Set value restriction
+                String url = MessageFormat.format("/it/polimi/se2018/view/images/pattern/value{0}.png", patternCell.getFirst());
+                String css = MessageFormat.format("-fx-background-size: COVER;-fx-background-image: url({0});", url);
+                cell.setStyle(css);
+            }
+        } else {
+            //Set no restriction (white bg)
+            cell.setStyle(makeBackgroundColor(ColorModel.WHITE.toJavaFXColor()));
+        }
     }
 
     /**

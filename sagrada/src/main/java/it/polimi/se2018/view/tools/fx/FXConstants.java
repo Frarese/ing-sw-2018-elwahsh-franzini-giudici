@@ -8,6 +8,10 @@ package it.polimi.se2018.view.tools.fx;
 
 public abstract class FXConstants {
 
+    private FXConstants(){
+
+    }
+
     /**
      * Constants for grid and dice
      */
