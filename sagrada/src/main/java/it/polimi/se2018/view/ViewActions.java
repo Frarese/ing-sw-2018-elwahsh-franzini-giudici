@@ -23,7 +23,7 @@ public class ViewActions {
      * @param objectPort  contains the object port number
      * @param requestPort contains the request port number
      */
-    public void login(String name, String password, boolean newUser, String host, Boolean isRMI, int objectPort, int requestPort) {
+    public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
         throw new UnsupportedOperationException();
     }
 

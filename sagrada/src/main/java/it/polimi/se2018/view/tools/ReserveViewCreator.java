@@ -9,7 +9,7 @@ import it.polimi.se2018.util.Pair;
  * @author Mathyas Giudici
  */
 
-public abstract class ReserveViewCreator<E> {
+public abstract class ReserveViewCreator<V,E> {
 
     protected DieViewCreator dieViewCreator;
 
@@ -29,7 +29,7 @@ public abstract class ReserveViewCreator<E> {
      *
      * @return grid
      */
-    public abstract E display();
+    public abstract V display();
 
     /**
      * Use to pick a die from the grid

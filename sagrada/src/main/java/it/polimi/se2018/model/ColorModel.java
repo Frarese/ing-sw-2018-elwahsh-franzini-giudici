@@ -1,7 +1,5 @@
 package it.polimi.se2018.model;
 
-import javafx.scene.paint.Color;
-
 import java.util.HashMap;
 
 /**
@@ -30,7 +28,7 @@ public enum ColorModel {
      * For now it supports JavaFX, next releases may use different standards
      * @return JavaFX version of my color
      */
-    public Color toJavaFXColor(){
+    public String toJavaFXColor(){
         HashMap<String,String> colorMap = new HashMap<>();
         colorMap.put("RED","#D11E22");
         colorMap.put("BLUE","#48B0B3");
@@ -39,6 +37,6 @@ public enum ColorModel {
         colorMap.put("VIOLET","#A02894");
         colorMap.put("WHITE","#F0F0F0");
 
-        return Color.valueOf(colorMap.get(toString()));
+        return colorMap.get(toString());
     }
 }

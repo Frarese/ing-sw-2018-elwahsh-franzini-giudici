@@ -35,7 +35,7 @@ public abstract class CardViewCreator<E> {
      * @param cardID contains the unique identifier of the card
      * @return card
      */
-    public abstract E makeCart(int cardID);
+    public abstract E makeCard(int cardID);
 
     public int getPrivateObjectiveCard() {
         return privateObjectiveCard;

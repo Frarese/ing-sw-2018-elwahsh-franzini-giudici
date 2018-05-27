@@ -50,7 +50,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxWidth="1000.0" prefHeight="100.0"
                   prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
-                <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="180.0" text="Menù"
+                <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="180.0" text="Menu"
                         HBox.hgrow="ALWAYS"/>
                 <Button maxWidth="1000.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="175.0"
                         text="Chat" HBox.hgrow="ALWAYS"/>

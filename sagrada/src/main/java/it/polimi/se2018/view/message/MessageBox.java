@@ -14,6 +14,11 @@ public class MessageBox implements ControllerMessage {
 
     private ViewMessage viewMessage;
 
+
+    public MessageBox() {
+        this.viewMessage = new ViewMessage();
+    }
+
     @Override
     public void receiveMessage(String sender, MessageTypes type, String message) {
         throw new UnsupportedOperationException();

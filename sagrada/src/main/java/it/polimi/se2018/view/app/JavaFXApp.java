@@ -71,9 +71,9 @@ public class JavaFXApp extends App {
 
                 //Create scene
                 Platform.runLater(() -> {
-                    JavaFXStageProducer.stage.setScene(new Scene(root));
-                    JavaFXStageProducer.controller = loader.getController();
-                    JavaFXStageProducer.stage.setResizable(false);
+                    JavaFXStageProducer.getStage().setScene(new Scene(root));
+                    JavaFXStageProducer.setController(loader.getController());
+                    JavaFXStageProducer.getStage().setResizable(false);
                 });
             } catch (Exception e) {
                 Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
@@ -245,6 +245,6 @@ public class JavaFXApp extends App {
      */
     public void openWindow(String[] args) {
         Application.launch(JavaFXStageProducer.class, args);
-        Platform.runLater(() -> JavaFXStageProducer.app = this);
+        Platform.runLater(() -> JavaFXStageProducer.setApp(this));
     }
 }

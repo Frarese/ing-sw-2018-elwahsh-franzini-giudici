@@ -1,11 +1,10 @@
 package it.polimi.se2018.model;
 
-import javafx.scene.paint.Color;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static it.polimi.se2018.model.ColorModel.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for ColorModel class
@@ -53,12 +52,12 @@ public class ColorModelTest {
 
     @Test
     public void testToJavaFXColor() {
-        assertEquals(Color.valueOf("#D11E22"), c1.toJavaFXColor());
-        assertEquals(Color.valueOf("#48B0B3"), c2.toJavaFXColor());
-        assertEquals(Color.valueOf("#32AA63"), c3.toJavaFXColor());
-        assertEquals(Color.valueOf("#E4D806"), c4.toJavaFXColor());
-        assertEquals(Color.valueOf("#A02894"), c5.toJavaFXColor());
-        assertEquals(Color.valueOf("#F0F0F0"), c6.toJavaFXColor());
+        assertEquals("#D11E22", c1.toJavaFXColor());
+        assertEquals("#48B0B3", c2.toJavaFXColor());
+        assertEquals("#32AA63", c3.toJavaFXColor());
+        assertEquals("#E4D806", c4.toJavaFXColor());
+        assertEquals("#A02894", c5.toJavaFXColor());
+        assertEquals("#F0F0F0", c6.toJavaFXColor());
     }
 
 }

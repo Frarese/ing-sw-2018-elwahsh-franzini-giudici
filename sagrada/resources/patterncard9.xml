@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<card>
+
+    <pattern name = "Fractal Drops" difficulty = "3">
+	    <cell height ="0" width = "1">
+		    <color>WHITE</color>
+		    <value>4</value>
+	    </cell>
+      <cell height ="0" width = "3">
+		    <color>YELLOW</color>
+		    <value>0</value>
+	    </cell>
+      <cell height ="0" width = "4">
+		    <color>WHITE</color>
+		    <value>6</value>
+	    </cell>
+      <cell height ="1" width = "0">
+		    <color>RED</color>
+		    <value>0</value>
+	    </cell>
+      <cell height ="1" width = "2">
+		    <color>WHITE</color>
+		    <value>2</value>
+	    </cell>
+      <cell height ="2" width = "2">
+		    <color>RED</color>
+		    <value>0</value>
+	    </cell>
+      <cell height ="2" width = "3">
+		    <color>VIOLET</color>
+		    <value>0</value>
+	    </cell>
+      <cell height ="2" width = "4">
+		    <color>WHITE</color>
+		    <value>1</value>
+	    </cell>
+      <cell height ="3" width = "0">
+		    <color>BLUE</color>
+		    <value>0</value>
+	    </cell>
+      <cell height ="3" width = "1">
+		    <color>YELLOW</color>
+		    <value>0</value>
+	    </cell>
+    </pattern>
+
+    <pattern name = "Gravitas" difficulty="5">
+      <cell height ="0" width = "0">
+        <color>WHITE</color>
+        <value>1</value>
+      </cell>
+      <cell height ="0" width = "2">
+        <color>WHITE</color>
+        <value>3</value>
+      </cell>
+      <cell height ="0" width = "3">
+        <color>BLUE</color>
+        <value>0</value>
+      </cell>
+      <cell height ="1" width = "1">
+        <color>WHITE</color>
+        <value>2</value>
+      </cell>
+      <cell height ="1" width = "2">
+        <color>BLUE</color>
+        <value>0</value>
+      </cell>
+      <cell height ="2" width = "0">
+        <color>WHITE</color>
+        <value>6</value>
+      </cell>
+      <cell height ="2" width = "3">
+        <color>BLUE</color>
+        <value>0</value>
+      </cell>
+      <cell height ="3" width = "0">
+        <color>WHITE</color>
+        <value>6</value>
+      </cell>
+      <cell height ="3" width = "1">
+        <color>WHITE</color>
+        <value>5</value>
+      </cell>
+      <cell height ="3" width = "2">
+        <color>WHITE</color>
+        <value>2</value>
+      </cell>
+      <cell height ="3" width = "4">
+        <color>WHITE</color>
+        <value>1</value>
+      </cell>
+    </pattern>
+
+</card>

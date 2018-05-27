@@ -4,9 +4,7 @@ import it.polimi.se2018.view.tools.CardViewCreator;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * Tests for CLICardViewCreator class
@@ -31,10 +29,10 @@ public class CLICardViewCreatorTest {
 
     @Test
     public void getCardInfoTest() {
-        assertEquals("Sfumature Gialle", cliCardViewCreator.makeCart(3));
-        assertEquals("Colori Diversi - Riga (6 punti)", cliCardViewCreator.makeCart(10));
-        assertEquals("Martelleto", cliCardViewCreator.makeCart(26));
-        assertNull(cliCardViewCreator.makeCart(32));
+        assertEquals("Sfumature Gialle", cliCardViewCreator.makeCard(3));
+        assertEquals("Colori Diversi - Riga (6 punti)", cliCardViewCreator.makeCard(10));
+        assertEquals("Martelleto", cliCardViewCreator.makeCard(26));
+        assertNull(cliCardViewCreator.makeCard(32));
     }
 
     @Test

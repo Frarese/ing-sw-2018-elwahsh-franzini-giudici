@@ -17,7 +17,7 @@ public class CommandUseTool extends CLICommand {
     @Override
     public void doAction() {
         for (int el : this.app.getCardViewCreator().getToolCards()) {
-            this.app.getPrinter().print(el + ") " + this.app.getCardViewCreator().makeCart(el));
+            this.app.getPrinter().print(el + ") " + this.app.getCardViewCreator().makeCard(el));
         }
         this.app.getPrinter().print("Seleziona il numero della carta");
         int card = this.app.getReader().readInt();

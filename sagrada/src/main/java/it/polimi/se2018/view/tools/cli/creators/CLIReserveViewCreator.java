@@ -10,7 +10,7 @@ import it.polimi.se2018.view.tools.ReserveViewCreator;
  * @author Mathyas Giudici
  */
 
-public class CLIReserveViewCreator extends ReserveViewCreator<String> {
+public class CLIReserveViewCreator extends ReserveViewCreator<String,String> {
 
     /**
      * Class constructor

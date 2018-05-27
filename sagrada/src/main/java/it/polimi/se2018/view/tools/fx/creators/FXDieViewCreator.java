@@ -13,9 +13,15 @@ import javafx.scene.image.Image;
 
 public class FXDieViewCreator implements DieViewCreator<Image> {
 
+    private final int imageSize;
+
+    public FXDieViewCreator(int imageSize) {
+        this.imageSize = imageSize;
+    }
+
     @Override
     public Image makeDie(Pair<Integer, ColorModel> die) {
-        String url = "it/polimi/se2018/view/images/die/value_color/val" + die.getFirst() + "c" + die.getSecond().toString() + ".png";
-        return new Image(url);
+        String url = "/it/polimi/se2018/view/images/die/value_color/val" + die.getFirst().toString() + "c" + die.getSecond().toString() + ".png";
+        return new Image(url, imageSize, imageSize, true, false);
     }
 }

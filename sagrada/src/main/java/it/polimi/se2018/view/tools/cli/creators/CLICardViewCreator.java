@@ -25,7 +25,7 @@ public class CLICardViewCreator extends CardViewCreator<String> {
     }
 
     @Override
-    public String makeCart(int cardID) {
+    public String makeCard(int cardID) {
         //Check private objective card
         if (cardID == privateObjectiveCard) {
             return this.cardIdentifier.getCardInfo(cardID);

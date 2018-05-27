@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.app;
 
-import it.polimi.se2018.view.tools.fx.controller.FXAbsController;
+import it.polimi.se2018.view.tools.fx.controller.FXController;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -16,11 +16,11 @@ import java.util.logging.Logger;
 
 public class JavaFXStageProducer extends Application {
 
-    protected static JavaFXApp app;
+    private static JavaFXApp app;
 
-    static Stage stage;
+    private static Stage stage;
 
-    static FXAbsController controller;
+    private static FXController controller;
 
     @Override
     public synchronized void start(Stage primaryStage) {
@@ -31,8 +31,62 @@ public class JavaFXStageProducer extends Application {
         primaryStage.show();
 
         //Setting static public attributes
-        stage = primaryStage;
+        setStage(primaryStage);
 
         Logger.getGlobal().log(Level.WARNING, "Start JavaFX app");
+    }
+
+    /**
+     * Getter method for controller
+     *
+     * @return current FXController
+     */
+    public static FXController getController() {
+        return controller;
+    }
+
+    /**
+     * Setter method for controller
+     *
+     * @param controller contains the controller to set
+     */
+    public static void setController(FXController controller) {
+        JavaFXStageProducer.controller = controller;
+    }
+
+    /**
+     * Getter method for stage
+     *
+     * @return current Application Stage
+     */
+    public static Stage getStage() {
+        return stage;
+    }
+
+    /**
+     * Setter method for stage
+     *
+     * @param stage contains Application's Stage to set
+     */
+    public static void setStage(Stage stage) {
+        JavaFXStageProducer.stage = stage;
+    }
+
+    /**
+     * Getter method for app
+     *
+     * @return current JavaFXApp
+     */
+    public static JavaFXApp getApp() {
+        return app;
+    }
+
+    /**
+     * Setter method for app
+     *
+     * @param app contains JavaFXApp to set
+     */
+    public static void setApp(JavaFXApp app) {
+        JavaFXStageProducer.app = app;
     }
 }

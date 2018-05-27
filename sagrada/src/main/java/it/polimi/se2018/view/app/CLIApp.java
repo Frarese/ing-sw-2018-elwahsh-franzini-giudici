@@ -268,14 +268,14 @@ public class CLIApp extends App {
 
         //Print cards
         printer.print("Carta obiettivo privato: ");
-        printer.print(this.cardViewCreator.makeCart(this.cardViewCreator.getPrivateObjectiveCard()));
+        printer.print(this.cardViewCreator.makeCard(this.cardViewCreator.getPrivateObjectiveCard()));
         printer.print("Carte obiettivo pubblico: ");
         for (int el : this.cardViewCreator.getPublicObjectiveCards()) {
-            this.cardViewCreator.makeCart(el);
+            this.cardViewCreator.makeCard(el);
         }
         printer.print("Carte utensili: ");
         for (int el : this.cardViewCreator.getToolCards()) {
-            this.cardViewCreator.makeCart(el);
+            this.cardViewCreator.makeCard(el);
         }
         //Print Grid
         printer.print("La tua griglia:");
@@ -396,7 +396,7 @@ public class CLIApp extends App {
         if (playerView != null) {
             String player = playerView.getPlayerName();
             //Print
-            printer.print(player + " ha usato la carta: " + this.cardViewCreator.makeCart(card));
+            printer.print(player + " ha usato la carta: " + this.cardViewCreator.makeCard(card));
         }
     }
 
