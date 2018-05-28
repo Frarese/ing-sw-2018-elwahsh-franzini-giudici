@@ -36,6 +36,12 @@
 
     <build>
 
+        <resources>
+            <resource>
+                <directory>src/main/java/it/polimi/se2018/view/images</directory>
+                <targetPath>it/polimi/se2018/view/images</targetPath>
+            </resource>
+        </resources>
         <!-- Permette di connettere il progetto alla web-ui Sonar -->
         <plugins>
             <plugin>

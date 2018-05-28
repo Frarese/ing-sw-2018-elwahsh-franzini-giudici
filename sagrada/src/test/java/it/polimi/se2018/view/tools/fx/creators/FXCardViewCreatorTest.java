@@ -5,8 +5,6 @@ import javafx.scene.image.Image;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -27,7 +25,7 @@ public class FXCardViewCreatorTest {
     public void makePrivateObjCardTest() {
         FXCardViewCreator cardViewCreator = new FXCardViewCreator(1, null, null);
         Image card = cardViewCreator.makeCard(1);
-        Image aspect = new Image(new File("it/polimi/se2018/view/images/private_cards/privateObjective1.jpg").toURI().toString());
+        Image aspect = new Image("/it/polimi/se2018/view/images/private_cards/privateObjective1.jpg");
 
         int error = 0;
 
@@ -48,8 +46,7 @@ public class FXCardViewCreatorTest {
         po[1] = 11;
         FXCardViewCreator cardViewCreator = new FXCardViewCreator(1, po, null);
         Image card = cardViewCreator.makeCard(11);
-        String url="/it/polimi/se2018/view/images/public_cards/publicObjective1.jpg";
-        Image aspect = new Image(new File(url).toURI().toString());
+        Image aspect = new Image("/it/polimi/se2018/view/images/public_cards/publicObjective1.jpg");
 
         int error = 0;
 
@@ -72,8 +69,7 @@ public class FXCardViewCreatorTest {
         tool[1] = 21;
         FXCardViewCreator cardViewCreator = new FXCardViewCreator(1, po, tool);
         Image card = cardViewCreator.makeCard(21);
-        String url="/it/polimi/se2018/view/images/tool_cards/toolCard1.jpg";
-        Image aspect = new Image(new File(url).toURI().toString());
+        Image aspect = new Image("/it/polimi/se2018/view/images/tool_cards/toolCard1.jpg");
 
         int error = 0;
 

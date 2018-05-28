@@ -3,7 +3,6 @@ package it.polimi.se2018.view.tools.fx.creators;
 import it.polimi.se2018.view.tools.CardViewCreator;
 import javafx.scene.image.Image;
 
-import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +30,7 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
         //Check private objective card
         if (cardID == privateObjectiveCard) {
             String url = "/it/polimi/se2018/view/images/private_cards/privateObjective" + cardID + ".jpg";
-            return new Image(new File(url).toURI().toString());
+            return new Image(url);
         }
 
         //Check public objective cards
@@ -39,7 +38,7 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
             if (cardID == publicObjectiveCard) {
                 int card = cardID - 10;
                 String url = "/it/polimi/se2018/view/images/public_cards/publicObjective" + card + ".jpg";
-                return new Image(new File(url).toURI().toString());
+                return new Image(url);
             }
 
         //Check tool cards
@@ -47,7 +46,7 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
             if (cardID == toolCards) {
                 int card = cardID - 20;
                 String url = "/it/polimi/se2018/view/images/tool_cards/toolCard" + card + ".jpg";
-                return new Image(new File(url).toURI().toString());
+                return new Image(url);
             }
 
         //Problems

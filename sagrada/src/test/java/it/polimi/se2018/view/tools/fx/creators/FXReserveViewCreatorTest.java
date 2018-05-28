@@ -11,8 +11,6 @@ import javafx.scene.layout.VBox;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -48,8 +46,7 @@ public class FXReserveViewCreatorTest {
         HBox row = (HBox) reserveView.getChildren().get(0);
         VBox cell = (VBox) row.getChildren().get(0);
 
-        String url="/it/polimi/se2018/view/images/die/value_color/val1cRED.png";
-        Image aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        Image aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         int error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
 
         assertEquals(0, error);
@@ -58,8 +55,7 @@ public class FXReserveViewCreatorTest {
         row = (HBox) reserveView.getChildren().get(0);
         cell = (VBox) row.getChildren().get(1);
 
-        url="/it/polimi/se2018/view/images/die/value_color/val2cRED.png";
-        aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val2cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
 
         assertEquals(0, error);
@@ -68,8 +64,7 @@ public class FXReserveViewCreatorTest {
         row = (HBox) reserveView.getChildren().get(0);
         cell = (VBox) row.getChildren().get(2);
 
-        url="/it/polimi/se2018/view/images/die/value_color/val3cRED.png";
-        aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val3cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
 
         assertEquals(0, error);
@@ -78,8 +73,7 @@ public class FXReserveViewCreatorTest {
         row = (HBox) reserveView.getChildren().get(1);
         cell = (VBox) row.getChildren().get(0);
 
-        url="/it/polimi/se2018/view/images/die/value_color/val4cRED.png";
-        aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val4cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
 
         assertEquals(0, error);
@@ -88,8 +82,7 @@ public class FXReserveViewCreatorTest {
         row = (HBox) reserveView.getChildren().get(1);
         cell = (VBox) row.getChildren().get(1);
 
-        url="/it/polimi/se2018/view/images/die/value_color/val5cRED.png";
-        aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val5cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
 
         assertEquals(0, error);
@@ -98,8 +91,7 @@ public class FXReserveViewCreatorTest {
         row = (HBox) reserveView.getChildren().get(1);
         cell = (VBox) row.getChildren().get(2);
 
-        url="/it/polimi/se2018/view/images/die/value_color/val6cRED.png";
-        aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val6cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
 
         assertEquals(0, error);
@@ -108,8 +100,7 @@ public class FXReserveViewCreatorTest {
         row = (HBox) reserveView.getChildren().get(2);
         cell = (VBox) row.getChildren().get(0);
 
-        url="/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png";
-        aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
 
         assertEquals(0, error);
@@ -118,8 +109,7 @@ public class FXReserveViewCreatorTest {
         row = (HBox) reserveView.getChildren().get(2);
         cell = (VBox) row.getChildren().get(1);
 
-        url="/it/polimi/se2018/view/images/die/value_color/val3cBLUE.png";
-        aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val3cBLUE.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
 
         assertEquals(0, error);
@@ -128,8 +118,7 @@ public class FXReserveViewCreatorTest {
         row = (HBox) reserveView.getChildren().get(2);
         cell = (VBox) row.getChildren().get(2);
 
-        url="/it/polimi/se2018/view/images/die/value_color/val6cBLUE.png";
-        aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val6cBLUE.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
 
         assertEquals(0, error);
@@ -142,8 +131,7 @@ public class FXReserveViewCreatorTest {
 
         FXReserveViewCreator reserveViewCreator = new FXReserveViewCreator(reserve);
 
-        String url="/it/polimi/se2018/view/images/die/value_color/val1cRED.png";
-        Image aspect = new Image(new File(url).toURI().toString(), FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
+        Image aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
         int error = this.dieCheck(reserveViewCreator.pickDie(0), aspect);
 
         assertEquals(0, error);

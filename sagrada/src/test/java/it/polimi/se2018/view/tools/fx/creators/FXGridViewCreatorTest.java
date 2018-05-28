@@ -11,8 +11,6 @@ import javafx.scene.layout.VBox;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -45,8 +43,7 @@ public class FXGridViewCreatorTest {
         HBox row = (HBox) viewGrid.getChildren().get(1);
         VBox cell = (VBox) row.getChildren().get(0);
 
-        String url="/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png";
-        Image aspect = new Image(new File(url).toURI().toString(),FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
+        Image aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
         int error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(),aspect);
 
         assertEquals(0,error);
@@ -54,8 +51,7 @@ public class FXGridViewCreatorTest {
         row = (HBox) viewGrid.getChildren().get(1);
         cell = (VBox) row.getChildren().get(1);
 
-        url="/it/polimi/se2018/view/images/die/value_color/val6cVIOLET.png";
-        aspect = new Image(new File(url).toURI().toString(),FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
+        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val6cVIOLET.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
         error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(),aspect);
 
         assertEquals(0,error);
@@ -65,8 +61,7 @@ public class FXGridViewCreatorTest {
     @Test
     public void addADieTest() {
         FXGridViewCreator gridViewCreator = new FXGridViewCreator(null,null,"BLACK");
-        String url="/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png";
-        Image die = new Image(new File(url).toURI().toString(),FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
+        Image die = new Image("/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
         gridViewCreator.addADie(die,1,1);
 
         //TODO
@@ -78,8 +73,8 @@ public class FXGridViewCreatorTest {
         grid[1][0] = new Pair<>(1, ColorModel.BLUE);
 
         FXGridViewCreator gridViewCreator = new FXGridViewCreator(grid,null,"BLACK");
-        String url="/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png";
-        Image aspect = new Image(new File(url).toURI().toString(),FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
+
+        Image aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
         int error = this.dieCheck(gridViewCreator.pickDie(1,0),aspect);
 
         assertEquals(0,error);
