@@ -94,7 +94,8 @@ class RMIServer extends ServerComm {
 
     @Override
     void close() {
-        throw new UnsupportedOperationException();
+        tryUnexport();
+        rmiObj=null;
     }
 
     private void tryUnexport(){

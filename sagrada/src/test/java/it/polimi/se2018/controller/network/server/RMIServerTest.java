@@ -1,5 +1,6 @@
 package it.polimi.se2018.controller.network.server;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,6 +20,11 @@ public class RMIServerTest {
         s=new ServerMain(0,0,false,0,"tt",InetAddress.getLocalHost(),null);
 
         s.createUser("test","pw");
+    }
+
+    @After
+    public void tearDown(){
+        uut.close();
     }
 
     @Test

@@ -42,7 +42,10 @@ public class CommFE {
      * @return true if no errors were raised
      */
     public boolean logout() {
-        return comm.logout();
+        boolean out=comm.logout();
+        comm.purgeComm();
+        comm.stop();
+        return out;
     }
 
     /**

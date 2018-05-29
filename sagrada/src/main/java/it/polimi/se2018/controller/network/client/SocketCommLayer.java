@@ -45,6 +45,7 @@ class SocketCommLayer extends CommLayer {
             reqSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
             LoginResponsesEnum answer= (LoginResponsesEnum) reqSoc.receive();
             if(answer.equals(LoginResponsesEnum.LOGIN_OK)){
+                logger.log(Level.INFO,"First login phase successful");
                 objSoc=new SafeSocket(SafeSocket.DEFAULT_TIMEOUT);
                 objSoc.connect(host,objPort);
                 objSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));

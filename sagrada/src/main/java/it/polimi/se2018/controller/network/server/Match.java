@@ -143,7 +143,7 @@ public class Match implements MatchNetworkInterface{
     @Override
     public void sendReq(Serializable req,String dst) {
         Client c=clientMap.get(matchId.findPos(dst));
-        if(c!=null){
+        if(c!=null && !dc.contains(c.usn)){
             c.pushOutReq(new ClientRequest(req));
         }
     }

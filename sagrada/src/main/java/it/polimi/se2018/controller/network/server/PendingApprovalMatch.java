@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Represents a match that has not yet been approved by all players
+ * @author Francesco Franzini
  */
 public class PendingApprovalMatch {
     static final int DEFAULT_TIMEOUT = 60;
@@ -18,6 +21,7 @@ public class PendingApprovalMatch {
     private Timer t;
     private final ServerMain serverMain;
     public final MatchIdentifier matchId;
+    private final Logger logger;
 
     /**
      * Creates a new PendingApprovalMatch with the given parameters
@@ -28,6 +32,7 @@ public class PendingApprovalMatch {
      */
     PendingApprovalMatch(int timeout, MatchIdentifier matchId, ServerMain serverMain, Client source) {
         this.matchId=matchId;
+        this.logger=Logger.getGlobal();
         this.serverMain=serverMain;
         clients=new HashMap<>(matchId.playerCount);
 
@@ -41,7 +46,7 @@ public class PendingApprovalMatch {
                 abort();
             }
         };
-        t.schedule(tS,timeout);
+        t.schedule(tS,(long)timeout*1000);
     }
 
     /**
@@ -50,6 +55,7 @@ public class PendingApprovalMatch {
      * @return true if no errors were raised
      */
     public synchronized boolean clientAccepted(Client client) {
+        logger.log(Level.FINEST,"User {0} accepted match",client.usn);
         int pos;
         if((pos=matchId.findPos(client.usn))!=-1 && !clients.containsKey(pos)){
             clients.put(pos,client);

@@ -36,7 +36,7 @@ class SocketServer extends ServerComm {
         logger.log(Level.INFO,"Starting Socket Server");
         waitingObjConnClients=new HashMap<>();
         if(!this.init(objPort,reqPort))throw new IOException("Failed to initialize socket server");
-        logger.log(Level.INFO,"Socket Server running on {0}",reqPort+" "+objPort);
+        logger.log(Level.INFO,"Socket Server running on request:obj {0}",reqPort+":"+objPort);
     }
 
 
@@ -81,8 +81,8 @@ class SocketServer extends ServerComm {
             this.close();
             return false;
         }
-        reqT=new Thread(new LoginListener());
-        objT=new Thread(new CompletionListener());
+        reqT=new Thread(new LoginSocketListener(true));
+        objT=new Thread(new LoginSocketListener(false));
 
         reqT.start();
         objT.start();
@@ -115,18 +115,32 @@ class SocketServer extends ServerComm {
     }
 
     /**
-     * Class that is used to listen to incoming login requests
+     * Class that is used to listen to incoming requests
      */
-    private class LoginListener implements Runnable{
+    private class LoginSocketListener implements Runnable{
+        private final boolean isLogin;
+
+        /**
+         * Initializes this listener
+         * @param isLogin the parameter to pass to {@link it.polimi.se2018.controller.network.server.SocketServer.LoginSocketListener#loopCall}
+         */
+        LoginSocketListener(boolean isLogin) {
+            this.isLogin=isLogin;
+        }
 
         @Override
         public void run(){
             while(!Thread.currentThread().isInterrupted()){
                 try {
-                    Socket s=reqSSoc.accept();
+                    Socket s;
+                    if(isLogin){
+                        s=reqSSoc.accept();
+                    }else{
+                        s=objSSoc.accept();
+                    }
                     Thread t=new Thread(()->{
                         try {
-                            listenLogin(s);
+                            loopCall(s,isLogin);
                         } catch (IOException e) {
                             logger.log(Level.SEVERE,"IO Error accepting login "+e.getMessage());
                         } catch (InterruptedException e) {
@@ -142,6 +156,27 @@ class SocketServer extends ServerComm {
             }
         }
 
+        /**
+         * Helper method to call in the listener loop
+         * @param s socket that has been accepted
+         * @param isLogin boolean to choose behaviour(true for login, false for completion)
+         * @throws IOException if an IOException occurs
+         * @throws InterruptedException if this thread is interrupted while waiting
+         */
+        private void loopCall(Socket s,boolean isLogin) throws IOException, InterruptedException {
+            if(isLogin){
+                listenLogin(s);
+            }else{
+                listenCompletion(s);
+            }
+        }
+
+        /**
+         * Processes the login for this socket
+         * @param s Socket to process
+         * @throws IOException if an IOException occurs
+         * @throws InterruptedException if this thread is interrupted
+         */
         private void listenLogin(Socket s) throws IOException, InterruptedException {
             logger.log(Level.FINEST,"Attempted socket login from {0}",s.getLocalSocketAddress());
             SafeSocket ss=new SafeSocket(s,SafeSocket.DEFAULT_TIMEOUT);
@@ -173,35 +208,12 @@ class SocketServer extends ServerComm {
 
         }
 
-
-    }
-
-    /**
-     * Class that is used to listen for incoming completion requests
-     */
-    private class CompletionListener implements Runnable{
-        @Override
-        public void run(){
-            while(!Thread.currentThread().isInterrupted()){
-                try {
-                    Socket s=objSSoc.accept();
-                    Thread t=new Thread(()->{
-                        try {
-                            listenCompletion(s);
-                        } catch (IOException e) {
-                            logger.log(Level.SEVERE,"IO Error accepting login "+e.getMessage());
-                        } catch (InterruptedException e) {
-                            logger.log(Level.WARNING,"Interrupted accepting login "+e.getMessage());
-                            Thread.currentThread().interrupt();
-                        }
-                    });
-                    t.start();
-                } catch (IOException e) {
-                    logger.log(Level.SEVERE,"IO Error accepting client "+e.getMessage());
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
+        /**
+         * Processes the completion for this socket
+         * @param s Socket to process
+         * @throws IOException if an IOException occurs
+         * @throws InterruptedException if this thread is interrupted
+         */
         private void listenCompletion(Socket s)throws IOException,InterruptedException{
             logger.log(Level.FINEST,"Attempted socket completion from {0}",s.getLocalSocketAddress());
             SafeSocket ss=new SafeSocket(s,SafeSocket.DEFAULT_TIMEOUT);
@@ -235,6 +247,7 @@ class SocketServer extends ServerComm {
                 ss.close(true);
             }
         }
+
     }
 }
 

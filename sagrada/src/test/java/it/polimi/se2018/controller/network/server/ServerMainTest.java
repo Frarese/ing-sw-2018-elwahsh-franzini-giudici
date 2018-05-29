@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 public class ServerMainTest {
     private ServerMain uut;
     private ConcurrentHashMap<String,Client> clientMap;
-    private ConcurrentHashMap<MatchIdentifier,Match> matches;
+    private ConcurrentHashMap<String,Match> matches;
     private MatchMakingQueue matchMakingQueue;
 
     @SuppressWarnings("unchecked")
@@ -116,8 +116,8 @@ public class ServerMainTest {
         uut.addPendingMatch(mId,c1);
         Field f=ServerMain.class.getDeclaredField("pendingMatchesMap");
         f.setAccessible(true);
-        ConcurrentHashMap<MatchIdentifier, PendingApprovalMatch> pendingMatchesMap = (ConcurrentHashMap) f.get(uut);
-        assertTrue(pendingMatchesMap.containsKey(mId));
+        ConcurrentHashMap<String, PendingApprovalMatch> pendingMatchesMap = (ConcurrentHashMap) f.get(uut);
+        assertTrue(pendingMatchesMap.containsKey(mId.toString()));
         assertTrue(c1.hasAcceptedInvite());
     }
 

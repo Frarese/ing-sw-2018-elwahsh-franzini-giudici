@@ -297,7 +297,9 @@ public class Comm {
      * Handles a logout request from the server
      */
     public void logoutRequestReceived() {
-        throw new UnsupportedOperationException();
+        this.purgeComm();
+        this.stop();
+        utilizer.notifyCommDropped();
     }
 
     /**

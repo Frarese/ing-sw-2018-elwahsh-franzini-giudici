@@ -1,9 +1,6 @@
 package it.polimi.se2018.controller.network.server;
 
-import it.polimi.se2018.controller.network.AbsReq;
-import it.polimi.se2018.controller.network.LeaveMatchRequest;
-import it.polimi.se2018.controller.network.MatchAbortedRequest;
-import it.polimi.se2018.controller.network.UserReconnectedRequest;
+import it.polimi.se2018.controller.network.*;
 import it.polimi.se2018.util.MatchIdentifier;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +18,7 @@ public class MatchTest {
     private List<Client> list;
     private MatchIdentifier mId;
     private ServerMain s;
+    private boolean handled;
     @Before
     public void setUp() throws Exception{
         c1=new ClientTest("us1");
@@ -36,6 +34,7 @@ public class MatchTest {
         s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost(),new MockFactory());
         uut=new Match(mId,list,s);
         s.addMatch(uut);
+        handled=false;
     }
 
     @Test
@@ -73,11 +72,13 @@ public class MatchTest {
 
     @Test
     public void testLeave() {
-        uut.playerLeft("us1",true);
+        s.addClient(c1);
+        uut.playerLeft("us1",false);
         assertFalse(c1.dc);
         assertTrue(c2.dc);
         assertTrue(c3.dc);
         assertTrue(c4.dc);
+        assertNull(c1.getMatch());
     }
 
     @Test
@@ -107,11 +108,27 @@ public class MatchTest {
         assertNull(s.getMatch(mId));
     }
 
+    @Test
+    public void testSend(){
+        uut.sendObj("test");
+        assertTrue(c1.pushed);
+
+        uut.sendReq("test","us1");
+        assertTrue(c1.cReq);
+    }
+
+    @Test
+    public void testHandle(){
+        uut.handleReq(null,null);
+        assertTrue(handled);
+    }
+
     private class ClientTest extends Client{
         boolean pushed=false;
         boolean aborted=false;
         boolean dc=false;
         boolean rec=false;
+        boolean cReq=false;
         ClientTest(String usn) {
             super(usn, null);
         }
@@ -128,6 +145,8 @@ public class MatchTest {
                 aborted=true;
             }else if(req.getClass().equals(UserReconnectedRequest.class)){
                 rec=true;
+            }else if(req.getClass().equals(ClientRequest.class)){
+                cReq=true;
             }
         }
     }
@@ -141,10 +160,9 @@ public class MatchTest {
     }
 
     private class MockController implements MatchController{
-
         @Override
         public void handleRequest(String sender, Serializable req) {
-
+            handled=true;
         }
 
         @Override

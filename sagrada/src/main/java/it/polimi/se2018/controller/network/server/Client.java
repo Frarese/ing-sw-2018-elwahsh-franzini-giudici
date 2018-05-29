@@ -71,7 +71,7 @@ public class Client {
         if(inQueueEmpObj==null)inQueueEmpObj=new ServerInQueueEmptier(this,false);
         if(inQueueEmpReq==null)inQueueEmpReq=new ServerInQueueEmptier(this,true);
         if(outQueueEmpObj==null)outQueueEmpObj=new ServerOutQueueEmptier(this,false);
-        if(outQueueEmpReq==null)outQueueEmpReq=new ServerOutQueueEmptier(this,false);
+        if(outQueueEmpReq==null)outQueueEmpReq=new ServerOutQueueEmptier(this,true);
         if(disconnectChecker==null)disconnectChecker=new DisconnectChecker(DEFAULT_WARNING_TIMEOUT, DEFAULT_DEATH_TIMEOUT, DEFAULT_PURGE_TIMEOUT,this);
 
         inQueueEmpObj.start();
@@ -339,7 +339,7 @@ public class Client {
      * @param obj object to be sent
      * @return true if success(if supported)
      */
-    public boolean sendObj(Serializable obj) {
+    private boolean sendObj(Serializable obj) {
         if(cComm!=null){
             return cComm.sendObj(obj);
         }

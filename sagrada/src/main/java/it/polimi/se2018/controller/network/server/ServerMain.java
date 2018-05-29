@@ -6,8 +6,7 @@ import it.polimi.se2018.util.ScoreEntry;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,16 +18,16 @@ import java.util.logging.Logger;
  */
 public class ServerMain {
     private final int rmiPort;
-    public final int objPort;
-    public final int reqPort;
+    private final int objPort;
+    private final int reqPort;
     private final String rmiName;
     private final InetAddress rmiIP;
     private ServerComm serverRMI;
     private ServerComm serverSoc;
     private final ConcurrentHashMap<String,Client> clientMap;
-    private final ConcurrentHashMap<MatchIdentifier,Match> matches;
+    private final ConcurrentHashMap<String,Match> matches;
     private final UserBase userBase;
-    private final ConcurrentHashMap<MatchIdentifier,PendingApprovalMatch> pendingMatchesMap;
+    private final ConcurrentHashMap<String,PendingApprovalMatch> pendingMatchesMap;
     private final MatchMakingQueue matchMakingQueue;
     final MatchControllerFactory factory;
     private final Logger logger;
@@ -150,8 +149,10 @@ public class ServerMain {
             serverRMI.close();
         }
         serverRMI=null;
+        pendingMatchesMap.values().forEach(PendingApprovalMatch::abort);
         matches.forEach((mId,m)->m.abort());
-        throw new UnsupportedOperationException();
+        clientMap.values().forEach(c->c.purge(false));
+
     }
 
     /**
@@ -192,8 +193,8 @@ public class ServerMain {
             return;
         }
         c.acceptInvite();
-        pendingMatchesMap.put(mId,pA);
-        list.forEach(cl->cl.pushOutReq(new MatchInviteRequest(mId)));
+        pendingMatchesMap.put(mId.toString(),pA);
+        list.stream().filter(cl->cl!=c).forEach(cl->cl.pushOutReq(new MatchInviteRequest(mId)));
     }
 
     /**
@@ -201,7 +202,7 @@ public class ServerMain {
      * @param paMatch the PendingApprovalMatch to remove
      */
     public void removePendingMatch(PendingApprovalMatch paMatch) {
-        pendingMatchesMap.remove(paMatch.matchId);
+        pendingMatchesMap.remove(paMatch.matchId.toString());
     }
 
     /**
@@ -210,7 +211,7 @@ public class ServerMain {
      * @return the corresponding PendingApprovalMatch or {@code null} if not present
      */
     public PendingApprovalMatch getPendingMatch(MatchIdentifier matchId) {
-        return pendingMatchesMap.get(matchId);
+        return pendingMatchesMap.get(matchId.toString());
     }
 
     /**
@@ -228,7 +229,7 @@ public class ServerMain {
      * @param m the match to add
      */
     void addMatch(Match m){
-        this.matches.putIfAbsent(m.matchId,m);
+        this.matches.putIfAbsent(m.matchId.toString(),m);
     }
 
     /**
@@ -237,14 +238,14 @@ public class ServerMain {
      * @return the match or {@code null} if not found
      */
     public Match getMatch(MatchIdentifier mId){
-        return this.matches.get(mId);
+        return this.matches.get(mId.toString());
     }
     /**
      * Removes a match to the match list
      * @param m the match to remove
      */
     void removeMatch(Match m){
-        this.matches.remove(m.matchId,m);
+        this.matches.remove(m.matchId.toString(),m);
     }
 
     /**

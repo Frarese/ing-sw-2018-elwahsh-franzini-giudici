@@ -2,6 +2,7 @@ package it.polimi.se2018.util;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.TreeSet;
 
 /**
@@ -81,5 +82,21 @@ public class MatchIdentifier implements Serializable {
             return 3;
         }
         return -1;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(o==this)return true;
+        if(o==null || !o.getClass().equals(MatchIdentifier.class))return false;
+        MatchIdentifier mId=(MatchIdentifier)o;
+        return (player0.equals(mId.player0)
+                && player1.equals(mId.player1)
+                && player2.equals(mId.player2)
+                && player3.equals(mId.player3));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerCount, player0, player1, player2, player3);
     }
 }
