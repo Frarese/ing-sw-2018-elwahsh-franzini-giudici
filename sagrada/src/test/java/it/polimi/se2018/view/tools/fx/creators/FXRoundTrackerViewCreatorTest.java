@@ -27,7 +27,7 @@ public class FXRoundTrackerViewCreatorTest {
     }
 
     @Test
-    public void displayTest() {
+    public void testDisplay() {
         Pair<Integer, ColorModel>[][] roundT = new Pair[10][2];
         roundT[0][0] = new Pair<>(1,ColorModel.RED);
         roundT[0][1] = new Pair<>(1,ColorModel.BLUE);

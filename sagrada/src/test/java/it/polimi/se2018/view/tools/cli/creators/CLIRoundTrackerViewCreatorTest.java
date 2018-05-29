@@ -34,7 +34,7 @@ public class CLIRoundTrackerViewCreatorTest {
     }
 
     @Test
-    public void displayTest() {
+    public void testDisplay() {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("Siamo al turno: 1");
         strings.add("Turno 1 : ");
@@ -44,12 +44,12 @@ public class CLIRoundTrackerViewCreatorTest {
     }
 
     @Test
-    public void getRoundTest() {
+    public void testGetRound() {
         assertEquals(round,cliRoundTrackerViewCreator.getRound());
     }
 
     @Test
-    public void setRoundTest() {
+    public void testSetRound() {
         this.round = 2;
         this.cliRoundTrackerViewCreator.setRound(round);
         assertEquals(round,cliRoundTrackerViewCreator.getRound());
@@ -57,12 +57,12 @@ public class CLIRoundTrackerViewCreatorTest {
 
 
     @Test
-    public void getRoundTrackerTest() {
+    public void testGetRoundTracker() {
         assertArrayEquals(roundTracker,cliRoundTrackerViewCreator.getRoundTracker());
     }
 
     @Test
-    public void setRoundTrackerTest(){
+    public void testSetRoundTracker(){
         this.roundTracker = new Pair[1][1];
         cliRoundTrackerViewCreator.setRoundTracker(roundTracker);
         assertArrayEquals(roundTracker,cliRoundTrackerViewCreator.getRoundTracker());

@@ -26,7 +26,7 @@ public class FXReserveViewCreatorTest {
     }
 
     @Test
-    public void displayTest() {
+    public void testDisplay() {
         Pair<Integer, ColorModel>[] reserve = new Pair[9];
         reserve[0] = new Pair<>(1, ColorModel.RED);
         reserve[1] = new Pair<>(2, ColorModel.RED);
@@ -124,7 +124,7 @@ public class FXReserveViewCreatorTest {
     }
 
     @Test
-    public void pickDieTest() {
+    public void testPickDie() {
         Pair<Integer, ColorModel>[] reserve = new Pair[1];
         reserve[0] = new Pair<>(1, ColorModel.RED);
 

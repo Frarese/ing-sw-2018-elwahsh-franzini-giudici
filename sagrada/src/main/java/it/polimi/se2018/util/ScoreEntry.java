@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * A helper class to wrap info about a user's current leaderboard data
+ *
  * @author Francesco Franzini
  */
 public class ScoreEntry implements Serializable {

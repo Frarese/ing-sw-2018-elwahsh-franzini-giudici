@@ -11,33 +11,60 @@ import it.polimi.se2018.util.Pair;
 
 public class PlayerView {
 
+    /**
+     * Class attributes
+     */
     private boolean hasChanged;
 
-    public String getPlayerName() {
-        throw new UnsupportedOperationException();
+    private String playerName;
+    private int playerID;
+    private int playerFavours;
+    private Pair<Integer, ColorModel>[][] playerTemplate;
+    private Pair<Integer, ColorModel>[][] playerGrid;
+    private boolean placementRights;
+    private boolean cardRights;
+
+    public PlayerView(boolean hasChanged, String playerName, int playerID, int favours, Pair<Integer, ColorModel>[][] playerTemplate, Pair<Integer, ColorModel>[][] playerGrid, boolean placementRights, boolean cardRights) {
+        this.hasChanged = hasChanged;
+        this.playerName = playerName;
+        this.playerID = playerID;
+        this.playerFavours = favours;
+        this.playerTemplate = playerTemplate;
+        this.playerGrid = playerGrid;
+        this.placementRights = placementRights;
+        this.cardRights = cardRights;
     }
 
-    public int getPlayerFavours() {
-        throw new UnsupportedOperationException();
-    }
 
-    public Pair<Integer,ColorModel>[][] getPlayerTemplate() {
-        throw new UnsupportedOperationException();
+    public boolean isHasChanged() {
+        return hasChanged;
     }
 
     public int getPlayerID() {
-        throw new UnsupportedOperationException();
+        return playerID;
     }
 
-    public Pair<Integer,ColorModel>[][] getPlayerGrid() {
-        throw new UnsupportedOperationException();
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public int getPlayerFavours() {
+        return playerFavours;
+    }
+
+    public Pair<Integer, ColorModel>[][] getPlayerTemplate() {
+        return playerTemplate;
+    }
+
+    public Pair<Integer, ColorModel>[][] getPlayerGrid() {
+        return playerGrid;
     }
 
     public boolean hasPlacementRights() {
-        throw new UnsupportedOperationException();
+        return placementRights;
     }
 
     public boolean hasCardRights() {
-        throw new UnsupportedOperationException();
+        return cardRights;
     }
 }

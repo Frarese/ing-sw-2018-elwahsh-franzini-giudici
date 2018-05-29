@@ -6,6 +6,7 @@ import it.polimi.se2018.observer.ReserveView;
 import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
@@ -221,24 +222,25 @@ public class CLIApp extends App {
 
 
     @Override
-    public void askPattern(Pair<Integer, ColorModel>[][] pattern1, Pair<Integer, ColorModel>[][] pattern2, Pair<Integer, ColorModel>[][] pattern3, Pair<Integer, ColorModel>[][] pattern4) {
+    public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
 
+        String favourString = " (Favori : ";
         //Show patterns
-        printer.print("Carta Schema 1:");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern1, this.printer);
+        printer.print("Carta Schema 1: " + pattern1.patternName + favourString + pattern1.favours + ")");
+        this.gridViewCreator = new CLIGridViewCreator(null, pattern1.template, this.printer);
         printer.printArray(this.gridViewCreator.display());
-        printer.print("Carta Schema 2;");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern2, this.printer);
+        printer.print("Carta Schema 2: " + pattern2.patternName + favourString + pattern2.favours + ")");
+        this.gridViewCreator = new CLIGridViewCreator(null, pattern2.template, this.printer);
         printer.printArray(this.gridViewCreator.display());
-        printer.print("Carta Schema 3:");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern3, this.printer);
+        printer.print("Carta Schema 3: " + pattern3.patternName + favourString + pattern3.favours + ")");
+        this.gridViewCreator = new CLIGridViewCreator(null, pattern3.template, this.printer);
         printer.printArray(this.gridViewCreator.display());
-        printer.print("Carta Schema 4:");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern4, this.printer);
+        printer.print("Carta Schema 4: " + pattern4.patternName + favourString + pattern4.favours + ")");
+        this.gridViewCreator = new CLIGridViewCreator(null, pattern4.template, this.printer);
         printer.printArray(this.gridViewCreator.display());
 
         //Ask pattern
@@ -312,7 +314,8 @@ public class CLIApp extends App {
             return;
         }
 
-        String message = players.get(playerID).getPlayerName() + " ha lasciato il gioco.";
+        PlayerView player = this.searchPlayerViewById(players, playerID);
+        String message = player.getPlayerName() + " ha lasciato il gioco.";
         printer.print(message);
     }
 
@@ -323,12 +326,13 @@ public class CLIApp extends App {
             return;
         }
 
-        String message = players.get(playerID).getPlayerName() + " e\' rientrato in gioco.";
+        PlayerView player = this.searchPlayerViewById(players, playerID);
+        String message = player.getPlayerName() + " e\' rientrato in gioco.";
         printer.print(message);
     }
 
     @Override
-    public void startTurn(PlayerView player, ReserveView reserve, RoundTrackerView roundTracker) {
+    public void startTurn(ReserveView reserve, RoundTrackerView roundTracker) {
         this.isYourTurn = true;
         //Check if animation is enabled
         if (!this.animationEnable) {

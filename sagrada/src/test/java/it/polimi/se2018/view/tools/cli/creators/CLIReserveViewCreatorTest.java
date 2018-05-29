@@ -17,6 +17,8 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIReserveViewCreatorTest {
 
+    private String enter = System.lineSeparator();
+
     private Pair<Integer, ColorModel>[] reserve;
 
     private CLIReserveViewCreator cliReserveViewCreator;
@@ -30,22 +32,22 @@ public class CLIReserveViewCreatorTest {
     }
 
     @Test
-    public void displayTest() {
-        assertEquals("0) 1-RED\n1) 2-RED\n", this.cliReserveViewCreator.display());
+    public void testDisplay() {
+        assertEquals("0) 1-RED" + enter + "1) 2-RED" + enter, this.cliReserveViewCreator.display());
     }
 
     @Test
-    public void pickDieTest() {
+    public void testPickDie() {
         assertEquals("1-RED", this.cliReserveViewCreator.pickDie(0));
     }
 
     @Test
-    public void getReserveTest() {
+    public void testGetReserve() {
         assertArrayEquals(reserve, cliReserveViewCreator.getReserve());
     }
 
     @Test
-    public void setReserve() {
+    public void testSetReserve() {
         Pair<Integer, ColorModel>[] reserveTest = new Pair[2];
         reserveTest[0] = new Pair<>(1, ColorModel.RED);
         this.cliReserveViewCreator = new CLIReserveViewCreator(null);

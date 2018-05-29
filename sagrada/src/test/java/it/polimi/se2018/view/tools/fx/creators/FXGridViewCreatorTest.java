@@ -26,7 +26,7 @@ public class FXGridViewCreatorTest {
     }
 
     @Test
-    public void displayTest() {
+    public void testDisplay() {
         Pair<Integer, ColorModel>[][] pattern = new Pair[2][3];
         pattern[0][0] = new Pair<>(1, ColorModel.WHITE);
         pattern[0][1] = new Pair<>(0, ColorModel.RED);
@@ -58,16 +58,14 @@ public class FXGridViewCreatorTest {
     }
 
     @Test
-    public void addADieTest() {
+    public void testAddADie() {
         FXGridViewCreator gridViewCreator = new FXGridViewCreator(null,null,"BLACK");
         Image die = new Image("/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
         gridViewCreator.addADie(die,1,1);
-
-        //TODO
     }
 
     @Test
-    public void pickDieTest() {
+    public void testPickDie() {
         Pair<Integer, ColorModel>[][] grid = new Pair[2][3];
         grid[1][0] = new Pair<>(1, ColorModel.BLUE);
 

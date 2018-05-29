@@ -6,6 +6,7 @@ import it.polimi.se2018.observer.ReserveView;
 import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
@@ -145,7 +146,7 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void askPattern(Pair<Integer, ColorModel>[][] pattern1, Pair<Integer, ColorModel>[][] pattern2, Pair<Integer, ColorModel>[][] pattern3, Pair<Integer, ColorModel>[][] pattern4) {
+    public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4) {
         throw new UnsupportedOperationException();
 
     }
@@ -169,7 +170,7 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void startTurn(PlayerView player, ReserveView reserve, RoundTrackerView roundTracker) {
+    public void startTurn(ReserveView reserve, RoundTrackerView roundTracker) {
         throw new UnsupportedOperationException();
 
     }

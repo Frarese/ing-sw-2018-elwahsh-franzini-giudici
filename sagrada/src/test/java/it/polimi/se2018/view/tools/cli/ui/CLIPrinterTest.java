@@ -33,21 +33,21 @@ public class CLIPrinterTest {
     }
 
     @Test
-    public void printTest() {
+    public void testPrint() {
         printer.print("Test");
 
         assertEquals("Test" + enter, savedStream.toString());
     }
 
     @Test
-    public void printFailTest() {
+    public void testPrintFail() {
         printer.print(new Exception());
 
         assertEquals("java.lang.Exception cannot be cast to java.lang.String" + enter, savedStream.toString());
     }
 
     @Test
-    public void printArrayTest() {
+    public void testPrintArray() {
         List<String> stringArrayList = new ArrayList<>();
         stringArrayList.add("Test 1");
         stringArrayList.add("Test 2");
@@ -57,7 +57,7 @@ public class CLIPrinterTest {
     }
 
     @Test
-    public void printArrayFailTest() {
+    public void testPrintArrayFail() {
         printer.printArray(new Exception());
 
         assertEquals("java.lang.Exception cannot be cast to java.util.List" + enter, savedStream.toString());

@@ -11,9 +11,23 @@ import it.polimi.se2018.util.Pair;
 
 public class ReserveView {
 
+    /**
+     * Class attributes
+     */
     private boolean hasChanged;
 
-    public Pair<Integer,ColorModel>[] getReserve() {
-        throw new UnsupportedOperationException();
+    private Pair<Integer, ColorModel>[] reserve;
+
+    public ReserveView(boolean hasChanged, Pair<Integer, ColorModel>[] reserve) {
+        this.hasChanged = hasChanged;
+        this.reserve = reserve;
+    }
+
+    public boolean isHasChanged() {
+        return hasChanged;
+    }
+
+    public Pair<Integer, ColorModel>[] getReserve() {
+        return reserve;
     }
 }

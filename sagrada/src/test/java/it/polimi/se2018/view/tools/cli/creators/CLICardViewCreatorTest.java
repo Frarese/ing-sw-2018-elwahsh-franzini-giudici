@@ -28,7 +28,7 @@ public class CLICardViewCreatorTest {
     }
 
     @Test
-    public void getCardInfoTest() {
+    public void testGetCardInfo() {
         assertEquals("Sfumature Gialle", cliCardViewCreator.makeCard(3));
         assertEquals("Colori Diversi - Riga (6 punti)", cliCardViewCreator.makeCard(10));
         assertEquals("Martelleto", cliCardViewCreator.makeCard(26));
@@ -36,17 +36,17 @@ public class CLICardViewCreatorTest {
     }
 
     @Test
-    public void getPrivateObjectiveCardtest() {
+    public void testGetPrivateObjectiveCard() {
         assertEquals(3,cliCardViewCreator.getPrivateObjectiveCard());
     }
 
     @Test
-    public void getPublicObjectiveCardsTest() {
+    public void testGetPublicObjectiveCards() {
         assertArrayEquals(public_o,cliCardViewCreator.getPublicObjectiveCards());
     }
 
     @Test
-    public void getToolCardsTest() {
+    public void testGetToolCards() {
         assertArrayEquals(tool,cliCardViewCreator.getToolCards());
     }
 

@@ -19,6 +19,8 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIGridViewCreatorTest {
 
+    private String enter = System.lineSeparator();
+
     private CLIPrinter printer;
     private ArrayList<String> result;
 
@@ -32,9 +34,9 @@ public class CLIGridViewCreatorTest {
     }
 
     @Test
-    public void simpleDisplayTest() {
-        result = new ArrayList<String>();
-        result.add("Pattern\n");
+    public void testSimpleDisplay() {
+        result = new ArrayList<>();
+        result.add("Pattern" + enter);
         result.add("--------------------");
         result.add("|1-RED   ||1-VIOLET|");
         result.add("--------------------");
@@ -48,13 +50,13 @@ public class CLIGridViewCreatorTest {
     }
 
     @Test
-    public void emptyGridDisplayTest() {
-        result = new ArrayList<String>();
-        result.add("Pattern\n");
+    public void testEmptyGridDisplay() {
+        result = new ArrayList<>();
+        result.add("Pattern" + enter);
         result.add("--------------------");
         result.add("|1-RED   ||1-RED   |");
         result.add("--------------------");
-        result.add("\n Griglia\n");
+        result.add(enter + " Griglia" + enter);
         result.add("--------------------");
         result.add("|        ||        |");
         result.add("--------------------");
@@ -68,13 +70,13 @@ public class CLIGridViewCreatorTest {
     }
 
     @Test
-    public void fullGridDisplayTest() {
-        result = new ArrayList<String>();
-        result.add("Pattern\n");
+    public void testFullGridDisplay() {
+        result = new ArrayList<>();
+        result.add("Pattern" + enter);
         result.add("--------------------");
         result.add("|1-RED   ||1-RED   |");
         result.add("--------------------");
-        result.add("\n Griglia\n");
+        result.add(enter + " Griglia" + enter);
         result.add("--------------------");
         result.add("|1-RED   ||1-RED   |");
         result.add("--------------------");
@@ -90,13 +92,13 @@ public class CLIGridViewCreatorTest {
     }
 
     @Test
-    public void addDieTest() {
+    public void testAddDie() {
         this.cliGridViewCreator = new CLIGridViewCreator(null, null, printer);
         cliGridViewCreator.addADie("Test Add", 0, 0);
     }
 
     @Test
-    public void pickDieTest() {
+    public void testPickDie() {
         grid = new Pair[1][1];
         grid[0][0] = new Pair<>(1, ColorModel.RED);
         this.cliGridViewCreator = new CLIGridViewCreator(grid, null, printer);
@@ -104,7 +106,7 @@ public class CLIGridViewCreatorTest {
     }
 
     @Test
-    public void getGridTest() {
+    public void testGetGrid() {
         grid = new Pair[1][2];
         grid[0][0] = new Pair<>(1, ColorModel.RED);
         grid[0][1] = new Pair<>(1, ColorModel.RED);
@@ -113,7 +115,7 @@ public class CLIGridViewCreatorTest {
     }
 
     @Test
-    public void setGridTest() {
+    public void testSetGrid() {
         grid = new Pair[1][1];
         this.cliGridViewCreator = new CLIGridViewCreator(null, null, printer);
         this.cliGridViewCreator.setGrid(grid);

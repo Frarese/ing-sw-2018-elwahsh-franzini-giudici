@@ -9,6 +9,7 @@ import java.util.List;
  * @author Mathyas Giudici
  */
 
+
 public class CLIPrinter {
 
     private PrintWriter printWriter;
@@ -44,6 +45,7 @@ public class CLIPrinter {
     public synchronized void printArray(Object input) {
         List<String> array;
         try {
+            //noinspection unchecked
             array = (List<String>) input;
             array.forEach(this::print);
         } catch (Exception e) {

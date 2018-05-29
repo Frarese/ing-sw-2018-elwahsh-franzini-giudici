@@ -35,7 +35,7 @@ public class CLIScoreViewCreatorTest {
     }
 
     @Test
-    public void displayTest() {
+    public void testDisplay() {
         assertEquals(result, scoreViewCreator.display(scores));
     }
 }

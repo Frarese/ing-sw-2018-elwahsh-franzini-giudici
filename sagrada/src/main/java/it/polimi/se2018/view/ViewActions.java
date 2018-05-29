@@ -1,8 +1,7 @@
 package it.polimi.se2018.view;
 
-import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.MatchIdentifier;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.util.PatternView;
 
 /**
  * Class for View-Controller communication
@@ -96,7 +95,7 @@ public class ViewActions {
      *
      * @param selected the selected pattern
      */
-    public void selectedPattern(Pair<Integer, ColorModel>[][] selected) {
+    public void selectedPattern(PatternView selected) {
         throw new UnsupportedOperationException();
 
     }

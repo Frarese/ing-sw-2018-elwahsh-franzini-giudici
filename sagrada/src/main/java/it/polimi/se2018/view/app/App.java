@@ -7,6 +7,7 @@ import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.message.MessageBox;
 import it.polimi.se2018.view.tools.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +66,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     public App(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
         this.animationEnable = true;
-        this.players = null;
+        this.players = new ArrayList<>();
         this.viewActions = viewActions;
         this.viewToolCardActions = viewToolCardActions;
         this.messageBox = new MessageBox(viewMessage);

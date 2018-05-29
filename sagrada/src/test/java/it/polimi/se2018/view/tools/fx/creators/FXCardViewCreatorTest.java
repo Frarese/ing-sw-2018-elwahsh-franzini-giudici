@@ -22,7 +22,7 @@ public class FXCardViewCreatorTest {
     }
 
     @Test
-    public void makePrivateObjCardTest() {
+    public void testMakePrivateObjCard() {
         FXCardViewCreator cardViewCreator = new FXCardViewCreator(1, null, null);
         Image card = cardViewCreator.makeCard(1);
         Image aspect = new Image("/it/polimi/se2018/view/images/private_cards/privateObjective1.jpg");
@@ -40,7 +40,7 @@ public class FXCardViewCreatorTest {
     }
 
     @Test
-    public void makePublicObjCardTest() {
+    public void testMakePublicObjCard() {
         int[] po = new int[3];
         po[0] = 15;
         po[1] = 11;
@@ -61,7 +61,7 @@ public class FXCardViewCreatorTest {
     }
 
     @Test
-    public void makeToolCardTest() {
+    public void testMakeToolCard() {
         int[] po = new int[1];
         po[0] = 10;
         int[] tool = new int[3];
@@ -84,7 +84,7 @@ public class FXCardViewCreatorTest {
     }
 
     @Test
-    public void makeFailTest() {
+    public void testMakeFail() {
         int[] po = new int[1];
         int[] tool = new int[1];
         po[0] = 10;

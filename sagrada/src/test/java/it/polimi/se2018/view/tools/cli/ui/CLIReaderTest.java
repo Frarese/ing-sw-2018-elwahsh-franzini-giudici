@@ -28,7 +28,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void readTest() {
+    public void testRead() {
         String message = "Test";
         System.setIn(new ByteArrayInputStream((message + enter).getBytes()));
 
@@ -39,7 +39,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void readIntTest() {
+    public void testReadInt() {
         int message = 1;
         System.setIn(new ByteArrayInputStream((message + enter).getBytes()));
 
@@ -50,7 +50,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void readIntFailTest() {
+    public void testReadIntFail() {
         String message = "asssd" + enter + "11";
         System.setIn(new ByteArrayInputStream((message + enter).getBytes()));
 
@@ -61,7 +61,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void chooseYesTest() {
+    public void testChooseYes() {
         String message = "a" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -72,7 +72,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void chooseNoTest() {
+    public void testChooseNo() {
         String message = "n";
         System.setIn(new ByteArrayInputStream((message + enter).getBytes()));
 
@@ -84,7 +84,7 @@ public class CLIReaderTest {
 
 
     @Test
-    public void chooseInRangeFirstTest() {
+    public void testChooseInRangeFirst() {
         String numberString = "0";
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
@@ -95,7 +95,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void chooseInRangeSecondTest() {
+    public void testChooseInRangeSecond() {
         String numberString = "0" + enter + "4" + enter + "2";
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
@@ -106,7 +106,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void chooseBetweenFirstSecondTest() {
+    public void testChooseBetweenFirstSecond() {
         String numberString = "1";
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
@@ -117,7 +117,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void chooseBetweenTwoSecondTest() {
+    public void testChooseBetweenTwoSecond() {
         String numberString = "0" + enter + "2";
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 

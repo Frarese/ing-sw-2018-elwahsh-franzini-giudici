@@ -1,12 +1,11 @@
 package it.polimi.se2018.view;
 
 
-import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.observer.ReserveView;
 import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.ScoreEntry;
 
 import java.util.List;
@@ -77,13 +76,12 @@ public interface ControllerActionsInterface {
 
     /**
      * Before game starts player has to choose a pattern
-     *
-     * @param pattern1 first pattern
+     *  @param pattern1 first pattern
      * @param pattern2 second patter
      * @param pattern3 third patter
      * @param pattern4 fourth pattern
      */
-    void askPattern(Pair<Integer, ColorModel>[][] pattern1, Pair<Integer, ColorModel>[][] pattern2, Pair<Integer, ColorModel>[][] pattern3, Pair<Integer, ColorModel>[][] pattern4);
+    void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4);
 
     /**
      * View's method to initialize a game
@@ -112,12 +110,10 @@ public interface ControllerActionsInterface {
 
     /**
      * Communicates a player's turn start
-     *
-     * @param player       contains the ID of the player
-     * @param reserve      contains a ReserveView object
+     *  @param reserve      contains a ReserveView object
      * @param roundTracker contains a RoundTrackerView object
      */
-    void startTurn(PlayerView player, ReserveView reserve, RoundTrackerView roundTracker);
+    void startTurn(ReserveView reserve, RoundTrackerView roundTracker);
 
     /**
      * After a setDie() request Controller returns the result

@@ -1,6 +1,12 @@
 package it.polimi.se2018.view.app;
 
+import it.polimi.se2018.model.ColorModel;
+import it.polimi.se2018.observer.PlayerView;
+import it.polimi.se2018.observer.ReserveView;
+import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
+import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
@@ -15,6 +21,7 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -53,6 +60,27 @@ public class CLIAppTest {
         @Override
         public void askLobby() {
             assert true;
+        }
+
+        @Override
+        public void logout() {
+            assert true;
+        }
+
+        @Override
+        public void endInitGame() {
+            assert true;
+        }
+
+        @Override
+        public void selectedPattern(PatternView selected) {
+            Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
+            pattern[0][0] = new Pair<>(1, ColorModel.RED);
+            pattern[0][1] = new Pair<>(1, ColorModel.RED);
+
+            assertEquals(1, selected.favours);
+            assertEquals("Test1", selected.patternName);
+            assertArrayEquals(pattern, selected.template);
         }
     }
 
@@ -114,13 +142,13 @@ public class CLIAppTest {
     }
 
     @Test
-    public void animationTest() {
+    public void testAnimation() {
         testSetApp(new FakeViewAction());
         assertTrue(this.app.animationEnable);
     }
 
     @Test
-    public void startLoginDisplayWelcomeTest() {
+    public void testStartLoginDisplayWelcome() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -129,7 +157,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void startLoginTest() {
+    public void testStartLogin() {
         String message = "n" + enter + "Test" + enter + "test" + enter + "test" + enter + "y" + enter + "80" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -138,7 +166,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void loginResultTest() {
+    public void testLoginResult() {
         testSetApp(new FakeViewAction());
         this.app.loginResult(true);
 
@@ -146,7 +174,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void loginResultFailTest() {
+    public void testLoginResultFail() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -156,7 +184,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void changeLayerResultRMITest() {
+    public void testChangeLayerResultRMI() {
         String message = 0 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -169,7 +197,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void changeLayerResultSocketTest() {
+    public void testChangeLayerResultSocket() {
         String message = 0 + enter + "n" + enter + 0 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -182,7 +210,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void leaveMatchResultTest() {
+    public void testLeaveMatchResult() {
         testSetApp(new FakeViewAction2());
 
         this.app.leaveMatchResult(true);
@@ -191,7 +219,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void leaveMatchResultFailTest() {
+    public void testLeaveMatchResultFail() {
         String message = 0 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -204,7 +232,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void logoutResultTest() {
+    public void testLogoutResult() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -215,7 +243,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void logoutResultFailTest() {
+    public void testLogoutResultFail() {
         String message = 0 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -228,7 +256,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void pullLeaderBoardTest() {
+    public void testPullLeaderBoard() {
         ArrayList<ScoreEntry> arrayList = new ArrayList<>();
         arrayList.add(0, new ScoreEntry("Test", 0, 0));
         arrayList.add(1, new ScoreEntry("Test1", 1, 1));
@@ -249,7 +277,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void pullInvitateTest() {
+    public void testPullInvitate() {
         MatchIdentifier matchIdentifier1 = new MatchIdentifier("TestP0", "TestP1", "TestP2", "TestP3");
         MatchIdentifier matchIdentifier2 = new MatchIdentifier("TestP0", "Test", null, null);
 
@@ -264,103 +292,202 @@ public class CLIAppTest {
     }
 
     @Test
-    public void askPatternTest() {
-        //TODO think to refactor and change signature ad super method
-    }
-
-    @Test
-    public void initGameTest() {
-        String message = "y" + enter + "ME" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
+    public void testAskPattern() {
+        String message = "1" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction());
 
-//        List<PlayerView> players = new ArrayList<>();
-//        players.add(new FakePlayerView("ME", 0, 0, true, true, new Pair[1][1], new Pair[1][1]));
-//        players.add(new FakePlayerView("Other", 1, 0, true, true, new Pair[1][1], new Pair[1][1]));
+        Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
+        pattern[0][0] = new Pair<>(1, ColorModel.RED);
+        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        PatternView pattern1 = new PatternView("Test1", 1, pattern);
+        PatternView pattern2 = new PatternView("Test2", 2, pattern);
+        PatternView pattern3 = new PatternView("Test3", 3, pattern);
+        PatternView pattern4 = new PatternView("Test4", 4, pattern);
+
+        List<String> result = new ArrayList<>();
+        result.add("Carta Schema 1: Test1 (Favori : 1)");
+        result.add("Pattern");
+        result.add("");
+        result.add("--------------------");
+        result.add("|1-RED   ||1-RED   |");
+        result.add("--------------------");
+        result.add("Carta Schema 2: Test2 (Favori : 2)");
+        result.add("Pattern");
+        result.add("");
+        result.add("--------------------");
+        result.add("|1-RED   ||1-RED   |");
+        result.add("--------------------");
+        result.add("Carta Schema 3: Test3 (Favori : 3)");
+        result.add("Pattern");
+        result.add("");
+        result.add("--------------------");
+        result.add("|1-RED   ||1-RED   |");
+        result.add("--------------------");
+        result.add("Carta Schema 4: Test4 (Favori : 4)");
+        result.add("Pattern");
+        result.add("");
+        result.add("--------------------");
+        result.add("|1-RED   ||1-RED   |");
+        result.add("--------------------");
+        result.add("Opzione: ");
+
+        this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
+
+        assertArrayEquals(result.toArray(), savedStream.toString().split(enter));
+    }
+
+    @Test
+    public void testInitGame() {
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "4" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        List<PlayerView> players = new ArrayList<>();
+        PlayerView me = new PlayerView(true, "Test", 0, 2, new Pair[1][1], null, false, false);
+        PlayerView other = new PlayerView(true, "OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        players.add(me);
+        players.add(other);
+
+        int[] cards = new int[3];
+        cards[0] = 0;
+        cards[1] = 1;
+
+        Pair<Integer, ColorModel>[][] fakeRoundt = new Pair[1][1];
+        fakeRoundt[0][0] = new Pair<>(1, ColorModel.RED);
+        RoundTrackerView roundTracker = new RoundTrackerView(true, 0, fakeRoundt);
+
+        Pair<Integer, ColorModel>[] fakeReserve = new Pair[1];
+        fakeReserve[0] = new Pair<>(1, ColorModel.RED);
+        ReserveView reserveView = new ReserveView(true, fakeReserve);
+
+        this.app.startLogin(false);
+        this.app.initGame(players, 1, cards, cards, roundTracker);
+        this.app.startTurn(reserveView, roundTracker);
+
+
+        assertEquals(me.getPlayerName(), this.app.getOwnerPlayerName());
+        assertEquals(me.getPlayerID(), this.app.getOwnerPlayerID());
+        assertNotNull(this.app.getCardViewCreator());
+        assertNotNull(this.app.getRoundTrackerViewCreator());
+        assertNotNull(this.app.getReserveViewCreator());
+        assertEquals(1, this.app.getCardViewCreator().getPrivateObjectiveCard());
+        assertArrayEquals(cards, this.app.getCardViewCreator().getPublicObjectiveCards());
+        assertArrayEquals(cards, this.app.getCardViewCreator().getToolCards());
+        assertArrayEquals(fakeRoundt, this.app.getRoundTrackerViewCreator().getRoundTracker());
+        assertEquals(0, this.app.getRoundTrackerViewCreator().getRound());
+    }
+
+    @Test
+    public void testOtherPlayerLeave() {
+        testSetApp(new FakeViewAction());
+        PlayerView other = new PlayerView(true, "OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        this.app.getPlayers().add(other);
+
+        this.app.otherPlayerLeave(1);
+        assertEquals("OtherPlayerTest ha lasciato il gioco." + enter, savedStream.toString());
+
+    }
+
+    @Test
+    public void testOtherPlayerReconnection() {
+        testSetApp(new FakeViewAction());
+        PlayerView other = new PlayerView(true, "OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        this.app.getPlayers().add(other);
+
+        this.app.otherPlayerReconnection(1);
+        assertEquals("OtherPlayerTest e\' rientrato in gioco." + enter, savedStream.toString());
+    }
+
+    @Test
+    public void testSetDieResult() {
+        String message = "0" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+        this.app.loginResult(true);
+
+        this.app.setDieResult(true, null);
+        assertEquals("Dado piazzato!", savedStream.toString().split(enter)[1]);
+    }
+
+    @Test
+    public void testSetDieResultFail() {
+        String message = "0" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+        this.app.loginResult(true);
+
+        this.app.setDieResult(false, "test error");
+        assertEquals("Non sei riuscito a piazzare il dado: test error", savedStream.toString().split(enter)[1]);
+    }
+
+    @Test
+    public void testAddUpdate() {
+        //TODO
+//        this.app.addUpdate(0, 0, 0, 0);
+//        this.app.addUpdate(1, 2, 3, 0);
 //
-//        int[] cards = new int[3];
-//        cards[0] = 0;
-//        cards[1] = 1;
-//
-//        this.app.initGame(players, 1, cards, cards, new FakeRoundTraker);
-
+//        assertEquals("OtherPlayerTest ha posizionato il dado: 1-RED in posizione (2,3).", savedStream.toString().split(enter)[savedStream.toString().split(enter).length - 1]);
     }
 
     @Test
-    public void otherPlayerLeaveTest() {
+    public void testUseToolCardResult() {
     }
 
     @Test
-    public void otherPlayerReconnectionTest() {
+    public void testUseToolCardUpdate() {
     }
 
     @Test
-    public void startTurnTest() {
+    public void testPassTurnResult() {
     }
 
     @Test
-    public void setDieResultTest() {
+    public void testPassTurnUpdate() {
     }
 
     @Test
-    public void addUpdateTest() {
+    public void testGameEnd() {
     }
 
     @Test
-    public void useToolCardResultTest() {
+    public void testSelectDieFromReserve() {
     }
 
     @Test
-    public void useToolCardUpdateTest() {
+    public void testSelectNewValueForDie() {
     }
 
     @Test
-    public void passTurnResultTest() {
+    public void testUpdateReserve() {
     }
 
     @Test
-    public void passTurnUpdateTest() {
+    public void testSelectDieFromGrid() {
     }
 
     @Test
-    public void gameEndTest() {
+    public void testSetDieOnGrid() {
     }
 
     @Test
-    public void selectDieFromReserveTest() {
+    public void testSelectDieFromRoundTracker() {
     }
 
     @Test
-    public void selectNewValueForDieTest() {
+    public void testSelectFace() {
     }
 
     @Test
-    public void updateReserveTest() {
+    public void testSelectDieFromGridByColor() {
     }
 
     @Test
-    public void selectDieFromGridTest() {
-    }
-
-    @Test
-    public void setDieOnGridTest() {
-    }
-
-    @Test
-    public void selectDieFromRoundTrackerTest() {
-    }
-
-    @Test
-    public void selectFaceTest() {
-    }
-
-    @Test
-    public void selectDieFromGridByColorTest() {
-    }
-
-    @Test
-    public void getCoordinateXTest() {
+    public void testGetCoordinateX() {
         String message = "1" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -369,7 +496,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void getCoordinateYTest() {
+    public void testGetCoordinateY() {
         String message = "1" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -378,7 +505,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void getPrinterTest() {
+    public void testGetPrinter() {
         testSetApp(new FakeViewAction());
 
         CLIPrinter instance = new CLIPrinter();
@@ -398,7 +525,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void getReaderTest() {
+    public void testGetReader() {
         testSetApp(new FakeViewAction());
 
         CLIReader instance = new CLIReader(new CLIPrinter());
@@ -418,18 +545,20 @@ public class CLIAppTest {
     }
 
     @Test
-    public void noAnimationTest() {
+    public void testNoAnimation() {
         testSetApp(new FakeViewAction());
         this.app.animation(false);
         this.app.startLogin(false);
         this.app.loginResult(false);
         this.app.changeLayerResult(false);
+        this.app.logoutResult(false);
         this.app.leaveMatchResult(false);
         this.app.pullLeaderBoard(null);
+        this.app.askPattern(null,null,null,null);
         this.app.initGame(null, 0, null, null, null);
         this.app.otherPlayerLeave(0);
         this.app.otherPlayerReconnection(0);
-        this.app.startTurn(null, null, null);
+        this.app.startTurn(null, null);
         this.app.setDieResult(false, null);
         this.app.addUpdate(0, 0, 0, 0);
         this.app.useToolCardResult(false, null);
