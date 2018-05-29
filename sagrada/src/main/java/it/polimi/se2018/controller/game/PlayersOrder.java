@@ -9,8 +9,10 @@ import java.util.NoSuchElementException;
 
 /**
  * This class represents the order of the players during a round
+ * @deprecated since we're moving the controller inside the server
  * @author Alì El Wahsh
  */
+@Deprecated
 public class PlayersOrder implements Iterable<Player> {
 
     private ArrayList<Player> actors = new ArrayList<>();

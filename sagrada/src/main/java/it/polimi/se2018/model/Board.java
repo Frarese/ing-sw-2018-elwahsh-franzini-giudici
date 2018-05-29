@@ -76,6 +76,13 @@ public class Board {
     }
 
     /**
+     * Getter for a player total public score
+     */
+    public int totalScore(Player player) {
+        return objectives.totalScore(player);
+    }
+
+    /**
      * Rerolls all the dice in the reserve
      */
     public void reRollReserve()
