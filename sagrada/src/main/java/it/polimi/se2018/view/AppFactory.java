@@ -1,4 +1,8 @@
-package it.polimi.se2018.view.app;
+package it.polimi.se2018.view;
+
+import it.polimi.se2018.view.app.App;
+import it.polimi.se2018.view.app.CLIApp;
+import it.polimi.se2018.view.app.JavaFXApp;
 
 /**
  * This Class represents the App maker.
@@ -19,9 +23,9 @@ public class AppFactory {
      */
     public AppFactory(boolean useGui, String[] mainArgs) {
         if (useGui) {
-            this.app = new JavaFXApp(mainArgs);
+            this.app = new JavaFXApp(new ViewActions(), new ViewToolCardActions(), new ViewMessage(), mainArgs);
         } else {
-            this.app = new CLIApp();
+            this.app = new CLIApp(new ViewActions(), new ViewToolCardActions(), new ViewMessage());
         }
     }
 

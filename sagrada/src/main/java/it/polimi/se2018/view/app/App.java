@@ -25,17 +25,6 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     protected boolean animationEnable;
 
     /**
-     * Player Information variables
-     */
-    protected int ownerPlayerID;
-
-    protected String ownerPlayerName;
-
-    protected boolean useRMI;
-
-    protected boolean isYourTurn;
-
-    /**
      * Game variables
      */
     protected List<PlayerView> players;
@@ -70,17 +59,16 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
     /**
      * Class constructor that initializes variables to defaults values
+     *
+     * @param viewActions         contains ViewActions class for View->Controller communication
+     * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
      */
-    public App() {
+    public App(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
         this.animationEnable = true;
-        this.ownerPlayerID = 0;
-        this.ownerPlayerName = null;
-        this.useRMI = false;
-        this.isYourTurn = false;
         this.players = null;
-        this.viewActions = new ViewActions();
-        this.viewToolCardActions = new ViewToolCardActions();
-        this.messageBox = new MessageBox();
+        this.viewActions = viewActions;
+        this.viewToolCardActions = viewToolCardActions;
+        this.messageBox = new MessageBox(viewMessage);
         this.modelObserver = new ModelObserver();
     }
 
@@ -128,15 +116,6 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
-     * Getter method for boolean value that represents current type of connection
-     *
-     * @return boolean value that represents if user is using RMI connection
-     */
-    public boolean isUseRMI() {
-        return useRMI;
-    }
-
-    /**
      * Getter method for CardViewCreator
      *
      * @return the current CardViewCreator
@@ -179,24 +158,6 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     public List<PlayerView> getPlayers() {
         return players;
-    }
-
-    /**
-     * Getter method for current player's ID
-     *
-     * @return the playerID
-     */
-    public int getOwnerPlayerID() {
-        return ownerPlayerID;
-    }
-
-    /**
-     * Getter method for current player's name
-     *
-     * @return the player's name
-     */
-    public String getOwnerPlayerName() {
-        return ownerPlayerName;
     }
 
     /**

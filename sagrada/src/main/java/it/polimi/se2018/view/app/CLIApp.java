@@ -7,6 +7,9 @@ import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.ScoreEntry;
+import it.polimi.se2018.view.ViewActions;
+import it.polimi.se2018.view.ViewMessage;
+import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.tools.cli.command.*;
 import it.polimi.se2018.view.tools.cli.creators.*;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
@@ -25,6 +28,15 @@ import java.util.logging.Logger;
 
 public class CLIApp extends App {
 
+    /**
+     * Player Information variables
+     */
+    private int ownerPlayerID;
+    private String ownerPlayerName;
+    private boolean useRMI;
+    private boolean isYourTurn;
+
+
     private CLIPrinter printer;
     private CLIReader reader;
     private ArrayList<CLICommand> commands;
@@ -32,12 +44,25 @@ public class CLIApp extends App {
 
     /**
      * Class constructor that creates CLICreators' objects and CLIui' objects
+     *
+     * @param viewActions         contains ViewActions class for View->Controller communication
+     * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
+     * @param viewMessage         contains ViewMessage class for View->Controller communication (chat)
      */
-    CLIApp() {
-        super();
+    public CLIApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
+        super(viewActions, viewToolCardActions, viewMessage);
+
+        //Initializes Player Information
+        this.ownerPlayerID = -1;
+        this.ownerPlayerName = null;
+        this.useRMI = false;
+        this.isYourTurn = false;
+
+        //Initializes CLI ui
         this.printer = new CLIPrinter();
         this.reader = new CLIReader(this.printer);
 
+        //Initializes Arrays
         this.invites = new ArrayList<>();
         this.commands = new ArrayList<>();
         this.gameCommands = new ArrayList<>();
@@ -50,7 +75,7 @@ public class CLIApp extends App {
 
     @Override
     public void startLogin(boolean displayWelcome) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -96,7 +121,7 @@ public class CLIApp extends App {
 
     @Override
     public void loginResult(boolean success) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -118,27 +143,24 @@ public class CLIApp extends App {
 
     @Override
     public void changeLayerResult(boolean successRMI) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
 
         if (successRMI) {
             printer.print("L'attuale layer e\' RMI.");
-
-            //Call menu method
-            this.menu();
         } else {
             printer.print("L'attuale layer e\' Socket.");
-
-            //Call menu method
-            this.menu();
         }
+
+        //Call menu method
+        this.menu();
     }
 
     @Override
     public void leaveMatchResult(boolean success) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -156,7 +178,7 @@ public class CLIApp extends App {
 
     @Override
     public void logoutResult(boolean success) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -174,7 +196,7 @@ public class CLIApp extends App {
 
     @Override
     public void pullLeaderBoard(List<ScoreEntry> leaderBoard) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -200,7 +222,7 @@ public class CLIApp extends App {
 
     @Override
     public void askPattern(Pair<Integer, ColorModel>[][] pattern1, Pair<Integer, ColorModel>[][] pattern2, Pair<Integer, ColorModel>[][] pattern3, Pair<Integer, ColorModel>[][] pattern4) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -241,7 +263,7 @@ public class CLIApp extends App {
 
     @Override
     public void initGame(List<PlayerView> players, int yourPrivateObjectiveCard, int[] publicObjectiveCards, int[] toolCards, RoundTrackerView roundTracker) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -285,7 +307,7 @@ public class CLIApp extends App {
 
     @Override
     public void otherPlayerLeave(int playerID) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -296,7 +318,7 @@ public class CLIApp extends App {
 
     @Override
     public void otherPlayerReconnection(int playerID) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -308,7 +330,7 @@ public class CLIApp extends App {
     @Override
     public void startTurn(PlayerView player, ReserveView reserve, RoundTrackerView roundTracker) {
         this.isYourTurn = true;
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -322,7 +344,7 @@ public class CLIApp extends App {
 
     @Override
     public void setDieResult(boolean result, String errorString) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -340,7 +362,7 @@ public class CLIApp extends App {
 
     @Override
     public void addUpdate(int playerID, int height, int width, int reserveIndex) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -363,7 +385,7 @@ public class CLIApp extends App {
 
     @Override
     public void useToolCardResult(boolean result, String errorString) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -381,7 +403,7 @@ public class CLIApp extends App {
 
     @Override
     public void useToolCardUpdate(int playerID, int card) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -402,7 +424,7 @@ public class CLIApp extends App {
 
     @Override
     public void passTurnResult(boolean result) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -424,7 +446,7 @@ public class CLIApp extends App {
 
     @Override
     public void passTurnUpdate(int playerID) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -445,7 +467,7 @@ public class CLIApp extends App {
 
     @Override
     public void gameEnd(List<ScoreEntry> scores) {
-        //Control if animation is enabled
+        //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
@@ -596,6 +618,12 @@ public class CLIApp extends App {
      * To show the turn options during a turn
      */
     private void menuTurnControl() {
+        //Checks menu's array
+        if (commands == null) {
+            Logger.getGlobal().log(Level.WARNING, "Ci sono problemi nella creazione del menu");
+            return;
+        }
+
         //Search PlayerView
         PlayerView me = this.searchPlayerViewByName(this.players, this.ownerPlayerName);
 
@@ -634,10 +662,20 @@ public class CLIApp extends App {
      * To show basic menu options
      */
     private void menuControl() {
+
+        //Checks menu's array
+        if (commands == null) {
+            Logger.getGlobal().log(Level.WARNING, "Ci sono problemi nella creazione del menu");
+            return;
+        }
+
+        //Writes enable command
         printer.print("Comandi disponibili: ");
         for (int i = 0; i < this.commands.size(); i++) {
             printer.print(i + "-" + this.commands.get(i).display());
         }
+
+        //Asks command to execute
         printer.print("Seleziona un comando: ");
         int actionID = reader.chooseInRange(0, this.commands.size() - 1);
         this.commands.get(actionID).doAction();
@@ -652,5 +690,32 @@ public class CLIApp extends App {
         } else {
             this.menuControl();
         }
+    }
+
+    /**
+     * Getter method for current player's ID
+     *
+     * @return the playerID
+     */
+    public int getOwnerPlayerID() {
+        return ownerPlayerID;
+    }
+
+    /**
+     * Getter method for current player's name
+     *
+     * @return the player's name
+     */
+    public String getOwnerPlayerName() {
+        return ownerPlayerName;
+    }
+
+    /**
+     * Getter method for boolean value that represents current type of connection
+     *
+     * @return boolean value that represents if user is using RMI connection
+     */
+    public boolean useRMI() {
+        return useRMI;
     }
 }

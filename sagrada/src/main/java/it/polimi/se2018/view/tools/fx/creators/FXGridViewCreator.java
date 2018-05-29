@@ -3,11 +3,8 @@ package it.polimi.se2018.view.tools.fx.creators;
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.tools.GridViewCreator;
-import it.polimi.se2018.view.tools.fx.FXConstants;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -43,7 +40,7 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
         VBox container = new VBox(0);
 
         //Initialize grid
-        createEmptyGrid(container, gridColor, 4, 5,
+        FXConstants.createEmptyGrid(container, gridColor, 4, 5,
                 FXConstants.GRID_INSETS_SPACING, FXConstants.GRID_ROW_SPACING, FXConstants.GRID_CELL_DIM_VALUE);
 
         //Iterate on grid pattern
@@ -96,7 +93,7 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
         if (patternCell != null) {
             if (patternCell.getSecond() != ColorModel.WHITE) {
                 //Set color restriction
-                cell.setStyle(makeBackgroundColor(patternCell.getSecond().toJavaFXColor()));
+                cell.setStyle(FXConstants.makeBgColorString(patternCell.getSecond().toJavaFXColor()));
             } else {
                 //Set value restriction
                 String url = MessageFormat.format("/it/polimi/se2018/view/images/pattern/value{0}.png", patternCell.getFirst());
@@ -105,56 +102,7 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
             }
         } else {
             //Set no restriction (white bg)
-            cell.setStyle(makeBackgroundColor(ColorModel.WHITE.toJavaFXColor()));
-        }
-    }
-
-    /**
-     * Creates a string to set background color
-     *
-     * @param color contains the color to set
-     * @return the setting string
-     */
-    private static String makeBackgroundColor(String color) {
-        return "-fx-background-color: " + color + ";";
-    }
-
-    /**
-     * Creates a generic grid using HBox and VBox in container
-     *
-     * @param container     is where grid must be put
-     * @param bgColor       contains the background color of the grid
-     * @param row           contains the grid's row
-     * @param column        contains the grid's column
-     * @param insetsSpacing contains the Insets's value
-     * @param rowSpacing    contains the row's spacing
-     * @param cellDim       contains the cell's dimension
-     */
-    static void createEmptyGrid(VBox container, String bgColor, int row, int column,
-                                int insetsSpacing, int rowSpacing, int cellDim) {
-        //Container properties
-        container.setPadding(new Insets(insetsSpacing, insetsSpacing, insetsSpacing, insetsSpacing));
-        container.setStyle(makeBackgroundColor(bgColor));
-        container.setFillWidth(true);
-        container.setAlignment(Pos.CENTER);
-
-        for (int i = 0; i < row; i++) {
-            //Creates row
-            HBox hBox = new HBox(rowSpacing);
-            hBox.setPadding(new Insets(insetsSpacing, insetsSpacing, insetsSpacing, insetsSpacing));
-            hBox.setStyle(makeBackgroundColor(bgColor));
-            hBox.setFillHeight(true);
-            hBox.setAlignment(Pos.CENTER);
-            container.getChildren().add(i, hBox);
-
-            for (int j = 0; j < column; j++) {
-                //Create cell
-                VBox cell = new VBox(0);
-                cell.setAlignment(Pos.CENTER);
-                cell.setPrefWidth(cellDim);
-                cell.setPrefHeight(cellDim);
-                hBox.getChildren().add(j, cell);
-            }
+            cell.setStyle(FXConstants.makeBgColorString(ColorModel.WHITE.toJavaFXColor()));
         }
     }
 }

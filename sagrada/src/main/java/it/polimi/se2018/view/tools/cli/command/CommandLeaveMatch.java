@@ -14,5 +14,8 @@ public class CommandLeaveMatch extends CLICommand {
         if (this.app.getReader().chooseYes()) {
             this.app.getViewActions().leaveMatch();
         }
+        else{
+            this.app.menu();
+        }
     }
 }

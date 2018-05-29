@@ -18,7 +18,7 @@ public class CommandChangeLayer extends CLICommand {
     public void doAction() {
         this.app.getPrinter().print("Sei sicuro di voler cambiare tipo di connessione?");
         if (this.app.getReader().chooseYes()) {
-            if (this.app.isUseRMI()) {
+            if (this.app.useRMI()) {
                 this.app.getPrinter().print("Inserire object port: ");
                 int objectPort = this.app.getReader().readInt();
                 this.app.getPrinter().print("Inserire request port: ");
@@ -30,7 +30,9 @@ public class CommandChangeLayer extends CLICommand {
                 this.app.getViewActions().changeLayer(true, objectPort, 0);
             }
         }
-
+        else{
+            this.app.menu();
+        }
     }
 }
 

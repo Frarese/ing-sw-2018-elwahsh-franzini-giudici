@@ -20,5 +20,8 @@ public class CommandLogout extends CLICommand {
         if (this.app.getReader().chooseYes()) {
             this.app.getViewActions().logout();
         }
+        else{
+            this.app.menu();
+        }
     }
 }

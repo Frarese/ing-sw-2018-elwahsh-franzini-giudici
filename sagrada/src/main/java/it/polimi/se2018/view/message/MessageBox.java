@@ -15,8 +15,13 @@ public class MessageBox implements ControllerMessage {
     private ViewMessage viewMessage;
 
 
-    public MessageBox() {
-        this.viewMessage = new ViewMessage();
+    /**
+     * Class constructor
+     *
+     * @param viewMessage contains ViewMessage class to View->Controller communication
+     */
+    public MessageBox(ViewMessage viewMessage) {
+        this.viewMessage = viewMessage;
     }
 
     @Override
@@ -25,6 +30,13 @@ public class MessageBox implements ControllerMessage {
 
     }
 
+    /**
+     * Send messages on network
+     *
+     * @param destination contains message's destination
+     * @param type contains message's type
+     * @param message contains message's text
+     */
     public void sendMessage(String destination, MessageTypes type, String message) {
         throw new UnsupportedOperationException();
     }

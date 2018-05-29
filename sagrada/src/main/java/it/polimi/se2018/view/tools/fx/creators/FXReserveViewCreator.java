@@ -3,7 +3,6 @@ package it.polimi.se2018.view.tools.fx.creators;
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.tools.ReserveViewCreator;
-import it.polimi.se2018.view.tools.fx.FXConstants;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -33,7 +32,7 @@ public class FXReserveViewCreator extends ReserveViewCreator<VBox, Image> {
         VBox container = new VBox(0);
 
         //Initialize grid
-        FXGridViewCreator.createEmptyGrid(container, "GREY", 3, 3,
+        FXConstants.createEmptyGrid(container, "GREY", 3, 3,
                 FXConstants.RESERVE_INSETS_SPACING, FXConstants.RESERVE_ROW_SPACING, FXConstants.GRID_CELL_DIM_VALUE);
 
 

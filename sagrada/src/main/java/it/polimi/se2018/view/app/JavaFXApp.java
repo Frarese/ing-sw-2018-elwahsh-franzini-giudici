@@ -7,6 +7,9 @@ import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.ScoreEntry;
+import it.polimi.se2018.view.ViewActions;
+import it.polimi.se2018.view.ViewMessage;
+import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.tools.fx.creators.FXCardViewCreator;
 import it.polimi.se2018.view.tools.fx.creators.FXGridViewCreator;
 import it.polimi.se2018.view.tools.fx.creators.FXRoundTrackerViewCreator;
@@ -17,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,9 +34,16 @@ import java.util.logging.Logger;
 public class JavaFXApp extends App {
 
     /**
+     * Player Information variables
+     */
+    private int ownerPlayerID;
+    private String ownerPlayerName;
+    private boolean useRMI;
+    private boolean isYourTurn;
+
+    /**
      * Components for GUI
      */
-
     private FXCardViewCreator fxCardViewCreator;
     private FXGridViewCreator fxGridViewCreator;
     private FXRoundTrackerViewCreator fxRoundTrackerViewCreator;
@@ -40,8 +51,23 @@ public class JavaFXApp extends App {
 
     /**
      * Class constructor to initialize creators
+     *
+     * @param viewActions         contains ViewActions class for View->Controller communication
+     * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
+     * @param viewMessage         contains ViewMessage class for View->Controller communication (chat)
+     * @param args                contains the arg passed at mains
      */
-    JavaFXApp(String[] args) {
+    public JavaFXApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage, String[] args) {
+        super(viewActions, viewToolCardActions, viewMessage);
+
+        //Initializes Player Information
+        this.ownerPlayerID = -1;
+        this.ownerPlayerName = null;
+        this.useRMI = false;
+        this.isYourTurn = false;
+
+        this.invites = new ArrayList<>();
+
         this.openWindow(args);
     }
 
@@ -246,5 +272,32 @@ public class JavaFXApp extends App {
     public void openWindow(String[] args) {
         Application.launch(JavaFXStageProducer.class, args);
         Platform.runLater(() -> JavaFXStageProducer.setApp(this));
+    }
+
+    /**
+     * Getter method for current player's ID
+     *
+     * @return the playerID
+     */
+    public int getOwnerPlayerID() {
+        return ownerPlayerID;
+    }
+
+    /**
+     * Getter method for current player's name
+     *
+     * @return the player's name
+     */
+    public String getOwnerPlayerName() {
+        return ownerPlayerName;
+    }
+
+    /**
+     * Getter method for boolean value that represents current type of connection
+     *
+     * @return boolean value that represents if user is using RMI connection
+     */
+    public boolean useRMI() {
+        return useRMI;
     }
 }
