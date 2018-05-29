@@ -335,7 +335,7 @@ public class CLIAppTest {
 
         this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
 
-        assertArrayEquals(result.toArray(), savedStream.toString().split(enter));
+        assertArrayEquals(result.toArray(), savedStream.toString().split("\n"));
     }
 
     @Test
@@ -436,14 +436,55 @@ public class CLIAppTest {
 
     @Test
     public void testUseToolCardResult() {
+        String message = "0" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+        this.app.loginResult(true);
+
+        this.app.useToolCardResult(true, null);
+        assertEquals("Effetto carta completato!", savedStream.toString().split(enter)[1]);
+    }
+
+    @Test
+    public void testUseToolCardResultFail() {
+        String message = "0" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+        this.app.loginResult(true);
+
+        this.app.useToolCardResult(false, "test error");
+        assertEquals("Non sei riuscito ad usare la carta: test error", savedStream.toString().split(enter)[1]);
     }
 
     @Test
     public void testUseToolCardUpdate() {
+        //TODO
     }
 
     @Test
     public void testPassTurnResult() {
+        String message = "0" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+        this.app.loginResult(true);
+
+        this.app.passTurnResult(true);
+        assertEquals("Turno passato con successo!", savedStream.toString().split(enter)[1]);
+    }
+
+    @Test
+    public void testPassTurnResultFail() {
+        String message = "0" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+        this.app.loginResult(true);
+
+        this.app.passTurnResult(false);
+        assertEquals("Non sei riuscito a passare il turno", savedStream.toString().split(enter)[1]);
     }
 
     @Test

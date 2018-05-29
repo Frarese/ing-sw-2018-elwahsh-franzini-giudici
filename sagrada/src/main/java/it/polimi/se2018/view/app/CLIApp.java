@@ -396,7 +396,7 @@ public class CLIApp extends App {
 
         //Print result
         if (result) {
-            printer.print("Carta in uso.");
+            printer.print("Effetto carta completato!");
         } else {
             printer.print("Non sei riuscito ad usare la carta: " + errorString);
         }
@@ -437,9 +437,6 @@ public class CLIApp extends App {
         if (result) {
             printer.print("Turno passato con successo!");
             this.isYourTurn = false;
-
-            //Call menu method
-            this.menu();
         } else {
             printer.print("Non sei riuscito a passare il turno");
         }

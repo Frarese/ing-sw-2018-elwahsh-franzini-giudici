@@ -36,7 +36,7 @@ public class CLIGridViewCreatorTest {
     @Test
     public void testSimpleDisplay() {
         result = new ArrayList<>();
-        result.add("Pattern" + enter);
+        result.add("Pattern\n");
         result.add("--------------------");
         result.add("|1-RED   ||1-VIOLET|");
         result.add("--------------------");
@@ -52,11 +52,11 @@ public class CLIGridViewCreatorTest {
     @Test
     public void testEmptyGridDisplay() {
         result = new ArrayList<>();
-        result.add("Pattern" + enter);
+        result.add("Pattern\n");
         result.add("--------------------");
         result.add("|1-RED   ||1-RED   |");
         result.add("--------------------");
-        result.add(enter + " Griglia" + enter);
+        result.add("\nGriglia\n");
         result.add("--------------------");
         result.add("|        ||        |");
         result.add("--------------------");
@@ -72,11 +72,11 @@ public class CLIGridViewCreatorTest {
     @Test
     public void testFullGridDisplay() {
         result = new ArrayList<>();
-        result.add("Pattern" + enter);
+        result.add("Pattern\n");
         result.add("--------------------");
         result.add("|1-RED   ||1-RED   |");
         result.add("--------------------");
-        result.add(enter + " Griglia" + enter);
+        result.add("\nGriglia\n");
         result.add("--------------------");
         result.add("|1-RED   ||1-RED   |");
         result.add("--------------------");
