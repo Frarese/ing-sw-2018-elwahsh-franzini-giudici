@@ -4,14 +4,16 @@ import it.polimi.se2018.model.ColorModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import static it.polimi.se2018.model.ColorModel.WHITE;
-import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import static it.polimi.se2018.model.ColorModel.WHITE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 public class RoundTrackerTest {
     private ArrayList<Die> dice;
-    private RoundTracker test = RoundTracker.getInstance();
+    private RoundTracker test = new RoundTracker();
 
     /**
      * Initialization of an ArrayList of 5 dice, one for each color

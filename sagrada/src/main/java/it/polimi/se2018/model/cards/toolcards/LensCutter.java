@@ -2,14 +2,12 @@ package it.polimi.se2018.model.cards.toolcards;
 
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.cards.ToolCard;
-import it.polimi.se2018.model.dice.RoundTracker;
 
 /**
  * Model representation of the LensCutter tool card
  * @author Alì El Wahsh
  */
 public class LensCutter extends ToolCard {
-    private RoundTracker roundTrack = RoundTracker.getInstance();
 
     /**
      * LensCutter's constructor
@@ -29,6 +27,6 @@ public class LensCutter extends ToolCard {
     @Override
     protected boolean isUsable(Player player, boolean firstTurn) {
 
-        return player.canPlaceOnThisTurn(firstTurn) && player.canUseCardOnThisTurn(firstTurn) && roundTrack.lastFilledRound() >0;
+        return player.canPlaceOnThisTurn(firstTurn) && player.canUseCardOnThisTurn(firstTurn);
     }
 }

@@ -4,7 +4,8 @@ package it.polimi.se2018.model.dice;
 import org.junit.Before;
 import org.junit.Test;
 
-import static it.polimi.se2018.model.ColorModel.*;
+import static it.polimi.se2018.model.ColorModel.BLUE;
+import static it.polimi.se2018.model.ColorModel.YELLOW;
 import static org.junit.Assert.*;
 
 public class DieTest {

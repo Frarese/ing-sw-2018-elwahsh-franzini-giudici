@@ -4,7 +4,8 @@ import it.polimi.se2018.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class PatternTest {
     private Pattern test;

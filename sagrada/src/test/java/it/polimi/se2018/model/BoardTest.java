@@ -2,7 +2,8 @@ package it.polimi.se2018.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class BoardTest {
 
@@ -26,7 +27,15 @@ public class BoardTest {
         assertEquals(9,test.getReserve().size());
         for(int i =0; i<9;i++)
             test.addDieToBag(test.getReserve().popDie(0));
+        test.reRollReserve();
+        test.putReserveOnRoundTRack();
+        assertEquals(1,test.getRoundTrack().lastFilledRound());
+    }
 
+    @Test
+    public void testTotalScore()
+    {
+        assertEquals(0, test.totalScore(new Player("Carlo", 0)));
     }
 
 }

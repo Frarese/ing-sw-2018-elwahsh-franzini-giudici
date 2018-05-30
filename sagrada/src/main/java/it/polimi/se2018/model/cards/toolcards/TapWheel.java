@@ -2,14 +2,14 @@ package it.polimi.se2018.model.cards.toolcards;
 
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.cards.ToolCard;
-import it.polimi.se2018.model.dice.RoundTracker;
+
 
 /**
  * Model representation of the TapWheel tool card
  * @author Alì El Wahsh
  */
 public class TapWheel extends ToolCard {
-    private RoundTracker roundTracker = RoundTracker.getInstance();
+
 
     /**
      * TapWheel's constructor
@@ -29,6 +29,6 @@ public class TapWheel extends ToolCard {
     @Override
     protected boolean isUsable(Player player, boolean firstTurn) {
 
-        return roundTracker.lastFilledRound() >0 && player.canUseCardOnThisTurn(firstTurn);
+        return  player.canUseCardOnThisTurn(firstTurn);
     }
 }

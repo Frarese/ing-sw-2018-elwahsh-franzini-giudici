@@ -3,9 +3,10 @@ package it.polimi.se2018.model.cards;
 import it.polimi.se2018.model.ColorModel;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 public class DeckTest {
 

@@ -1,8 +1,8 @@
 package it.polimi.se2018.model.cards;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.model.dice.Grid;
 import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.dice.Grid;
 
 /**
  * Model's representation of a private objective card

@@ -2,7 +2,8 @@ package it.polimi.se2018.model.cards;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class CardModelTest {
     private final int id = 0;

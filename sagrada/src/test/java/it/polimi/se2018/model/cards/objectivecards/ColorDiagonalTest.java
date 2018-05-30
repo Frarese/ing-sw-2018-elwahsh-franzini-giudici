@@ -4,12 +4,8 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.dice.Die;
 import org.junit.Test;
 
-import static it.polimi.se2018.model.ColorModel.RED;
-import static org.junit.Assert.*;
-
-
-import static it.polimi.se2018.model.ColorModel.BLUE;
-import static it.polimi.se2018.model.ColorModel.YELLOW;
+import static it.polimi.se2018.model.ColorModel.*;
+import static org.junit.Assert.assertEquals;
 
 public class ColorDiagonalTest {
 

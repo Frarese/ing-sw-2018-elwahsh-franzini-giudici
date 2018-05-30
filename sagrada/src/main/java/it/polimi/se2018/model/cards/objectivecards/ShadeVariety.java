@@ -3,6 +3,7 @@ package it.polimi.se2018.model.cards.objectivecards;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.cards.ObjectiveCard;
 import it.polimi.se2018.model.dice.Grid;
+
 import java.util.stream.IntStream;
 
 /**

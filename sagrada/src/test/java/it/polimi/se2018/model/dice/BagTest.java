@@ -4,11 +4,13 @@ import it.polimi.se2018.model.ColorModel;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class BagTest {
 
-    private Bag test = Bag.getInstance();
+    private Bag test = new Bag();
 
 
     /**

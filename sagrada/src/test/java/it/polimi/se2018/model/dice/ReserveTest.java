@@ -7,13 +7,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
-
 import static it.polimi.se2018.model.ColorModel.WHITE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class ReserveTest {
 
-    private Reserve test = Reserve.getInstance();
+    private Reserve test = new Reserve();
     private ArrayList<Die> dice;
 
     /**

@@ -6,33 +6,19 @@ import java.util.List;
 /**
  * Model representation of the dice reserve, in which players can pick a die
  * to be put on their grid
- * Since it will exists only one reserve it's a Singleton
  * @author Alì El Wahsh
  */
 public class Reserve {
-    private static Reserve instance;
-    private static ArrayList<Die> dice = new ArrayList<>();
+    private  ArrayList<Die> dice;
 
     /**
      * Reserve constructor
      */
-    private Reserve()
+    public Reserve()
     {
+        dice = new ArrayList<>();
     }
 
-    /**
-     * Getter of an instance of the reserve
-     * @return the existing instance of reserve (or a newly built one if it's the first call)
-     */
-    public static synchronized Reserve getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new Reserve();
-        }
-
-        return instance;
-    }
 
     /**
      * Getter of a die in a specified position (without popping it)

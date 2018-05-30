@@ -27,9 +27,9 @@ public class Board {
     {
         tools = new ActiveTools();
         objectives = new ActiveObjectives();
-        bag = Bag.getInstance();
-        reserve = Reserve.getInstance();
-        roundTrack = RoundTracker.getInstance();
+        bag = new Bag();
+        reserve = new Reserve();
+        roundTrack = new RoundTracker();
     }
 
     /**
@@ -80,6 +80,14 @@ public class Board {
      */
     public int totalScore(Player player) {
         return objectives.totalScore(player);
+    }
+
+    /**
+     * Puts all the remaining dice inside the Round track
+     */
+    public void putReserveOnRoundTRack()
+    {
+        roundTrack.addAll(reserve.popAllDice());
     }
 
     /**

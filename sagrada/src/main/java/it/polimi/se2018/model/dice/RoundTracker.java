@@ -10,31 +10,18 @@ import java.util.List;
 
 public class RoundTracker {
     public static final int ROUNDS = 10; //Number of rounds
-    private static RoundTracker instance;
     private ArrayList<ArrayList<Die>> dice;
 
 
     /**
      * Constructor of RoundTracker
      */
-    private RoundTracker()
+    public RoundTracker()
     {
         dice = new ArrayList<>();
     }
 
-    /**
-     * Getter of an instance of the round tracker
-     * @return the existing instance of round tracker (or a newly built one if it's the first call)
-     */
-    public static synchronized RoundTracker getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new RoundTracker();
-        }
 
-        return instance;
-    }
 
     /**
      * Getter for a Die in a specified round and position

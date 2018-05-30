@@ -12,21 +12,19 @@ import static it.polimi.se2018.model.ColorModel.WHITE;
 
 /**
  * Model representation of the dice bag
- * Since it will exist only one bag it's a Singleton
  * @author Alì El Wahsh
  */
 public class Bag {
     public static final int MAX_SIZE = 90;
     public static final int DICE_FOR_COLOR = 18;
     private ArrayList<Die> content;
-    private static Bag instance;
 
     /**
      * Constructor of Bag
      * It loops a lambda expression that builds a die for each color
      * and adds it to the bag
      */
-    private Bag()
+    public Bag()
     {
         content = new ArrayList<>();
         for(int i=0; i<DICE_FOR_COLOR;i++){
@@ -35,19 +33,6 @@ public class Bag {
         Collections.shuffle(content); /*Random order of the dice guaranteed*/
     }
 
-    /**
-     * Getter for the instance of Bag
-     * @return the existing instance of bag (or a newly built one if it's the first call)
-     */
-    public static synchronized Bag getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new Bag();
-        }
-
-        return instance;
-    }
 
     /**
      * Getter for a die inside the bag
