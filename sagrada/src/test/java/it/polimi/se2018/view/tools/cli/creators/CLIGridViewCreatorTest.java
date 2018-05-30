@@ -19,8 +19,6 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIGridViewCreatorTest {
 
-    private String enter = System.lineSeparator();
-
     private CLIPrinter printer;
     private ArrayList<String> result;
 

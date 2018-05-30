@@ -9,6 +9,10 @@ import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.ViewActions;
+import it.polimi.se2018.view.ViewToolCardActions;
+import it.polimi.se2018.view.tools.cli.creators.CLIGridViewCreator;
+import it.polimi.se2018.view.tools.cli.creators.CLIReserveViewCreator;
+import it.polimi.se2018.view.tools.cli.creators.CLIRoundTrackerViewCreator;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
 import it.polimi.se2018.view.tools.cli.ui.CLIReader;
 import org.junit.After;
@@ -78,8 +82,6 @@ public class CLIAppTest {
             pattern[0][0] = new Pair<>(1, ColorModel.RED);
             pattern[0][1] = new Pair<>(1, ColorModel.RED);
 
-            assertEquals(1, selected.favours);
-            assertEquals("Test1", selected.patternName);
             assertArrayEquals(pattern, selected.template);
         }
     }
@@ -104,9 +106,49 @@ public class CLIAppTest {
         public void logout() {
             assert true;
         }
-
     }
 
+
+    private class FakeViewToolActions extends ViewToolCardActions {
+        @Override
+        public void selectedDieFromReserve(int index) {
+            assertEquals(0, index);
+        }
+
+        @Override
+        public void selectedValueForDie(int value) {
+            assertEquals(3, value);
+        }
+
+        @Override
+        public void selectedDieFromGrid(int width, int height) {
+            assertEquals(3, width);
+            assertEquals(2, height);
+        }
+
+        @Override
+        public void selectedDieToGrid(int width, int height) {
+            assertEquals(3, width);
+            assertEquals(2, height);
+        }
+
+        @Override
+        public void selectedDieFromRoundTracker(int roundIndex, int dieIndex) {
+            assertEquals(0, roundIndex);
+            assertEquals(0, dieIndex);
+        }
+
+        @Override
+        public void selectedFace(int value) {
+            assertEquals(4, value);
+        }
+
+        @Override
+        public void selectedDieFromGridByColor(int width, int height) {
+            assertEquals(3, width);
+            assertEquals(2, height);
+        }
+    }
 
     /**
      * ----------------------------------
@@ -115,7 +157,7 @@ public class CLIAppTest {
      */
 
     private void testSetApp(ViewActions fakeViewAction) {
-        this.app = new CLIApp(fakeViewAction, null, null);
+        this.app = new CLIApp(fakeViewAction, new FakeViewToolActions(), null);
         this.app.animation(true);
     }
 
@@ -154,6 +196,8 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction());
         this.app.startLogin(true);
+
+        assertFalse(this.app.useRMI());
     }
 
     @Test
@@ -163,6 +207,8 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction2());
         this.app.startLogin(false);
+
+        assertTrue(this.app.useRMI());
     }
 
     @Test
@@ -292,7 +338,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void testAskPattern() {
+    public void testAskPattern1() {
         String message = "1" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -306,36 +352,161 @@ public class CLIAppTest {
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
         PatternView pattern4 = new PatternView("Test4", 4, pattern);
 
-        List<String> result = new ArrayList<>();
-        result.add("Carta Schema 1: Test1 (Favori : 1)");
-        result.add("Pattern");
-        result.add("");
-        result.add("--------------------");
-        result.add("|1-RED   ||1-RED   |");
-        result.add("--------------------");
-        result.add("Carta Schema 2: Test2 (Favori : 2)");
-        result.add("Pattern");
-        result.add("");
-        result.add("--------------------");
-        result.add("|1-RED   ||1-RED   |");
-        result.add("--------------------");
-        result.add("Carta Schema 3: Test3 (Favori : 3)");
-        result.add("Pattern");
-        result.add("");
-        result.add("--------------------");
-        result.add("|1-RED   ||1-RED   |");
-        result.add("--------------------");
-        result.add("Carta Schema 4: Test4 (Favori : 4)");
-        result.add("Pattern");
-        result.add("");
-        result.add("--------------------");
-        result.add("|1-RED   ||1-RED   |");
-        result.add("--------------------");
-        result.add("Opzione: ");
+        StringBuilder result = new StringBuilder();
+        result.append("Carta Schema 1: Test1 (Favori : 1)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 2: Test2 (Favori : 2)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 3: Test3 (Favori : 3)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 4: Test4 (Favori : 4)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Opzione: " + enter);
 
         this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
 
-        assertArrayEquals(result.toArray(), savedStream.toString().split("\n"));
+        assertEquals(result.toString(), savedStream.toString());
+    }
+
+    @Test
+    public void testAskPattern2() {
+        String message = "2" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
+        pattern[0][0] = new Pair<>(1, ColorModel.RED);
+        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        PatternView pattern1 = new PatternView("Test1", 1, pattern);
+        PatternView pattern2 = new PatternView("Test2", 2, pattern);
+        PatternView pattern3 = new PatternView("Test3", 3, pattern);
+        PatternView pattern4 = new PatternView("Test4", 4, pattern);
+
+        StringBuilder result = new StringBuilder();
+        result.append("Carta Schema 1: Test1 (Favori : 1)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 2: Test2 (Favori : 2)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 3: Test3 (Favori : 3)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 4: Test4 (Favori : 4)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Opzione: " + enter);
+
+        this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
+
+        assertEquals(result.toString(), savedStream.toString());
+    }
+
+    @Test
+    public void testAskPattern3() {
+        String message = "3" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
+        pattern[0][0] = new Pair<>(1, ColorModel.RED);
+        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        PatternView pattern1 = new PatternView("Test1", 1, pattern);
+        PatternView pattern2 = new PatternView("Test2", 2, pattern);
+        PatternView pattern3 = new PatternView("Test3", 3, pattern);
+        PatternView pattern4 = new PatternView("Test4", 4, pattern);
+
+        StringBuilder result = new StringBuilder();
+        result.append("Carta Schema 1: Test1 (Favori : 1)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 2: Test2 (Favori : 2)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 3: Test3 (Favori : 3)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 4: Test4 (Favori : 4)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Opzione: " + enter);
+
+        this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
+
+        assertEquals(result.toString(), savedStream.toString());
+    }
+
+    @Test
+    public void testAskPattern4() {
+        String message = "4" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
+        pattern[0][0] = new Pair<>(1, ColorModel.RED);
+        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        PatternView pattern1 = new PatternView("Test1", 1, pattern);
+        PatternView pattern2 = new PatternView("Test2", 2, pattern);
+        PatternView pattern3 = new PatternView("Test3", 3, pattern);
+        PatternView pattern4 = new PatternView("Test4", 4, pattern);
+
+        StringBuilder result = new StringBuilder();
+        result.append("Carta Schema 1: Test1 (Favori : 1)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 2: Test2 (Favori : 2)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 3: Test3 (Favori : 3)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Carta Schema 4: Test4 (Favori : 4)" + enter);
+        result.append("Pattern\n" + enter);
+        result.append("--------------------" + enter);
+        result.append("|1-RED   ||1-RED   |" + enter);
+        result.append("--------------------" + enter);
+        result.append("Opzione: " + enter);
+
+        this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
+
+        assertEquals(result.toString(), savedStream.toString());
     }
 
     @Test
@@ -493,38 +664,158 @@ public class CLIAppTest {
 
     @Test
     public void testGameEnd() {
+        String message = "0" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+        this.app.loginResult(true);
+
+        List<ScoreEntry> scoreEntries = new ArrayList<>();
+        scoreEntries.add(new ScoreEntry("Test", 1, 1));
+
+        this.app.gameEnd(scoreEntries);
+        //No test of System.out because it's tested in CLIScoreViewCreator
     }
 
     @Test
     public void testSelectDieFromReserve() {
+        String message = "0" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[] reserve = new Pair[1];
+        reserve[0] = new Pair<>(1, ColorModel.RED);
+
+        this.app.reserveViewCreator = new CLIReserveViewCreator(reserve);
+
+        this.app.selectDieFromReserve();
+
+        assertEquals("Seleziona un dado dalla riserva: ", savedStream.toString().split(enter)[0]);
     }
 
     @Test
     public void testSelectNewValueForDie() {
+        String message = "3" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        this.app.selectNewValueForDie(1, 3);
+
+        assertEquals("Seleziona il valore del dado tra 1 e 3", savedStream.toString().split(enter)[0]);
     }
 
     @Test
     public void testUpdateReserve() {
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[] reserve = new Pair[1];
+        reserve[0] = new Pair<>(1, ColorModel.RED);
+
+        this.app.reserveViewCreator = new CLIReserveViewCreator(reserve);
+
+        this.app.updateReserve();
+
+        assertEquals("Nuova riserva:", savedStream.toString().split(enter)[0]);
+        assertEquals("0) 1-RED", savedStream.toString().split(enter)[1]);
     }
 
     @Test
     public void testSelectDieFromGrid() {
+        String message = "3" + enter + "2" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
+        pattern[0][0] = new Pair<>(1, ColorModel.RED);
+        Pair<Integer, ColorModel>[][] grid = new Pair[1][1];
+        grid[0][0] = new Pair<>(1, ColorModel.RED);
+
+        this.app.gridViewCreator = new CLIGridViewCreator(grid, pattern, this.app.getPrinter());
+
+        this.app.selectDieFromGrid();
+
+        assertEquals("Seleziona un dado dalla griglia (la numerazione parte da 0)", savedStream.toString().split(enter)[0]);
     }
 
     @Test
     public void testSetDieOnGrid() {
+        String message = "3" + enter + "2" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
+        pattern[0][0] = new Pair<>(1, ColorModel.RED);
+        Pair<Integer, ColorModel>[][] grid = new Pair[1][1];
+        grid[0][0] = new Pair<>(1, ColorModel.RED);
+
+        this.app.gridViewCreator = new CLIGridViewCreator(grid, pattern, this.app.getPrinter());
+
+        this.app.setDieOnGrid(new Pair<>(1, ColorModel.RED));
+
+        assertEquals("Devi posizionare il dado: 1-RED", savedStream.toString().split(enter)[0]);
+        assertEquals("(la numerazione sulla griglia parte da 0)", savedStream.toString().split(enter)[1]);
     }
 
     @Test
     public void testSelectDieFromRoundTracker() {
+        String message = "1" + enter + "0" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[][] fakeRoundt = new Pair[1][1];
+        fakeRoundt[0][0] = new Pair<>(1, ColorModel.RED);
+
+        this.app.roundTrackerViewCreator = new CLIRoundTrackerViewCreator(2, fakeRoundt);
+
+        this.app.selectDieFromRoundTracker();
+
+        assertEquals("Siamo al turno: 2", savedStream.toString().split(enter)[0]);
+        assertEquals("Turno 1 : ", savedStream.toString().split(enter)[1]);
+        assertEquals("0) 1-RED", savedStream.toString().split(enter)[2]);
+        assertEquals("Inserire il numero del round da cui si vuole estrarre il dado:", savedStream.toString().split(enter)[3]);
+        assertEquals("Opzione: ", savedStream.toString().split(enter)[4]);
+        assertEquals("Inserire il numero del dado nel round selezionato", savedStream.toString().split(enter)[5]);
+        assertEquals("Opzione: ", savedStream.toString().split(enter)[6]);
+
     }
 
     @Test
     public void testSelectFace() {
+        String message = "4" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        this.app.selectFace(new Pair<>(1, ColorModel.RED));
+
+        assertEquals("Devi selezionare il nuovo valore del dado: 1-RED", savedStream.toString().split(enter)[0]);
+        assertEquals("Inserisci nuovo valore:", savedStream.toString().split(enter)[1]);
     }
 
     @Test
     public void testSelectDieFromGridByColor() {
+        String message = "3" + enter + "2" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
+        pattern[0][0] = new Pair<>(1, ColorModel.RED);
+        Pair<Integer, ColorModel>[][] grid = new Pair[1][1];
+        grid[0][0] = new Pair<>(1, ColorModel.RED);
+
+        this.app.gridViewCreator = new CLIGridViewCreator(grid, pattern, this.app.getPrinter());
+
+        this.app.selectDieFromGridByColor(ColorModel.BLUE);
+
+        assertEquals("Seleziona un dado dalla griglia che ha colore: BLUE", savedStream.toString().split(enter)[0]);
+        assertEquals("(la numerazione sulla griglia parte da 0)", savedStream.toString().split(enter)[1]);
+
     }
 
     @Test
@@ -595,7 +886,7 @@ public class CLIAppTest {
         this.app.logoutResult(false);
         this.app.leaveMatchResult(false);
         this.app.pullLeaderBoard(null);
-        this.app.askPattern(null,null,null,null);
+        this.app.askPattern(null, null, null, null);
         this.app.initGame(null, 0, null, null, null);
         this.app.otherPlayerLeave(0);
         this.app.otherPlayerReconnection(0);

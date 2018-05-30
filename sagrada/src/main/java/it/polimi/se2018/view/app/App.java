@@ -81,9 +81,11 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      * @return the PlayerView of the wanted player
      */
     public PlayerView searchPlayerViewByName(List<PlayerView> players, String wanted) {
-        for (PlayerView player : players) {
-            if (player.getPlayerName().equals(wanted)) {
-                return player;
+        if (players != null) {
+            for (PlayerView player : players) {
+                if (player.getPlayerName().equals(wanted)) {
+                    return player;
+                }
             }
         }
         Logger.getGlobal().log(Level.WARNING, "Ci sono problemi in PlayerView");
@@ -98,9 +100,11 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      * @return the PlayerView of the wanted player
      */
     public PlayerView searchPlayerViewById(List<PlayerView> players, int wanted) {
-        for (PlayerView player : players) {
-            if (player.getPlayerID() == wanted) {
-                return player;
+        if (players != null) {
+            for (PlayerView player : players) {
+                if (player.getPlayerID() == wanted) {
+                    return player;
+                }
             }
         }
         Logger.getGlobal().log(Level.WARNING, "Ci sono problemi in PlayerView");

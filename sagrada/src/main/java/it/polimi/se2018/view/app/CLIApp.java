@@ -115,6 +115,7 @@ public class CLIApp extends App {
 
         //Save player name
         this.ownerPlayerName = name;
+        this.useRMI = isRMI;
 
         //Controller call
         this.viewActions.login(name, password, newUser, server, isRMI, objectPort, requestPort);
@@ -567,7 +568,7 @@ public class CLIApp extends App {
     public void selectDieFromGridByColor(ColorModel color) {
         //Print and read operation
         printer.print("Seleziona un dado dalla griglia che ha colore: " + color.toString());
-        printer.print("(la numerazione parte da 0)");
+        printer.print("(la numerazione sulla griglia parte da 0)");
         printer.printArray(gridViewCreator.display());
         int x = this.getCoordinateX();
         int y = this.getCoordinateY();

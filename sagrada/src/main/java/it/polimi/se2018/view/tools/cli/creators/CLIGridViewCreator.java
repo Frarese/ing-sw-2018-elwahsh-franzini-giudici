@@ -39,7 +39,7 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
         strings.add(0, "Pattern\n");
 
         if (this.grid != null) {
-            strings.add("\n Griglia\n");
+            strings.add("\nGriglia\n");
             strings.addAll(gridHelper(this.grid));
         }
 
