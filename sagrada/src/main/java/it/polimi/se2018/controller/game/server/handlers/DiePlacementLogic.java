@@ -29,8 +29,8 @@ public abstract class DiePlacementLogic {
 
         for (int i = h - 1; i <= h + 1; i++)
             for (int j = w - 1; j <= w + 1; j++) {
-                if (i >= 0 && j >= 0 && i < Grid.HEIGHT && j < Grid.WIDTH) {
-                    return  ((i != h || j != w) && g1.getDie(i, j) != null);
+                if ((i >= 0 && j >= 0 && i < Grid.HEIGHT && j < Grid.WIDTH) && ((i != h || j != w) && g1.getDie(i, j) != null) ) {
+                        return true;
                 }
             }
         return false;

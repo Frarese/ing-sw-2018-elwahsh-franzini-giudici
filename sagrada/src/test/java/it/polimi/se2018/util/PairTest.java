@@ -15,6 +15,7 @@ public class PairTest {
         assertEquals(new Integer(0),test.getSecond());
     }
 
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     @Test
     public void testEquals()
     {

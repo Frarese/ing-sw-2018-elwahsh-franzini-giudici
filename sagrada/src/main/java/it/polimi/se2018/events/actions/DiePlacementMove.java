@@ -8,26 +8,30 @@ package it.polimi.se2018.events.actions;
 public class DiePlacementMove extends PlayerMove
 {
 
-    protected int height;
-    protected int width;
+    private int height;
+    private int width;
     private int diePosition;
     private boolean colorRestriction;
     private boolean valueRestriction;
     private boolean adjacentRestriction;
 
     /**
-     * Class's construcor
+     * DiePlacementMove's constructor
      * @param h height of the placement
      * @param w width of the placement
      * @param diePosition position of the die inside teh reserve
      */
-    public DiePlacementMove(int h, int w, int diePosition, int id, String description)
+    public DiePlacementMove(int h, int w, int diePosition, int id, String description, boolean color, boolean value, boolean adjacent)
     {
         this.playerID = id;
         this.description = description;
         this.height = h;
         this.width = w;
         this.diePosition = diePosition;
+        this.colorRestriction = color;
+        this.valueRestriction = value;
+        this.adjacentRestriction = adjacent;
+
     }
 
 

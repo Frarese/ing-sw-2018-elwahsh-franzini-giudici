@@ -50,7 +50,7 @@ public class ServerController implements MatchController,Observer {
         board = new Board();
         this.round = new Round(this.players);
         this.inBus = new EventBus();
-        new Thread(inBus, "eventBus");
+        new Thread(inBus, "eventBus").start();
         this.network = network;
     }
 
@@ -60,7 +60,7 @@ public class ServerController implements MatchController,Observer {
         for(Player p: players)
         {
             if(!offlinePlayers.contains(p) && p.getName().equals(sender))
-                inBus.asynchPush((Event) req);
+                inBus.asyncPush((Event) req);
         }
     }
 
@@ -157,7 +157,7 @@ public class ServerController implements MatchController,Observer {
             if(move instanceof DiePlacementMove)
             {
                 DiePlacementMove placement = (DiePlacementMove) move;
-                new Thread(new DiePlacementHandler(round.getCurrentPlayer(),placement,board.getReserve(),round.getFirstTurn(), network),"PlacementHandler");
+                new Thread(new DiePlacementHandler(round.getCurrentPlayer(),placement,board.getReserve(),round.getFirstTurn(), network),"PlacementHandler").start();
             }
             else
             {

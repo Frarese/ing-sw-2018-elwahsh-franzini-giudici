@@ -718,7 +718,7 @@ public class CLIAppTest {
         this.app.updateReserve();
 
         assertEquals("Nuova riserva:", savedStream.toString().split(enter)[0]);
-        assertEquals("0) 1-RED", savedStream.toString().split(enter)[1]);
+        assertEquals("0) 1-RED", savedStream.toString().split("\n")[1]);
     }
 
     @Test

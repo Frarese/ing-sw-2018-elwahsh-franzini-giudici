@@ -2,6 +2,7 @@ package it.polimi.se2018.events;
 
 import java.io.Serializable;
 
+
 /**
  * Generic event
  * @author Alì El Wahsh

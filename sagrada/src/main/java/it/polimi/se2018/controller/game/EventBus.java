@@ -22,7 +22,7 @@ public class EventBus extends Observable implements  Runnable {
      * Pushes event inside the queue
      * @param event event to be pushed
      */
-    public void asynchPush(Event event)
+    public void asyncPush(Event event)
     {
         if(event != null)
             events.add(event);

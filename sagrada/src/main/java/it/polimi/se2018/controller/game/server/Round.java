@@ -22,6 +22,7 @@ public class Round {
      */
     public Round(List<Player> order)
     {
+        firstTurn = true;
         this.order.addAll(order);
         index = 0;
         roundNumber = 1;
@@ -34,10 +35,10 @@ public class Round {
     public void nextTurn()
     {
 
-        if(!firstTurn)
+        if(firstTurn)
         {
             if(index == order.size() -1) {
-                firstTurn = true;
+                firstTurn = false;
             }
             else
                 index++;
@@ -61,7 +62,7 @@ public class Round {
      */
     public Player getCurrentPlayer()
     {
-        if(index>0)
+        if(index>=0)
             return order.get(index);
         else return null;
 
