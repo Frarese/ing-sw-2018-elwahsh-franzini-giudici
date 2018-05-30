@@ -1,5 +1,7 @@
 package it.polimi.se2018.view;
 
+import java.util.Observable;
+
 /**
  * Class for View-Controller communication
  * (this class is for the Tool Card use)
@@ -7,7 +9,19 @@ package it.polimi.se2018.view;
  * @author Mathyas Giudici
  */
 
-public class ViewToolCardActions {
+public class ViewToolCardActions extends Observable {
+
+    private String ownerName;
+
+    /**
+     * Class constructor
+     * Sets player's name used in events thrown to the Controller
+     *
+     * @param ownerName contains the player's name
+     */
+    public ViewToolCardActions(String ownerName) {
+        this.ownerName = ownerName;
+    }
 
     /**
      * Communicates to the Controller the die that player selected from the Reserve
@@ -81,5 +95,14 @@ public class ViewToolCardActions {
     public void selectedDieFromGridByColor(int width, int height) {
         throw new UnsupportedOperationException();
 
+    }
+
+    /**
+     * Sets player's name used in events thrown to the Controller
+     *
+     * @param ownerName contains the player's name
+     */
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

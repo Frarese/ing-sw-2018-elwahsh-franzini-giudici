@@ -4,11 +4,9 @@ import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.observer.ReserveView;
 import it.polimi.se2018.observer.RoundTrackerView;
-import it.polimi.se2018.util.MatchIdentifier;
-import it.polimi.se2018.util.Pair;
-import it.polimi.se2018.util.PatternView;
-import it.polimi.se2018.util.ScoreEntry;
+import it.polimi.se2018.util.*;
 import it.polimi.se2018.view.ViewActions;
+import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.tools.GridViewCreator;
 import it.polimi.se2018.view.tools.cli.creators.CLIGridViewCreator;
@@ -51,6 +49,11 @@ public class CLIAppTest {
      */
 
     private class FakeViewAction extends ViewActions {
+
+        FakeViewAction(String ownerName) {
+            super(ownerName);
+        }
+
         @Override
         public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("Test", name);
@@ -88,6 +91,11 @@ public class CLIAppTest {
     }
 
     private class FakeViewAction2 extends ViewActions {
+
+        FakeViewAction2(String ownerName) {
+            super(ownerName);
+        }
+
         @Override
         public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("Test", name);
@@ -95,7 +103,8 @@ public class CLIAppTest {
             assertFalse(newUser);
             assertEquals("test", host);
             assertTrue(isRMI);
-            assertEquals(80, objectPort);
+            assertEquals(80, requestPort);
+            assertEquals(-1, objectPort);
         }
 
         @Override
@@ -111,6 +120,11 @@ public class CLIAppTest {
 
 
     private class FakeViewToolActions extends ViewToolCardActions {
+
+        FakeViewToolActions(String ownerName) {
+            super(ownerName);
+        }
+
         @Override
         public void selectedDieFromReserve(int index) {
             assertEquals(0, index);
@@ -158,12 +172,12 @@ public class CLIAppTest {
      */
 
     private void testSetApp(ViewActions fakeViewAction) {
-        this.app = new CLIApp(fakeViewAction, new FakeViewToolActions(), null);
+        this.app = new CLIApp(fakeViewAction, new FakeViewToolActions(null), new ViewMessage(null));
         this.app.animation(true);
     }
 
     private void testMenuHelper() {
-        this.app.loginResult(true);
+        this.app.loginResult(true, null);
     }
 
     /**
@@ -186,7 +200,7 @@ public class CLIAppTest {
 
     @Test
     public void testAnimation() {
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
         assertTrue(this.app.animationEnable);
     }
 
@@ -195,7 +209,7 @@ public class CLIAppTest {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
         this.app.startLogin(true);
 
         assertFalse(this.app.useRMI());
@@ -206,7 +220,7 @@ public class CLIAppTest {
         String message = "n" + enter + "Test" + enter + "test" + enter + "test" + enter + "y" + enter + "80" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction2());
+        testSetApp(new FakeViewAction2(null));
         this.app.startLogin(false);
 
         assertTrue(this.app.useRMI());
@@ -214,8 +228,8 @@ public class CLIAppTest {
 
     @Test
     public void testLoginResult() {
-        testSetApp(new FakeViewAction());
-        this.app.loginResult(true);
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
 
         assertEquals("Login riuscito con successo!" + enter, this.savedStream.toString());
     }
@@ -225,8 +239,8 @@ public class CLIAppTest {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
-        this.app.loginResult(false);
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(false, null);
         assertEquals("Login NON riuscito! Riprova.", this.savedStream.toString().split(enter)[0]);
     }
 
@@ -235,7 +249,7 @@ public class CLIAppTest {
         String message = 0 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction2());
+        testSetApp(new FakeViewAction2(null));
         this.testMenuHelper();
 
         this.app.changeLayerResult(true);
@@ -248,7 +262,7 @@ public class CLIAppTest {
         String message = 0 + enter + "n" + enter + 0 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction2());
+        testSetApp(new FakeViewAction2(null));
         this.testMenuHelper();
 
         this.app.changeLayerResult(false);
@@ -258,7 +272,7 @@ public class CLIAppTest {
 
     @Test
     public void testLeaveMatchResult() {
-        testSetApp(new FakeViewAction2());
+        testSetApp(new FakeViewAction2(null));
 
         this.app.leaveMatchResult(true);
 
@@ -270,7 +284,7 @@ public class CLIAppTest {
         String message = 0 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction2());
+        testSetApp(new FakeViewAction2(null));
         this.testMenuHelper();
 
         this.app.leaveMatchResult(false);
@@ -283,7 +297,7 @@ public class CLIAppTest {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
         this.app.logoutResult(true);
 
         assertEquals("Logout riuscito con successo!", this.savedStream.toString().split(enter)[0]);
@@ -294,7 +308,7 @@ public class CLIAppTest {
         String message = 0 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction2());
+        testSetApp(new FakeViewAction2(null));
         this.testMenuHelper();
 
         this.app.logoutResult(false);
@@ -303,20 +317,39 @@ public class CLIAppTest {
     }
 
     @Test
+    public void testCreateLobby() {
+        String message = 5 + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction2(null));
+        this.testMenuHelper();
+        this.app.createLobby();
+    }
+
+    @Test
+    public void testPullConnectedPlayers() {
+        ArrayList<ScoreEntry> arrayList = new ArrayList<>();
+        arrayList.add(0, new ScoreEntry("Test", 0, 0));
+        arrayList.add(1, new ScoreEntry("Test1", 1, 1));
+
+        testSetApp(new FakeViewAction(null));
+
+        this.app.pullConnectedPlayers(arrayList);
+
+        assertArrayEquals(arrayList.toArray(), this.app.getConnectedPlayers().toArray());
+    }
+
+    @Test
     public void testPullLeaderBoard() {
         ArrayList<ScoreEntry> arrayList = new ArrayList<>();
         arrayList.add(0, new ScoreEntry("Test", 0, 0));
         arrayList.add(1, new ScoreEntry("Test1", 1, 1));
 
-        String message = 5 + enter + "y" + enter;
-        System.setIn(new ByteArrayInputStream(message.getBytes()));
-
-        testSetApp(new FakeViewAction2());
-        this.testMenuHelper();
+        testSetApp(new FakeViewAction(null));
 
         this.app.pullLeaderBoard(arrayList);
 
-        assertArrayEquals(arrayList.toArray(),this.app.getLeaderBoard().toArray());
+        assertArrayEquals(arrayList.toArray(), this.app.getLeaderBoard().toArray());
     }
 
     @Test
@@ -324,7 +357,7 @@ public class CLIAppTest {
         MatchIdentifier matchIdentifier1 = new MatchIdentifier("TestP0", "TestP1", "TestP2", "TestP3");
         MatchIdentifier matchIdentifier2 = new MatchIdentifier("TestP0", "Test", null, null);
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         this.app.pullInvitate(matchIdentifier1);
         this.app.pullInvitate(matchIdentifier2);
@@ -339,7 +372,7 @@ public class CLIAppTest {
         String message = "1" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
         pattern[0][0] = new Pair<>(1, ColorModel.RED);
@@ -370,7 +403,7 @@ public class CLIAppTest {
         String message = "2" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
         pattern[0][0] = new Pair<>(1, ColorModel.RED);
@@ -401,7 +434,7 @@ public class CLIAppTest {
         String message = "3" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
         pattern[0][0] = new Pair<>(1, ColorModel.RED);
@@ -432,7 +465,7 @@ public class CLIAppTest {
         String message = "4" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
         pattern[0][0] = new Pair<>(1, ColorModel.RED);
@@ -463,28 +496,34 @@ public class CLIAppTest {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "4" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         List<PlayerView> players = new ArrayList<>();
-        PlayerView me = new PlayerView(true, "Test", 0, 2, new Pair[1][1], null, false, false);
-        PlayerView other = new PlayerView(true, "OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerView me = new PlayerView("Test", 0, 2, new Pair[1][1], null, false, false);
+        PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
         players.add(me);
         players.add(other);
 
-        int[] cards = new int[3];
-        cards[0] = 0;
-        cards[1] = 1;
+        List<SingleCardView> cards = new ArrayList<>();
+        cards.add(new SingleCardView(10, 1));
+        cards.add(new SingleCardView(12, 1));
 
         Pair<Integer, ColorModel>[][] fakeRoundt = new Pair[1][1];
         fakeRoundt[0][0] = new Pair<>(1, ColorModel.RED);
-        RoundTrackerView roundTracker = new RoundTrackerView(true, 0, fakeRoundt);
+        RoundTrackerView roundTracker = new RoundTrackerView(0, fakeRoundt);
 
         Pair<Integer, ColorModel>[] fakeReserve = new Pair[1];
         fakeReserve[0] = new Pair<>(1, ColorModel.RED);
-        ReserveView reserveView = new ReserveView(true, fakeReserve);
+        ReserveView reserveView = new ReserveView(fakeReserve);
 
         this.app.startLogin(false);
-        this.app.initGame(players, 1, cards, cards, roundTracker);
+        this.app.gridViewCreator.setGridPattern(new Pair[1][1]);
+        this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1,0));
+        this.app.cardViewCreator.setPublicObjectiveCards(cards);
+        this.app.cardViewCreator.setToolCards(cards);
+        this.app.roundTrackerViewCreator.setRound(0);
+        this.app.roundTrackerViewCreator.setRoundTracker(fakeRoundt);
+        this.app.initGame(players);
         this.app.startTurn(reserveView, roundTracker);
 
 
@@ -493,17 +532,17 @@ public class CLIAppTest {
         assertNotNull(this.app.getCardViewCreator());
         assertNotNull(this.app.getRoundTrackerViewCreator());
         assertNotNull(this.app.getReserveViewCreator());
-        assertEquals(1, this.app.getCardViewCreator().getPrivateObjectiveCard());
-        assertArrayEquals(cards, this.app.getCardViewCreator().getPublicObjectiveCards());
-        assertArrayEquals(cards, this.app.getCardViewCreator().getToolCards());
+        assertEquals(1, this.app.getCardViewCreator().getPrivateObjectiveCard().cardID);
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getPublicObjectiveCards().toArray());
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getToolCards().toArray());
         assertArrayEquals(fakeRoundt, this.app.getRoundTrackerViewCreator().getRoundTracker());
         assertEquals(0, this.app.getRoundTrackerViewCreator().getRound());
     }
 
     @Test
     public void testOtherPlayerLeave() {
-        testSetApp(new FakeViewAction());
-        PlayerView other = new PlayerView(true, "OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        testSetApp(new FakeViewAction(null));
+        PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
         this.app.otherPlayerLeave(1);
@@ -513,8 +552,8 @@ public class CLIAppTest {
 
     @Test
     public void testOtherPlayerReconnection() {
-        testSetApp(new FakeViewAction());
-        PlayerView other = new PlayerView(true, "OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        testSetApp(new FakeViewAction(null));
+        PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
         this.app.otherPlayerReconnection(1);
@@ -526,8 +565,8 @@ public class CLIAppTest {
         String message = "0" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
-        this.app.loginResult(true);
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
 
         this.app.setDieResult(true, null);
         assertEquals("Dado piazzato!", savedStream.toString().split(enter)[1]);
@@ -538,8 +577,8 @@ public class CLIAppTest {
         String message = "0" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
-        this.app.loginResult(true);
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
 
         this.app.setDieResult(false, "test error");
         assertEquals("Non sei riuscito a piazzare il dado: test error", savedStream.toString().split(enter)[1]);
@@ -559,8 +598,8 @@ public class CLIAppTest {
         String message = "0" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
-        this.app.loginResult(true);
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
 
         this.app.useToolCardResult(true, null);
         assertEquals("Effetto carta completato!", savedStream.toString().split(enter)[1]);
@@ -571,8 +610,8 @@ public class CLIAppTest {
         String message = "0" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
-        this.app.loginResult(true);
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
 
         this.app.useToolCardResult(false, "test error");
         assertEquals("Non sei riuscito ad usare la carta: test error", savedStream.toString().split(enter)[1]);
@@ -588,8 +627,8 @@ public class CLIAppTest {
         String message = "0" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
-        this.app.loginResult(true);
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
 
         this.app.passTurnResult(true);
         assertEquals("Turno passato con successo!", savedStream.toString().split(enter)[1]);
@@ -600,8 +639,8 @@ public class CLIAppTest {
         String message = "0" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
-        this.app.loginResult(true);
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
 
         this.app.passTurnResult(false);
         assertEquals("Non sei riuscito a passare il turno", savedStream.toString().split(enter)[1]);
@@ -616,8 +655,8 @@ public class CLIAppTest {
         String message = "0" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
-        this.app.loginResult(true);
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
 
         List<ScoreEntry> scoreEntries = new ArrayList<>();
         scoreEntries.add(new ScoreEntry("Test", 1, 1));
@@ -631,7 +670,7 @@ public class CLIAppTest {
         String message = "0" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[] reserve = new Pair[1];
         reserve[0] = new Pair<>(1, ColorModel.RED);
@@ -648,7 +687,7 @@ public class CLIAppTest {
         String message = "3" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         this.app.selectNewValueForDie(1, 3);
 
@@ -657,7 +696,7 @@ public class CLIAppTest {
 
     @Test
     public void testUpdateReserve() {
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[] reserve = new Pair[1];
         reserve[0] = new Pair<>(1, ColorModel.RED);
@@ -675,7 +714,7 @@ public class CLIAppTest {
         String message = "3" + enter + "2" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
         pattern[0][0] = new Pair<>(1, ColorModel.RED);
@@ -694,7 +733,7 @@ public class CLIAppTest {
         String message = "3" + enter + "2" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
         pattern[0][0] = new Pair<>(1, ColorModel.RED);
@@ -714,7 +753,7 @@ public class CLIAppTest {
         String message = "1" + enter + "0" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[][] fakeRoundt = new Pair[1][1];
         fakeRoundt[0][0] = new Pair<>(1, ColorModel.RED);
@@ -738,7 +777,7 @@ public class CLIAppTest {
         String message = "4" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         this.app.selectFace(new Pair<>(1, ColorModel.RED));
 
@@ -751,7 +790,7 @@ public class CLIAppTest {
         String message = "3" + enter + "2" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
         pattern[0][0] = new Pair<>(1, ColorModel.RED);
@@ -772,7 +811,7 @@ public class CLIAppTest {
         String message = "1" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
         assertEquals(1, this.app.getCoordinateX());
     }
 
@@ -781,13 +820,13 @@ public class CLIAppTest {
         String message = "1" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
         assertEquals(1, this.app.getCoordinateY());
     }
 
     @Test
     public void testGetPrinter() {
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         CLIPrinter instance = new CLIPrinter();
         Class<?> myPrinter = instance.getClass();
@@ -807,7 +846,7 @@ public class CLIAppTest {
 
     @Test
     public void testGetReader() {
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         CLIReader instance = new CLIReader(new CLIPrinter());
         Class<?> myReader = instance.getClass();
@@ -827,16 +866,16 @@ public class CLIAppTest {
 
     @Test
     public void testNoAnimation() {
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
         this.app.animation(false);
         this.app.startLogin(false);
-        this.app.loginResult(false);
+        this.app.loginResult(false, null);
         this.app.changeLayerResult(false);
         this.app.logoutResult(false);
         this.app.leaveMatchResult(false);
         this.app.pullLeaderBoard(null);
         this.app.askPattern(null, null, null, null);
-        this.app.initGame(null, 0, null, null, null);
+        this.app.initGame(null);
         this.app.otherPlayerLeave(0);
         this.app.otherPlayerReconnection(0);
         this.app.startTurn(null, null);
@@ -851,7 +890,7 @@ public class CLIAppTest {
 
     @Test
     public void testGridViewCreator() {
-        testSetApp(new FakeViewAction());
+        testSetApp(new FakeViewAction(null));
 
         Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
         pattern[0][0] = new Pair<>(1, ColorModel.RED);

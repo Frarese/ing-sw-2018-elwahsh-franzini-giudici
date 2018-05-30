@@ -3,38 +3,48 @@ package it.polimi.se2018.observer;
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 
+import java.util.Observable;
+
 /**
  * This class represents an observer of Round Tracker
  *
  * @author Mathyas Giudici
  */
 
-public class RoundTrackerView {
+public class RoundTrackerView extends Observable {
 
     /**
      * Class attributes
      */
-    private boolean hasChanged;
-
     private int round;
     private Pair<Integer, ColorModel>[][] roundTracker;
 
-    public RoundTrackerView(boolean hasChanged, int round, Pair<Integer, ColorModel>[][] roundTracker) {
-        this.hasChanged = hasChanged;
+    public RoundTrackerView(int round, Pair<Integer, ColorModel>[][] roundTracker) {
         this.round = round;
         this.roundTracker = roundTracker;
-    }
-
-    public boolean isHasChanged() {
-        return hasChanged;
+        this.uniqueNotify();
     }
 
     public int getRound() {
         return round;
     }
 
-    public Pair<Integer, ColorModel>[][] getRoundTracker() {
+    public void setRound(int round) {
+        this.round = round;
+        this.uniqueNotify();
+    }
 
+    public Pair<Integer, ColorModel>[][] getRoundTracker() {
         return roundTracker;
+    }
+
+    public void setRoundTracker(Pair<Integer, ColorModel>[][] roundTracker) {
+        this.roundTracker = roundTracker;
+        this.uniqueNotify();
+    }
+
+    private synchronized void uniqueNotify(){
+        setChanged();
+        notifyObservers(this);
     }
 }

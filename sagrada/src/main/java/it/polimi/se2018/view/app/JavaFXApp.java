@@ -111,7 +111,7 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void loginResult(boolean success) {
+    public void loginResult(boolean success, String error) {
         throw new UnsupportedOperationException();
     }
 
@@ -134,6 +134,16 @@ public class JavaFXApp extends App {
     }
 
     @Override
+    public void createLobby() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void pullConnectedPlayers(List<ScoreEntry> players) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void pullLeaderBoard(List<ScoreEntry> leaderBoard) {
         throw new UnsupportedOperationException();
 
@@ -152,7 +162,7 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void initGame(List<PlayerView> players, int yourPrivateObjectiveCard, int[] publicObjectiveCards, int[] toolCards, RoundTrackerView roundTracker) {
+    public void initGame(List<PlayerView> players) {
         throw new UnsupportedOperationException();
 
     }
@@ -270,7 +280,7 @@ public class JavaFXApp extends App {
      *
      * @param args contains the args passed at main
      */
-    public void openWindow(String[] args) {
+    private void openWindow(String[] args) {
         Application.launch(JavaFXStageProducer.class, args);
         Platform.runLater(() -> JavaFXStageProducer.setApp(this));
     }

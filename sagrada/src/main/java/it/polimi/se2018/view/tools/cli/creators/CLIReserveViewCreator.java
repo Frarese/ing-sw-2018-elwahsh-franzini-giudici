@@ -10,7 +10,16 @@ import it.polimi.se2018.view.tools.ReserveViewCreator;
  * @author Mathyas Giudici
  */
 
-public class CLIReserveViewCreator extends ReserveViewCreator<String,String> {
+public class CLIReserveViewCreator extends ReserveViewCreator<String, String> {
+
+
+    /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    public CLIReserveViewCreator() {
+        super();
+        this.dieViewCreator = new CLIDieViewCreator();
+    }
 
     /**
      * Class constructor

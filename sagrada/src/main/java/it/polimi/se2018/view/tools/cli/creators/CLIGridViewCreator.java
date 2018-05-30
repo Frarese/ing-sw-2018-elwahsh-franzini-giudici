@@ -19,10 +19,22 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
     private final CLIPrinter printer;
 
     /**
+     * Basic Class constructor that initializes elements at default value
+     *
+     * @param printer contains the CLIui printer
+     */
+    public CLIGridViewCreator(CLIPrinter printer) {
+        super();
+        this.dieViewCreator = new CLIDieViewCreator();
+        this.printer = printer;
+    }
+
+    /**
      * Class constructor
      *
      * @param grid        contains user grid
      * @param gridPattern contains user pattern
+     * @param printer     contains user CLIui printer
      */
     public CLIGridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern, CLIPrinter printer) {
         super(grid, gridPattern);

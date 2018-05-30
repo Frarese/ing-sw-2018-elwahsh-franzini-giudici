@@ -32,31 +32,33 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
     protected List<MatchIdentifier> invites;
 
+    protected List<ScoreEntry> connectedPlayers;
+
     protected List<ScoreEntry> leaderBoard;
 
     /**
      * Communication variables
      */
-    protected final ViewActions viewActions;
+    final ViewActions viewActions;
 
-    protected final ViewToolCardActions viewToolCardActions;
+    final ViewToolCardActions viewToolCardActions;
 
-    protected final MessageBox messageBox;
+    final MessageBox messageBox;
 
-    protected final ModelObserver modelObserver;
+    final ModelObserver modelObserver;
 
     /**
      * Creators components
      */
-    protected CardViewCreator cardViewCreator;
+    CardViewCreator cardViewCreator;
 
-    protected GridViewCreator gridViewCreator;
+    GridViewCreator gridViewCreator;
 
-    protected RoundTrackerViewCreator roundTrackerViewCreator;
+    RoundTrackerViewCreator roundTrackerViewCreator;
 
-    protected ReserveViewCreator reserveViewCreator;
+    ReserveViewCreator reserveViewCreator;
 
-    protected ScoreViewCreator scoreViewCreator;
+    ScoreViewCreator scoreViewCreator;
 
     /**
      * Class constructor that initializes variables to defaults values
@@ -175,5 +177,14 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     public List<ScoreEntry> getLeaderBoard() {
         return leaderBoard;
+    }
+
+    /**
+     * Getter method for connectedPlayer's list
+     *
+     * @return the connected players' list
+     */
+    public List<ScoreEntry> getConnectedPlayers() {
+        return connectedPlayers;
     }
 }

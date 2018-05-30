@@ -43,7 +43,7 @@ public class CLIPrinterTest {
     public void testPrintFail() {
         printer.print(new Exception());
 
-        assertEquals("java.lang.Exception cannot be cast to java.lang.String" + enter, savedStream.toString());
+        assertEquals("", savedStream.toString());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class CLIPrinterTest {
     public void testPrintArrayFail() {
         printer.printArray(new Exception());
 
-        assertEquals("java.lang.Exception cannot be cast to java.util.List" + enter, savedStream.toString());
+        assertEquals("", savedStream.toString());
     }
 
     @After

@@ -4,10 +4,7 @@ import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.observer.ReserveView;
 import it.polimi.se2018.observer.RoundTrackerView;
-import it.polimi.se2018.util.MatchIdentifier;
-import it.polimi.se2018.util.Pair;
-import it.polimi.se2018.util.PatternView;
-import it.polimi.se2018.util.ScoreEntry;
+import it.polimi.se2018.util.*;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
@@ -67,6 +64,12 @@ public class CLIApp extends App {
         this.invites = new ArrayList<>();
         this.commands = new ArrayList<>();
         this.gameCommands = new ArrayList<>();
+
+        //Initialize creators
+        this.cardViewCreator = new CLICardViewCreator();
+        this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
+        this.reserveViewCreator = new CLIReserveViewCreator();
+        this.gridViewCreator = new CLIGridViewCreator(printer);
     }
 
     @Override
@@ -105,16 +108,19 @@ public class CLIApp extends App {
         String server = reader.read();
         printer.print("Vuoi usare RMI connection? ");
         boolean isRMI = reader.chooseYes();
-        printer.print("Inserire object port: ");
-        int objectPort = reader.readInt();
-        int requestPort = -1;
+        printer.print("Inserire request port: ");
+        int requestPort = reader.readInt();
+        int objectPort = -1;
         if (!isRMI) {
-            printer.print("Inserire request port: ");
-            requestPort = reader.readInt();
+            printer.print("Inserire object port: ");
+            objectPort = reader.readInt();
         }
 
         //Save player name
         this.ownerPlayerName = name;
+        this.viewActions.setOwnerName(name);
+        this.viewToolCardActions.setOwnerName(name);
+        this.messageBox.setOwnerName(name);
         this.useRMI = isRMI;
 
         //Controller call
@@ -122,7 +128,7 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void loginResult(boolean success) {
+    public void loginResult(boolean success, String error) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
@@ -139,6 +145,7 @@ public class CLIApp extends App {
             this.viewActions.askLobby();
         } else {
             printer.print("Login NON riuscito! Riprova.");
+            printer.print(error);
             this.startLogin(false);
         }
     }
@@ -197,13 +204,11 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void pullLeaderBoard(List<ScoreEntry> leaderBoard) {
+    public void createLobby() {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
-
-        this.leaderBoard = leaderBoard;
 
         this.commands.add(0, new CommandCreateInvite(this));
         this.commands.add(0, new CommandAutoComplete(this));
@@ -216,11 +221,22 @@ public class CLIApp extends App {
     }
 
     @Override
+    public void pullConnectedPlayers(List<ScoreEntry> players) {
+        //Refresh connected players list
+        this.connectedPlayers = players;
+    }
+
+    @Override
+    public void pullLeaderBoard(List<ScoreEntry> leaderBoard) {
+        //Refresh leaderBoard list
+        this.leaderBoard = leaderBoard;
+    }
+
+    @Override
     public void pullInvitate(MatchIdentifier invite) {
         //Add invite add list
         this.invites.add(invite);
     }
-
 
     @Override
     public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4) {
@@ -232,16 +248,16 @@ public class CLIApp extends App {
         String favourString = " (Favori : ";
         //Show patterns
         printer.print("Carta Schema 1: " + pattern1.patternName + favourString + pattern1.favours + ")");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern1.template, this.printer);
+        this.gridViewCreator.setGridPattern(pattern1.template);
         printer.printArray(this.gridViewCreator.display());
         printer.print("Carta Schema 2: " + pattern2.patternName + favourString + pattern2.favours + ")");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern2.template, this.printer);
+        this.gridViewCreator.setGridPattern(pattern2.template);
         printer.printArray(this.gridViewCreator.display());
         printer.print("Carta Schema 3: " + pattern3.patternName + favourString + pattern3.favours + ")");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern3.template, this.printer);
+        this.gridViewCreator.setGridPattern(pattern3.template);
         printer.printArray(this.gridViewCreator.display());
         printer.print("Carta Schema 4: " + pattern4.patternName + favourString + pattern4.favours + ")");
-        this.gridViewCreator = new CLIGridViewCreator(null, pattern4.template, this.printer);
+        this.gridViewCreator.setGridPattern(pattern4.template);
         printer.printArray(this.gridViewCreator.display());
 
         //Ask pattern
@@ -265,7 +281,7 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void initGame(List<PlayerView> players, int yourPrivateObjectiveCard, int[] publicObjectiveCards, int[] toolCards, RoundTrackerView roundTracker) {
+    public void initGame(List<PlayerView> players) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
@@ -278,29 +294,27 @@ public class CLIApp extends App {
         this.commands.add(new CommandLogout(this));
         this.commands.add(new CommandChangeLayer(this));
 
-        //Initialize elements
+        //Players initialization
         this.players = players;
-        this.cardViewCreator = new CLICardViewCreator(yourPrivateObjectiveCard, publicObjectiveCards, toolCards);
-        this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator(roundTracker.getRound(), roundTracker.getRoundTracker());
-        this.reserveViewCreator = new CLIReserveViewCreator(null);
 
         PlayerView me = searchPlayerViewByName(players, this.ownerPlayerName);
         if (me != null) {
             this.ownerPlayerID = me.getPlayerID();
-            this.gridViewCreator = new CLIGridViewCreator(me.getPlayerGrid(), me.getPlayerTemplate(), this.printer);
         }
         this.isYourTurn = false;
 
         //Print cards
         printer.print("Carta obiettivo privato: ");
-        printer.print(this.cardViewCreator.makeCard(this.cardViewCreator.getPrivateObjectiveCard()));
+        printer.print(this.cardViewCreator.makeCard(this.cardViewCreator.getPrivateObjectiveCard().cardID));
         printer.print("Carte obiettivo pubblico: ");
-        for (int el : this.cardViewCreator.getPublicObjectiveCards()) {
-            this.cardViewCreator.makeCard(el);
+        for (int i = 0; i < this.cardViewCreator.getPublicObjectiveCards().size(); i++) {
+            SingleCardView el = (SingleCardView) this.cardViewCreator.getPublicObjectiveCards().get(i);
+            this.cardViewCreator.makeCard(el.cardID);
         }
         printer.print("Carte utensili: ");
-        for (int el : this.cardViewCreator.getToolCards()) {
-            this.cardViewCreator.makeCard(el);
+        for (int i = 0; i < this.cardViewCreator.getToolCards().size(); i++) {
+            SingleCardView el = (SingleCardView) this.cardViewCreator.getToolCards().get(i);
+            this.cardViewCreator.makeCard(el.cardID);
         }
         //Print Grid
         printer.print("La tua griglia:");
@@ -637,10 +651,10 @@ public class CLIApp extends App {
         this.gameCommands.add(new CommandShowFavours(this));
         this.gameCommands.add(new CommandShowRoundTracker(this));
 
-        if (me.hasPlacementRights()) {
+        if (me.isPlacementRights()) {
             this.gameCommands.add(new CommandAddDie(this));
         }
-        if (me.hasCardRights()) {
+        if (me.isCardRights()) {
             this.gameCommands.add(new CommandUseTool(this));
         }
 

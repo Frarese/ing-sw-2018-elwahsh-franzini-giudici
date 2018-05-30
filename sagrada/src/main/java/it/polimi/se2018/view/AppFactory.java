@@ -23,9 +23,9 @@ public class AppFactory {
      */
     public AppFactory(boolean useGui, String[] mainArgs) {
         if (useGui) {
-            this.app = new JavaFXApp(new ViewActions(), new ViewToolCardActions(), new ViewMessage(), mainArgs);
+            this.app = new JavaFXApp(new ViewActions(null), new ViewToolCardActions(null), new ViewMessage(null), mainArgs);
         } else {
-            this.app = new CLIApp(new ViewActions(), new ViewToolCardActions(), new ViewMessage());
+            this.app = new CLIApp(new ViewActions(null), new ViewToolCardActions(null), new ViewMessage(null));
         }
     }
 

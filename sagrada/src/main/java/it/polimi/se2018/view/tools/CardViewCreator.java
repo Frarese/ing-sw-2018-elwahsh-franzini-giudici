@@ -1,6 +1,9 @@
 package it.polimi.se2018.view.tools;
 
 import it.polimi.se2018.util.CardIdentifier;
+import it.polimi.se2018.util.SingleCardView;
+
+import java.util.List;
 
 /**
  * Class to define CardViewCreator's Object
@@ -11,9 +14,19 @@ import it.polimi.se2018.util.CardIdentifier;
 public abstract class CardViewCreator<E> {
 
     protected final CardIdentifier cardIdentifier;
-    protected final int privateObjectiveCard;
-    protected final int[] publicObjectiveCards;
-    protected final int[] toolCards;
+    protected SingleCardView privateObjectiveCard;
+    protected List<SingleCardView> publicObjectiveCards;
+    protected List<SingleCardView> toolCards;
+
+    /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    protected CardViewCreator() {
+        this.privateObjectiveCard = null;
+        this.publicObjectiveCards = null;
+        this.toolCards = null;
+        this.cardIdentifier = new CardIdentifier();
+    }
 
     /**
      * Class constructor
@@ -22,7 +35,7 @@ public abstract class CardViewCreator<E> {
      * @param publicObjectiveCards contains the public objectives
      * @param toolCards            contains the tool cards
      */
-    protected CardViewCreator(int privateObjectiveCard, int[] publicObjectiveCards, int[] toolCards) {
+    protected CardViewCreator(SingleCardView privateObjectiveCard, List<SingleCardView> publicObjectiveCards, List<SingleCardView> toolCards) {
         this.privateObjectiveCard = privateObjectiveCard;
         this.publicObjectiveCards = publicObjectiveCards;
         this.toolCards = toolCards;
@@ -37,15 +50,27 @@ public abstract class CardViewCreator<E> {
      */
     public abstract E makeCard(int cardID);
 
-    public int getPrivateObjectiveCard() {
+    public SingleCardView getPrivateObjectiveCard() {
         return privateObjectiveCard;
     }
 
-    public int[] getPublicObjectiveCards() {
+    public void setPrivateObjectiveCard(SingleCardView privateObjectiveCard) {
+        this.privateObjectiveCard = privateObjectiveCard;
+    }
+
+    public List<SingleCardView> getPublicObjectiveCards() {
         return publicObjectiveCards;
     }
 
-    public int[] getToolCards() {
+    public void setPublicObjectiveCards(List<SingleCardView> publicObjectiveCards) {
+        this.publicObjectiveCards = publicObjectiveCards;
+    }
+
+    public List<SingleCardView> getToolCards() {
         return toolCards;
+    }
+
+    public void setToolCards(List<SingleCardView> toolCards) {
+        this.toolCards = toolCards;
     }
 }

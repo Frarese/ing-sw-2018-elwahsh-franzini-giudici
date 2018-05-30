@@ -88,7 +88,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
                 return new ListCell<ImageView>() {
                     private ImageView imageView;
 
-                    public void initialize() {
+                    void initialize() {
                         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                         imageView = new ImageView();
                     }

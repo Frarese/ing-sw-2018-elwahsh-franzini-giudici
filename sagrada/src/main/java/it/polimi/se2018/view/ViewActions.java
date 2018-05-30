@@ -1,7 +1,10 @@
 package it.polimi.se2018.view;
 
+import it.polimi.se2018.events.actions.DiePlacementMove;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.PatternView;
+
+import java.util.Observable;
 
 /**
  * Class for View-Controller communication
@@ -9,7 +12,19 @@ import it.polimi.se2018.util.PatternView;
  * @author Mathyas Giudici
  */
 
-public class ViewActions {
+public class ViewActions extends Observable {
+
+    private String ownerName;
+
+    /**
+     * Class constructor
+     * Sets player's name used in events thrown to the Controller
+     *
+     * @param ownerName contains the player's name
+     */
+    public ViewActions(String ownerName) {
+        this.ownerName = ownerName;
+    }
 
     /**
      * Tries login operation to the server
@@ -116,8 +131,9 @@ public class ViewActions {
      * @param width        contains width on the grid
      */
     public void setDie(int reserveIndex, int height, int width) {
-        throw new UnsupportedOperationException();
-
+        setChanged();
+        //TODO: fix id with String Player ID not with current Int PlayerID
+        notifyObservers(new DiePlacementMove(height, width, reserveIndex, 0, "Giocatore piazza dado", true, true, true));
     }
 
     /**
@@ -136,5 +152,15 @@ public class ViewActions {
     public void passTurn() {
         throw new UnsupportedOperationException();
 
+    }
+
+
+    /**
+     * Sets player's name used in events thrown to the Controller
+     *
+     * @param ownerName contains the player's name
+     */
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

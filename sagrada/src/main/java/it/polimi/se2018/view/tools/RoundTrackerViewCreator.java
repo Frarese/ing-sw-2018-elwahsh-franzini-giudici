@@ -18,12 +18,21 @@ public abstract class RoundTrackerViewCreator<E> {
     protected Pair<Integer, ColorModel>[][] roundTracker;
 
     /**
+     * Basic Class constructor that initializes elements at default value
+     *
+     */
+    protected RoundTrackerViewCreator() {
+        this.round = -1;
+        this.roundTracker = null;
+    }
+
+    /**
      * Class constructor
      *
      * @param round        contains the round
      * @param roundTracker contains the round tracker
      */
-    public RoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] roundTracker) {
+    protected RoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] roundTracker) {
         this.round = round;
         this.roundTracker = roundTracker;
     }
@@ -40,7 +49,7 @@ public abstract class RoundTrackerViewCreator<E> {
      *
      * @return the current round
      */
-    public int getRound() {
+    public synchronized int getRound() {
         return round;
     }
 
@@ -49,7 +58,7 @@ public abstract class RoundTrackerViewCreator<E> {
      *
      * @param round contains the round to set
      */
-    public void setRound(int round) {
+    public synchronized void setRound(int round) {
         this.round = round;
     }
 
@@ -58,7 +67,7 @@ public abstract class RoundTrackerViewCreator<E> {
      *
      * @return the round tracker
      */
-    public Pair<Integer, ColorModel>[][] getRoundTracker() {
+    public synchronized Pair<Integer, ColorModel>[][] getRoundTracker() {
         return roundTracker;
     }
 
@@ -67,7 +76,7 @@ public abstract class RoundTrackerViewCreator<E> {
      *
      * @param roundTracker contains the round tracker to set
      */
-    public void setRoundTracker(Pair<Integer, ColorModel>[][] roundTracker) {
+    public synchronized void setRoundTracker(Pair<Integer, ColorModel>[][] roundTracker) {
         this.roundTracker = roundTracker;
     }
 }

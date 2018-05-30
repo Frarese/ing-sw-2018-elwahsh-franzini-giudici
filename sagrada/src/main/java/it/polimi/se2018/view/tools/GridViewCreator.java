@@ -15,8 +15,15 @@ public abstract class GridViewCreator<E, V> {
 
     protected Pair<Integer, ColorModel>[][] grid;
 
-    protected final Pair<Integer, ColorModel>[][] gridPattern;
+    protected Pair<Integer, ColorModel>[][] gridPattern;
 
+    /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    protected GridViewCreator() {
+        this.grid = null;
+        this.gridPattern = null;
+    }
 
     /**
      * Class constructor
@@ -24,7 +31,7 @@ public abstract class GridViewCreator<E, V> {
      * @param grid        contains user grid
      * @param gridPattern contains user pattern
      */
-    public GridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern) {
+    protected GridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern) {
         this.grid = grid;
         this.gridPattern = gridPattern;
     }
@@ -59,7 +66,7 @@ public abstract class GridViewCreator<E, V> {
      *
      * @return the grid
      */
-    public Pair<Integer, ColorModel>[][] getGrid() {
+    public synchronized Pair<Integer, ColorModel>[][] getGrid() {
         return grid;
     }
 
@@ -68,7 +75,25 @@ public abstract class GridViewCreator<E, V> {
      *
      * @param grid contains the grid to set
      */
-    public void setGrid(Pair<Integer, ColorModel>[][] grid) {
+    public synchronized void setGrid(Pair<Integer, ColorModel>[][] grid) {
         this.grid = grid;
+    }
+
+    /**
+     * Getter for Grid's pattern
+     *
+     * @return the grid's pattern
+     */
+    public synchronized Pair<Integer, ColorModel>[][] getGridPattern() {
+        return gridPattern;
+    }
+
+    /**
+     * Setter for Grid's pattern
+     *
+     * @param gridPattern contains the grid's pattern to set
+     */
+    public synchronized void setGridPattern(Pair<Integer, ColorModel>[][] gridPattern) {
+        this.gridPattern = gridPattern;
     }
 }

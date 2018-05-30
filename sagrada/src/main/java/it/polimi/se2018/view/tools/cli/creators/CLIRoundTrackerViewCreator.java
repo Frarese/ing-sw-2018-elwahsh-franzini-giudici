@@ -16,6 +16,14 @@ import java.util.List;
 public class CLIRoundTrackerViewCreator extends RoundTrackerViewCreator<List<String>> {
 
     /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    public CLIRoundTrackerViewCreator() {
+        super();
+        this.dieViewCreator = new CLIDieViewCreator();
+    }
+
+    /**
      * Class constructor
      *
      * @param round        contains the round

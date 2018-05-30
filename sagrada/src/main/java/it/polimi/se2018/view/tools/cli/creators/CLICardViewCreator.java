@@ -1,7 +1,9 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
+import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.tools.CardViewCreator;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,34 +16,42 @@ import java.util.logging.Logger;
 public class CLICardViewCreator extends CardViewCreator<String> {
 
     /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    public CLICardViewCreator() {
+        super();
+    }
+
+    /**
      * Class constructor
      *
      * @param privateObjectiveCard contains the private objective
      * @param publicObjectiveCards contains the public objectives
      * @param toolCards            contains the tool cards
      */
-    public CLICardViewCreator(int privateObjectiveCard, int[] publicObjectiveCards, int[] toolCards) {
+    public CLICardViewCreator(SingleCardView privateObjectiveCard, List<SingleCardView> publicObjectiveCards, List<SingleCardView> toolCards) {
         super(privateObjectiveCard, publicObjectiveCards, toolCards);
     }
 
     @Override
     public String makeCard(int cardID) {
         //Check private objective card
-        if (cardID == privateObjectiveCard) {
+        if (cardID == privateObjectiveCard.cardID) {
             return this.cardIdentifier.getCardInfo(cardID);
         }
 
         //Check public objective cards
-        for (int publicObjectiveCard : this.publicObjectiveCards)
-            if (cardID == publicObjectiveCard) {
+        for (SingleCardView publicObjectiveCard : this.publicObjectiveCards) {
+            if (cardID == publicObjectiveCard.cardID) {
                 return this.cardIdentifier.getCardInfo(cardID);
             }
-
+        }
         //Check tool cards
-        for (int toolCards : this.toolCards)
-            if (cardID == toolCards) {
+        for (SingleCardView toolCard : this.toolCards) {
+            if (cardID == toolCard.cardID) {
                 return this.cardIdentifier.getCardInfo(cardID);
             }
+        }
 
         //Problems
         String message = "Qualcosa non va nella creazione ne della carta: " + cardID;

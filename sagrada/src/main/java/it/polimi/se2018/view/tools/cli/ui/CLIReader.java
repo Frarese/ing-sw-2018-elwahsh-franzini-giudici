@@ -14,7 +14,7 @@ public class CLIReader {
 
     private final CLIPrinter printer;
 
-    private final String globalErrorMessage = "Risposta non valida, riprovare";
+    private static final String ERROR_MESSAGE = "Risposta non valida, riprovare";
 
     /**
      * Class constructor
@@ -75,7 +75,7 @@ public class CLIReader {
                 return false;
             } else {
                 //Invalid option, recall
-                printer.print(globalErrorMessage);
+                printer.print(ERROR_MESSAGE);
                 scanner.nextLine();
                 return chooseYes();
             }
@@ -101,7 +101,7 @@ public class CLIReader {
             return response;
         } else {
             //Invalid option, recall
-            printer.print(globalErrorMessage);
+            printer.print(ERROR_MESSAGE);
             scanner.nextLine();
             return chooseInRange(minValue, maxValue);
         }
@@ -125,7 +125,7 @@ public class CLIReader {
             return response;
         } else {
             //Invalid option, recall
-            printer.print(globalErrorMessage);
+            printer.print(ERROR_MESSAGE);
             scanner.nextLine();
             return chooseInRange(low, high);
         }

@@ -9,18 +9,25 @@ import it.polimi.se2018.util.Pair;
  * @author Mathyas Giudici
  */
 
-public abstract class ReserveViewCreator<V,E> {
+public abstract class ReserveViewCreator<V, E> {
 
     protected DieViewCreator dieViewCreator;
 
     protected Pair<Integer, ColorModel>[] reserve;
 
     /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    protected ReserveViewCreator() {
+        this.reserve = null;
+    }
+
+    /**
      * Class constructor
      *
      * @param reserve contains the reserve
      */
-    public ReserveViewCreator(Pair<Integer, ColorModel>[] reserve) {
+    protected ReserveViewCreator(Pair<Integer, ColorModel>[] reserve) {
         this.reserve = reserve;
     }
 
@@ -44,7 +51,7 @@ public abstract class ReserveViewCreator<V,E> {
      *
      * @return the reserve
      */
-    public Pair<Integer, ColorModel>[] getReserve() {
+    public synchronized Pair<Integer, ColorModel>[] getReserve() {
         return reserve;
     }
 
@@ -53,7 +60,7 @@ public abstract class ReserveViewCreator<V,E> {
      *
      * @param reserve contains the reserve to set
      */
-    public void setReserve(Pair<Integer, ColorModel>[] reserve) {
+    public synchronized void setReserve(Pair<Integer, ColorModel>[] reserve) {
         this.reserve = reserve;
     }
 }

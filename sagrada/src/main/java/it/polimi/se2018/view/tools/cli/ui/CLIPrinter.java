@@ -2,6 +2,8 @@ package it.polimi.se2018.view.tools.cli.ui;
 
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class to handle print in console
@@ -30,11 +32,11 @@ public class CLIPrinter {
         String message;
         try {
             message = (String) input;
+            printWriter.println(message);
+            printWriter.flush();
         } catch (Exception e) {
-            message = e.getMessage();
+            Logger.getGlobal().log(Level.WARNING, e.getMessage());
         }
-        printWriter.println(message);
-        printWriter.flush();
     }
 
     /**
@@ -49,7 +51,7 @@ public class CLIPrinter {
             array = (List<String>) input;
             array.forEach(this::print);
         } catch (Exception e) {
-            print(e.getMessage());
+            Logger.getGlobal().log(Level.WARNING, e.getMessage());
         }
     }
 

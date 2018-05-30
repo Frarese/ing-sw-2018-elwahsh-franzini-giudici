@@ -1,9 +1,13 @@
 package it.polimi.se2018.view.tools.fx.creators;
 
+import it.polimi.se2018.util.SingleCardView;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -23,7 +27,7 @@ public class FXCardViewCreatorTest {
 
     @Test
     public void testMakePrivateObjCard() {
-        FXCardViewCreator cardViewCreator = new FXCardViewCreator(1, null, null);
+        FXCardViewCreator cardViewCreator = new FXCardViewCreator(new SingleCardView(1, 1), null, null);
         Image card = cardViewCreator.makeCard(1);
         Image aspect = new Image("/it/polimi/se2018/view/images/private_cards/privateObjective1.jpg");
 
@@ -41,10 +45,11 @@ public class FXCardViewCreatorTest {
 
     @Test
     public void testMakePublicObjCard() {
-        int[] po = new int[3];
-        po[0] = 15;
-        po[1] = 11;
-        FXCardViewCreator cardViewCreator = new FXCardViewCreator(1, po, null);
+        List<SingleCardView> publicCards = new ArrayList<>();
+        publicCards.add(new SingleCardView(10, 1));
+        publicCards.add(new SingleCardView(11, 1));
+
+        FXCardViewCreator cardViewCreator = new FXCardViewCreator(new SingleCardView(1,1), publicCards, null);
         Image card = cardViewCreator.makeCard(11);
         Image aspect = new Image("/it/polimi/se2018/view/images/public_cards/publicObjective1.jpg");
 
@@ -62,12 +67,15 @@ public class FXCardViewCreatorTest {
 
     @Test
     public void testMakeToolCard() {
-        int[] po = new int[1];
-        po[0] = 10;
-        int[] tool = new int[3];
-        tool[0] = 25;
-        tool[1] = 21;
-        FXCardViewCreator cardViewCreator = new FXCardViewCreator(1, po, tool);
+        List<SingleCardView> publicCards = new ArrayList<>();
+        publicCards.add(new SingleCardView(10, 1));
+        publicCards.add(new SingleCardView(11, 1));
+
+        List<SingleCardView> toolCards = new ArrayList<>();
+        toolCards.add(new SingleCardView(21, 1));
+        toolCards.add(new SingleCardView(25, 1));
+
+        FXCardViewCreator cardViewCreator = new FXCardViewCreator(new SingleCardView(1, 1), publicCards, toolCards);
         Image card = cardViewCreator.makeCard(21);
         Image aspect = new Image("/it/polimi/se2018/view/images/tool_cards/toolCard1.jpg");
 
@@ -85,12 +93,15 @@ public class FXCardViewCreatorTest {
 
     @Test
     public void testMakeFail() {
-        int[] po = new int[1];
-        int[] tool = new int[1];
-        po[0] = 10;
-        tool[0] = 25;
-        FXCardViewCreator cardViewCreator = new FXCardViewCreator(1, po, tool);
-        
+        List<SingleCardView> publicCards = new ArrayList<>();
+        publicCards.add(new SingleCardView(10, 1));
+        publicCards.add(new SingleCardView(11, 1));
+
+        List<SingleCardView> toolCards = new ArrayList<>();
+        toolCards.add(new SingleCardView(21, 1));
+        toolCards.add(new SingleCardView(25, 1));
+        FXCardViewCreator cardViewCreator = new FXCardViewCreator(new SingleCardView(1, 1), publicCards, toolCards);
+
         assertNull(cardViewCreator.makeCard(32));
     }
 }

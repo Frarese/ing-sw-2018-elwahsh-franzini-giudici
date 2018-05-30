@@ -36,8 +36,9 @@ public interface ControllerActionsInterface {
      * Communicates if login has success
      *
      * @param success represents the response
+     * @param error   contains error message
      */
-    void loginResult(boolean success);
+    void loginResult(boolean success, String error);
 
     /**
      * Communicates if layer has changed
@@ -61,7 +62,21 @@ public interface ControllerActionsInterface {
     void logoutResult(boolean success);
 
     /**
-     * After a askLobby() request Controller returns to View the leaderBoard
+     * Lobby creation in View:
+     * before method'call better if {@link #pullConnectedPlayers(List)} and {@link #pullLeaderBoard(List)}
+     * have been called
+     */
+    void createLobby();
+
+    /**
+     * Updates View current connected players in lobby
+     *
+     * @param players contains the connected players
+     */
+    void pullConnectedPlayers(List<ScoreEntry> players);
+
+    /**
+     * Updates View current leader board in lobby
      *
      * @param leaderBoard contains the leaderBoard ordinated
      */
@@ -76,7 +91,8 @@ public interface ControllerActionsInterface {
 
     /**
      * Before game starts player has to choose a pattern
-     *  @param pattern1 first pattern
+     *
+     * @param pattern1 first pattern
      * @param pattern2 second patter
      * @param pattern3 third patter
      * @param pattern4 fourth pattern
@@ -86,13 +102,9 @@ public interface ControllerActionsInterface {
     /**
      * View's method to initialize a game
      *
-     * @param players                  contains game's players
-     * @param yourPrivateObjectiveCard contains localPlayer's private objective card
-     * @param publicObjectiveCards     contains public objective cards
-     * @param toolCards                contains tool cards
-     * @param roundTracker             contains game's round tracker
+     * @param players contains game's players
      */
-    void initGame(List<PlayerView> players, int yourPrivateObjectiveCard, int[] publicObjectiveCards, int[] toolCards, RoundTrackerView roundTracker);
+    void initGame(List<PlayerView> players);
 
     /**
      * Communicates to player when another player has left the match
@@ -110,7 +122,8 @@ public interface ControllerActionsInterface {
 
     /**
      * Communicates a player's turn start
-     *  @param reserve      contains a ReserveView object
+     *
+     * @param reserve      contains a ReserveView object
      * @param roundTracker contains a RoundTrackerView object
      */
     void startTurn(ReserveView reserve, RoundTrackerView roundTracker);
