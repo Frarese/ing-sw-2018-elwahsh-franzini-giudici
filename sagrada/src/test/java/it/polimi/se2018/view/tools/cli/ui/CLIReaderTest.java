@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Tests for CLIReader class
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIReaderTest {
 
-    private String enter = System.lineSeparator();
+    private final String enter = System.lineSeparator();
 
     private CLIReader cliReader;
 
@@ -68,7 +68,7 @@ public class CLIReaderTest {
         this.cliReader = new CLIReader(this.cliPrinter);
         boolean returnValue = this.cliReader.chooseYes();
 
-        assertEquals(true, returnValue);
+        assertTrue(returnValue);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class CLIReaderTest {
         this.cliReader = new CLIReader(this.cliPrinter);
         boolean returnValue = this.cliReader.chooseYes();
 
-        assertEquals(false, returnValue);
+        assertFalse(returnValue);
     }
 
 

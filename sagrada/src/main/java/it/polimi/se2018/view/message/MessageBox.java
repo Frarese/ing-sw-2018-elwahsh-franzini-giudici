@@ -12,7 +12,7 @@ import it.polimi.se2018.view.ViewMessage;
 
 public class MessageBox implements ControllerMessage {
 
-    private ViewMessage viewMessage;
+    private final ViewMessage viewMessage;
 
 
     /**

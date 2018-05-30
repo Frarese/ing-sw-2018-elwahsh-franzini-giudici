@@ -15,7 +15,7 @@ public abstract class GridViewCreator<E, V> {
 
     protected Pair<Integer, ColorModel>[][] grid;
 
-    protected Pair<Integer, ColorModel>[][] gridPattern;
+    protected final Pair<Integer, ColorModel>[][] gridPattern;
 
 
     /**

@@ -10,11 +10,11 @@ import java.util.Scanner;
 
 public class CLIReader {
 
-    private Scanner scanner;
+    private final Scanner scanner;
 
-    private CLIPrinter printer;
+    private final CLIPrinter printer;
 
-    private String globalErrorMessage = "Risposta non valida, riprovare";
+    private final String globalErrorMessage = "Risposta non valida, riprovare";
 
     /**
      * Class constructor

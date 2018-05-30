@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIPrinterTest {
 
-    private String enter = System.lineSeparator();
+    private final String enter = System.lineSeparator();
 
     private CLIPrinter printer;
 

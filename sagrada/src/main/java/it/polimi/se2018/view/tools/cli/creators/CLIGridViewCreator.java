@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
 
-    private CLIPrinter printer;
+    private final CLIPrinter printer;
 
     /**
      * Class constructor

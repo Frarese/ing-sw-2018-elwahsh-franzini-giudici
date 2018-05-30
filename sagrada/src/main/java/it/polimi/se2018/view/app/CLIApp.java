@@ -38,10 +38,10 @@ public class CLIApp extends App {
     private boolean isYourTurn;
 
 
-    private CLIPrinter printer;
-    private CLIReader reader;
-    private ArrayList<CLICommand> commands;
-    private ArrayList<CLICommand> gameCommands;
+    private final CLIPrinter printer;
+    private final CLIReader reader;
+    private final ArrayList<CLICommand> commands;
+    private final ArrayList<CLICommand> gameCommands;
 
     /**
      * Class constructor that creates CLICreators' objects and CLIui' objects

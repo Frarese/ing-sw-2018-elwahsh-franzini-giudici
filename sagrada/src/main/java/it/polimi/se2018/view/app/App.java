@@ -37,13 +37,13 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     /**
      * Communication variables
      */
-    protected ViewActions viewActions;
+    protected final ViewActions viewActions;
 
-    protected ViewToolCardActions viewToolCardActions;
+    protected final ViewToolCardActions viewToolCardActions;
 
-    protected MessageBox messageBox;
+    protected final MessageBox messageBox;
 
-    protected ModelObserver modelObserver;
+    protected final ModelObserver modelObserver;
 
     /**
      * Creators components
@@ -82,11 +82,8 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     public PlayerView searchPlayerViewByName(List<PlayerView> players, String wanted) {
         if (players != null) {
-            for (PlayerView player : players) {
-                if (player.getPlayerName().equals(wanted)) {
-                    return player;
-                }
-            }
+            for (PlayerView player : players)
+                if (player.getPlayerName().equals(wanted)) return player;
         }
         Logger.getGlobal().log(Level.WARNING, "Ci sono problemi in PlayerView");
         return null;
@@ -101,11 +98,8 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     public PlayerView searchPlayerViewById(List<PlayerView> players, int wanted) {
         if (players != null) {
-            for (PlayerView player : players) {
-                if (player.getPlayerID() == wanted) {
-                    return player;
-                }
-            }
+            for (PlayerView player : players)
+                if (player.getPlayerID() == wanted) return player;
         }
         Logger.getGlobal().log(Level.WARNING, "Ci sono problemi in PlayerView");
         return null;

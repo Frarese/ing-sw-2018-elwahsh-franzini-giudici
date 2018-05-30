@@ -1,8 +1,13 @@
 package it.polimi.se2018.view.app;
 
+import it.polimi.se2018.util.MatchIdentifier;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNull;
 
 public class AppTest {
@@ -25,15 +30,15 @@ public class AppTest {
     }
 
     @Test
-    public void testGetGridViewCreator() {
-    }
-
-    @Test
     public void testGetInvites() {
-    }
+        List<MatchIdentifier> invites = new ArrayList<>();
+        invites.add(new MatchIdentifier("test1","test2",null,null));
+        invites.add(new MatchIdentifier("test4","test3",null,null));
 
-    @Test
-    public void testGetLeaderBoard() {
 
+        cliApp.pullInvitate(new MatchIdentifier("test1","test2",null,null));
+        cliApp.pullInvitate(new MatchIdentifier("test4","test3",null,null));
+
+        assertArrayEquals(invites.toArray(), cliApp.getInvites().toArray());
     }
 }

@@ -10,10 +10,10 @@ import it.polimi.se2018.util.CardIdentifier;
 
 public abstract class CardViewCreator<E> {
 
-    protected CardIdentifier cardIdentifier;
-    protected int privateObjectiveCard;
-    protected int[] publicObjectiveCards;
-    protected int[] toolCards;
+    protected final CardIdentifier cardIdentifier;
+    protected final int privateObjectiveCard;
+    protected final int[] publicObjectiveCards;
+    protected final int[] toolCards;
 
     /**
      * Class constructor
@@ -22,7 +22,7 @@ public abstract class CardViewCreator<E> {
      * @param publicObjectiveCards contains the public objectives
      * @param toolCards            contains the tool cards
      */
-    public CardViewCreator(int privateObjectiveCard, int[] publicObjectiveCards, int[] toolCards) {
+    protected CardViewCreator(int privateObjectiveCard, int[] publicObjectiveCards, int[] toolCards) {
         this.privateObjectiveCard = privateObjectiveCard;
         this.publicObjectiveCards = publicObjectiveCards;
         this.toolCards = toolCards;

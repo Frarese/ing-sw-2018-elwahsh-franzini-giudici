@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIReserveViewCreatorTest {
 
-    private String enter = System.lineSeparator();
+    private final String enter = System.lineSeparator();
 
     private Pair<Integer, ColorModel>[] reserve;
 

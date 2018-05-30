@@ -24,7 +24,7 @@ public class CommandShowInvites extends CLICommand {
                 list.append(this.app.getInvites().get(i).player2).append(" ,");
             }
 
-            this.app.getPrinter().print(i + ") " + list.toString());
+            this.app.getPrinter().print(i + ") " + list);
         }
         //Call menu method
         this.app.menu();

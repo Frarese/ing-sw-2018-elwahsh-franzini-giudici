@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CLIPrinter {
 
-    private PrintWriter printWriter;
+    private final PrintWriter printWriter;
 
     /**
      * Class constructor

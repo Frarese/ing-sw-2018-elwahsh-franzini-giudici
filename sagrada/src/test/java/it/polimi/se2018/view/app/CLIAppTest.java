@@ -10,6 +10,7 @@ import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewToolCardActions;
+import it.polimi.se2018.view.tools.GridViewCreator;
 import it.polimi.se2018.view.tools.cli.creators.CLIGridViewCreator;
 import it.polimi.se2018.view.tools.cli.creators.CLIReserveViewCreator;
 import it.polimi.se2018.view.tools.cli.creators.CLIRoundTrackerViewCreator;
@@ -37,7 +38,7 @@ import static org.junit.Assert.*;
 
 public class CLIAppTest {
 
-    private String enter = System.lineSeparator();
+    private final String enter = System.lineSeparator();
 
     private ByteArrayOutputStream savedStream;
 
@@ -315,11 +316,7 @@ public class CLIAppTest {
 
         this.app.pullLeaderBoard(arrayList);
 
-        for (int i = 0; i < arrayList.size(); i++) {
-            assertEquals(arrayList.get(i).usn, this.app.leaderBoard.get(i).usn);
-            assertEquals(arrayList.get(i).wins, this.app.leaderBoard.get(i).wins);
-            assertEquals(arrayList.get(i).tot, this.app.leaderBoard.get(i).tot);
-        }
+        assertArrayEquals(arrayList.toArray(),this.app.getLeaderBoard().toArray());
     }
 
     @Test
@@ -352,32 +349,20 @@ public class CLIAppTest {
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
         PatternView pattern4 = new PatternView("Test4", 4, pattern);
 
-        StringBuilder result = new StringBuilder();
-        result.append("Carta Schema 1: Test1 (Favori : 1)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 2: Test2 (Favori : 2)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 3: Test3 (Favori : 3)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 4: Test4 (Favori : 4)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Opzione: " + enter);
-
         this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
 
-        assertEquals(result.toString(), savedStream.toString());
+        String result = "Carta Schema 1: Test1 (Favori : 1)" + enter + "Pattern\n" + enter +
+                "--------------------" + enter + "|1-RED   ||1-RED   |" + enter +
+                "--------------------" + enter + "Carta Schema 2: Test2 (Favori : 2)" +
+                enter + "Pattern\n" + enter + "--------------------" +
+                enter + "|1-RED   ||1-RED   |" + enter + "--------------------" +
+                enter + "Carta Schema 3: Test3 (Favori : 3)" + enter + "Pattern\n" +
+                enter + "--------------------" + enter + "|1-RED   ||1-RED   |" +
+                enter + "--------------------" + enter + "Carta Schema 4: Test4 (Favori : 4)" +
+                enter + "Pattern\n" + enter + "--------------------" + enter +
+                "|1-RED   ||1-RED   |" + enter + "--------------------" + enter +
+                "Opzione: " + enter;
+        assertEquals(result, savedStream.toString());
     }
 
     @Test
@@ -395,32 +380,20 @@ public class CLIAppTest {
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
         PatternView pattern4 = new PatternView("Test4", 4, pattern);
 
-        StringBuilder result = new StringBuilder();
-        result.append("Carta Schema 1: Test1 (Favori : 1)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 2: Test2 (Favori : 2)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 3: Test3 (Favori : 3)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 4: Test4 (Favori : 4)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Opzione: " + enter);
-
         this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
 
-        assertEquals(result.toString(), savedStream.toString());
+        String result = "Carta Schema 1: Test1 (Favori : 1)" + enter + "Pattern\n" + enter +
+                "--------------------" + enter + "|1-RED   ||1-RED   |" + enter +
+                "--------------------" + enter + "Carta Schema 2: Test2 (Favori : 2)" +
+                enter + "Pattern\n" + enter + "--------------------" +
+                enter + "|1-RED   ||1-RED   |" + enter + "--------------------" +
+                enter + "Carta Schema 3: Test3 (Favori : 3)" + enter + "Pattern\n" +
+                enter + "--------------------" + enter + "|1-RED   ||1-RED   |" +
+                enter + "--------------------" + enter + "Carta Schema 4: Test4 (Favori : 4)" +
+                enter + "Pattern\n" + enter + "--------------------" + enter +
+                "|1-RED   ||1-RED   |" + enter + "--------------------" + enter +
+                "Opzione: " + enter;
+        assertEquals(result, savedStream.toString());
     }
 
     @Test
@@ -438,32 +411,20 @@ public class CLIAppTest {
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
         PatternView pattern4 = new PatternView("Test4", 4, pattern);
 
-        StringBuilder result = new StringBuilder();
-        result.append("Carta Schema 1: Test1 (Favori : 1)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 2: Test2 (Favori : 2)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 3: Test3 (Favori : 3)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 4: Test4 (Favori : 4)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Opzione: " + enter);
-
         this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
 
-        assertEquals(result.toString(), savedStream.toString());
+        String result = "Carta Schema 1: Test1 (Favori : 1)" + enter + "Pattern\n" + enter +
+                "--------------------" + enter + "|1-RED   ||1-RED   |" + enter +
+                "--------------------" + enter + "Carta Schema 2: Test2 (Favori : 2)" +
+                enter + "Pattern\n" + enter + "--------------------" +
+                enter + "|1-RED   ||1-RED   |" + enter + "--------------------" +
+                enter + "Carta Schema 3: Test3 (Favori : 3)" + enter + "Pattern\n" +
+                enter + "--------------------" + enter + "|1-RED   ||1-RED   |" +
+                enter + "--------------------" + enter + "Carta Schema 4: Test4 (Favori : 4)" +
+                enter + "Pattern\n" + enter + "--------------------" + enter +
+                "|1-RED   ||1-RED   |" + enter + "--------------------" + enter +
+                "Opzione: " + enter;
+        assertEquals(result, savedStream.toString());
     }
 
     @Test
@@ -481,32 +442,20 @@ public class CLIAppTest {
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
         PatternView pattern4 = new PatternView("Test4", 4, pattern);
 
-        StringBuilder result = new StringBuilder();
-        result.append("Carta Schema 1: Test1 (Favori : 1)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 2: Test2 (Favori : 2)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 3: Test3 (Favori : 3)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Carta Schema 4: Test4 (Favori : 4)" + enter);
-        result.append("Pattern\n" + enter);
-        result.append("--------------------" + enter);
-        result.append("|1-RED   ||1-RED   |" + enter);
-        result.append("--------------------" + enter);
-        result.append("Opzione: " + enter);
-
         this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
 
-        assertEquals(result.toString(), savedStream.toString());
+        String result = "Carta Schema 1: Test1 (Favori : 1)" + enter + "Pattern\n" + enter +
+                "--------------------" + enter + "|1-RED   ||1-RED   |" + enter +
+                "--------------------" + enter + "Carta Schema 2: Test2 (Favori : 2)" +
+                enter + "Pattern\n" + enter + "--------------------" +
+                enter + "|1-RED   ||1-RED   |" + enter + "--------------------" +
+                enter + "Carta Schema 3: Test3 (Favori : 3)" + enter + "Pattern\n" +
+                enter + "--------------------" + enter + "|1-RED   ||1-RED   |" +
+                enter + "--------------------" + enter + "Carta Schema 4: Test4 (Favori : 4)" +
+                enter + "Pattern\n" + enter + "--------------------" + enter +
+                "|1-RED   ||1-RED   |" + enter + "--------------------" + enter +
+                "Opzione: " + enter;
+        assertEquals(result, savedStream.toString());
     }
 
     @Test
@@ -898,5 +847,33 @@ public class CLIAppTest {
         this.app.passTurnResult(false);
         this.app.passTurnUpdate(0);
         this.app.gameEnd(null);
+    }
+
+    @Test
+    public void testGridViewCreator() {
+        testSetApp(new FakeViewAction());
+
+        Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
+        pattern[0][0] = new Pair<>(1, ColorModel.RED);
+        Pair<Integer, ColorModel>[][] grid = new Pair[1][1];
+        grid[0][0] = new Pair<>(1, ColorModel.RED);
+
+        GridViewCreator gridViewCreator = new CLIGridViewCreator(grid, pattern, this.app.getPrinter());
+        this.app.gridViewCreator = gridViewCreator;
+
+
+        Class<?> istance = gridViewCreator.getClass();
+
+        assertEquals(istance, this.app.getGridViewCreator().getClass());
+
+        Method methods[] = istance.getDeclaredMethods();
+        for (int i = 0; i < methods.length; i++) {
+            assertEquals(methods[i], this.app.getGridViewCreator().getClass().getDeclaredMethods()[i]);
+        }
+
+        Field fields[] = istance.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            assertEquals(fields[i], this.app.getGridViewCreator().getClass().getDeclaredFields()[i]);
+        }
     }
 }

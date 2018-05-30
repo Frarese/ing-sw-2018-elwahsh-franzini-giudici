@@ -13,7 +13,7 @@ import it.polimi.se2018.view.app.JavaFXApp;
 
 public class AppFactory {
 
-    private App app;
+    private final App app;
 
     /**
      * Constructor called to create an App
