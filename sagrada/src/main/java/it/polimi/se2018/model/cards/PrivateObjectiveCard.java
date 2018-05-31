@@ -10,7 +10,7 @@ import it.polimi.se2018.model.dice.Grid;
  */
 public class PrivateObjectiveCard extends ObjectiveCard {
 
-    private ColorModel color;
+    private final ColorModel color;
 
     /**
      * PrivateObjectiveCard's constructor

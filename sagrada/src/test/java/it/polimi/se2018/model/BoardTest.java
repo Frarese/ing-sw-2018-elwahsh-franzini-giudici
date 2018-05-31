@@ -28,7 +28,7 @@ public class BoardTest {
         for(int i =0; i<9;i++)
             test.addDieToBag(test.getReserve().popDie(0));
         test.reRollReserve();
-        test.putReserveOnRoundTRack();
+        test.putReserveOnRoundTrack();
         assertEquals(1,test.getRoundTrack().lastFilledRound());
     }
 

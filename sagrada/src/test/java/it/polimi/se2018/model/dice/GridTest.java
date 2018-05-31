@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 
 public class GridTest {
@@ -44,7 +45,7 @@ public class GridTest {
         Die d2= new Die(ColorModel.BLUE);
 
         /*Correct placement */
-        assertEquals(null,grid.setDie(0,0,d));
+        assertNull(grid.setDie(0,0,d));
         assertEquals(d,grid.getDie(0,0));
         assertEquals(1,grid.getPlacedDice());
 
@@ -55,7 +56,7 @@ public class GridTest {
 
         /*Incorrect placement*/
         assertEquals(d,grid.setDie(Grid.HEIGHT,Grid.WIDTH,d));
-        assertEquals(null, grid.getDie(Grid.HEIGHT,Grid.WIDTH));
+        assertNull( grid.getDie(Grid.HEIGHT,Grid.WIDTH));
 
     }
 

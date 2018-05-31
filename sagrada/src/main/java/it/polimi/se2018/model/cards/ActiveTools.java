@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class ActiveTools {
 
-    private ArrayList<ToolCard> tools = new ArrayList<>();
+    private final ArrayList<ToolCard> tools = new ArrayList<>();
 
     /**
      * ActiveTools's constructor

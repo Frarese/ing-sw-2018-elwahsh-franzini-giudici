@@ -13,8 +13,8 @@ import java.util.Observable;
 public class Player extends Observable {
 
     /*Info about the player*/
-    private String name;
-    private int id;
+    private final String name;
+    private final int id;
     private int favourPoints;
     private PrivateObjectiveCard privateObjective;
 
@@ -25,7 +25,7 @@ public class Player extends Observable {
     private boolean secondTurnCard;
 
     /*His/Hers grid and the pattern beneath it*/
-    private Grid grid;
+    private final Grid grid;
     private Pattern pattern;
 
 

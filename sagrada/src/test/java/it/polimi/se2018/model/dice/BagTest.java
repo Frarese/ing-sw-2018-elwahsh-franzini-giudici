@@ -5,8 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 public class BagTest {
 
@@ -47,9 +46,9 @@ public class BagTest {
     @Test
     public void testGetDie()
     {
-        assertNotEquals(null, test.getDie(0));
-        assertNotEquals(null,test.getDie(89));
-        assertEquals(null,test.getDie(-2));
+        assertNotNull(test.getDie(0));
+        assertNotNull(test.getDie(89));
+        assertNull(test.getDie(-2));
     }
 
     /**

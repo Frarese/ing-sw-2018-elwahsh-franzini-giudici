@@ -10,7 +10,7 @@ public class Grid {
     public static final int HEIGHT = 4; /*height of the grid*/
     public static final int  WIDTH = 5; /*width of the grid*/
 
-    private Die[][] diceGrid = new Die[HEIGHT][WIDTH];
+    private final Die[][] diceGrid = new Die[HEIGHT][WIDTH];
     private int placedDice; /* number of dice placed in the grid */
 
     /**

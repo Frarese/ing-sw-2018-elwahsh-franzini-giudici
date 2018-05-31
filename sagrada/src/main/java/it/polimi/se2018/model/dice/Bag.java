@@ -17,7 +17,7 @@ import static it.polimi.se2018.model.ColorModel.WHITE;
 public class Bag {
     public static final int MAX_SIZE = 90;
     public static final int DICE_FOR_COLOR = 18;
-    private ArrayList<Die> content;
+    private final ArrayList<Die> content;
 
     /**
      * Constructor of Bag

@@ -33,7 +33,7 @@ public class EventBusTest {
     public void testPushAndPop()
     {
         new Thread(test, "test").start();
-        test.asyncPush(new DiePlacementMove(0,0,0,0,"",true,true,true));
+        test.asyncPush(new DiePlacementMove(0,0,0,"","",true,true,true));
 
     }
 

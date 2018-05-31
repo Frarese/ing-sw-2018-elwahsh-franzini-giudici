@@ -9,7 +9,7 @@ import java.util.List;
  * @author Alì El Wahsh
  */
 public class Reserve {
-    private  ArrayList<Die> dice;
+    private final ArrayList<Die> dice;
 
     /**
      * Reserve constructor

@@ -132,8 +132,7 @@ public class ViewActions extends Observable {
      */
     public void setDie(int reserveIndex, int height, int width) {
         setChanged();
-        //TODO: fix id with String Player ID not with current Int PlayerID
-        notifyObservers(new DiePlacementMove(height, width, reserveIndex, 0, "Giocatore piazza dado", true, true, true));
+        notifyObservers(new DiePlacementMove(height, width, reserveIndex, ownerName, "Giocatore piazza dado", true, true, true));
     }
 
     /**

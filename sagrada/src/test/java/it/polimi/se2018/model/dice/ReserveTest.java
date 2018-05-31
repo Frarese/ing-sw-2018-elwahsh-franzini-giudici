@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import static it.polimi.se2018.model.ColorModel.WHITE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
+
 
 public class ReserveTest {
 
@@ -32,10 +32,10 @@ public class ReserveTest {
     @Test
     public void testStartingPoint()
     {
-        assertEquals(null, test.get(0));
+        assertNull( test.get(0));
         assertEquals(0,test.size());
         /*invalid position check*/
-        assertEquals(null,test.get(-1));
+        assertNull(test.get(-1));
     }
 
     /**
@@ -57,7 +57,7 @@ public class ReserveTest {
         assertEquals(dice.size(),test.size());
 
         /*Asking to pop from a not valid position*/
-        assertEquals(null,test.popDie(test.size()));
+        assertNull(test.popDie(test.size()));
 
         /*back to normal*/
         for(int i=0; i<dice.size(); i++)

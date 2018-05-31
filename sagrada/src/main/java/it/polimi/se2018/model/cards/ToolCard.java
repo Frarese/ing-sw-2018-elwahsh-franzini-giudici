@@ -42,7 +42,7 @@ public abstract class ToolCard extends CardModel {
      * if the player can use them or not
      * @return true if the card is usable by the player, false otherwise
      */
-    protected abstract boolean isUsable(Player player, boolean firstTurn);
+    public abstract boolean isUsable(Player player, boolean firstTurn);
 
 
 }

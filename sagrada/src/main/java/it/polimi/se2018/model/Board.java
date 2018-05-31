@@ -14,11 +14,11 @@ import it.polimi.se2018.model.dice.RoundTracker;
  * @author Alì El Wahsh
  */
 public class Board {
-    private ActiveTools tools;
-    private ActiveObjectives objectives;
-    private Bag bag;
-    private Reserve reserve;
-    private RoundTracker roundTrack;
+    private final ActiveTools tools;
+    private final ActiveObjectives objectives;
+    private final Bag bag;
+    private final Reserve reserve;
+    private final RoundTracker roundTrack;
 
     /**
      * Board's constructor
@@ -85,7 +85,7 @@ public class Board {
     /**
      * Puts all the remaining dice inside the Round track
      */
-    public void putReserveOnRoundTRack()
+    public void putReserveOnRoundTrack()
     {
         roundTrack.addAll(reserve.popAllDice());
     }

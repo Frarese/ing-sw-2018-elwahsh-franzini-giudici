@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RoundTracker {
     public static final int ROUNDS = 10; //Number of rounds
-    private ArrayList<ArrayList<Die>> dice;
+    private final ArrayList<ArrayList<Die>> dice;
 
 
     /**

@@ -5,6 +5,7 @@ import it.polimi.se2018.events.actions.PlayerMove;
 
 /**
  * Invalid move message, to be handled by the client controllers
+ * @author Alì El Wahsh
  */
 public class InvalidMove extends Event {
 

@@ -60,12 +60,12 @@ public class DiePlacementHandler implements Runnable {
         }
             String result =
                     DiePlacementLogic.insertDie(
-                            player,move.getHeight()
-                            ,move.getWidth()
-                            ,reserve.get(move.getDiePosition())
-                            ,move.isColorRestriction()
-                            ,move.isValueRestriction()
-                            ,move.isAdjacentRestriction());
+                            player,move.getHeight(),
+                            move.getWidth(),
+                            reserve.get(move.getDiePosition()),
+                            move.isColorRestriction(),
+                            move.isValueRestriction(),
+                            move.isAdjacentRestriction());
             if(result == null)
             {
                 player.getGrid().setDie(move.getHeight(),move.getWidth(),reserve.popDie(move.getDiePosition()));

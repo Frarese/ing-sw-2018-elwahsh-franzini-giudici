@@ -10,7 +10,7 @@ import java.util.List;
  * @author Alì El Wahsh
  */
 public class Deck<E extends CardModel> {
-    private ArrayList<E> deckOfCards;
+    private final ArrayList<E> deckOfCards;
 
     /**
      * Deck constructor

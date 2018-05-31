@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class ActiveObjectives {
 
-    private ArrayList<ObjectiveCard> objectives = new ArrayList<>();
+    private final ArrayList<ObjectiveCard> objectives = new ArrayList<>();
 
     /**
      * ActiveObjectives's constructor

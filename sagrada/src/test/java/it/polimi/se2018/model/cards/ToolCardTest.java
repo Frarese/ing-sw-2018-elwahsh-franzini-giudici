@@ -18,7 +18,7 @@ public class ToolCardTest {
         }
 
         @Override
-        protected boolean isUsable(Player player, boolean firstTurn) {
+        public boolean isUsable(Player player, boolean firstTurn) {
             return false;
         }
     }

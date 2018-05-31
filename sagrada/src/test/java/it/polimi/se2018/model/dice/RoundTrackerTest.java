@@ -10,10 +10,11 @@ import java.util.stream.Stream;
 import static it.polimi.se2018.model.ColorModel.WHITE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 public class RoundTrackerTest {
     private ArrayList<Die> dice;
-    private RoundTracker test = new RoundTracker();
+    private final RoundTracker test = new RoundTracker();
 
     /**
      * Initialization of an ArrayList of 5 dice, one for each color
@@ -31,7 +32,7 @@ public class RoundTrackerTest {
     @Test
     public void testPublicInfo()
     {
-        assertEquals(null,test.getDie(-1,-1)); /*Must be always true*/
+        assertNull(test.getDie(-1,-1)); /*Must be always true*/
     }
 
     @Test
@@ -51,7 +52,7 @@ public class RoundTrackerTest {
         assertEquals(RoundTracker.ROUNDS, test.lastFilledRound());
 
         /*Popping an extraplanar die*/
-        assertEquals(null,test.popDie(-1,-1));
+        assertNull(test.popDie(-1,-1));
 
     }
 

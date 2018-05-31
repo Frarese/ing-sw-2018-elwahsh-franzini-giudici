@@ -26,7 +26,7 @@ public class CopperFoilBurnisher extends ToolCard {
      * @return true if the player can use the card, else false
      */
     @Override
-    protected boolean isUsable(Player player, boolean firstTurn) {
+    public boolean isUsable(Player player, boolean firstTurn) {
 
         return player.canUseCardOnThisTurn(firstTurn) && (player.getGrid().getPlacedDice() >0);
     }

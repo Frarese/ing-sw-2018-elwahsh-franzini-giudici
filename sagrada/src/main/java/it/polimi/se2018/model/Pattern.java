@@ -9,9 +9,9 @@ public class Pattern {
     public static final int HEIGHT = 4;
     public static final int WIDTH = 5;
 
-    private Pair[][] schema;
-    private int favourPoints;
-    private String name;
+    private final Pair[][] schema;
+    private final int favourPoints;
+    private final String name;
 
 
     /**
