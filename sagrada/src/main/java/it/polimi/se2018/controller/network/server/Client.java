@@ -340,10 +340,7 @@ public class Client {
      * @return true if success(if supported)
      */
     private boolean sendObj(Serializable obj) {
-        if(cComm!=null){
-            return cComm.sendObj(obj);
-        }
-        return false;
+        return cComm != null && cComm.sendObj(obj);
     }
 
     /**
@@ -377,10 +374,7 @@ public class Client {
      * @return true if success(if supported)
      */
     public boolean sendReq(AbsReq req) {
-        if(cComm!=null){
-            return cComm.sendReq(req);
-        }
-        return false;
+        return cComm != null && cComm.sendReq(req);
     }
 
     /**

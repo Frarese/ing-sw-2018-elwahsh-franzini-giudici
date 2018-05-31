@@ -12,7 +12,7 @@ public class MatchResponseRequestTest {
 
     @Before
     public void setUp() throws Exception{
-        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost(),null);
+        s=new ServerMain(0,0,0,"a",InetAddress.getLocalHost(),null);
 
     }
     @Test(expected = IllegalArgumentException.class)

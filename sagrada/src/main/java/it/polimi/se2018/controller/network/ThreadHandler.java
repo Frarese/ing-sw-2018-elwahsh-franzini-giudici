@@ -58,8 +58,7 @@ public abstract class ThreadHandler implements Runnable {
      * @return true if the handler is running
      */
     public synchronized boolean isRunning() {
-        if(t==null)return false;
-        return t.isAlive();
+        return t != null && t.isAlive();
     }
 
     /**

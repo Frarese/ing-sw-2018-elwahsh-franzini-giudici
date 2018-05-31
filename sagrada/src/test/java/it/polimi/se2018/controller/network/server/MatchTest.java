@@ -31,7 +31,7 @@ public class MatchTest {
         list.add(c2);
         list.add(c3);
         list.add(c4);
-        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost(),new MockFactory());
+        s=new ServerMain(0,0,0,"a",InetAddress.getLocalHost(),new MockFactory());
         uut=new Match(mId,list,s);
         s.addMatch(uut);
         handled=false;

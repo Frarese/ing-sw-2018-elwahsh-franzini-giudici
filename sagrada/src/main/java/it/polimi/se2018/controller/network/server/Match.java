@@ -93,7 +93,7 @@ public class Match implements MatchNetworkInterface{
      * Notifies that a player has reconnected
      * @param username the player's username
      */
-    public synchronized void playerReconnected(String username) {
+    synchronized void playerReconnected(String username) {
         if(!dc.contains(username))return;
         clientMap.values().stream().filter(c->!c.usn.equals(username))
                 .forEach(c->c.pushOutReq(new UserReconnectedRequest(username)));

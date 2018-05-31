@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class PendingApprovalMatch {
     static final int DEFAULT_TIMEOUT = 60;
     private final HashMap<Integer,Client> clients;
-    private Timer t;
+    private final Timer t;
     private final ServerMain serverMain;
     public final MatchIdentifier matchId;
     private final Logger logger;

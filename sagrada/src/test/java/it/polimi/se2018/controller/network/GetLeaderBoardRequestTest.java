@@ -34,7 +34,7 @@ public class GetLeaderBoardRequestTest {
 
     @Test
     public void testServer() throws Exception{
-        ServerMain s=new ServerMain(0,0,false,0,"",InetAddress.getLocalHost(),null);
+        ServerMain s=new ServerMain(0,0,0,"",InetAddress.getLocalHost(),null);
         Client c=new Client("test",s);
         uut.serverHandle(c,s);
         Field f=Client.class.getDeclaredField("outReqQueue");

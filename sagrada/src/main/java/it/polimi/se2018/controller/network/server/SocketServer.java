@@ -183,7 +183,7 @@ class SocketServer extends ServerComm {
             SocketLoginRequest logReq=checkAndWrap(ss);
             if(logReq==null)return;
             LoginResponsesEnum response=SocketServer.super.tryLogin(logReq.username,logReq.password,logReq.isRecovery,logReq.isNewUser);
-            if(response.equals(LoginResponsesEnum.LOGIN_OK)){
+            if(response == LoginResponsesEnum.LOGIN_OK){
                 Client c;
                 boolean createResult=true;
                 if(!logReq.isRecovery){

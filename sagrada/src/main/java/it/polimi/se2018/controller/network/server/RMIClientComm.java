@@ -39,8 +39,7 @@ class RMIClientComm extends ClientComm {
      * @return true if there are unread objects
      */
     boolean hasObj() {
-        if(rmiOutObjQueue==null)return false;
-        return UtilMethods.checkNotEmpty(rmiOutObjQueue);
+        return rmiOutObjQueue != null && UtilMethods.checkNotEmpty(rmiOutObjQueue);
     }
 
     /**
@@ -48,8 +47,7 @@ class RMIClientComm extends ClientComm {
      * @return true if there are unread requests
      */
     boolean hasReq() {
-        if(rmiOutReqQueue==null)return false;
-        return UtilMethods.checkNotEmpty(rmiOutReqQueue);
+        return rmiOutReqQueue != null && UtilMethods.checkNotEmpty(rmiOutReqQueue);
     }
 
     /**

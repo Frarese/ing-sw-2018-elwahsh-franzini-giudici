@@ -39,8 +39,7 @@ class RMISessionImpl extends UnicastRemoteObject implements RMISession {
 
     @Override
     public boolean hasReq() {
-        if(cComm==null)return false;
-        return cComm.hasReq();
+        return cComm != null && cComm.hasReq();
     }
 
     @Override
@@ -58,8 +57,7 @@ class RMISessionImpl extends UnicastRemoteObject implements RMISession {
 
     @Override
     public boolean hasObj() {
-        if(cComm==null)return false;
-        return cComm.hasObj();
+        return cComm != null && cComm.hasObj();
     }
 
     @Override
@@ -87,9 +85,8 @@ class RMISessionImpl extends UnicastRemoteObject implements RMISession {
 
 
     @Override
-    public boolean equals(Object o){
-        if(o!=null && !o.getClass().equals(this.getClass()))return false;
-        return super.equals(o) && ((RMISessionImpl)o).loginOutput.equals(this.loginOutput);
+    public boolean equals(Object o) {
+        return (o == null || o.getClass().equals(this.getClass())) && super.equals(o) && ((RMISessionImpl) o).loginOutput == this.loginOutput;
     }
 
     @Override

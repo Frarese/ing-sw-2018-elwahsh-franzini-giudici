@@ -27,7 +27,7 @@ public class ListUsersRequestTest {
         pushed=false;
         uut=new ListUsersRequest();
         list=new ArrayList<>();
-        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost(),null);
+        s=new ServerMain(0,0,0,"a",InetAddress.getLocalHost(),null);
         c=new ClientMock();
     }
 

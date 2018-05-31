@@ -25,7 +25,7 @@ public class ServerMainTest {
     public void setUp() throws Exception {
         File uf=new File("users.csv");
         if(uf.exists())assertTrue(uf.delete());
-        uut=new ServerMain(9999,10000,false,10001,LoginResponsesEnum.RESOURCE_NAME.msg,InetAddress.getLocalHost(),new MockFactory());
+        uut=new ServerMain(9999,10000,10001,LoginResponsesEnum.RESOURCE_NAME.msg,InetAddress.getLocalHost(),new MockFactory());
 
         Field f=ServerMain.class.getDeclaredField("clientMap");
         f.setAccessible(true);
@@ -138,6 +138,14 @@ public class ServerMainTest {
         uut.removeMatch(m);
         assertNull(uut.getMatch(mId));
 
+    }
+
+    @Test
+    public void testClose() {
+        Client c1=new Client("test",uut);
+        uut.addClient(c1);
+        uut.closeDown();
+        assertNull(uut.getClient(c1.usn));
     }
 
     private class MockFactory implements MatchControllerFactory{

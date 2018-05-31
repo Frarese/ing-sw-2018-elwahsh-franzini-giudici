@@ -53,4 +53,15 @@ public class MatchIdentifierTest {
         String a="AAAAA";
         MatchIdentifier mId=new MatchIdentifier(a,null,null,null);
     }
+
+    @Test
+    public void testEquals(){
+        String a="AAAAA";
+        String b="BBBBB";
+        MatchIdentifier mId1=new MatchIdentifier(b,a,null,null);
+        MatchIdentifier mId2=new MatchIdentifier(a,b,null,null);
+        assertEquals(mId1,mId1);
+        assertEquals(mId1,mId2);
+        assertEquals(mId1.hashCode(),mId2.hashCode());
+    }
 }

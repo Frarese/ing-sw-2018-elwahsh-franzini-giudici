@@ -12,7 +12,6 @@ import static org.junit.Assert.*;
 
 public class MatchmakingRequestTest {
     private ServerMainMock s;
-    private MatchmakingRequest uut;
 
     @Before
     public void setUp() throws Exception{
@@ -21,13 +20,13 @@ public class MatchmakingRequestTest {
 
     @Test
     public void testServerHandle(){
-        uut=new MatchmakingRequest(true);
+        MatchmakingRequest uut = new MatchmakingRequest(true);
         uut.serverHandle(null,s);
         assertTrue(s.added);
 
         assertTrue(uut.checkValid());
 
-        uut=new MatchmakingRequest(false);
+        uut =new MatchmakingRequest(false);
         uut.serverHandle(null,s);
         assertFalse(s.added);
     }
@@ -35,7 +34,7 @@ public class MatchmakingRequestTest {
     private class ServerMainMock extends ServerMain{
         boolean added=false;
         ServerMainMock() throws IOException {
-            super(0,0,false,0,"a",InetAddress.getLocalHost(),null);
+            super(0,0,0,"a",InetAddress.getLocalHost(),null);
         }
 
         @Override

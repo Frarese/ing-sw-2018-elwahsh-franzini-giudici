@@ -63,7 +63,7 @@ class RMIServer extends ServerComm {
             logger.log(Level.FINER,toLog);
             LoginResponsesEnum result=super.tryLogin(usn,pw,isRecover,register);
 
-            if (result.equals(LoginResponsesEnum.LOGIN_OK)) {
+            if (result == LoginResponsesEnum.LOGIN_OK) {
                 Client c;
                 boolean createResult=true;
                 if(isRecover){

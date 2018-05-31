@@ -36,13 +36,12 @@ public class ServerMain {
      * Creates a new server with the given parameters
      * @param objPort socket object port
      * @param reqPort socket request port
-     * @param useDB true if a database is to be used for the user credentials validation
      * @param rmiPort rmi port
      * @param rmiName rmi name
      * @param rmiIp rmi ip to use
      * @throws IOException if an I/O error occurs
      */
-    public ServerMain(int objPort, int reqPort, boolean useDB, int rmiPort, String rmiName, InetAddress rmiIp,MatchControllerFactory factory) throws IOException{
+    public ServerMain(int objPort, int reqPort, int rmiPort, String rmiName, InetAddress rmiIp,MatchControllerFactory factory) throws IOException{
         this.factory=factory;
         logger=Logger.getGlobal();
         clientMap=new ConcurrentHashMap<>();
@@ -50,11 +49,7 @@ public class ServerMain {
         pendingMatchesMap=new ConcurrentHashMap<>();
         matchMakingQueue=new MatchMakingQueue(this);
         try {
-            if (useDB) {
-                userBase = new DBUserBase();
-            }else{
-                userBase= new FileUserBase(FileUserBase.DEFAULT_FILENAME);
-            }
+            userBase= new FileUserBase(FileUserBase.DEFAULT_FILENAME);
         } catch (IOException e) {
             logger.log(Level.SEVERE,"Could not open UserBase"+e.getMessage());
             throw e;
@@ -103,10 +98,7 @@ public class ServerMain {
      * @return true if the username exists and the password is correct
      */
     boolean isPwCorrect(String usn, String pw) {
-        if(userBase.containsUser(usn)){
-            return userBase.getPw(usn).equals(pw);
-        }
-        return false;
+        return userBase.containsUser(usn) && userBase.getPw(usn).equals(pw);
     }
 
     /**

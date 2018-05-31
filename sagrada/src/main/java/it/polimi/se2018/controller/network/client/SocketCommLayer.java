@@ -44,13 +44,13 @@ class SocketCommLayer extends CommLayer {
             reqSoc.connect(host,reqPort);
             reqSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
             LoginResponsesEnum answer= (LoginResponsesEnum) reqSoc.receive();
-            if(answer.equals(LoginResponsesEnum.LOGIN_OK)){
+            if(answer == LoginResponsesEnum.LOGIN_OK){
                 logger.log(Level.INFO,"First login phase successful");
                 objSoc=new SafeSocket(SafeSocket.DEFAULT_TIMEOUT);
                 objSoc.connect(host,objPort);
                 objSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
                 answer= (LoginResponsesEnum) objSoc.receive();
-                if(answer.equals(LoginResponsesEnum.LOGIN_OK)){
+                if(answer == LoginResponsesEnum.LOGIN_OK){
                     sockListenerObj=new SocketInQueueFiller(this,objSoc,false);
                     sockListenerReq=new SocketInQueueFiller(this,reqSoc,true);
                     sockListenerObj.start();
@@ -86,18 +86,12 @@ class SocketCommLayer extends CommLayer {
 
     @Override
     boolean sendOutObj(Serializable obj) {
-        if(objSoc!=null){
-            return objSoc.send(obj);
-        }
-        return false;
+        return objSoc != null && objSoc.send(obj);
     }
 
     @Override
     boolean sendOutReq(AbsReq req) {
-        if(reqSoc!=null){
-            return reqSoc.send(req);
-        }
-        return false;
+        return reqSoc != null && reqSoc.send(req);
     }
 
     @Override

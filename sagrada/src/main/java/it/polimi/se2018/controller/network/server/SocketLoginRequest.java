@@ -28,9 +28,7 @@ public class SocketLoginRequest implements Serializable {
         this.isNewUser = isNewUser;
     }
 
-    public final boolean isValid(){
-        if(username==null||password==null)return false;
-        return username.matches(TO_MATCH)&& password.matches(TO_MATCH)
-                && (!(isRecovery&&isNewUser));
+    public final boolean isValid() {
+        return username != null && password != null && username.matches(TO_MATCH) && password.matches(TO_MATCH) && (!(isRecovery && isNewUser));
     }
 }

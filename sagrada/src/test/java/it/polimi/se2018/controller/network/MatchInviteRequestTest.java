@@ -6,50 +6,57 @@ import it.polimi.se2018.controller.network.server.ServerMain;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
 import it.polimi.se2018.util.ScoreEntry;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ChatMessageRequestTest {
-    private ChatMessageRequest uut;
-    private boolean received;
+public class MatchInviteRequestTest {
+    private ServerMainMock s;
+    private MatchInviteRequest uut;
+    private boolean invite;
+
+    @Before
+    public void setUp() throws Exception{
+        s=new ServerMainMock();
+        invite=false;
+    }
+
     @Test
-    public void testInit() {
-        uut=new ChatMessageRequest("test","test2","test",MessageTypes.MATCH);
-        assertEquals("test",uut.sender);
-        assertEquals("test2",uut.destination);
-        assertEquals("test",uut.msg);
-        assertEquals(MessageTypes.MATCH,uut.type);
+    public void testHandle() {
+        MatchIdentifier mId=new MatchIdentifier("us1","us2",null,null);
+        uut=new MatchInviteRequest(mId);
+        uut.serverHandle(new Client("us1",s),s);
+        assertTrue(s.added);
+
+        uut.clientHandle(null,new CommUtilizerMock());
+        assertTrue(invite);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testFailInit() {
-        uut=new ChatMessageRequest("test","test","test",MessageTypes.MATCH);
+    public void failInit() {
+        uut=new MatchInviteRequest(null);
     }
 
-    @Test
-    public void testClient(){
-        received=false;
-        uut=new ChatMessageRequest("test","test2","test",MessageTypes.MATCH);
-        uut.clientHandle(null,new TestUtilizer());
-        assertTrue(received);
+
+    private class ServerMainMock extends ServerMain {
+        boolean added=false;
+        ServerMainMock() throws IOException {
+            super(0,0,0,"a",InetAddress.getLocalHost(),null);
+        }
+
+        @Override
+        public void addPendingMatch(MatchIdentifier mId, Client c) {
+            added=true;
+        }
     }
 
-    @Test
-    public void testServer() throws Exception{
-        ServerMain s=new ServerMain(1,3,2,"test",InetAddress.getLocalHost(),null);
-        uut=new ChatMessageRequest("test","test2","test",MessageTypes.PM);
-        uut.serverHandle(new Client("test",s),s);
-
-        uut=new ChatMessageRequest("test","test2","test",MessageTypes.MATCH);
-        uut.serverHandle(new Client("test",s),s);
-    }
-
-    private class TestUtilizer implements CommUtilizer{
+    private class CommUtilizerMock implements CommUtilizer{
 
         @Override
         public void receiveObject(Serializable obj) {
@@ -68,7 +75,7 @@ public class ChatMessageRequestTest {
 
         @Override
         public void notifyInvite(MatchIdentifier match) {
-
+            invite=true;
         }
 
         @Override
@@ -103,7 +110,7 @@ public class ChatMessageRequestTest {
 
         @Override
         public void pushChatMessage(String msg, MessageTypes type, String source) {
-            received=true;
+
         }
 
         @Override

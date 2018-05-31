@@ -28,7 +28,8 @@ public class ClientTest {
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
-        s=new ServerMain(0,0,false,0,"a",InetAddress.getLocalHost(),new MockFactory());
+        s=new ServerMain(0,0
+                ,0,"a",InetAddress.getLocalHost(),new MockFactory());
 
         uut=new Client("usn",s);
 

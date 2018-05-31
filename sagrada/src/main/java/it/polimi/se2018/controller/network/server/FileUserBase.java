@@ -82,8 +82,7 @@ class FileUserBase implements UserBase {
 
     @Override
     public boolean removeUser(String usn) {
-        if(usn==null)return false;
-        return userMap.remove(usn)==null;
+        return usn != null && userMap.remove(usn) == null;
     }
 
     @Override

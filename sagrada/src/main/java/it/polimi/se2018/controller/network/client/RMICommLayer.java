@@ -112,7 +112,7 @@ class RMICommLayer extends CommLayer {
             RMIServerInt loginObj = (RMIServerInt) registry.lookup(LoginResponsesEnum.RESOURCE_NAME.msg);
             RMISession session=loginObj.login(usn,pw,isRecovery,newUser);
             if(session==null)return "Login failed";
-            if(session.getLoginOutput().equals(LoginResponsesEnum.LOGIN_OK)){
+            if(session.getLoginOutput() == LoginResponsesEnum.LOGIN_OK){
                 logger.log(Level.INFO,"Login was successful");
                 this.sessionObj=session;
                 this.serverLoginObj=loginObj;
