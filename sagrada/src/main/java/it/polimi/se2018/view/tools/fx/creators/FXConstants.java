@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 
 public abstract class FXConstants {
 
-    private FXConstants(){
+    private FXConstants() {
 
     }
 
@@ -60,7 +60,7 @@ public abstract class FXConstants {
      * @param cellDim       contains the cell's dimension
      */
     public static void createEmptyGrid(VBox container, String bgColor, int row, int column,
-                                int insetsSpacing, int rowSpacing, int cellDim) {
+                                       int insetsSpacing, int rowSpacing, int cellDim) {
         //Container properties
         container.setPadding(new Insets(insetsSpacing, insetsSpacing, insetsSpacing, insetsSpacing));
         container.setStyle(makeBgColorString(bgColor));

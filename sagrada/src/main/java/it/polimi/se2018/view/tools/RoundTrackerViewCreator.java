@@ -19,7 +19,6 @@ public abstract class RoundTrackerViewCreator<E> {
 
     /**
      * Basic Class constructor that initializes elements at default value
-     *
      */
     protected RoundTrackerViewCreator() {
         this.round = -1;

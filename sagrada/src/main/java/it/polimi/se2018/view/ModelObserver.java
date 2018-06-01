@@ -11,7 +11,11 @@ import java.util.Observer;
 
 public class ModelObserver implements Observer {
 
-    private App app;
+    private final App app;
+
+    public ModelObserver(App app) {
+        this.app = app;
+    }
 
     @Override
     public void update(Observable o, Object arg) {

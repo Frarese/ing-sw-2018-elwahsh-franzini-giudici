@@ -104,6 +104,15 @@ public class CLIGridViewCreatorTest {
     }
 
     @Test
+    public void testGetGridPattern() {
+        grid = new Pair[1][2];
+        grid[0][0] = new Pair<>(1, ColorModel.RED);
+        grid[0][1] = new Pair<>(1, ColorModel.RED);
+        this.cliGridViewCreator = new CLIGridViewCreator(null, grid, printer);
+        assertArrayEquals(grid, cliGridViewCreator.getGridPattern());
+    }
+
+    @Test
     public void testGetGrid() {
         grid = new Pair[1][2];
         grid[0][0] = new Pair<>(1, ColorModel.RED);

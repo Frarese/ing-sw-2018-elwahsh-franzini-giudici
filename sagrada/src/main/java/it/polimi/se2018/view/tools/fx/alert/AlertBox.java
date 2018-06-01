@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 public class AlertBox {
 
-    private AlertBox(){
+    private AlertBox() {
 
     }
 

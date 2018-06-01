@@ -318,7 +318,7 @@ public class CLIAppTest {
 
     @Test
     public void testCreateLobby() {
-        String message = 5 + enter + "y" + enter;
+        String message = 6 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction2(null));
@@ -336,7 +336,7 @@ public class CLIAppTest {
 
         this.app.pullConnectedPlayers(arrayList);
 
-        assertArrayEquals(arrayList.toArray(), this.app.getConnectedPlayers().toArray());
+        assertArrayEquals(arrayList.toArray(), this.app.getConnectedUsers().toArray());
     }
 
     @Test
@@ -493,7 +493,7 @@ public class CLIAppTest {
 
     @Test
     public void testInitGame() {
-        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "4" + enter + "y" + enter;
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "6" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
@@ -517,14 +517,14 @@ public class CLIAppTest {
         ReserveView reserveView = new ReserveView(fakeReserve);
 
         this.app.startLogin(false);
-        this.app.gridViewCreator.setGridPattern(new Pair[1][1]);
-        this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1,0));
-        this.app.cardViewCreator.setPublicObjectiveCards(cards);
-        this.app.cardViewCreator.setToolCards(cards);
-        this.app.roundTrackerViewCreator.setRound(0);
-        this.app.roundTrackerViewCreator.setRoundTracker(fakeRoundt);
+        this.app.getGridViewCreator().setGridPattern(new Pair[1][1]);
+        this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1, 0));
+        this.app.getCardViewCreator().setPublicObjectiveCards(cards);
+        this.app.getCardViewCreator().setToolCards(cards);
+        this.app.getRoundTrackerViewCreator().setRound(0);
+        this.app.getRoundTrackerViewCreator().setRoundTracker(fakeRoundt);
         this.app.initGame(players);
-        this.app.startTurn(reserveView, roundTracker);
+        this.app.startTurn();
 
 
         assertEquals(me.getPlayerName(), this.app.getOwnerPlayerName());
@@ -545,7 +545,7 @@ public class CLIAppTest {
         PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
-        this.app.otherPlayerLeave(1);
+        this.app.otherPlayerLeave("OtherPlayerTest");
         assertEquals("OtherPlayerTest ha lasciato il gioco." + enter, savedStream.toString());
 
     }
@@ -556,7 +556,7 @@ public class CLIAppTest {
         PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
-        this.app.otherPlayerReconnection(1);
+        this.app.otherPlayerReconnection("OtherPlayerTest");
         assertEquals("OtherPlayerTest e\' rientrato in gioco." + enter, savedStream.toString());
     }
 
@@ -876,15 +876,15 @@ public class CLIAppTest {
         this.app.pullLeaderBoard(null);
         this.app.askPattern(null, null, null, null);
         this.app.initGame(null);
-        this.app.otherPlayerLeave(0);
-        this.app.otherPlayerReconnection(0);
-        this.app.startTurn(null, null);
+        this.app.otherPlayerLeave(null);
+        this.app.otherPlayerReconnection(null);
+        this.app.startTurn();
         this.app.setDieResult(false, null);
-        this.app.addUpdate(0, 0, 0, 0);
+        this.app.addUpdate(null, 0, 0, 0);
         this.app.useToolCardResult(false, null);
-        this.app.useToolCardUpdate(0, 0);
+        this.app.useToolCardUpdate(null, 0);
         this.app.passTurnResult(false);
-        this.app.passTurnUpdate(0);
+        this.app.passTurnUpdate(null);
         this.app.gameEnd(null);
     }
 
@@ -901,16 +901,16 @@ public class CLIAppTest {
         this.app.gridViewCreator = gridViewCreator;
 
 
-        Class<?> istance = gridViewCreator.getClass();
+        Class<?> instance = gridViewCreator.getClass();
 
-        assertEquals(istance, this.app.getGridViewCreator().getClass());
+        assertEquals(instance, this.app.getGridViewCreator().getClass());
 
-        Method methods[] = istance.getDeclaredMethods();
+        Method methods[] = instance.getDeclaredMethods();
         for (int i = 0; i < methods.length; i++) {
             assertEquals(methods[i], this.app.getGridViewCreator().getClass().getDeclaredMethods()[i]);
         }
 
-        Field fields[] = istance.getDeclaredFields();
+        Field fields[] = instance.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             assertEquals(fields[i], this.app.getGridViewCreator().getClass().getDeclaredFields()[i]);
         }

@@ -13,8 +13,7 @@ public class CommandLeaveMatch extends CLICommand {
         this.app.getPrinter().print("Sei sicuro di voler lasciare la partita?");
         if (this.app.getReader().chooseYes()) {
             this.app.getViewActions().leaveMatch();
-        }
-        else{
+        } else {
             this.app.menu();
         }
     }

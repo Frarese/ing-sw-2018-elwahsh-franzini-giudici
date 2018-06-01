@@ -2,8 +2,6 @@ package it.polimi.se2018.view.app;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.observer.PlayerView;
-import it.polimi.se2018.observer.ReserveView;
-import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.PatternView;
@@ -37,10 +35,10 @@ public class JavaFXApp extends App {
     /**
      * Player Information variables
      */
-    private int ownerPlayerID;
-    private String ownerPlayerName;
-    private boolean useRMI;
-    private boolean isYourTurn;
+    private final int ownerPlayerID;
+    private final String ownerPlayerName;
+    private final boolean useRMI;
+    private final boolean isYourTurn;
 
     /**
      * Components for GUI
@@ -168,19 +166,19 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void otherPlayerLeave(int playerID) {
+    public void otherPlayerLeave(String playerName) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void otherPlayerReconnection(int playerID) {
+    public void otherPlayerReconnection(String playerName) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void startTurn(ReserveView reserve, RoundTrackerView roundTracker) {
+    public void startTurn() {
         throw new UnsupportedOperationException();
 
     }
@@ -192,7 +190,7 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void addUpdate(int playerID, int height, int width, int reserveIndex) {
+    public void addUpdate(String playerName, int height, int width, int reserveIndex) {
         throw new UnsupportedOperationException();
 
     }
@@ -204,7 +202,7 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void useToolCardUpdate(int playerID, int card) {
+    public void useToolCardUpdate(String playerName, int card) {
         throw new UnsupportedOperationException();
 
     }
@@ -216,7 +214,7 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void passTurnUpdate(int playerID) {
+    public void passTurnUpdate(String playerName) {
         throw new UnsupportedOperationException();
 
     }

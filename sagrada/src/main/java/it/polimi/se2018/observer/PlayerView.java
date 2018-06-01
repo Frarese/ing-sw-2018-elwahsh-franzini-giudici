@@ -5,6 +5,7 @@ import it.polimi.se2018.util.Pair;
 
 import java.util.Observable;
 
+
 /**
  * This class represents an observer of a player
  *
@@ -99,7 +100,7 @@ public class PlayerView extends Observable {
         this.uniqueNotify();
     }
 
-    private synchronized void uniqueNotify(){
+    private synchronized void uniqueNotify() {
         setChanged();
         notifyObservers(this);
     }

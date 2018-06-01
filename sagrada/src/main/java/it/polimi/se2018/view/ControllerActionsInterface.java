@@ -2,8 +2,6 @@ package it.polimi.se2018.view;
 
 
 import it.polimi.se2018.observer.PlayerView;
-import it.polimi.se2018.observer.ReserveView;
-import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.ScoreEntry;
@@ -109,24 +107,21 @@ public interface ControllerActionsInterface {
     /**
      * Communicates to player when another player has left the match
      *
-     * @param playerID contains the playerID of the player has just left
+     * @param playerName contains the playerID of the player has just left
      */
-    void otherPlayerLeave(int playerID);
+    void otherPlayerLeave(String playerName);
 
     /**
      * Communicates to player when another player reconnect
      *
-     * @param playerID contains the playerID of the player has just left
+     * @param playerName contains the playerID of the player has just left
      */
-    void otherPlayerReconnection(int playerID);
+    void otherPlayerReconnection(String playerName);
 
     /**
      * Communicates a player's turn start
-     *
-     * @param reserve      contains a ReserveView object
-     * @param roundTracker contains a RoundTrackerView object
      */
-    void startTurn(ReserveView reserve, RoundTrackerView roundTracker);
+    void startTurn();
 
     /**
      * After a setDie() request Controller returns the result
@@ -139,12 +134,12 @@ public interface ControllerActionsInterface {
     /**
      * Notifies a Die placement in a player's grid
      *
-     * @param playerID     contains the playerID of the player has just done placement
+     * @param playerName   contains the player's name of the player has just done placement
      * @param height       contains the height position on the grid
      * @param width        contains the width position on the grid
      * @param reserveIndex contains the reserveIndex of the die just placed
      */
-    void addUpdate(int playerID, int height, int width, int reserveIndex);
+    void addUpdate(String playerName, int height, int width, int reserveIndex);
 
     /**
      * After a useToolCard() request Controller returns the result
@@ -157,10 +152,10 @@ public interface ControllerActionsInterface {
     /**
      * Notifies a Tool Card use
      *
-     * @param playerID contains the playerID of the player has just used a Tool Card
-     * @param card     contains Tool Card's index
+     * @param playerName contains the player's name of the player has just used a Tool Card
+     * @param card       contains Tool Card's index
      */
-    void useToolCardUpdate(int playerID, int card);
+    void useToolCardUpdate(String playerName, int card);
 
     /**
      * Communicates if player correctly has passed a turn
@@ -172,9 +167,9 @@ public interface ControllerActionsInterface {
     /**
      * Notifies when a player pass his turn
      *
-     * @param playerID contains the playerID of the player just passed
+     * @param playerName contains the player's name of the player just passed
      */
-    void passTurnUpdate(int playerID);
+    void passTurnUpdate(String playerName);
 
     /**
      * Notifies when match ends

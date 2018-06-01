@@ -43,7 +43,7 @@ public class RoundTrackerView extends Observable {
         this.uniqueNotify();
     }
 
-    private synchronized void uniqueNotify(){
+    private synchronized void uniqueNotify() {
         setChanged();
         notifyObservers(this);
     }

@@ -51,7 +51,7 @@ public class CLIReaderTest {
 
     @Test
     public void testReadIntFail() {
-        String message = "asssd" + enter + "11";
+        String message = "fail" + enter + "11";
         System.setIn(new ByteArrayInputStream((message + enter).getBytes()));
 
         this.cliReader = new CLIReader(this.cliPrinter);

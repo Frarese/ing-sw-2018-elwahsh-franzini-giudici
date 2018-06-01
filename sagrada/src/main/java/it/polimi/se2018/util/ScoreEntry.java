@@ -15,8 +15,9 @@ public class ScoreEntry implements Serializable {
 
     /**
      * Initializes this ScoreEntry with the given values
-     * @param usn username
-     * @param tot total points of the user
+     *
+     * @param usn  username
+     * @param tot  total points of the user
      * @param wins total wins of the user
      */
     public ScoreEntry(String usn, int tot, int wins) {

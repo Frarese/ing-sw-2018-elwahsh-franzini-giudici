@@ -29,7 +29,7 @@ public class MessageBox implements ControllerMessage {
 
     private final ViewMessage viewMessage;
 
-    private List<Message> messages;
+    private final List<Message> messages;
 
 
     /**
@@ -65,5 +65,14 @@ public class MessageBox implements ControllerMessage {
      */
     public void setOwnerName(String ownerName) {
         this.viewMessage.setOwnerName(ownerName);
+    }
+
+    /**
+     * Gets messages' list
+     *
+     * @return the messages' list
+     */
+    public List<Message> getMessages() {
+        return messages;
     }
 }

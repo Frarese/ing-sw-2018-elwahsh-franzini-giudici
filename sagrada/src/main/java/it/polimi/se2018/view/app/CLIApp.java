@@ -2,8 +2,6 @@ package it.polimi.se2018.view.app;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.observer.PlayerView;
-import it.polimi.se2018.observer.ReserveView;
-import it.polimi.se2018.observer.RoundTrackerView;
 import it.polimi.se2018.util.*;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
@@ -215,6 +213,7 @@ public class CLIApp extends App {
         this.commands.add(0, new CommandAcceptInvite(this));
         this.commands.add(0, new CommandShowInvites(this));
         this.commands.add(0, new CommandShowLeaderBoard(this));
+        this.commands.add(0, new CommandShowConnectedUsers(this));
 
         //Call menu method
         this.menu();
@@ -223,7 +222,7 @@ public class CLIApp extends App {
     @Override
     public void pullConnectedPlayers(List<ScoreEntry> players) {
         //Refresh connected players list
-        this.connectedPlayers = players;
+        this.connectedUsers = players;
     }
 
     @Override
@@ -323,39 +322,36 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void otherPlayerLeave(int playerID) {
+    public void otherPlayerLeave(String playerName) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
 
-        PlayerView player = this.searchPlayerViewById(players, playerID);
+        PlayerView player = this.searchPlayerViewByName(players, playerName);
         String message = player.getPlayerName() + " ha lasciato il gioco.";
         printer.print(message);
     }
 
     @Override
-    public void otherPlayerReconnection(int playerID) {
+    public void otherPlayerReconnection(String playerName) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
 
-        PlayerView player = this.searchPlayerViewById(players, playerID);
+        PlayerView player = this.searchPlayerViewByName(players, playerName);
         String message = player.getPlayerName() + " e\' rientrato in gioco.";
         printer.print(message);
     }
 
     @Override
-    public void startTurn(ReserveView reserve, RoundTrackerView roundTracker) {
+    public void startTurn() {
         this.isYourTurn = true;
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
-        //Update game turn
-        this.reserveViewCreator.setReserve(reserve.getReserve());
-        this.roundTrackerViewCreator.setRoundTracker(roundTracker.getRoundTracker());
 
         //Call menu method
         this.menu();
@@ -380,19 +376,20 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void addUpdate(int playerID, int height, int width, int reserveIndex) {
+    public void addUpdate(String playerName, int height, int width, int reserveIndex) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
 
         //Check if is my ID
-        if (playerID == this.ownerPlayerID) {
+        if (playerName.equals(this.ownerPlayerName)) {
+            this.setDieResult(true, null);
             return;
         }
 
         //Search information
-        PlayerView playerView = this.searchPlayerViewById(this.players, playerID);
+        PlayerView playerView = this.searchPlayerViewByName(this.players, playerName);
         if (playerView != null) {
             //Print
             printer.print(playerView.getPlayerName() + " ha posizionato il dado: " + this.reserveViewCreator.pickDie(reserveIndex) + " in posizione (" + height + "," + width + ").");
@@ -421,19 +418,20 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void useToolCardUpdate(int playerID, int card) {
+    public void useToolCardUpdate(String playerName, int card) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
 
         //Check if is my ID
-        if (playerID == this.ownerPlayerID) {
+        if (playerName.equals(this.ownerPlayerName)) {
+            this.useToolCardResult(true, null);
             return;
         }
 
         //Search information
-        PlayerView playerView = this.searchPlayerViewById(this.players, playerID);
+        PlayerView playerView = this.searchPlayerViewByName(this.players, playerName);
         if (playerView != null) {
             String player = playerView.getPlayerName();
             //Print
@@ -461,19 +459,20 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void passTurnUpdate(int playerID) {
+    public void passTurnUpdate(String playerName) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
 
         //Check if is my ID
-        if (playerID == this.ownerPlayerID) {
+        if (playerName.equals(this.ownerPlayerName)) {
+            this.passTurnResult(true);
             return;
         }
 
         //Search information
-        PlayerView playerView = this.searchPlayerViewById(this.players, playerID);
+        PlayerView playerView = this.searchPlayerViewByName(this.players, playerName);
         if (playerView != null) {
             String player = playerView.getPlayerName();
             //Print
@@ -647,8 +646,10 @@ public class CLIApp extends App {
         this.gameCommands.clear();
 
         //Add new Commands
-        this.gameCommands.add(new CommandShowGrid(this));
         this.gameCommands.add(new CommandShowFavours(this));
+        this.gameCommands.add(new CommandShowCards(this));
+        this.gameCommands.add(new CommandShowReserve(this));
+        this.gameCommands.add(new CommandShowGrid(this));
         this.gameCommands.add(new CommandShowRoundTracker(this));
 
         if (me.isPlacementRights()) {

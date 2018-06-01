@@ -32,7 +32,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
     protected List<MatchIdentifier> invites;
 
-    protected List<ScoreEntry> connectedPlayers;
+    protected List<ScoreEntry> connectedUsers;
 
     protected List<ScoreEntry> leaderBoard;
 
@@ -72,7 +72,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
         this.viewActions = viewActions;
         this.viewToolCardActions = viewToolCardActions;
         this.messageBox = new MessageBox(viewMessage);
-        this.modelObserver = new ModelObserver();
+        this.modelObserver = new ModelObserver(this);
     }
 
     /**
@@ -184,7 +184,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      *
      * @return the connected players' list
      */
-    public List<ScoreEntry> getConnectedPlayers() {
-        return connectedPlayers;
+    public List<ScoreEntry> getConnectedUsers() {
+        return connectedUsers;
     }
 }

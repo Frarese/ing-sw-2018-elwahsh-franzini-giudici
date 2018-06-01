@@ -49,7 +49,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
             //Create die in comboBox
             if (i < round && roundTracker[i] != null) {
                 for (int j = 0; j < roundTracker[i].length; j++) {
-                    this.makeCellDie(roundTracker[i][j],comboBox);
+                    this.makeCellDie(roundTracker[i][j], comboBox);
                 }
             } else {
                 comboBox.setDisable(true);
@@ -112,7 +112,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
         });
     }
 
-    private void makeCellDie(Pair<Integer,ColorModel> die, ComboBox<ImageView> comboBox){
+    private void makeCellDie(Pair<Integer, ColorModel> die, ComboBox<ImageView> comboBox) {
         if (die != null) {
             Image image = (Image) dieViewCreator.makeDie(die);
             ImageView imageView = new ImageView(image);

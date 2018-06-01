@@ -25,12 +25,11 @@ public class CommandChangeLayer extends CLICommand {
                 int requestPort = this.app.getReader().readInt();
                 this.app.getViewActions().changeLayer(false, objectPort, requestPort);
             } else {
-                this.app.getPrinter().print("Inserire object port: ");
-                int objectPort = this.app.getReader().readInt();
-                this.app.getViewActions().changeLayer(true, objectPort, 0);
+                this.app.getPrinter().print("Inserire request port: ");
+                int requestPort = this.app.getReader().readInt();
+                this.app.getViewActions().changeLayer(true, -1, requestPort);
             }
-        }
-        else{
+        } else {
             this.app.menu();
         }
     }

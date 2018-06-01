@@ -19,8 +19,7 @@ public class CommandLogout extends CLICommand {
         this.app.getPrinter().print("Sei sicuro di voler uscire dal gioco?");
         if (this.app.getReader().chooseYes()) {
             this.app.getViewActions().logout();
-        }
-        else{
+        } else {
             this.app.menu();
         }
     }

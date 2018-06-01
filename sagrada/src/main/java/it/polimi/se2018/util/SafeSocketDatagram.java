@@ -2,7 +2,7 @@ package it.polimi.se2018.util;
 
 import java.io.Serializable;
 
-class SafeSocketDatagram implements Serializable{
+class SafeSocketDatagram implements Serializable {
     final Serializable payload;
     final Integer id;
 
