@@ -1,5 +1,7 @@
 package it.polimi.se2018.controller.network.server;
 
+import java.io.IOException;
+
 /**
  * The server's login service abstract comm layer
  * @author Francesco Franzini
@@ -15,6 +17,12 @@ abstract class ServerComm {
         this.handler=handler;
     }
 
+
+    /**
+     * Connects this server
+     * @throws IOException if an IO error occurs
+     */
+    abstract void connect() throws IOException;
 
     /**
      * Closes this login service

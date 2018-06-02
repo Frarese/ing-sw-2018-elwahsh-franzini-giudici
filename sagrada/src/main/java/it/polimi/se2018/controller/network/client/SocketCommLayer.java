@@ -41,7 +41,9 @@ class SocketCommLayer extends CommLayer {
         }
         try {
             reqSoc=new SafeSocket(SafeSocket.DEFAULT_TIMEOUT);
-            reqSoc.connect(host,reqPort);
+            if(!reqSoc.connect(host,reqPort)){
+                return "Failed to connect to "+host+" "+reqPort;
+            }
             reqSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
             LoginResponsesEnum answer= (LoginResponsesEnum) reqSoc.receive();
             if(answer == LoginResponsesEnum.LOGIN_OK){
@@ -58,10 +60,12 @@ class SocketCommLayer extends CommLayer {
                     logger.log(Level.INFO,"Login was successful");
                     return null;
                 }else{
+                    close();
                     cleanUp();
                     return answer.msg;
                 }
             }else{
+                close();
                 cleanUp();
                 return answer.msg;
             }

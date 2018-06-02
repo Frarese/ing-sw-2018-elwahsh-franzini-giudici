@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -61,7 +62,6 @@ public class SafeSocketTest {
 
     @Test
     public void testFailConnection() {
-        clientSS.setTimeout(200);
         assertFalse(clientSS.connect("localhost",9998));
     }
 
@@ -74,6 +74,24 @@ public class SafeSocketTest {
         s.getInputStream().close();
         serverSS=new SafeSocket(s,timeout);
         serverSS.send(5);
+
+        t.join();
+    }
+
+    @Test
+    public void testSendClosed() throws Exception {
+        Thread t=makeTestThread(0);
+        t.start();
+        Socket s=servSocket.accept();
+
+        serverSS=new SafeSocket(s,timeout);
+        s.getInputStream().close();
+        assertFalse(serverSS.send(5));
+
+        Field continua=SafeSocket.class.getDeclaredField("continua");
+        continua.setAccessible(true);
+        continua.set(serverSS,false);
+        assertFalse(serverSS.send(5));
 
         t.join();
     }

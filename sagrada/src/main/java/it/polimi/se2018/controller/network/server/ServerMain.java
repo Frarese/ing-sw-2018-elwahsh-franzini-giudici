@@ -65,8 +65,14 @@ public class ServerMain {
      * Builds the server objects that are going to be used
      */
     void buildServers() throws IOException {
-        if(serverRMI==null){serverRMI=new RMIServer(this,rmiPort,rmiName,rmiIP);}
-        if(serverSoc==null)serverSoc=new SocketServer(this,objPort,reqPort);
+        if(serverRMI==null){
+            serverRMI=new RMIServer(this,rmiPort,rmiName,rmiIP);
+            serverRMI.connect();
+        }
+        if(serverSoc==null){
+            serverSoc=new SocketServer(this,objPort,reqPort);
+            serverSoc.connect();
+        }
     }
 
     /**
@@ -87,7 +93,7 @@ public class ServerMain {
      * @param usn the username to check
      * @return true if the user is logged
      */
-    public boolean isUserLogged(String usn) {
+    boolean isUserLogged(String usn) {
         return clientMap.containsKey(usn);
     }
 
@@ -132,7 +138,7 @@ public class ServerMain {
     /**
      * Closes this server down and blocks until closure has been completed
      */
-    public void closeDown() {
+    void closeDown() {
         if(serverSoc!=null){
             serverSoc.close();
         }
@@ -151,7 +157,7 @@ public class ServerMain {
      * Removes a Client from the logged users map
      * @param usn username
      */
-    public void removeClient(String usn) {
+    void removeClient(String usn) {
         clientMap.remove(usn);
     }
 
@@ -193,7 +199,7 @@ public class ServerMain {
      * Removes a {@link it.polimi.se2018.controller.network.server.PendingApprovalMatch} from the server
      * @param paMatch the PendingApprovalMatch to remove
      */
-    public void removePendingMatch(PendingApprovalMatch paMatch) {
+    void removePendingMatch(PendingApprovalMatch paMatch) {
         pendingMatchesMap.remove(paMatch.matchId.toString());
     }
 
@@ -229,7 +235,7 @@ public class ServerMain {
      * @param mId the match id to fetch
      * @return the match or {@code null} if not found
      */
-    public Match getMatch(MatchIdentifier mId){
+    Match getMatch(MatchIdentifier mId){
         return this.matches.get(mId.toString());
     }
     /**
@@ -254,7 +260,7 @@ public class ServerMain {
      * @param dTot amount to add to the total points
      * @param dW amount to add to the wins
      */
-    public void updateScore(String usn, int dTot,int dW){
+    void updateScore(String usn, int dTot,int dW){
         userBase.alterUserScore(usn,dTot,dW);
     }
 

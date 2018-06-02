@@ -4,90 +4,83 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.*;
 
 public class ThreadHandlerTest {
     private boolean ok;
-    private ThreadHandler a;
+    private ThreadHandlerTestImpl uut;
+    private boolean interrupt;
+    private Field continuaF;
+
     @Before
-    public void setUp(){
-        a=new ThreadHandlerTestImpl();
+    public void setUp() throws Exception{
+        uut =new ThreadHandlerTestImpl();
         ok=true;
+        interrupt=false;
+
+        continuaF=ThreadHandler.class.getDeclaredField("continua");
+        continuaF.setAccessible(true);
     }
 
     @After
     public void tearDown() {
         ok=true;
-        a.forceStop();
     }
 
     @Test
     public void testInit() {
-
-        assertFalse(a.isRunning());
-        a.start();
-        assertTrue(a.isRunning());
+        assertFalse(uut.isRunning());
+        uut.start();
+        assertTrue(uut.isRunning());
     }
 
-    @Test(timeout= 1000)
-    public void testStop() {
-
-        assertFalse(a.isRunning());
-        a.start();
-        assertTrue(a.isRunning());
-        a.stop();
-        while(a.isRunning());
-        assertFalse(a.isRunning());
-    }
-
-    @Test(timeout =1000)
-    public void testForceStop() {
-
-        assertFalse(a.isRunning());
-        a.start();
-        assertTrue(a.isRunning());
+    @Test
+    public void testStop() throws Exception{
         ok=false;
-        while(true){
-            if(((ThreadHandlerTestImpl)a).blocked.get()){
-               break;
-            }
-        }
-        a.forceStop();
-        while(true){
-            if(!a.isRunning()){
-                break;
-            }
-        }
+        uut.start();
+        uut.stop();
+        assertEquals(Boolean.FALSE,continuaF.get(uut));
     }
 
-    @Test(timeout= 1000)
+    @Test
+    public void testForceStop() throws Exception{
+        ok=false;
+        uut.start();
+        uut.forceStop();
+        assertEquals(Boolean.FALSE,continuaF.get(uut));
+    }
+
+    @Test
     public void testReinit() {
+        assertFalse(uut.isRunning());
+        uut.start();
+        uut.forceStop();
 
-        assertFalse(a.isRunning());
-        a.start();
-        assertTrue(a.isRunning());
-        a.stop();
-        while(a.isRunning());
-        assertFalse(a.isRunning());
-
-        assertTrue(a.start());
+        assertTrue(uut.start());
     }
+
     @Test
     public void testDoubleStart(){
-        assertFalse(a.isRunning());
-        assertTrue(a.start());
-        assertTrue(a.isRunning());
-        assertFalse(a.start());
+        assertFalse(uut.isRunning());
+        assertTrue(uut.start());
+        assertTrue(uut.isRunning());
+        assertFalse(uut.start());
+    }
 
+    @Test
+    public void testInterruptedEx(){
+        interrupt=true;
+        uut.run();
     }
 
 
     private class ThreadHandlerTestImpl extends ThreadHandler{
-        int count;
+        private int count;
         final AtomicBoolean blocked;
-        final String a;
+        private final String a;
         ThreadHandlerTestImpl(){
             blocked=new AtomicBoolean(false);
             count=0;
@@ -95,12 +88,14 @@ public class ThreadHandlerTest {
         }
         @Override
         protected void methodToCall() throws InterruptedException {
+            if(interrupt)throw new InterruptedException();
             if(ok){
                 count++;
             }else{
                 synchronized (a){
-                    blocked.lazySet(true);
+                    blocked.set(true);
                     a.wait();
+                    System.out.println("Hello");
                 }
 
             }

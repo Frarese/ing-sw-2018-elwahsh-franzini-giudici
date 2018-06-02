@@ -67,4 +67,10 @@ public class RMIServerTest {
         response=uut.login("test2","pw2",false,false);
         assertEquals(LoginResponsesEnum.USER_NOT_EXISTING,response.getLoginOutput());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidPort() throws Exception{
+        uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
+        uut.connect();
+    }
 }

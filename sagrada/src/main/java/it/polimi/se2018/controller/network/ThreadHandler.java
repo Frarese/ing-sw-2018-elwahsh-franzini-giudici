@@ -12,6 +12,7 @@ public abstract class ThreadHandler implements Runnable {
     private boolean continua;
     protected boolean isReq;
     private Logger logger=Logger.getGlobal();
+    private boolean ended;
 
     @Override
     public void run() {
@@ -23,6 +24,7 @@ public abstract class ThreadHandler implements Runnable {
             }
         }
         logger.log(Level.INFO,"Thread handler finished execution {0}",this.getClass().getName());
+        ended=true;
     }
 
     /**
@@ -30,6 +32,7 @@ public abstract class ThreadHandler implements Runnable {
      * @return true if no errors are raised
      */
     public synchronized boolean start() {
+        ended=false;
         logger=Logger.getGlobal();
         continua=true;
         if(!this.isRunning()){
@@ -58,7 +61,7 @@ public abstract class ThreadHandler implements Runnable {
      * @return true if the handler is running
      */
     public synchronized boolean isRunning() {
-        return t != null && t.isAlive();
+        return t != null && (!t.isInterrupted() || ended);
     }
 
     /**

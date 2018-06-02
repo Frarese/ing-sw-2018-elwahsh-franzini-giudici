@@ -34,7 +34,10 @@ class ReconnectWaker{
         attempts++;
         boolean result=cComm.tryRecover(attempts==maxAttempts);
 
-        if(maxAttempts==attempts || result)t.cancel();
+        if(maxAttempts==attempts || result){
+            t.cancel();
+            attempts=maxAttempts;
+        }
     }
 
     /**

@@ -23,6 +23,9 @@ class SocketServer extends ServerComm {
     private Thread reqT;
     private Thread objT;
 
+    private final int objPort;
+    private final int reqPort;
+
     /**
      * Creates a Socket login service
      *
@@ -30,15 +33,20 @@ class SocketServer extends ServerComm {
      * @param objPort object port to use
      * @param reqPort request port to use
      */
-    SocketServer(ServerMain handler,int objPort,int reqPort) throws IOException {
+    SocketServer(ServerMain handler,int objPort,int reqPort){
         super(handler);
+        this.reqPort=reqPort;
+        this.objPort=objPort;
         logger=Logger.getGlobal();
         logger.log(Level.INFO,"Starting Socket Server");
         waitingObjConnClients=new HashMap<>();
+    }
+
+    @Override
+    void connect() throws IOException{
         if(!this.init(objPort,reqPort))throw new IOException("Failed to initialize socket server");
         logger.log(Level.INFO,"Socket Server running on request:obj {0}",reqPort+":"+objPort);
     }
-
 
     @Override
     void close() {

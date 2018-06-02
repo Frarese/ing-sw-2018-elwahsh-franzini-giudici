@@ -84,7 +84,7 @@ public class Comm {
         logger.log(Level.INFO,"Attempting to change layer to {0}",(toRMI)?"RMI":"Socket");
         if(!commLayer.sendOutReq(new ChangeCLayerRequest(toRMI,reqPort,objPort))){
             logger.log(Level.SEVERE,"Failed to send change layer request");
-            throw new UnsupportedOperationException();
+            this.beginDisconnectedRoutines();
         }
         this.discTimer.stop();
         qEmpObj.stop();
@@ -155,7 +155,7 @@ public class Comm {
      * Pushes an object in the inbound queue
      * @param obj the object that has been received
      */
-    public void pushInObj(Serializable obj) {
+    void pushInObj(Serializable obj) {
         updateTs();
         UtilMethods.pushAndNotifyTS(inObjQueue,obj);
     }
@@ -164,7 +164,7 @@ public class Comm {
      * Pushes a request in the inbound queue
      * @param req the request that has been received
      */
-    public void pushInReq(AbsReq req) {
+    void pushInReq(AbsReq req) {
         updateTs();
         UtilMethods.pushAndNotifyTS(inReqQueue,req);
     }
@@ -234,6 +234,7 @@ public class Comm {
         if(!this.createComm(useRMI))return "Already connected";
         String outcome=commLayer.establishCon(host,requestPort,objectPort,isRecovery,usn,pw,newUser);
         if(outcome!=null){
+            logger.log(Level.FINE,"Login output {0}",outcome);
             commLayer=null;
             return outcome;
         }

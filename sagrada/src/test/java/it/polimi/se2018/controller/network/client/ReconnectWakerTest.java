@@ -1,58 +1,67 @@
 package it.polimi.se2018.controller.network.client;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
 
 import static org.junit.Assert.*;
 
 public class ReconnectWakerTest {
-    private volatile int attempts;
-    private int threshold;
-    private Comm testComm;
+    private Method runM;
+    private ReconnectWaker uut;
+    private boolean fail;
     private boolean purged;
     @Before
-    public void setUp() {
-        testComm=new TestComm();
-        attempts=0;
+    public void setUp() throws Exception{
+        fail=false;
         purged=false;
+        uut=new ReconnectWaker(new TestComm());
+        runM=ReconnectWaker.class.getDeclaredMethod("runTask");
+        runM.setAccessible(true);
+
     }
 
-    @After
-    public void tearDown() {
-        attempts=0;
+    @Test
+    public void testInit(){
+        assertFalse(uut.isRunning());
+        uut.reschedule(1000,5);
+        assertTrue(uut.isRunning());
     }
 
-    @Test(timeout =2000)
-    public void testNoSuccess(){
+    @Test
+    public void testSuccess() throws Exception{
+        uut.reschedule(1000,2);
+        runM.invoke(uut);
+        assertFalse(uut.isRunning());
+        assertFalse(purged);
+    }
 
-        ReconnectWaker wk=new ReconnectWaker(testComm);
-        threshold=6;
-        wk.reschedule(100,5);
-        while(attempts<5);
-        assertEquals(5,attempts);
+    @Test
+    public void testFail() throws Exception{
+        uut.reschedule(1000,2);
+        fail=true;
+
+        runM.invoke(uut);
+        assertTrue(uut.isRunning());
+        assertFalse(purged);
+
+        runM.invoke(uut);
+        assertFalse(uut.isRunning());
         assertTrue(purged);
+
     }
 
-    @Test(timeout =2000)
-    public void testSuccess(){
 
-        ReconnectWaker wk=new ReconnectWaker(testComm);
-        threshold=3;
-        wk.reschedule(100,5);
-        while(attempts<3);
-        assertEquals(3,attempts);
-        assertTrue(!purged);
-    }
 
     private class TestComm extends Comm{
         @Override
         public boolean tryRecover(boolean purgeOnFail){
-            attempts++;
-            if(attempts<threshold){
-                if(purgeOnFail)purged=true;
+            if(fail){
+                purged=purgeOnFail;
                 return false;
-            }else return true;
+            }
+            return true;
         }
     }
 

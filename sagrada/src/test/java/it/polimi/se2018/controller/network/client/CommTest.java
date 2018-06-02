@@ -22,18 +22,23 @@ public class CommTest {
     private boolean sentReq;
     private boolean closed;
     private boolean failLogin;
+
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception{
         uut=new Comm();
+
         Field f=Comm.class.getDeclaredField("outObjQueue");
         f.setAccessible(true);
         outObjQueue=(Queue)f.get(uut);
+
         f=Comm.class.getDeclaredField("outReqQueue");
         f.setAccessible(true);
         outReqQueue=(Queue)f.get(uut);
+
         commLayerF=Comm.class.getDeclaredField("commLayer");
         commLayerF.setAccessible(true);
+
         sentReq=false;
         closed=false;
         failLogin=false;
@@ -42,36 +47,36 @@ public class CommTest {
     @Test(timeout = 1000)
     public void testPushPop() throws Exception{
         KeepAliveRequest req=new KeepAliveRequest();
+
         uut.pushOutReq(req);
         uut.pushOutObj("test");
         assertEquals(req,outReqQueue.peek());
         assertEquals("test",outObjQueue.peek());
 
-        Instant ts=uut.getLastSeen();
         uut.pushInReq(req);
         assertEquals(req,uut.popInPendingReq());
-        while(ts==uut.getLastSeen());
 
-        ts=uut.getLastSeen();
+        Instant ts=uut.getLastSeen();
         uut.pushInObj("test");
         assertEquals("test",uut.popInPendingObj());
+
+        //Timestamp must change(otherwise JUnit timeout kicks in)
         while(ts==uut.getLastSeen());
     }
 
     @Test
-    public void testInit() throws Exception{
+    public void testInit(){
         assertNull(uut.getUsername());
         assertNull(uut.getHost());
         assertNull(uut.getPassword());
         assertNull(uut.getMatchInfo());
+
         uut.changeLayer(true,0,0);
-        uut.sendOutObj();
-        uut.sendOutReq();
 
-        MatchIdentifier mId=new MatchIdentifier("a","b",null,null);
-        uut.setMatchInfo(mId);
-        assertEquals(mId,uut.getMatchInfo());
+    }
 
+    @Test
+    public void testSetters() throws Exception{
         Method setPw=Comm.class.getDeclaredMethod("setPassword", String.class);
         setPw.setAccessible(true);
         setPw.invoke(uut,"testPw");
@@ -81,6 +86,10 @@ public class CommTest {
         setUsn.setAccessible(true);
         setUsn.invoke(uut,"test");
         assertEquals("test",uut.getUsername());
+
+        MatchIdentifier mId=new MatchIdentifier("a","b",null,null);
+        uut.setMatchInfo(mId);
+        assertEquals(mId,uut.getMatchInfo());
     }
 
     @Test
@@ -95,11 +104,15 @@ public class CommTest {
     public void testSend() throws Exception{
         commLayerF.set(uut,new TestCommLayer(uut));
         KeepAliveRequest req=new KeepAliveRequest();
+
         uut.pushOutReq(req);
         uut.pushOutObj("test");
+        assertEquals(req,outReqQueue.peek());
+        assertEquals("test",outObjQueue.peek());
 
         uut.sendOutReq();
         assertTrue(sentReq);
+
         sentReq=false;
         uut.sendOutObj();
         assertTrue(sentReq);
@@ -121,6 +134,7 @@ public class CommTest {
         CommLayer cL=new TestCommLayer(uut);
         KeepAliveRequest kA=new KeepAliveRequest();
         commLayerF.set(uut,cL);
+
         cL.receiveInObj("test");
         cL.receiveInReq(kA);
         assertEquals(kA,uut.popInPendingReq());
@@ -132,6 +146,7 @@ public class CommTest {
         CommMock uut2=new CommMock();
         assertTrue(uut2.tryRecover(false));
         assertFalse(uut2.purged);
+
         uut2.fail=true;
         assertFalse(uut2.tryRecover(true));
         assertTrue(uut2.purged);
@@ -139,10 +154,9 @@ public class CommTest {
 
     @Test
     public void testCreateComm() throws Exception{
-
-        commLayerF.set(uut,null);
         assertTrue(uut.createComm(true));
         assertEquals(RMICommLayer.class,commLayerF.get(uut).getClass());
+
         assertFalse(uut.createComm(false));
 
         commLayerF.set(uut,null);
@@ -155,12 +169,12 @@ public class CommTest {
         CommMock uut2=new CommMock();
         uut2.noMockLogin=true;
         failLogin=true;
+
         String result=uut2.login("host",1,2,true,"usn","pw",true,false,null);
         assertNotNull(result);
 
         failLogin=false;
         result=uut2.login("host",1,2,true,"usn","pw",true,false,null);
-
         assertNull(result);
     }
 
@@ -168,6 +182,7 @@ public class CommTest {
     public void testDCRoutines() throws Exception{
         Field f=Comm.class.getDeclaredField("reconnectW");
         f.setAccessible(true);
+
         uut.beginDisconnectedRoutines();
         ReconnectWaker rW=(ReconnectWaker)f.get(uut);
         assertTrue(rW.isRunning());

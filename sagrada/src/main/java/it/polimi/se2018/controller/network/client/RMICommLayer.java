@@ -125,14 +125,17 @@ class RMICommLayer extends CommLayer {
                 return session.getLoginOutput().msg;
             }
         } catch(RemoteException e){
-            logger.log(Level.SEVERE,"Error connecting through RMI ",e);
+            logger.log(Level.SEVERE,"Error connecting through RMI {0}",e.getMessage());
             cleanUp();
-            return "Failed initializing connection";
+            return "Failed initializing RMI connection";
         } catch (NotBoundException e) {
             logger.log(Level.SEVERE,"RMI Resource not found"+e.getMessage());
             cleanUp();
             return "Failed to find RMI resource";
+        } catch (Exception e){
+            logger.log(Level.SEVERE,"Failed initializing RMI connection "+e.getMessage());
         }
+        return "Error";
 
     }
 

@@ -20,7 +20,7 @@ class DisconnectChecker{
     private final long deathTimeout;
     private final long purgeTimeout;
     private final Client client;
-    private volatile AtomicBoolean warned;
+    private final AtomicBoolean warned;
     private Timer t;
     private final Logger logger;
 
@@ -38,7 +38,7 @@ class DisconnectChecker{
         this.client = client;
         this.logger=Logger.getGlobal();
         warned=new AtomicBoolean(false);
-        continua=true;
+        continua=false;
         t=new Timer();
     }
 

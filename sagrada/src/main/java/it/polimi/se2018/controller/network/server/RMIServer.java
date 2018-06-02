@@ -17,6 +17,9 @@ class RMIServer extends ServerComm {
 
     private RMIServerIntImpl rmiObj;
     private final Logger logger;
+    private final int port;
+    private final String name;
+    private final InetAddress ip;
 
     /**
      * Creates a RMI login service
@@ -25,11 +28,17 @@ class RMIServer extends ServerComm {
      * @param port the port to use
      * @param name the name to use for the resource
      * @param ip the name of the network interface to use
-     * @throws RemoteException if errors occurred
      */
-    RMIServer(ServerMain handler, int port, String name,InetAddress ip) throws RemoteException{
+    RMIServer(ServerMain handler, int port, String name,InetAddress ip){
         super(handler);
         logger=Logger.getGlobal();
+        this.port=port;
+        this.name=name;
+        this.ip=ip;
+    }
+
+    @Override
+    void connect() throws RemoteException{
         try {
             System.setProperty("java.rmi.server.hostname",ip.getHostAddress());
             rmiObj=new RMIServerIntImpl(this);

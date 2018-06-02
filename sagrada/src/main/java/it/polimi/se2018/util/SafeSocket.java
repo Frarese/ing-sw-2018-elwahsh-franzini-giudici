@@ -169,12 +169,14 @@ public class SafeSocket implements Runnable {
      * @throws InterruptedException if interrupted
      */
     public Serializable receive() throws InterruptedException {
+        Serializable out;
         synchronized (inQueue) {
             while (inQueue.isEmpty()) {
                 inQueue.wait();
             }
-            return inQueue.remove();
+            out= inQueue.remove();
         }
+        return out;
     }
 
     @Override

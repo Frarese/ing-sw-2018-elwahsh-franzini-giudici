@@ -16,11 +16,13 @@ public class SocketServerTest {
     @Test(expected = IllegalArgumentException.class)
     public void testFailArgs() throws IOException {
         uut=new SocketServer(null,-1,0);
+        uut.connect();
     }
 
     @Test(expected = IOException.class)
     public void testFailInit() throws IOException {
         uut=new SocketServer(null,1,1);
+        uut.connect();
     }
 
     @Test
