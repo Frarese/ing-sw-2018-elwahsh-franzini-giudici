@@ -27,7 +27,7 @@ public class SocketServerTest {
 
     @Test
     public void testCheckAndWrap() throws Exception{
-        uut=new SocketServer(null,10006,10007);
+        uut=new SocketServer(null,-1,-1);
         Method m=SocketServer.class.getDeclaredMethod("checkAndWrap", SafeSocket.class);
         m.setAccessible(true);
         SocketMock s=new SocketMock();

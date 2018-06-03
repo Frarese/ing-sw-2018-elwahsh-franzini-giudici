@@ -25,7 +25,7 @@ public class ServerMainTest {
     public void setUp() throws Exception {
         File uf=new File("users.csv");
         if(uf.exists())assertTrue(uf.delete());
-        uut=new ServerMain(9999,10000,10001,LoginResponsesEnum.RESOURCE_NAME.msg,InetAddress.getLocalHost(),new MockFactory());
+        uut=new ServerMain(-1,-1,-1,LoginResponsesEnum.RESOURCE_NAME.msg,InetAddress.getLocalHost(),new MockFactory());
 
         Field f=ServerMain.class.getDeclaredField("clientMap");
         f.setAccessible(true);

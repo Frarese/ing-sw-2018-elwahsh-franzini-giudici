@@ -23,6 +23,11 @@ class SocketCommLayer extends CommLayer {
     private SocketInQueueFiller sockListenerObj;
 
     private final Logger logger;
+
+    private String host;
+    private int reqPort;
+    private int objPort;
+
     /**
      * Initializes this socket comm layer
      * @param comm the main comm object
@@ -40,44 +45,14 @@ class SocketCommLayer extends CommLayer {
             return "Already logged";
         }
         try {
-            reqSoc=new SafeSocket(SafeSocket.DEFAULT_TIMEOUT);
-            if(!reqSoc.connect(host,reqPort)){
-                return "Failed to connect to "+host+" "+reqPort;
-            }
-            reqSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
-            LoginResponsesEnum answer= (LoginResponsesEnum) reqSoc.receive();
-            if(answer == LoginResponsesEnum.LOGIN_OK){
-                logger.log(Level.INFO,"First login phase successful");
-                objSoc=new SafeSocket(SafeSocket.DEFAULT_TIMEOUT);
-                objSoc.connect(host,objPort);
-                objSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
-                answer= (LoginResponsesEnum) objSoc.receive();
-                if(answer == LoginResponsesEnum.LOGIN_OK){
-                    sockListenerObj=new SocketInQueueFiller(this,objSoc,false);
-                    sockListenerReq=new SocketInQueueFiller(this,reqSoc,true);
-                    sockListenerObj.start();
-                    sockListenerReq.start();
-                    logger.log(Level.INFO,"Login was successful");
-                    return null;
-                }else{
-                    close();
-                    cleanUp();
-                    return answer.msg;
-                }
-            }else{
-                close();
-                cleanUp();
-                return answer.msg;
-            }
+            this.host=host;
+            this.reqPort=reqPort;
+            this.objPort=objPort;
+            return connect(new SafeSocket(SafeSocket.DEFAULT_TIMEOUT), new SafeSocket(SafeSocket.DEFAULT_TIMEOUT),isRecovery,usn,pw,newUser);
         } catch (IOException e) {
-            logger.log(Level.SEVERE,"Error connecting through Socket "+e.getMessage());
-            cleanUp();
+            logger.log(Level.SEVERE,"Error building safe socket"+e.getMessage());
+            close();
             return "Failed initializing connection";
-        } catch (InterruptedException e) {
-            logger.log(Level.SEVERE,"Error retrieving login result through Socket "+e.getMessage());
-            cleanUp();
-            Thread.currentThread().interrupt();
-            return "Failed retrieving results";
         }
     }
 
@@ -112,6 +87,7 @@ class SocketCommLayer extends CommLayer {
         if(sockListenerReq!=null){
             sockListenerReq.stop();
         }
+        cleanUp();
         return true;
     }
 
@@ -120,5 +96,50 @@ class SocketCommLayer extends CommLayer {
         sockListenerReq=null;
         reqSoc=null;
         objSoc=null;
+        host="";
+        reqPort=0;
+        objPort=0;
+    }
+
+    private String connect(SafeSocket reqSoc,SafeSocket objSoc, boolean isRecovery, String usn, String pw, boolean newUser){
+        try {
+            this.reqSoc=reqSoc;
+            if(!reqSoc.connect(host,reqPort)){
+                return "Failed to connect to "+host+" "+reqPort;
+            }
+
+            reqSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
+            LoginResponsesEnum answer= (LoginResponsesEnum) reqSoc.receive();
+
+            if(answer == LoginResponsesEnum.LOGIN_OK){
+                logger.log(Level.INFO,"First login phase successful");
+                this.objSoc=objSoc;
+                objSoc.connect(host,objPort);
+
+                objSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
+                answer= (LoginResponsesEnum) objSoc.receive();
+
+                if(answer == LoginResponsesEnum.LOGIN_OK){
+                    sockListenerObj=new SocketInQueueFiller(this,objSoc,false);
+                    sockListenerReq=new SocketInQueueFiller(this,reqSoc,true);
+                    sockListenerObj.start();
+                    sockListenerReq.start();
+
+                    logger.log(Level.INFO,"Login was successful");
+                    return null;
+                }else{
+                    close();
+                    return answer.msg;
+                }
+            }else{
+                close();
+                return answer.msg;
+            }
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE,"Error retrieving login result through Socket "+e.getMessage());
+            close();
+            Thread.currentThread().interrupt();
+            return "Failed retrieving results";
+        }
     }
 }

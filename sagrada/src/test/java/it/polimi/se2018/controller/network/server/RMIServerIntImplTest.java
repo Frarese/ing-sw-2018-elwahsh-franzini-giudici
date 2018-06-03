@@ -30,8 +30,8 @@ public class RMIServerIntImplTest {
     private class RMIServerMock extends RMIServer{
 
 
-        RMIServerMock(InetAddress ip) throws RemoteException {
-            super(null, 10001, "testname", ip);
+        RMIServerMock(InetAddress ip) {
+            super(null, -1, "testname", ip);
         }
 
         @Override

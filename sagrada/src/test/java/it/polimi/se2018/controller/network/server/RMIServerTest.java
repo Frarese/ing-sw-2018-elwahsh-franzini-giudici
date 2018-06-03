@@ -29,7 +29,7 @@ public class RMIServerTest {
 
     @Test
     public void testRegister() throws Exception{
-        uut=new RMIServer(s,10002,"test",InetAddress.getLocalHost());
+        uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
         response=uut.login("test","pw",false,true);
         assertEquals(LoginResponsesEnum.USER_ALREADY_EXISTS,response.getLoginOutput());
 
@@ -40,7 +40,7 @@ public class RMIServerTest {
 
     @Test
     public void testRecover() throws Exception{
-        uut=new RMIServer(s,10003,"test",InetAddress.getLocalHost());
+        uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
         response=uut.login("test","pw",true,false);
         assertEquals(LoginResponsesEnum.USER_NOT_LOGGED,response.getLoginOutput());
 
@@ -54,7 +54,7 @@ public class RMIServerTest {
 
     @Test
     public void testNormal() throws Exception{
-        uut=new RMIServer(s,10004,"test",InetAddress.getLocalHost());
+        uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
         response=uut.login("test","pw2",false,false);
         assertEquals(LoginResponsesEnum.WRONG_CREDENTIALS,response.getLoginOutput());
 

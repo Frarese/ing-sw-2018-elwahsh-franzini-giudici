@@ -1,9 +1,11 @@
 package it.polimi.se2018.controller.network;
 
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.server.*;
 import it.polimi.se2018.util.MatchIdentifier;
 import org.junit.Before;
 import org.junit.Test;
+
+
 import java.net.InetAddress;
 
 public class MatchResponseRequestTest {
@@ -12,7 +14,7 @@ public class MatchResponseRequestTest {
 
     @Before
     public void setUp() throws Exception{
-        s=new ServerMain(0,0,0,"a",InetAddress.getLocalHost(),null);
+        s=new ServerMain(0,0,0,"",InetAddress.getLocalHost(),null);
 
     }
     @Test(expected = IllegalArgumentException.class)
@@ -25,7 +27,6 @@ public class MatchResponseRequestTest {
         MatchIdentifier mId=new MatchIdentifier("us1","us2",null,null);
         uut=new MatchResponseRequest(false,mId);
         uut.serverHandle(null,s);
-
     }
 
 
