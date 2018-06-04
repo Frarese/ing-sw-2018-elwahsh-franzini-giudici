@@ -2,13 +2,13 @@ package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import it.polimi.se2018.view.tools.DieViewCreator;
+import it.polimi.se2018.view.tools.ReserveViewCreator;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,14 +19,19 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class FXReserveViewCreatorTest {
+    private ArrayList<Pair> hitList;
+    private Field dieCreatorF;
 
     @Before
-    public void initTest() {
-        new JFXPanel();
+    public void initTest() throws Exception{
+        hitList=new ArrayList<>();
+        dieCreatorF=ReserveViewCreator.class.getDeclaredField("dieViewCreator");
+        dieCreatorF.setAccessible(true);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void testDisplay() {
+    public void testDisplay() throws Exception{
         Pair<Integer, ColorModel>[] reserve = new Pair[9];
         reserve[0] = new Pair<>(1, ColorModel.RED);
         reserve[1] = new Pair<>(2, ColorModel.RED);
@@ -38,115 +43,42 @@ public class FXReserveViewCreatorTest {
         reserve[7] = new Pair<>(3, ColorModel.BLUE);
         reserve[8] = new Pair<>(6, ColorModel.BLUE);
 
+        List<Pair> pairList = Arrays.asList(reserve);
+
         FXReserveViewCreator reserveViewCreator = new FXReserveViewCreator(reserve);
-        VBox reserveView = reserveViewCreator.display();
 
-        //First die
-        HBox row = (HBox) reserveView.getChildren().get(0);
-        VBox cell = (VBox) row.getChildren().get(0);
+        dieCreatorF.set(reserveViewCreator,new ReserveViewCreatorMock());
 
-        Image aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        int error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
+        reserveViewCreator.display();
 
-        assertEquals(0, error);
-
-        //Second die
-        row = (HBox) reserveView.getChildren().get(0);
-        cell = (VBox) row.getChildren().get(1);
-
-        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val2cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
-
-        assertEquals(0, error);
-
-        //Third die
-        row = (HBox) reserveView.getChildren().get(0);
-        cell = (VBox) row.getChildren().get(2);
-
-        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val3cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
-
-        assertEquals(0, error);
-
-        //Fourth die
-        row = (HBox) reserveView.getChildren().get(1);
-        cell = (VBox) row.getChildren().get(0);
-
-        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val4cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
-
-        assertEquals(0, error);
-
-        //Fifth die
-        row = (HBox) reserveView.getChildren().get(1);
-        cell = (VBox) row.getChildren().get(1);
-
-        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val5cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
-
-        assertEquals(0, error);
-
-        //Sixth die
-        row = (HBox) reserveView.getChildren().get(1);
-        cell = (VBox) row.getChildren().get(2);
-
-        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val6cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
-
-        assertEquals(0, error);
-
-        //Seventh die
-        row = (HBox) reserveView.getChildren().get(2);
-        cell = (VBox) row.getChildren().get(0);
-
-        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
-
-        assertEquals(0, error);
-
-        //Eighth die
-        row = (HBox) reserveView.getChildren().get(2);
-        cell = (VBox) row.getChildren().get(1);
-
-        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val3cBLUE.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
-
-        assertEquals(0, error);
-
-        //Ninth die
-        row = (HBox) reserveView.getChildren().get(2);
-        cell = (VBox) row.getChildren().get(2);
-
-        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val6cBLUE.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(), aspect);
-
-        assertEquals(0, error);
+        for(int i=0;i<9;i++){
+            assertEquals(hitList.get(i),pairList.get(i));
+        }
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void testPickDie() {
+    public void testPickDie() throws Exception{
         Pair<Integer, ColorModel>[] reserve = new Pair[1];
         reserve[0] = new Pair<>(1, ColorModel.RED);
 
         FXReserveViewCreator reserveViewCreator = new FXReserveViewCreator(reserve);
 
-        Image aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cRED.png", FXConstants.GRID_CELL_DIM_VALUE, FXConstants.GRID_CELL_DIM_VALUE, true, false);
-        int error = this.dieCheck(reserveViewCreator.pickDie(0), aspect);
+        dieCreatorF.set(reserveViewCreator,new ReserveViewCreatorMock());
 
-        assertEquals(0, error);
+        reserveViewCreator.pickDie(0);
+        assertEquals(hitList.get(0),reserve[0]);
+
     }
 
-    private int dieCheck(Image image, Image aspect) {
-        int error = 0;
 
-        for (int x = 0; x < (int) image.getWidth(); x++) {
-            for (int y = 0; y < (int) image.getHeight(); y++) {
-                if (image.getPixelReader().getArgb(x, y) != aspect.getPixelReader().getArgb(x, y)) {
-                    error++;
-                }
-            }
+    private class ReserveViewCreatorMock implements DieViewCreator {
+
+
+        @Override
+        public Object makeDie(Pair die) {
+            hitList.add(die);
+            return null;
         }
-
-        return error;
     }
 }

@@ -43,6 +43,7 @@ public class Match implements MatchNetworkInterface{
         clientMap.forEach((pos,c)->
                 c.pushOutReq(new MatchBeginRequest(matchId))
         );
+        clientMap.forEach((pos,c)->serverMain.removeFromMatchMaking(c));
         this.control=serverMain.factory.buildMatch(matchId,this);
 
     }

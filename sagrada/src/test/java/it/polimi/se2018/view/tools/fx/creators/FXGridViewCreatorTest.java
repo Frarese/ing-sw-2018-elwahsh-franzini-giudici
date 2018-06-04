@@ -2,13 +2,13 @@ package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import it.polimi.se2018.view.tools.DieViewCreator;
+import it.polimi.se2018.view.tools.GridViewCreator;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,14 +19,19 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class FXGridViewCreatorTest {
+    private ArrayList<Pair> hitList;
+    private Field dieCreatorF;
 
     @Before
-    public void initTest(){
-        new JFXPanel();
+    public void initTest() throws Exception{
+        hitList=new ArrayList<>();
+        dieCreatorF=GridViewCreator.class.getDeclaredField("dieViewCreator");
+        dieCreatorF.setAccessible(true);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void testDisplay() {
+    public void testDisplay() throws Exception{
         Pair<Integer, ColorModel>[][] pattern = new Pair[2][3];
         pattern[0][0] = new Pair<>(1, ColorModel.WHITE);
         pattern[0][1] = new Pair<>(0, ColorModel.RED);
@@ -37,57 +42,43 @@ public class FXGridViewCreatorTest {
         grid[1][1] = new Pair<>(6, ColorModel.VIOLET);
 
         FXGridViewCreator gridViewCreator = new FXGridViewCreator(grid,pattern,"BLACK");
-        VBox viewGrid = gridViewCreator.display();
+        dieCreatorF.set(gridViewCreator,new DieViewCreatorMock());
+        gridViewCreator.display();
 
-        HBox row = (HBox) viewGrid.getChildren().get(1);
-        VBox cell = (VBox) row.getChildren().get(0);
+        assertEquals(grid[1][0],hitList.get(0));
 
-        Image aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
-        int error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(),aspect);
+        assertEquals(grid[1][1],hitList.get(1));
 
-        assertEquals(0,error);
-
-        row = (HBox) viewGrid.getChildren().get(1);
-        cell = (VBox) row.getChildren().get(1);
-
-        aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val6cVIOLET.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
-        error = this.dieCheck(((ImageView) cell.getChildren().get(0)).getImage(),aspect);
-
-        assertEquals(0,error);
 
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void testAddADie() {
         FXGridViewCreator gridViewCreator = new FXGridViewCreator(null,null,"BLACK");
-        Image die = new Image("/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
-        gridViewCreator.addADie(die,1,1);
+        gridViewCreator.addADie(null,1,1);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void testPickDie() {
+    public void testPickDie() throws Exception{
         Pair<Integer, ColorModel>[][] grid = new Pair[2][3];
         grid[1][0] = new Pair<>(1, ColorModel.BLUE);
 
         FXGridViewCreator gridViewCreator = new FXGridViewCreator(grid,null,"BLACK");
+        dieCreatorF.set(gridViewCreator,new DieViewCreatorMock());
 
-        Image aspect = new Image("/it/polimi/se2018/view/images/die/value_color/val1cBLUE.png",FXConstants.GRID_CELL_DIM_VALUE,FXConstants.GRID_CELL_DIM_VALUE,true,false);
-        int error = this.dieCheck(gridViewCreator.pickDie(1,0),aspect);
+        gridViewCreator.pickDie(1,0);
+        assertEquals(grid[1][0],hitList.get(0));
 
-        assertEquals(0,error);
     }
 
-    private int dieCheck(Image image, Image aspect){
-        int error = 0;
+    private class DieViewCreatorMock implements DieViewCreator {
 
-        for (int x = 0; x < (int) image.getWidth(); x++) {
-            for (int y = 0; y < (int) image.getHeight(); y++) {
-                if (image.getPixelReader().getArgb(x, y) != aspect.getPixelReader().getArgb(x, y)) {
-                    error++;
-                }
-            }
+
+        @Override
+        public Object makeDie(Pair die) {
+            hitList.add(die);
+            return null;
         }
-
-        return error;
     }
 }

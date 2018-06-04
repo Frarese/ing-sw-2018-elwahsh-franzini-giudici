@@ -32,7 +32,7 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
         //Check private objective card
         if (cardID == privateObjectiveCard.cardID) {
             String url = "/it/polimi/se2018/view/images/private_cards/privateObjective" + cardID + ".jpg";
-            return new Image(url);
+            return makeImage(url);
         }
 
         //Check public objective cards
@@ -40,7 +40,7 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
             if (cardID == publicObjectiveCard.cardID) {
                 int card = cardID - 10;
                 String url = "/it/polimi/se2018/view/images/public_cards/publicObjective" + card + ".jpg";
-                return new Image(url);
+                return makeImage(url);
             }
         }
 
@@ -49,7 +49,7 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
             if (cardID == toolCard.cardID) {
                 int card = cardID - 20;
                 String url = "/it/polimi/se2018/view/images/tool_cards/toolCard" + card + ".jpg";
-                return new Image(url);
+                return makeImage(url);
             }
         }
 
@@ -58,5 +58,9 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
         Logger.getGlobal().log(Level.WARNING, message);
         return null;
 
+    }
+
+    Image makeImage(String url){
+        return new Image(url);
     }
 }
