@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
+import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.ScoreEntry;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,12 +31,13 @@ public class CLIScoreViewCreatorTest {
         scores = new ArrayList();
         scores.add(new ScoreEntry("Marco", 2, 0));
         scores.add(new ScoreEntry("Luca", 1, 0));
-        result.add("Marco, Punti 2");
-        result.add("Luca, Punti 1");
+        result.add("Luca, Punti 2");
+        result.add("Marco, Punti 1");
     }
 
     @Test
     public void testDisplay() {
-        assertEquals(result, scoreViewCreator.display(scores));
+        MatchIdentifier matchIdentifier = new MatchIdentifier("Marco", "Luca", null, null);
+        assertEquals(result, scoreViewCreator.display(matchIdentifier, 2, 1, 0, 0));
     }
 }

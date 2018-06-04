@@ -132,7 +132,14 @@ public class CLIReader {
     }
 
     /**
-     * To close the input reader
+     * Resets the input reader
+     */
+    public synchronized void reset() {
+        scanner.reset();
+    }
+
+    /**
+     * Closes the input reader
      */
     public synchronized void close() {
         scanner.reset();

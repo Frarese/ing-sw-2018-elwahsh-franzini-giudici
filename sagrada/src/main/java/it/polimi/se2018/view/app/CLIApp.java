@@ -521,7 +521,7 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void gameEnd(List<ScoreEntry> scores) {
+    public void gameEnd(MatchIdentifier matchIdentifier, int player0, int player1, int player2, int player3) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
@@ -529,11 +529,16 @@ public class CLIApp extends App {
 
         //Print
         this.scoreViewCreator = new CLIScoreViewCreator();
-        printer.printArray(scoreViewCreator.display(scores));
+        printer.printArray(scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3));
 
         //Call menu method
         this.isYourTurn = false;
         this.menu();
+    }
+
+    @Override
+    public void abortMatch() {
+
     }
 
     @Override

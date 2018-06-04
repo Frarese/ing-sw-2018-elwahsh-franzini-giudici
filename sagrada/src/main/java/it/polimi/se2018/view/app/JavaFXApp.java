@@ -224,8 +224,13 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void gameEnd(List<ScoreEntry> scores) {
+    public void gameEnd(MatchIdentifier matchIdentifier, int player0, int player1, int player2, int player3) {
         throw new UnsupportedOperationException();
+
+   }
+
+    @Override
+    public void abortMatch() {
 
     }
 

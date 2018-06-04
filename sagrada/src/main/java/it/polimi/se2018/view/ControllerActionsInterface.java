@@ -103,7 +103,8 @@ public interface ControllerActionsInterface {
 
     /**
      * View's method to initialize a game
-     *  @param players          contains game's players
+     *
+     * @param players          contains game's players
      * @param reserveView      contains reserve view observable object
      * @param roundTrackerView contains round tracker view observable object
      */
@@ -179,8 +180,17 @@ public interface ControllerActionsInterface {
     /**
      * Notifies when match ends
      *
-     * @param scores contains a list of score,player (order)
+     * @param matchIdentifier contains the MatchIdentifier of the match just ended
+     * @param player0         contains the points of first player
+     * @param player1         contains the points of second player
+     * @param player2         contains the points of third player
+     * @param player3         contains the points of fourth player
      */
-    void gameEnd(List<ScoreEntry> scores);
+    void gameEnd(MatchIdentifier matchIdentifier, int player0, int player1, int player2, int player3);
+
+    /**
+     * Notifies game abort
+     */
+    void abortMatch();
 
 }

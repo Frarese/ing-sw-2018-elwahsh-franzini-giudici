@@ -23,7 +23,7 @@ public class CLIReaderTest {
     private CLIPrinter cliPrinter;
 
     @Before
-    public void testInit(){
+    public void testInit() {
         cliPrinter = new CLIPrinter();
     }
 
@@ -89,7 +89,7 @@ public class CLIReaderTest {
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
         this.cliReader = new CLIReader(this.cliPrinter);
-        int returnValue = this.cliReader.chooseInRange(0,3);
+        int returnValue = this.cliReader.chooseInRange(0, 3);
 
         assertEquals(0, returnValue);
     }
@@ -100,7 +100,7 @@ public class CLIReaderTest {
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
         this.cliReader = new CLIReader(this.cliPrinter);
-        int returnValue = this.cliReader.chooseInRange(1,3);
+        int returnValue = this.cliReader.chooseInRange(1, 3);
 
         assertEquals(2, returnValue);
     }
@@ -111,7 +111,7 @@ public class CLIReaderTest {
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
         this.cliReader = new CLIReader(this.cliPrinter);
-        int returnValue = this.cliReader.chooseBetweenTwo(1,2);
+        int returnValue = this.cliReader.chooseBetweenTwo(1, 2);
 
         assertEquals(1, returnValue);
     }
@@ -122,7 +122,7 @@ public class CLIReaderTest {
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
         this.cliReader = new CLIReader(this.cliPrinter);
-        int returnValue = this.cliReader.chooseBetweenTwo(1,2);
+        int returnValue = this.cliReader.chooseBetweenTwo(1, 2);
 
         assertEquals(2, returnValue);
     }
@@ -130,6 +130,7 @@ public class CLIReaderTest {
     @After
     public void testCloseOperation() {
         System.setIn(System.in);
+        cliReader.reset();
         cliReader.close();
     }
 }

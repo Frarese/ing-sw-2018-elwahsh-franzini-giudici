@@ -647,10 +647,7 @@ public class CLIAppTest {
         testSetApp(new FakeViewAction(null));
         this.app.loginResult(true, null);
 
-        List<ScoreEntry> scoreEntries = new ArrayList<>();
-        scoreEntries.add(new ScoreEntry("Test", 1, 1));
-
-        this.app.gameEnd(scoreEntries);
+        this.app.gameEnd(new MatchIdentifier("Test", "Test2", null, null), 1, 0, 0, 0);
         //No test of System.out because it's tested in CLIScoreViewCreator
     }
 
@@ -880,7 +877,7 @@ public class CLIAppTest {
         this.app.useToolCardUpdate(null, 0);
         this.app.passTurnResult(false);
         this.app.passTurnUpdate(null);
-        this.app.gameEnd(null);
+        this.app.gameEnd(null, 0, 0, 0, 0);
     }
 
     @Test
