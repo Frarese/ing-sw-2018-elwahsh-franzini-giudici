@@ -4,13 +4,11 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.model.cards.PrivateObjectiveCard;
 import it.polimi.se2018.model.dice.Grid;
 
-import java.util.Observable;
-
 /**
  * Model representation of a player in game
  * @author Alì El wahsh
  */
-public class Player extends Observable {
+public class Player {
 
     /*Info about the player*/
     private final String name;

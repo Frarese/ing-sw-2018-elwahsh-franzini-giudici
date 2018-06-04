@@ -5,11 +5,13 @@ import it.polimi.se2018.controller.game.server.handlers.DiePlacementHandler;
 import it.polimi.se2018.controller.game.server.handlers.ToolCardHandlerFactory;
 import it.polimi.se2018.controller.network.server.MatchController;
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
-import it.polimi.se2018.events.Event;
 import it.polimi.se2018.events.actions.DiePlacementMove;
 import it.polimi.se2018.events.actions.PassTurn;
 import it.polimi.se2018.events.actions.PlayerMove;
 import it.polimi.se2018.events.actions.UseToolCardMove;
+import it.polimi.se2018.events.messages.PlayerStatus;
+import it.polimi.se2018.events.messages.ReserveStatus;
+import it.polimi.se2018.events.messages.RoundTrackStatus;
 import it.polimi.se2018.events.messages.TurnStart;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Player;
@@ -24,7 +26,7 @@ import java.util.logging.Logger;
  * Principal class of the controller inside the server
  * @author Alì El Wahsh
  */
-public class ServerController implements MatchController,Observer, Runnable {
+public class ServerController implements MatchController, Runnable {
 
 
     private ArrayList<Player> players = new ArrayList<>();
@@ -60,6 +62,18 @@ public class ServerController implements MatchController,Observer, Runnable {
         this.network = network;
     }
 
+
+    private void startMatch()
+    {
+        board.rollDiceOnReserve(players.size());
+        for(Player p: players)
+            sendMatchStatus(p);
+
+        network.sendObj(new TurnStart(round.getCurrentPlayer().getName()));
+        timer = new Timer();
+        timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
+    }
+
     /**
      * After the 90 seconds limit is reached ends the current player's turn
      */
@@ -87,7 +101,7 @@ public class ServerController implements MatchController,Observer, Runnable {
         for(Player p: players)
         {
             if(!offlinePlayers.contains(p) && p.getName().equals(sender))
-                inBus.asyncPush((Event) req);
+                managePlayerMove((PlayerMove) req);
         }
     }
 
@@ -101,8 +115,10 @@ public class ServerController implements MatchController,Observer, Runnable {
     public void userReconnected(String username) {
         for(Player p: players)
         {
-            if(offlinePlayers.contains(p) && p.getName().equals(username))
+            if(offlinePlayers.contains(p) && p.getName().equals(username)) {
                 offlinePlayers.remove(p);
+                sendMatchStatus(p);
+            }
         }
     }
 
@@ -115,16 +131,6 @@ public class ServerController implements MatchController,Observer, Runnable {
             }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
-        if(arg instanceof PlayerMove) {
-            managePlayerMove((PlayerMove) arg);
-        }
-        else if(arg instanceof Event) {
-            manageEvent((Event) arg);
-        }
-    }
 
     /**
      * Sets all the necessary flags for a new round and initialize the new order
@@ -175,55 +181,70 @@ public class ServerController implements MatchController,Observer, Runnable {
      * If it's a placement it is handled by a DiePlacementHandler
      * If it's a tool card, by a CardHandler (called bya factory)
      * If it's a pass turn it ends the player turn
+     * Else it will be handled by running handlers
      * @param move player move
      */
     private void managePlayerMove(PlayerMove move)
     {
-        if(move.getPlayerName().equals(round.getCurrentPlayer().getName()))
-        {
-            if(move instanceof DiePlacementMove)
+        if(move.getPlayerName().equals(round.getCurrentPlayer().getName())) {
+            switch (move.toString())
             {
-                DiePlacementMove placement = (DiePlacementMove) move;
-                new Thread(new DiePlacementHandler(round.getCurrentPlayer(),
-                        placement,
-                        board.getReserve(),
-                        round.getFirstTurn(),
-                        network),
-                        "PlacementHandler" + round.getCurrentPlayer().hashCode()).start();
+                case "Placement":
+                    DiePlacementMove placement = (DiePlacementMove) move;
+                    new Thread(new DiePlacementHandler(round.getCurrentPlayer(),
+                            placement,
+                            board.getReserve(),
+                            round.getFirstTurn(),
+                            network),
+                            "PlacementHandler" + round.getCurrentPlayer().hashCode()).start();
+                    break;
+
+                case "UseCard":
+                    UseToolCardMove useCard = (UseToolCardMove) move;
+                    new Thread(new ToolCardHandlerFactory()
+                            .getCardHandler(round.getCurrentPlayer(),
+                                    useCard,
+                                    board,
+                                    round.getFirstTurn(),
+                                    network), "CardHandler" + round.getCurrentPlayer().hashCode()).start();
+                    break;
+
+                case "PassTurn":
+                    newTurn();
+                    break;
+
+
+                default : inBus.asyncPush(move);
+
+
+
             }
-            else if(move instanceof UseToolCardMove)
-            {
-                UseToolCardMove useCard = (UseToolCardMove) move;
-                new Thread(new ToolCardHandlerFactory()
-                        .getCardHandler(round.getCurrentPlayer(),
-                        useCard,
-                        board,
-                        round.getFirstTurn(),
-                        network), "CardHandler" + round.getCurrentPlayer().hashCode()).start();
-            }
-            else if (move instanceof PassTurn)
-                newTurn();
         }
     }
 
     /**
-     * Handles non game events
-     * @param event non game event
-     * */
-    private void manageEvent(Event event)
+     * Sends the status of the match to a single player
+     * @param player player to be updated about the status of the match
+     */
+    private void sendMatchStatus(Player player)
     {
-        throw new UnsupportedOperationException(event.toString());
+        network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
+        network.sendReq(new RoundTrackStatus(board.getRoundTrack()),player.getName());
+
+        for(Player p: players)
+            network.sendReq(new PlayerStatus(p),player.getName());
+    }
+
+    private void sendPatternCards()
+    {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void run() {
-        //Send GameState to all players
 
-        //start game
+        sendPatternCards();
 
-        network.sendObj(new TurnStart(round.getCurrentPlayer().getName()));
-        timer = new Timer();
-        timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
         while(!done)
         {
             try {

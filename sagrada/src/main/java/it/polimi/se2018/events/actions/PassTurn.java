@@ -12,5 +12,6 @@ public class PassTurn extends PlayerMove {
     public PassTurn(String name)
     {
         this.playerName = name;
+        this.description = "PassTurn";
     }
 }

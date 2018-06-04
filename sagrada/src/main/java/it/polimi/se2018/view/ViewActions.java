@@ -1,9 +1,8 @@
 package it.polimi.se2018.view;
 
-import it.polimi.se2018.events.actions.DiePlacementMove;
 import it.polimi.se2018.util.MatchIdentifier;
 
-import java.util.Observable;
+
 
 /**
  * Class for View-Controller communication
@@ -11,7 +10,7 @@ import java.util.Observable;
  * @author Mathyas Giudici
  */
 
-public class ViewActions extends Observable {
+public class ViewActions{
 
     private String ownerName;
 
@@ -130,8 +129,7 @@ public class ViewActions extends Observable {
      * @param width        contains width on the grid
      */
     public void setDie(int reserveIndex, int height, int width) {
-        setChanged();
-        notifyObservers(new DiePlacementMove(height, width, reserveIndex, ownerName, "Giocatore piazza dado", true, true, true));
+        throw new UnsupportedOperationException();
     }
 
     /**

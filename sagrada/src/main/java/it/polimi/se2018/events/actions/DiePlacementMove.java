@@ -21,10 +21,10 @@ public class DiePlacementMove extends PlayerMove
      * @param w width of the placement
      * @param diePosition position of the die inside teh reserve
      */
-    public DiePlacementMove(int h, int w, int diePosition, String name, String description, boolean color, boolean value, boolean adjacent)
+    public DiePlacementMove(int h, int w, int diePosition, String name, boolean color, boolean value, boolean adjacent)
     {
         this.playerName = name;
-        this.description = description;
+        this.description = "Placement";
         this.height = h;
         this.width = w;
         this.diePosition = diePosition;

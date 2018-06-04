@@ -5,6 +5,7 @@ import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
 import it.polimi.se2018.util.ScoreEntry;
+import it.polimi.se2018.view.app.App;
 
 import java.io.Serializable;
 import java.util.List;
@@ -32,7 +33,6 @@ public class ClientController implements CommUtilizer {
 
     @Override
     public void notifyInvite(MatchIdentifier match) {
-        throw new UnsupportedOperationException();
     }
 
     @Override

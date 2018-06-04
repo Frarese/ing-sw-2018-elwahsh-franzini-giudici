@@ -59,7 +59,7 @@ public class DiePlacementHandlerTest {
     @Test
     public void testRunFail()
     {
-        move = new DiePlacementMove(0,0,0,"Gigino","Piazzamneto",true,true,true);
+        move = new DiePlacementMove(0,0,0,"Gigino",true,true,true);
         reserve.add(new Die(ColorModel.RED));
         new Thread(new DiePlacementHandler(player,move,reserve,true,new TestNetwork())).start();
 
@@ -68,7 +68,7 @@ public class DiePlacementHandlerTest {
     @Test
     public void testRunSuccess()
     {
-        move = new DiePlacementMove(0,0,0,"Gigino","Piazzamneto",true,true,true);
+        move = new DiePlacementMove(0,0,0,"Gigino",true,true,true);
         reserve.add(new Die(ColorModel.RED));
         player.setPlacementRights(true,true);
         new Thread(new DiePlacementHandler(player,move,reserve,true,new TestNetwork())).start();

@@ -1,12 +1,14 @@
 package it.polimi.se2018.util;
 
+import java.io.Serializable;
+
 /**
  * Utility class, added to support mostly information exchanges,
  * in particular to avoid exposing the Die class outside of the model.
  * It represent a tuple of items
  */
 
-public class Pair<E, T> {
+public class Pair<E extends Serializable, T extends Serializable> implements Serializable {
 
     private final E first;
     private final T second;
