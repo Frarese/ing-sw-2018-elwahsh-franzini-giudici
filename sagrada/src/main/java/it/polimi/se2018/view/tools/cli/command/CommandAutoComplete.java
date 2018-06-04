@@ -10,6 +10,6 @@ public class CommandAutoComplete extends CLICommand {
 
     @Override
     public void doAction() {
-        this.app.getViewActions().autoCompleteGame();
+        this.app.getViewActions().joinMatchMaking();
     }
 }

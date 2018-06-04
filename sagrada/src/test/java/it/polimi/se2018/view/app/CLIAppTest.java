@@ -81,12 +81,8 @@ public class CLIAppTest {
         }
 
         @Override
-        public void selectedPattern(PatternView selected) {
-            Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
-            pattern[0][0] = new Pair<>(1, ColorModel.RED);
-            pattern[0][1] = new Pair<>(1, ColorModel.RED);
-
-            assertArrayEquals(pattern, selected.template);
+        public void selectedPattern(String name) {
+            assert !name.equals("");
         }
     }
 

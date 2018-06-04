@@ -263,16 +263,16 @@ public class CLIApp extends App {
         int pattern = reader.chooseInRange(1, 4);
         switch (pattern) {
             case 1:
-                viewActions.selectedPattern(pattern1);
+                viewActions.selectedPattern(pattern1.patternName);
                 break;
             case 2:
-                viewActions.selectedPattern(pattern2);
+                viewActions.selectedPattern(pattern2.patternName);
                 break;
             case 3:
-                viewActions.selectedPattern(pattern3);
+                viewActions.selectedPattern(pattern3.patternName);
                 break;
             case 4:
-                viewActions.selectedPattern(pattern4);
+                viewActions.selectedPattern(pattern4.patternName);
                 break;
             default:
                 Logger.getGlobal().log(Level.WARNING, "Qualcosa e\' andato storto nella selezione del pattern.");

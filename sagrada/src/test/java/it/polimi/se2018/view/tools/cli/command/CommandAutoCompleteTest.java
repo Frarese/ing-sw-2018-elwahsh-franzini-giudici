@@ -12,7 +12,7 @@ public class CommandAutoCompleteTest extends AbsCommandTest {
         }
 
         @Override
-        public void autoCompleteGame() {
+        public void joinMatchMaking() {
             assert true;
         }
     }

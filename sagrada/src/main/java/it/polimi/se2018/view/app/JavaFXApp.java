@@ -103,6 +103,9 @@ public class JavaFXApp extends App {
             } catch (Exception e) {
                 Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
             }
+        } else {
+            //TODO
+            Logger.getGlobal().log(Level.WARNING, "Login Operation");
         }
 
 
@@ -280,7 +283,7 @@ public class JavaFXApp extends App {
      */
     private void openWindow(String[] args) {
         Application.launch(JavaFXStageProducer.class, args);
-        Platform.runLater(() -> JavaFXStageProducer.setApp(this));
+        JavaFXStageProducer.setApp(this);
     }
 
     /**

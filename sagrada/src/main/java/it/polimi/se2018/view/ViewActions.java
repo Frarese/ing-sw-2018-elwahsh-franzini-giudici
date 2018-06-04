@@ -2,7 +2,6 @@ package it.polimi.se2018.view;
 
 import it.polimi.se2018.events.actions.DiePlacementMove;
 import it.polimi.se2018.util.MatchIdentifier;
-import it.polimi.se2018.util.PatternView;
 
 import java.util.Observable;
 
@@ -90,7 +89,7 @@ public class ViewActions extends Observable {
     /**
      * Participates to a match
      */
-    public void autoCompleteGame() {
+    public void joinMatchMaking() {
         throw new UnsupportedOperationException();
 
     }
@@ -110,7 +109,7 @@ public class ViewActions extends Observable {
      *
      * @param selected the selected pattern
      */
-    public void selectedPattern(PatternView selected) {
+    public void selectedPattern(String selected) {
         throw new UnsupportedOperationException();
 
     }

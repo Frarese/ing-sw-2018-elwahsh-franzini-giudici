@@ -4,61 +4,97 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane id="anchor" stylesheets="/it/polimi/se2018/view/app/fxmlFiles/cssFiles/loginCSS.css"
-            xmlns="http://javafx.com/javafx/8">
-    <VBox alignment="CENTER" prefHeight="238.0" prefWidth="610.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </padding>
-        <HBox alignment="CENTER" prefHeight="147.0" prefWidth="600.0" spacing="10.0">
-            <VBox.margin>
-                <Insets/>
-            </VBox.margin>
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.se2018.view.tools.fx.controller.LoginController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="238.0" prefWidth="610.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </padding>
-            <VBox alignment="CENTER_LEFT" spacing="5.0">
-                <Label text="Nome utente"/>
-                <TextField/>
-                <Label layoutX="10.0" layoutY="138.0" text="Password"/>
-                <PasswordField/>
-            </VBox>
-            <Separator orientation="VERTICAL" prefHeight="153.0" prefWidth="64.0"/>
-            <VBox alignment="CENTER_LEFT" prefHeight="400.0" prefWidth="291.0" spacing="5.0">
-                <HBox alignment="BOTTOM_LEFT" prefHeight="60.0" prefWidth="291.0" spacing="10.0">
-                    <VBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label text="Server"/>
-                        <TextField prefHeight="19.0" prefWidth="167.0"/>
-                    </VBox>
-                    <VBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label text="Connessione"/>
-                        <RadioButton mnemonicParsing="false" text="Socket"/>
-                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
-                                     text="RMI"/>
-                    </VBox>
+            <children>
+                <HBox alignment="CENTER" prefHeight="147.0" prefWidth="600.0" spacing="10.0">
+                    <VBox.margin>
+                        <Insets/>
+                    </VBox.margin>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <children>
+                        <VBox alignment="CENTER_LEFT" spacing="5.0">
+                            <children>
+                                <Label text="Nome utente"/>
+                                <TextField fx:id="name"/>
+                                <Label layoutX="10.0" layoutY="138.0" text="Password"/>
+                                <PasswordField fx:id="password"/>
+                                <CheckBox fx:id="newUser" mnemonicParsing="false" text="Nuovo utente"/>
+                            </children>
+                        </VBox>
+                        <Separator orientation="VERTICAL" prefHeight="153.0" prefWidth="64.0"/>
+                        <VBox alignment="CENTER_LEFT" prefHeight="400.0" prefWidth="291.0" spacing="5.0">
+                            <children>
+                                <HBox alignment="BOTTOM_LEFT" prefHeight="60.0" prefWidth="291.0" spacing="10.0">
+                                    <children>
+                                        <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                            <children>
+                                                <Label text="Server"/>
+                                                <TextField fx:id="server" prefHeight="19.0" prefWidth="167.0"/>
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                            <children>
+                                                <Label text="Connessione"/>
+                                                <RadioButton fx:id="socketRadio" mnemonicParsing="false"
+                                                             onAction="#selectedRadioSocket" text="Socket"/>
+                                                <RadioButton fx:id="rmiRadio" layoutX="10.0" layoutY="10.0"
+                                                             mnemonicParsing="false" onAction="#selectedRadioRMI"
+                                                             text="RMI"/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                            <children>
+                                                <Label layoutX="10.0" layoutY="10.0" text="Porta Richieste"/>
+                                                <TextField fx:id="requestPort" layoutX="10.0" layoutY="27.0"/>
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                            <children>
+                                                <Label text="Porta oggetti"/>
+                                                <TextField fx:id="objectPort" layoutX="10.0" layoutY="27.0"/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
                 </HBox>
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <VBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label layoutX="10.0" layoutY="10.0" text="Porta Richieste"/>
-                        <TextField layoutX="10.0" layoutY="27.0"/>
-                    </VBox>
-                    <VBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label text="Porta oggetti"/>
-                        <TextField/>
-                    </VBox>
+                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                      minWidth="-Infinity" prefHeight="50.0" prefWidth="600.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <children>
+                        <Region prefHeight="30.0" prefWidth="369.0"/>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Button disable="true" mnemonicParsing="false" text="Solo"/>
+                                <Button defaultButton="true" mnemonicParsing="false" onAction="#validation"
+                                        text="Entra"/>
+                            </children>
+                        </HBox>
+                    </children>
                 </HBox>
-            </VBox>
-        </HBox>
-        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-              minWidth="-Infinity" prefHeight="50.0" prefWidth="600.0">
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-            </padding>
-            <Region prefHeight="30.0" prefWidth="369.0"/>
-            <HBox alignment="CENTER_LEFT" spacing="10.0">
-                <Button disable="true" mnemonicParsing="false" text="Solo"/>
-                <Button defaultButton="true" mnemonicParsing="false" text="Entra"/>
-            </HBox>
-        </HBox>
-    </VBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label fx:id="error" textFill="RED"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>
