@@ -21,11 +21,11 @@ public class AppFactory {
      * @param useGui   boolean value to chose if use CLI or FX app
      * @param mainArgs contains the arg passed at mains
      */
-    public AppFactory(boolean useGui, String[] mainArgs) {
+    public AppFactory(boolean useGui, String[] mainArgs, ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
         if (useGui) {
-            this.app = new JavaFXApp(new ViewActions(null), new ViewToolCardActions(null), new ViewMessage(null), mainArgs);
+            this.app = new JavaFXApp(viewActions, viewToolCardActions, viewMessage, mainArgs);
         } else {
-            this.app = new CLIApp(new ViewActions(null), new ViewToolCardActions(null), new ViewMessage(null));
+            this.app = new CLIApp(viewActions, viewToolCardActions, viewMessage);
         }
     }
 

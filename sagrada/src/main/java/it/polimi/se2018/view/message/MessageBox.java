@@ -15,12 +15,12 @@ import java.util.List;
 
 public class MessageBox implements ControllerMessage {
 
-    public class Message {
+    class Message {
         final String sender;
         final MessageTypes type;
         final String content;
 
-        public Message(String sender, MessageTypes type, String message) {
+        Message(String sender, MessageTypes type, String message) {
             this.sender = sender;
             this.type = type;
             this.content = message;

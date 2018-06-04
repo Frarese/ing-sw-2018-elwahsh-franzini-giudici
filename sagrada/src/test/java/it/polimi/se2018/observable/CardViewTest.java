@@ -1,4 +1,4 @@
-package it.polimi.se2018.observer;
+package it.polimi.se2018.observable;
 
 import it.polimi.se2018.util.SingleCardView;
 import org.junit.Before;

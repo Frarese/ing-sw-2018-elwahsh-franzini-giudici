@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.cli.command;
 
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
@@ -13,8 +14,8 @@ import static org.junit.Assert.assertEquals;
 public class CommandPassTurnTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
-        private FakeViewAction(String ownerName) {
-            super(ownerName);
+        private FakeViewAction(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override

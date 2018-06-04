@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.cli.command;
 
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.ViewActions;
@@ -19,8 +20,8 @@ import static org.junit.Assert.assertEquals;
 public class CommandAddDieTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
-        private FakeViewAction(String ownerName) {
-            super(ownerName);
+        private FakeViewAction(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override

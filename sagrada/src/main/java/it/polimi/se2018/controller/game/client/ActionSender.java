@@ -10,6 +10,7 @@ import it.polimi.se2018.util.MatchIdentifier;
 
 /**
  * Sends actions generated from the view to the match controller
+ *
  * @author Alì El wahsh
  */
 public class ActionSender {
@@ -20,38 +21,37 @@ public class ActionSender {
 
     /**
      * Constructor
+     *
      * @param controller FrontEnd network controller
      */
-    public ActionSender(CommUtilizer controller)
-    {
+    public ActionSender(CommUtilizer controller) {
         this.controller = controller;
     }
 
     /**
      * Tries to login
-     * @param host host IP
+     *
+     * @param host        host IP
      * @param requestPort request port
-     * @param objectPort object port
-     * @param username player's username
-     * @param password player's password
-     * @param newUser true if it's a nuew user
-     * @param useRMI true if the user want's to use RMI, false for Socket
+     * @param objectPort  object port
+     * @param username    player's username
+     * @param password    player's password
+     * @param newUser     true if it's a nuew user
+     * @param useRMI      true if the user want's to use RMI, false for Socket
      * @return null if it's successful, an error otherwise
      */
-    public String login(String host, int requestPort, int objectPort, String username, String password, boolean newUser, boolean useRMI)
-    {
-       String result = network.login(host,requestPort,objectPort,false,username,password,newUser,useRMI,controller);
-       if(result == null)
-           this.username = username;
+    public String login(String host, int requestPort, int objectPort, String username, String password, boolean newUser, boolean useRMI) {
+        String result = network.login(host, requestPort, objectPort, false, username, password, newUser, useRMI, controller);
+        if (result == null)
+            this.username = username;
 
-       return result;
+        return result;
     }
 
     /**
      * Tries a logout
      */
-    public void logout()
-    {
+    public void logout() {
         network.logout();
     }
 
@@ -62,17 +62,22 @@ public class ActionSender {
      * @param objectPort  contains the object port number
      * @param requestPort contains the request port number
      */
-    public void changeLayer(boolean toRMI,int requestPort, int objectPort)
-    {
-        network.changeLayer(toRMI,requestPort,objectPort);
+    public void changeLayer(boolean toRMI, int requestPort, int objectPort) {
+        network.changeLayer(toRMI, requestPort, objectPort);
     }
 
     /**
      * Leaves the current match
      */
-    public void leaveMatch()
-    {
+    public void leaveMatch() {
         network.leaveMatch();
+    }
+
+    /**
+     * Asks the lobby
+     */
+    public void askLobby() {
+        network.requestUserList();
     }
 
     /**
@@ -80,8 +85,7 @@ public class ActionSender {
      *
      * @param invite contains a list of players (max 4)
      */
-    public void pushInvite(MatchIdentifier invite)
-    {
+    public void pushInvite(MatchIdentifier invite) {
         network.inviteToMatch(invite);
     }
 
@@ -90,9 +94,8 @@ public class ActionSender {
      *
      * @param invite contains the matchIdentifier object of the match
      */
-    public void acceptInvite(MatchIdentifier invite)
-    {
-        network.answerInvite(invite,true);
+    public void acceptInvite(MatchIdentifier invite) {
+        network.answerInvite(invite, true);
     }
 
     /**
@@ -102,8 +105,15 @@ public class ActionSender {
      */
     public void selectedPattern(String pattern) {
 
-        network.sendReq(new PatternChoice(username,pattern));
+        network.sendReq(new PatternChoice(username, pattern));
 
+    }
+
+    /**
+     * Communicates to the Controller that View ended init operations
+     */
+    public void endInitGame() {
+        throw new UnsupportedOperationException();
     }
 
 
@@ -111,15 +121,14 @@ public class ActionSender {
      * Participates to a match making
      */
     public void joinMatchMaking() {
-       network.joinMatchMakingQueue();
+        network.joinMatchMakingQueue();
 
     }
 
     /**
-     *  Leaves matchmaking
+     * Leaves matchmaking
      */
-    public void leaveMatchMaking()
-    {
+    public void leaveMatchMaking() {
         network.leaveMatchMakingQueue();
     }
 
@@ -130,9 +139,8 @@ public class ActionSender {
      * @param height       contains height on the grid
      * @param width        contains width on the grid
      */
-    public void setDie(int reserveIndex, int height, int width)
-    {
-        network.sendReq(new DiePlacementMove(height,width,reserveIndex,username,true,true,true));
+    public void setDie(int reserveIndex, int height, int width) {
+        network.sendReq(new DiePlacementMove(height, width, reserveIndex, username, true, true, true));
     }
 
     /**
@@ -140,16 +148,14 @@ public class ActionSender {
      *
      * @param id contains the Tool Card's ID
      */
-    public void userToolCard(int id)
-    {
-        network.sendReq(new UseToolCardMove(username,id));
+    public void userToolCard(int id) {
+        network.sendReq(new UseToolCardMove(username, id));
     }
 
     /**
      * Pass Turn operation
      */
-    public void passTurn()
-    {
+    public void passTurn() {
         network.sendReq(new PassTurn(username));
     }
 

@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
  * @author Mathyas Giudici
  */
 
-public abstract class FXConstants {
+abstract class FXConstants {
 
     private FXConstants() {
 

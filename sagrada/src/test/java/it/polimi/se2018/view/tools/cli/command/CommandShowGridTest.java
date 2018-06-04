@@ -1,11 +1,12 @@
 package it.polimi.se2018.view.tools.cli.command;
 
-import it.polimi.se2018.observer.PlayerView;
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.app.CLIApp;
+import it.polimi.se2018.view.observer.PlayerState;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -22,12 +23,12 @@ public class CommandShowGridTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
 
-        FakeViewAction(String ownerName) {
-            super(ownerName);
+        private FakeViewAction(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override
-        public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
+        public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("Test", name);
             assertEquals("test", password);
             assertTrue(newUser);
@@ -35,6 +36,12 @@ public class CommandShowGridTest extends AbsCommandTest {
             assertFalse(isRMI);
             assertEquals(80, objectPort);
             assertEquals(20, requestPort);
+            return null;
+        }
+
+        @Override
+        public void askLobby() {
+            assert true;
         }
     }
 
@@ -57,8 +64,8 @@ public class CommandShowGridTest extends AbsCommandTest {
         app = new FakeApp();
         app.startLogin(false);
 
-        PlayerView me = new PlayerView("Test", 0, 2, new Pair[1][1], null, false, false);
-        PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerState me = new PlayerState("Test", 0, 2, new Pair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
         app.getPlayers().add(me);
         app.getPlayers().add(other);
 
@@ -76,8 +83,8 @@ public class CommandShowGridTest extends AbsCommandTest {
         app = new FakeApp();
         app.startLogin(false);
 
-        PlayerView me = new PlayerView("Test", 0, 2, new Pair[1][1], null, false, false);
-        PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerState me = new PlayerState("Test", 0, 2, new Pair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
         app.getPlayers().add(me);
         app.getPlayers().add(other);
 

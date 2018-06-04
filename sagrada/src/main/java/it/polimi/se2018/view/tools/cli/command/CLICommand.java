@@ -10,9 +10,9 @@ import it.polimi.se2018.view.app.CLIApp;
 
 public abstract class CLICommand {
 
-    protected final String message;
+    private final String message;
 
-    protected final CLIApp app;
+    final CLIApp app;
 
     /**
      * Class constructor that initializes private attributes with passed attributes

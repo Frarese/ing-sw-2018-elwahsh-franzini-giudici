@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.tools.cli.command;
 
-import it.polimi.se2018.observer.PlayerView;
 import it.polimi.se2018.view.app.CLIApp;
+import it.polimi.se2018.view.observer.PlayerState;
 
 /**
  * Class to handle show favours request
@@ -19,7 +19,7 @@ public class CommandShowFavours extends CLICommand {
     public void doAction() {
         this.app.getPrinter().print("Vuoi visualizzare i tuoi punti favore??");
         if (this.app.getReader().chooseYes()) {
-            PlayerView me = this.app.searchPlayerViewByName(this.app.getPlayers(), this.app.getOwnerPlayerName());
+            PlayerState me = this.app.searchPlayerViewByName(this.app.getPlayers(), this.app.getOwnerPlayerName());
             this.app.getPrinter().print("Punti favore: " + me.getPlayerFavours());
         } else {
             for (int i = 0; i < this.app.getPlayers().size(); i++) {

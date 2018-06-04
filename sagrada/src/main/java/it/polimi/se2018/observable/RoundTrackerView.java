@@ -1,4 +1,4 @@
-package it.polimi.se2018.observer;
+package it.polimi.se2018.observable;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
@@ -6,7 +6,7 @@ import it.polimi.se2018.util.Pair;
 import java.util.Observable;
 
 /**
- * This class represents an observer of Round Tracker
+ * This class represents an observable of Round Tracker
  *
  * @author Mathyas Giudici
  */

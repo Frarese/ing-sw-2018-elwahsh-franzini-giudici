@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.cli.command;
 
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
@@ -19,12 +20,12 @@ import static org.junit.Assert.*;
 public class CommandChangeLayerTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
-        private FakeViewAction(String ownerName) {
-            super(ownerName);
+        private FakeViewAction(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override
-        public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
+        public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("Test", name);
             assertEquals("test", password);
             assertTrue(newUser);
@@ -32,6 +33,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
             assertFalse(isRMI);
             assertEquals(90, objectPort);
             assertEquals(80, requestPort);
+            return null;
         }
 
         @Override
@@ -40,15 +42,20 @@ public class CommandChangeLayerTest extends AbsCommandTest {
             assertEquals(-1, objectPort);
             assertEquals(72, requestPort);
         }
+
+        @Override
+        public void askLobby() {
+            assert true;
+        }
     }
 
     private class FakeViewAction2 extends ViewActions {
-        private FakeViewAction2(String ownerName) {
-            super(ownerName);
+        private FakeViewAction2(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override
-        public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
+        public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("Test", name);
             assertEquals("test", password);
             assertTrue(newUser);
@@ -56,6 +63,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
             assertTrue(isRMI);
             assertEquals(-1, objectPort);
             assertEquals(80, requestPort);
+            return null;
         }
 
         @Override
@@ -63,6 +71,11 @@ public class CommandChangeLayerTest extends AbsCommandTest {
             assertFalse(toRMI);
             assertEquals(72, objectPort);
             assertEquals(5, requestPort);
+        }
+
+        @Override
+        public void askLobby() {
+            assert true;
         }
     }
 

@@ -1,7 +1,10 @@
 package it.polimi.se2018.view.app;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.observer.PlayerView;
+import it.polimi.se2018.observable.CardView;
+import it.polimi.se2018.observable.PlayerView;
+import it.polimi.se2018.observable.ReserveView;
+import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.PatternView;
@@ -159,13 +162,11 @@ public class JavaFXApp extends App {
     @Override
     public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4) {
         throw new UnsupportedOperationException();
-
     }
 
     @Override
-    public void initGame(List<PlayerView> players) {
+    public void initGame(List<PlayerView> players, CardView cardView, ReserveView reserveView, RoundTrackerView roundTrackerView) {
         throw new UnsupportedOperationException();
-
     }
 
     @Override

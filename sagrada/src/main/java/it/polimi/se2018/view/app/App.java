@@ -1,10 +1,11 @@
 package it.polimi.se2018.view.app;
 
-import it.polimi.se2018.observer.PlayerView;
+import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.message.MessageBox;
+import it.polimi.se2018.view.observer.*;
 import it.polimi.se2018.view.tools.*;
 
 import java.util.ArrayList;
@@ -28,13 +29,13 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     /**
      * Game variables
      */
-    protected List<PlayerView> players;
+    final List<PlayerState> players;
 
     protected List<MatchIdentifier> invites;
 
-    protected List<ScoreEntry> connectedUsers;
+    List<ScoreEntry> connectedUsers;
 
-    protected List<ScoreEntry> leaderBoard;
+    List<ScoreEntry> leaderBoard;
 
     /**
      * Communication variables
@@ -45,7 +46,14 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
     final MessageBox messageBox;
 
-    final ModelObserver modelObserver;
+    final List<PlayerViewObserver> playerViewObserverList;
+
+    CardViewObserver cardViewObserver;
+
+    ReserveViewObserver reserveViewObserver;
+
+    RoundTrackerViewObserver roundTrackerViewObserver;
+
 
     /**
      * Creators components
@@ -72,7 +80,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
         this.viewActions = viewActions;
         this.viewToolCardActions = viewToolCardActions;
         this.messageBox = new MessageBox(viewMessage);
-        this.modelObserver = new ModelObserver(this);
+        this.playerViewObserverList = new ArrayList<>();
     }
 
     /**
@@ -82,26 +90,10 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      * @param wanted  contains the String name of the wanted player
      * @return the PlayerView of the wanted player
      */
-    public PlayerView searchPlayerViewByName(List<PlayerView> players, String wanted) {
+    public PlayerState searchPlayerViewByName(List<PlayerState> players, String wanted) {
         if (players != null) {
-            for (PlayerView player : players)
+            for (PlayerState player : players)
                 if (player.getPlayerName().equals(wanted)) return player;
-        }
-        Logger.getGlobal().log(Level.WARNING, "Ci sono problemi in PlayerView");
-        return null;
-    }
-
-    /**
-     * Searches in the players' list a player identified by his ID ad return his PlayerView object
-     *
-     * @param players contains the players' list
-     * @param wanted  contains the ID of the wanted player
-     * @return the PlayerView of the wanted player
-     */
-    public PlayerView searchPlayerViewById(List<PlayerView> players, int wanted) {
-        if (players != null) {
-            for (PlayerView player : players)
-                if (player.getPlayerID() == wanted) return player;
         }
         Logger.getGlobal().log(Level.WARNING, "Ci sono problemi in PlayerView");
         return null;
@@ -157,7 +149,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      *
      * @return the current players
      */
-    public List<PlayerView> getPlayers() {
+    public List<PlayerState> getPlayers() {
         return players;
     }
 
@@ -186,5 +178,11 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     public List<ScoreEntry> getConnectedUsers() {
         return connectedUsers;
+    }
+
+    PlayerState setState(PlayerView playerView) {
+        return new PlayerState(playerView.getPlayerName(), playerView.getPlayerID(),
+                playerView.getPlayerFavours(), playerView.getPlayerTemplate(), playerView.getPlayerGrid(),
+                playerView.isPlacementRights(), playerView.isCardRights());
     }
 }

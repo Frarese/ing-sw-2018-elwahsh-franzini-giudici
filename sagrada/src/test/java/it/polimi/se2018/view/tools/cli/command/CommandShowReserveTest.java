@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.cli.command;
 
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.view.ViewActions;
@@ -22,12 +23,12 @@ public class CommandShowReserveTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
 
-        FakeViewAction(String ownerName) {
-            super(ownerName);
+        private FakeViewAction(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override
-        public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
+        public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("Test", name);
             assertEquals("test", password);
             assertTrue(newUser);
@@ -35,6 +36,12 @@ public class CommandShowReserveTest extends AbsCommandTest {
             assertFalse(isRMI);
             assertEquals(80, objectPort);
             assertEquals(3, requestPort);
+            return null;
+        }
+
+        @Override
+        public void askLobby() {
+            assert true;
         }
     }
 

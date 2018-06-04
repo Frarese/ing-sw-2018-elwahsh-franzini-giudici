@@ -1,7 +1,7 @@
 package it.polimi.se2018.view;
 
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.util.MatchIdentifier;
-
 
 
 /**
@@ -10,18 +10,18 @@ import it.polimi.se2018.util.MatchIdentifier;
  * @author Mathyas Giudici
  */
 
-public class ViewActions{
+public class ViewActions {
 
-    private String ownerName;
+    private final ActionSender actionSender;
 
     /**
      * Class constructor
      * Sets player's name used in events thrown to the Controller
      *
-     * @param ownerName contains the player's name
+     * @param actionSender contains the controller class to manage events
      */
-    public ViewActions(String ownerName) {
-        this.ownerName = ownerName;
+    public ViewActions(ActionSender actionSender) {
+        this.actionSender = actionSender;
     }
 
     /**
@@ -35,8 +35,8 @@ public class ViewActions{
      * @param objectPort  contains the object port number
      * @param requestPort contains the request port number
      */
-    public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
-        throw new UnsupportedOperationException();
+    public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
+        return actionSender.login(host, requestPort, objectPort, name, password, newUser, isRMI);
     }
 
     /**
@@ -47,7 +47,7 @@ public class ViewActions{
      * @param requestPort contains the request port number
      */
     public void changeLayer(boolean toRMI, int objectPort, int requestPort) {
-        throw new UnsupportedOperationException();
+        actionSender.changeLayer(toRMI, requestPort, objectPort);
 
     }
 
@@ -55,7 +55,7 @@ public class ViewActions{
      * Leaves the current match
      */
     public void leaveMatch() {
-        throw new UnsupportedOperationException();
+        actionSender.leaveMatch();
 
     }
 
@@ -63,7 +63,7 @@ public class ViewActions{
      * Tries logout operation
      */
     public void logout() {
-        throw new UnsupportedOperationException();
+        actionSender.logout();
 
     }
 
@@ -71,7 +71,7 @@ public class ViewActions{
      * Asks the lobby
      */
     public void askLobby() {
-        throw new UnsupportedOperationException();
+        actionSender.askLobby();
 
     }
 
@@ -81,16 +81,14 @@ public class ViewActions{
      * @param invite contains a list of players (max 4)
      */
     public void pushInvite(MatchIdentifier invite) {
-        throw new UnsupportedOperationException();
-
+        actionSender.pushInvite(invite);
     }
 
     /**
      * Participates to a match
      */
     public void joinMatchMaking() {
-        throw new UnsupportedOperationException();
-
+        actionSender.joinMatchMaking();
     }
 
     /**
@@ -99,8 +97,7 @@ public class ViewActions{
      * @param matchIdentifier contains the matchIdentifier object of the match
      */
     public void acceptInvite(MatchIdentifier matchIdentifier) {
-        throw new UnsupportedOperationException();
-
+        actionSender.acceptInvite(matchIdentifier);
     }
 
     /**
@@ -109,16 +106,14 @@ public class ViewActions{
      * @param selected the selected pattern
      */
     public void selectedPattern(String selected) {
-        throw new UnsupportedOperationException();
-
+        actionSender.selectedPattern(selected);
     }
 
     /**
      * Communicates to the Controller that View ended init operations
      */
     public void endInitGame() {
-        throw new UnsupportedOperationException();
-
+        actionSender.endInitGame();
     }
 
     /**
@@ -129,7 +124,7 @@ public class ViewActions{
      * @param width        contains width on the grid
      */
     public void setDie(int reserveIndex, int height, int width) {
-        throw new UnsupportedOperationException();
+        actionSender.setDie(reserveIndex, height, width);
     }
 
     /**
@@ -138,25 +133,13 @@ public class ViewActions{
      * @param card contains the Tool Card's ID
      */
     public void useToolCard(int card) {
-        throw new UnsupportedOperationException();
-
+        actionSender.userToolCard(card);
     }
 
     /**
      * Pass Turn operation
      */
     public void passTurn() {
-        throw new UnsupportedOperationException();
-
-    }
-
-
-    /**
-     * Sets player's name used in events thrown to the Controller
-     *
-     * @param ownerName contains the player's name
-     */
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+        actionSender.passTurn();
     }
 }

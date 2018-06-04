@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.cli.command;
 
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
@@ -23,12 +24,12 @@ public class CommandShowCardsTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
 
-        FakeViewAction(String ownerName) {
-            super(ownerName);
+        private FakeViewAction(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override
-        public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
+        public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("Test", name);
             assertEquals("test", password);
             assertTrue(newUser);
@@ -36,6 +37,12 @@ public class CommandShowCardsTest extends AbsCommandTest {
             assertFalse(isRMI);
             assertEquals(80, objectPort);
             assertEquals(70, requestPort);
+            return null;
+        }
+
+        @Override
+        public void askLobby() {
+            assert true;
         }
     }
 

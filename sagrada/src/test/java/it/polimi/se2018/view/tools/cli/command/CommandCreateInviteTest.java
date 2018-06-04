@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.cli.command;
 
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
@@ -21,12 +22,12 @@ import static org.junit.Assert.assertTrue;
 public class CommandCreateInviteTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
-        private FakeViewAction(String ownerName) {
-            super(ownerName);
+        private FakeViewAction(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override
-        public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
+        public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("TestPlayer", name);
             assertEquals("test", password);
             assertTrue(newUser);
@@ -34,6 +35,7 @@ public class CommandCreateInviteTest extends AbsCommandTest {
             assertTrue(isRMI);
             assertEquals(-1, objectPort);
             assertEquals(80, requestPort);
+            return null;
         }
 
         @Override
@@ -42,6 +44,11 @@ public class CommandCreateInviteTest extends AbsCommandTest {
             assertEquals("TestPerson2", invite.player1);
             assertEquals("TestPerson3", invite.player2);
             assertEquals("TestPlayer", invite.player3);
+        }
+
+        @Override
+        public void askLobby() {
+            assert true;
         }
     }
 

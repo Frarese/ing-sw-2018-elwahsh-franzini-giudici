@@ -1,13 +1,16 @@
 package it.polimi.se2018.view.app;
 
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.observer.PlayerView;
-import it.polimi.se2018.observer.ReserveView;
-import it.polimi.se2018.observer.RoundTrackerView;
+import it.polimi.se2018.observable.CardView;
+import it.polimi.se2018.observable.PlayerView;
+import it.polimi.se2018.observable.ReserveView;
+import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.*;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
+import it.polimi.se2018.view.observer.PlayerState;
 import it.polimi.se2018.view.tools.GridViewCreator;
 import it.polimi.se2018.view.tools.cli.creators.CLIGridViewCreator;
 import it.polimi.se2018.view.tools.cli.creators.CLIReserveViewCreator;
@@ -50,12 +53,12 @@ public class CLIAppTest {
 
     private class FakeViewAction extends ViewActions {
 
-        FakeViewAction(String ownerName) {
-            super(ownerName);
+        private FakeViewAction(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override
-        public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
+        public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("Test", name);
             assertEquals("test", password);
             assertTrue(newUser);
@@ -63,6 +66,7 @@ public class CLIAppTest {
             assertFalse(isRMI);
             assertEquals(80, objectPort);
             assertEquals(80, requestPort);
+            return null;
         }
 
         @Override
@@ -88,12 +92,12 @@ public class CLIAppTest {
 
     private class FakeViewAction2 extends ViewActions {
 
-        FakeViewAction2(String ownerName) {
-            super(ownerName);
+        private FakeViewAction2(ActionSender actionSender) {
+            super(actionSender);
         }
 
         @Override
-        public void login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
+        public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
             assertEquals("Test", name);
             assertEquals("test", password);
             assertFalse(newUser);
@@ -101,6 +105,7 @@ public class CLIAppTest {
             assertTrue(isRMI);
             assertEquals(80, requestPort);
             assertEquals(-1, objectPort);
+            return null;
         }
 
         @Override
@@ -250,7 +255,7 @@ public class CLIAppTest {
 
         this.app.changeLayerResult(true);
 
-        assertEquals("L'attuale layer e\' RMI.", this.savedStream.toString().split(enter)[1]);
+        assertEquals("L'attuale layer è RMI.", this.savedStream.toString().split(enter)[1]);
     }
 
     @Test
@@ -263,7 +268,7 @@ public class CLIAppTest {
 
         this.app.changeLayerResult(false);
 
-        assertEquals("L'attuale layer e\' Socket.", this.savedStream.toString().split(enter)[1]);
+        assertEquals("L'attuale layer è Socket.", this.savedStream.toString().split(enter)[1]);
     }
 
     @Test
@@ -489,7 +494,7 @@ public class CLIAppTest {
 
     @Test
     public void testInitGame() {
-        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "6" + enter + "y" + enter;
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "8" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
@@ -503,6 +508,8 @@ public class CLIAppTest {
         List<SingleCardView> cards = new ArrayList<>();
         cards.add(new SingleCardView(10, 1));
         cards.add(new SingleCardView(12, 1));
+
+        CardView cardView = new CardView(new SingleCardView(1, 1), cards, cards);
 
         Pair<Integer, ColorModel>[][] fakeRoundt = new Pair[1][1];
         fakeRoundt[0][0] = new Pair<>(1, ColorModel.RED);
@@ -519,7 +526,7 @@ public class CLIAppTest {
         this.app.getCardViewCreator().setToolCards(cards);
         this.app.getRoundTrackerViewCreator().setRound(0);
         this.app.getRoundTrackerViewCreator().setRoundTracker(fakeRoundt);
-        this.app.initGame(players);
+        this.app.initGame(players, cardView, reserveView, roundTracker);
         this.app.startTurn();
 
 
@@ -538,7 +545,7 @@ public class CLIAppTest {
     @Test
     public void testOtherPlayerLeave() {
         testSetApp(new FakeViewAction(null));
-        PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
         this.app.otherPlayerLeave("OtherPlayerTest");
@@ -549,11 +556,11 @@ public class CLIAppTest {
     @Test
     public void testOtherPlayerReconnection() {
         testSetApp(new FakeViewAction(null));
-        PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
         this.app.otherPlayerReconnection("OtherPlayerTest");
-        assertEquals("OtherPlayerTest e\' rientrato in gioco." + enter, savedStream.toString());
+        assertEquals("OtherPlayerTest è rientrato in gioco." + enter, savedStream.toString());
     }
 
     @Test
@@ -871,7 +878,6 @@ public class CLIAppTest {
         this.app.leaveMatchResult(false);
         this.app.pullLeaderBoard(null);
         this.app.askPattern(null, null, null, null);
-        this.app.initGame(null);
         this.app.otherPlayerLeave(null);
         this.app.otherPlayerReconnection(null);
         this.app.startTurn();

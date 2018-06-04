@@ -11,7 +11,7 @@ import it.polimi.se2018.view.app.CLIApp;
 public class CommandWaitYourTurn extends CLICommand {
 
     public CommandWaitYourTurn(CLIApp app) {
-        super("wait) Aspetta il tuo turno (non verra\' piu\' mostrato il menu\'", app);
+        super("wait) Aspetta il tuo turno (non verrà più mostrato il menu)", app);
     }
 
     @Override

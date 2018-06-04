@@ -1,7 +1,10 @@
 package it.polimi.se2018.view;
 
 
-import it.polimi.se2018.observer.PlayerView;
+import it.polimi.se2018.observable.CardView;
+import it.polimi.se2018.observable.PlayerView;
+import it.polimi.se2018.observable.ReserveView;
+import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.ScoreEntry;
@@ -100,9 +103,12 @@ public interface ControllerActionsInterface {
     /**
      * View's method to initialize a game
      *
-     * @param players contains game's players
+     * @param players          contains game's players
+     * @param cardView         contains card view observable object
+     * @param reserveView      contains reserve view observable object
+     * @param roundTrackerView contains round tracker view observable object
      */
-    void initGame(List<PlayerView> players);
+    void initGame(List<PlayerView> players, CardView cardView, ReserveView reserveView, RoundTrackerView roundTrackerView);
 
     /**
      * Communicates to player when another player has left the match

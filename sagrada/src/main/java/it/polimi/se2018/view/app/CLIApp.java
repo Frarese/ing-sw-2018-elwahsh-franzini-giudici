@@ -1,11 +1,15 @@
 package it.polimi.se2018.view.app;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.observer.PlayerView;
+import it.polimi.se2018.observable.CardView;
+import it.polimi.se2018.observable.PlayerView;
+import it.polimi.se2018.observable.ReserveView;
+import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.*;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
+import it.polimi.se2018.view.observer.*;
 import it.polimi.se2018.view.tools.cli.command.*;
 import it.polimi.se2018.view.tools.cli.creators.*;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
@@ -116,13 +120,17 @@ public class CLIApp extends App {
 
         //Save player name
         this.ownerPlayerName = name;
-        this.viewActions.setOwnerName(name);
         this.viewToolCardActions.setOwnerName(name);
         this.messageBox.setOwnerName(name);
         this.useRMI = isRMI;
 
         //Controller call
-        this.viewActions.login(name, password, newUser, server, isRMI, objectPort, requestPort);
+        String loginResult = this.viewActions.login(name, password, newUser, server, isRMI, objectPort, requestPort);
+        if (loginResult == null) {
+            this.loginResult(true, null);
+        } else {
+            this.loginResult(false, loginResult);
+        }
     }
 
     @Override
@@ -136,8 +144,9 @@ public class CLIApp extends App {
             printer.print("Login riuscito con successo!");
 
             this.commands.clear();
-            this.commands.add(new CommandLogout(this));
-            this.commands.add(new CommandChangeLayer(this));
+            this.commands.add(0, new CommandChangeLayer(this));
+            this.commands.add(0, new CommandLogout(this));
+
 
             this.invites = new ArrayList<>();
             this.viewActions.askLobby();
@@ -156,9 +165,9 @@ public class CLIApp extends App {
         }
 
         if (successRMI) {
-            printer.print("L'attuale layer e\' RMI.");
+            printer.print("L'attuale layer è RMI.");
         } else {
-            printer.print("L'attuale layer e\' Socket.");
+            printer.print("L'attuale layer è Socket.");
         }
 
         //Call menu method
@@ -275,28 +284,57 @@ public class CLIApp extends App {
                 viewActions.selectedPattern(pattern4.patternName);
                 break;
             default:
-                Logger.getGlobal().log(Level.WARNING, "Qualcosa e\' andato storto nella selezione del pattern.");
+                Logger.getGlobal().log(Level.WARNING, "Qualcosa è andato storto nella selezione del pattern.");
         }
     }
 
     @Override
-    public void initGame(List<PlayerView> players) {
-        //Check if animation is enabled
-        if (!this.animationEnable) {
-            return;
+    public void initGame(List<PlayerView> players, CardView cardView, ReserveView reserveView, RoundTrackerView roundTrackerView) {
+
+        //Adds PlayerView Observer
+        for (PlayerView playerView : players) {
+            PlayerViewObserver playerViewObserver = new PlayerViewObserver(this);
+            playerView.addObserver(playerViewObserver);
+            playerViewObserverList.add(playerViewObserver);
         }
+
+        //Save current players states
+        for (PlayerView playerView : players) {
+            this.players.add(setState(playerView));
+        }
+
+        //Adds CardView Observer
+        cardViewObserver = new CardViewObserver(this);
+        cardView.addObserver(cardViewObserver);
+
+        //Save current player state
+        this.cardViewCreator.setPrivateObjectiveCard(cardView.getPrivateObjectiveCard());
+        this.cardViewCreator.setPublicObjectiveCards(cardView.getPublicObjectiveCards());
+        this.cardViewCreator.setToolCards(cardView.getToolCards());
+
+        //Adds ReserveView Observer
+        reserveViewObserver = new ReserveViewObserver(this);
+        reserveView.addObserver(reserveViewObserver);
+
+        //Save current reserve state
+        this.reserveViewCreator.setReserve(reserveView.getReserve());
+
+        //Adds RoundTrackerView Observer
+        roundTrackerViewObserver = new RoundTrackerViewObserver(this);
+        roundTrackerView.addObserver(roundTrackerViewObserver);
+
+        //Save current round tracker state
+        this.roundTrackerViewCreator.setRound(roundTrackerView.getRound());
+        this.roundTrackerViewCreator.setRoundTracker(roundTrackerView.getRoundTracker());
 
         //Command array set
         this.commands.clear();
-        this.commands.add(new CommandWaitYourTurn(this));
-        this.commands.add(new CommandLeaveMatch(this));
-        this.commands.add(new CommandLogout(this));
-        this.commands.add(new CommandChangeLayer(this));
+        this.commands.add(0, new CommandLogout(this));
+        this.commands.add(0, new CommandChangeLayer(this));
+        this.commands.add(0, new CommandLeaveMatch(this));
+        this.commands.add(0, new CommandWaitYourTurn(this));
 
-        //Players initialization
-        this.players = players;
-
-        PlayerView me = searchPlayerViewByName(players, this.ownerPlayerName);
+        PlayerState me = searchPlayerViewByName(this.players, this.ownerPlayerName);
         if (me != null) {
             this.ownerPlayerID = me.getPlayerID();
         }
@@ -328,7 +366,7 @@ public class CLIApp extends App {
             return;
         }
 
-        PlayerView player = this.searchPlayerViewByName(players, playerName);
+        PlayerState player = this.searchPlayerViewByName(players, playerName);
         String message = player.getPlayerName() + " ha lasciato il gioco.";
         printer.print(message);
     }
@@ -340,8 +378,8 @@ public class CLIApp extends App {
             return;
         }
 
-        PlayerView player = this.searchPlayerViewByName(players, playerName);
-        String message = player.getPlayerName() + " e\' rientrato in gioco.";
+        PlayerState player = this.searchPlayerViewByName(players, playerName);
+        String message = player.getPlayerName() + " è rientrato in gioco.";
         printer.print(message);
     }
 
@@ -389,7 +427,7 @@ public class CLIApp extends App {
         }
 
         //Search information
-        PlayerView playerView = this.searchPlayerViewByName(this.players, playerName);
+        PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
         if (playerView != null) {
             //Print
             printer.print(playerView.getPlayerName() + " ha posizionato il dado: " + this.reserveViewCreator.pickDie(reserveIndex) + " in posizione (" + height + "," + width + ").");
@@ -431,7 +469,7 @@ public class CLIApp extends App {
         }
 
         //Search information
-        PlayerView playerView = this.searchPlayerViewByName(this.players, playerName);
+        PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
         if (playerView != null) {
             String player = playerView.getPlayerName();
             //Print
@@ -449,6 +487,7 @@ public class CLIApp extends App {
         //Print result
         if (result) {
             printer.print("Turno passato con successo!");
+            this.commands.add(0, new CommandWaitYourTurn(this));
             this.isYourTurn = false;
         } else {
             printer.print("Non sei riuscito a passare il turno");
@@ -472,7 +511,7 @@ public class CLIApp extends App {
         }
 
         //Search information
-        PlayerView playerView = this.searchPlayerViewByName(this.players, playerName);
+        PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
         if (playerView != null) {
             String player = playerView.getPlayerName();
             //Print
@@ -639,8 +678,13 @@ public class CLIApp extends App {
             return;
         }
 
+        for (int i = 0; i < this.commands.size(); i++) {
+            if (this.commands.get(i).display().equals("wait) Aspetta il tuo turno (non verrà più mostrato il menu)"))
+                commands.remove(i);
+        }
+
         //Search PlayerView
-        PlayerView me = this.searchPlayerViewByName(this.players, this.ownerPlayerName);
+        PlayerState me = this.searchPlayerViewByName(this.players, this.ownerPlayerName);
 
         //Clear gameCommands
         this.gameCommands.clear();
