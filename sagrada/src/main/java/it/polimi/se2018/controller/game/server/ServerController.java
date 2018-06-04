@@ -5,22 +5,22 @@ import it.polimi.se2018.controller.game.server.handlers.DiePlacementHandler;
 import it.polimi.se2018.controller.game.server.handlers.ToolCardHandlerFactory;
 import it.polimi.se2018.controller.network.server.MatchController;
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
-import it.polimi.se2018.events.actions.DiePlacementMove;
-import it.polimi.se2018.events.actions.PassTurn;
-import it.polimi.se2018.events.actions.PlayerMove;
-import it.polimi.se2018.events.actions.UseToolCardMove;
-import it.polimi.se2018.events.messages.PlayerStatus;
-import it.polimi.se2018.events.messages.ReserveStatus;
-import it.polimi.se2018.events.messages.RoundTrackStatus;
-import it.polimi.se2018.events.messages.TurnStart;
+import it.polimi.se2018.events.actions.*;
+import it.polimi.se2018.events.messages.*;
 import it.polimi.se2018.model.Board;
+
 import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.cards.Deck;
+import it.polimi.se2018.model.cards.PatternCard;
 import it.polimi.se2018.util.MatchIdentifier;
 
+import java.io.File;
 import java.io.Serializable;
+
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  * Principal class of the controller inside the server
@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  */
 public class ServerController implements MatchController, Runnable {
 
-
+    private MatchIdentifier mId;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> offlinePlayers = new ArrayList<>();
     private Board board;
@@ -38,6 +38,9 @@ public class ServerController implements MatchController, Runnable {
     private MatchNetworkInterface network;
     private Timer timer;
     private static final int TIME = 90000;
+    private ArrayList<PatternCard> patternSent = new ArrayList<>();
+    private int playersReady = 0;
+
 
     /**
      * ServerController's constructor
@@ -46,6 +49,7 @@ public class ServerController implements MatchController, Runnable {
      */
     ServerController(MatchIdentifier mId, MatchNetworkInterface network)
     {
+        this.mId = mId;
         List<String> temp = new ArrayList<>();
         temp.add(mId.player0);
         temp.add(mId.player1);
@@ -138,6 +142,7 @@ public class ServerController implements MatchController, Runnable {
      */
     private void manageNewRound()
     {
+
         if(round.getRoundNumber() <10) {
             for (Player p : players) {
                 p.setPlacementRights(true, true);
@@ -184,8 +189,30 @@ public class ServerController implements MatchController, Runnable {
      * Else it will be handled by running handlers
      * @param move player move
      */
-    private void managePlayerMove(PlayerMove move)
+    private synchronized void managePlayerMove(PlayerMove move)
     {
+        if(playersReady != players.size() && mId.findPos(move.getPlayerName())>-1 && move.toString().equals("Pattern"))
+        {
+            PatternChoice choice = (PatternChoice) move;
+            int temp = mId.findPos(move.getPlayerName());
+            for(int i = temp; i<temp + 2; i++)
+            {
+                if(patternSent.get(i).getFrontSide().getName().equals(choice.getPatterName()) ) {
+                    players.get(temp).setPattern(patternSent.get(i).getFrontSide());
+                    players.get(temp).setFavourPoints(patternSent.get(i).getFrontSide().getFavourPoints());
+                    playersReady++;
+                }
+                else if(patternSent.get(i).getBackSide().getName().equals(choice.getPatterName()))
+                {
+                    players.get(temp).setPattern(patternSent.get(i).getBackSide());
+                    players.get(temp).setFavourPoints(patternSent.get(i).getBackSide().getFavourPoints());
+                    playersReady++;
+                }
+            }
+            if(playersReady == players.size())
+                startMatch();
+        }
+        else
         if(move.getPlayerName().equals(round.getCurrentPlayer().getName())) {
             switch (move.toString())
             {
@@ -215,9 +242,6 @@ public class ServerController implements MatchController, Runnable {
 
 
                 default : inBus.asyncPush(move);
-
-
-
             }
         }
     }
@@ -235,15 +259,45 @@ public class ServerController implements MatchController, Runnable {
             network.sendReq(new PlayerStatus(p),player.getName());
     }
 
+    /**
+     * Sends pattern loaded from resources to the players
+     */
     private void sendPatternCards()
     {
-        throw new UnsupportedOperationException();
+        ArrayList<PatternCard> temp = new ArrayList<>();
+
+        File node = new File("resources");
+        try {
+            if (node.isDirectory()) {
+                String[] subNote = node.list();
+                for (String filename : subNote) {
+                    temp.add(new PatternCard("resources" + File.separator + filename));
+                }
+            }
+        }catch (NullPointerException e)
+        {
+            Logger.getGlobal().log(Level.SEVERE, e.toString());
+        }
+
+        Deck<PatternCard> deck = new Deck<>(temp);
+        deck.shuffle();
+        for(Player p: players)
+        {
+           patternSent.addAll(deck.draw(2));
+           for(int i = p.getId(); i< p.getId()+2;i++) {
+               network.sendReq(new PatternSelect(patternSent.get(i).getFrontSide()),p.getName());
+               network.sendReq(new PatternSelect(patternSent.get(i).getBackSide()),p.getName());
+           }
+        }
     }
+
 
     @Override
     public void run() {
 
         sendPatternCards();
+        network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
+
 
         while(!done)
         {

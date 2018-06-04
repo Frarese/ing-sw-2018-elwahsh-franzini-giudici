@@ -17,14 +17,14 @@ public class ActionSender {
 
     private String username;
     private CommFE network = new CommFE();
-    private CommUtilizer controller;
+    private ClientController controller;
 
     /**
      * Constructor
      *
      * @param controller FrontEnd network controller
      */
-    public ActionSender(CommUtilizer controller) {
+    public ActionSender(ClientController controller) {
         this.controller = controller;
     }
 
@@ -87,6 +87,7 @@ public class ActionSender {
      */
     public void pushInvite(MatchIdentifier invite) {
         network.inviteToMatch(invite);
+        controller.setMId(invite);
     }
 
     /**
@@ -96,6 +97,7 @@ public class ActionSender {
      */
     public void acceptInvite(MatchIdentifier invite) {
         network.answerInvite(invite, true);
+        controller.setMId(invite);
     }
 
     /**
@@ -122,7 +124,6 @@ public class ActionSender {
      */
     public void joinMatchMaking() {
         network.joinMatchMakingQueue();
-
     }
 
     /**

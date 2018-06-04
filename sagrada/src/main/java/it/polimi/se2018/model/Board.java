@@ -40,6 +40,23 @@ public class Board {
     public ToolCard getTool(int toolPosition) {
         return tools.getTool(toolPosition);
     }
+
+    /**
+     * Getter for public objectives
+     * @return public objectives
+     */
+    public ActiveObjectives getObjectives() {
+        return objectives;
+    }
+
+    /**
+     * Getter for active tools
+     * @return active tools
+     */
+    public ActiveTools getTools() {
+        return tools;
+    }
+
     /**
      * Getter for objective cards n game
      * @param objectivePosition position of the card

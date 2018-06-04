@@ -2,19 +2,37 @@ package it.polimi.se2018.controller.game.client;
 
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 
+import it.polimi.se2018.observable.CardView;
+import it.polimi.se2018.observable.PlayerView;
+import it.polimi.se2018.observable.ReserveView;
+import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.app.App;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Client controller
  * This class works with the network layer and pushes the events on the upper layer
+ * @author Alì El Wahsh
  */
-public class ClientController implements CommUtilizer {
+public class ClientController implements CommUtilizer,Runnable {
+
+    private App app;
+    private ArrayList<PlayerView> players = new ArrayList<>();
+    private ReserveView reserve;
+    private RoundTrackerView roundTrack;
+    private CardView cards;
+    private MatchIdentifier mId;
+
+    public ClientController(App app)
+    {
+        this.app = app;
+    }
 
     @Override
     public void receiveObject(Serializable obj) {
@@ -33,6 +51,7 @@ public class ClientController implements CommUtilizer {
 
     @Override
     public void notifyInvite(MatchIdentifier match) {
+        app.pullInvitate(match);
     }
 
     @Override
@@ -47,17 +66,17 @@ public class ClientController implements CommUtilizer {
 
     @Override
     public void notifyUserLeft(String usn) {
-        throw new UnsupportedOperationException();
+        app.otherPlayerLeave(usn);
     }
 
     @Override
     public void pushLeaderboard(List<ScoreEntry> list) {
-        throw new UnsupportedOperationException();
+        app.pullLeaderBoard(list);
     }
 
     @Override
     public void pushUserList(List<ScoreEntry> list) {
-        throw new UnsupportedOperationException();
+        app.pullConnectedPlayers(list);
     }
 
     @Override
@@ -77,6 +96,22 @@ public class ClientController implements CommUtilizer {
 
     @Override
     public void notifyUserReconnected(String usn) {
+        app.otherPlayerReconnection(usn);
+    }
+
+    /**
+     * Setter for mId
+     * @param id new id
+     */
+    public void setMId(MatchIdentifier id)
+    {
+        mId = id;
+    }
+
+
+    @Override
+    public void run() {
+
         throw new UnsupportedOperationException();
     }
 
