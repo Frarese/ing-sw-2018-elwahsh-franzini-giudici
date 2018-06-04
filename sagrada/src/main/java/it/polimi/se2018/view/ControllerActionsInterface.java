@@ -97,18 +97,17 @@ public interface ControllerActionsInterface {
      * @param pattern2 second patter
      * @param pattern3 third patter
      * @param pattern4 fourth pattern
+     * @param cardView contains card view observable object
      */
-    void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4);
+    void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4, CardView cardView);
 
     /**
      * View's method to initialize a game
-     *
-     * @param players          contains game's players
-     * @param cardView         contains card view observable object
+     *  @param players          contains game's players
      * @param reserveView      contains reserve view observable object
      * @param roundTrackerView contains round tracker view observable object
      */
-    void initGame(List<PlayerView> players, CardView cardView, ReserveView reserveView, RoundTrackerView roundTrackerView);
+    void initGame(List<PlayerView> players, ReserveView reserveView, RoundTrackerView roundTrackerView);
 
     /**
      * Communicates to player when another player has left the match

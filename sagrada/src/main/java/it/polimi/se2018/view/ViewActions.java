@@ -92,6 +92,13 @@ public class ViewActions {
     }
 
     /**
+     * Stops matchmaking
+     */
+    public void leaveMatchMaking() {
+        actionSender.leaveMatchMaking();
+    }
+
+    /**
      * Accepts an invite from another user
      *
      * @param matchIdentifier contains the matchIdentifier object of the match

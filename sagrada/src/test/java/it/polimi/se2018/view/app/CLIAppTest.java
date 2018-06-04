@@ -383,20 +383,18 @@ public class CLIAppTest {
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
         PatternView pattern4 = new PatternView("Test4", 4, pattern);
 
-        this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
+        List<SingleCardView> cards = new ArrayList<>();
+        cards.add(new SingleCardView(10, 1));
+        cards.add(new SingleCardView(12, 1));
 
-        String result = "Carta Schema 1: Test1 (Favori : 1)" + enter + "Pattern\n" + enter +
-                "--------------------" + enter + "|1-RED   ||1-RED   |" + enter +
-                "--------------------" + enter + "Carta Schema 2: Test2 (Favori : 2)" +
-                enter + "Pattern\n" + enter + "--------------------" +
-                enter + "|1-RED   ||1-RED   |" + enter + "--------------------" +
-                enter + "Carta Schema 3: Test3 (Favori : 3)" + enter + "Pattern\n" +
-                enter + "--------------------" + enter + "|1-RED   ||1-RED   |" +
-                enter + "--------------------" + enter + "Carta Schema 4: Test4 (Favori : 4)" +
-                enter + "Pattern\n" + enter + "--------------------" + enter +
-                "|1-RED   ||1-RED   |" + enter + "--------------------" + enter +
-                "Opzione: " + enter;
-        assertEquals(result, savedStream.toString());
+        CardView cardView = new CardView(new SingleCardView(1, 1), cards, cards);
+
+        this.app.askPattern(pattern1, pattern2, pattern3, pattern4, cardView);
+
+        assertEquals(1, this.app.getCardViewCreator().getPrivateObjectiveCard().cardID);
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getPublicObjectiveCards().toArray());
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getToolCards().toArray());
+
     }
 
     @Test
@@ -414,20 +412,17 @@ public class CLIAppTest {
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
         PatternView pattern4 = new PatternView("Test4", 4, pattern);
 
-        this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
+        List<SingleCardView> cards = new ArrayList<>();
+        cards.add(new SingleCardView(10, 1));
+        cards.add(new SingleCardView(12, 1));
 
-        String result = "Carta Schema 1: Test1 (Favori : 1)" + enter + "Pattern\n" + enter +
-                "--------------------" + enter + "|1-RED   ||1-RED   |" + enter +
-                "--------------------" + enter + "Carta Schema 2: Test2 (Favori : 2)" +
-                enter + "Pattern\n" + enter + "--------------------" +
-                enter + "|1-RED   ||1-RED   |" + enter + "--------------------" +
-                enter + "Carta Schema 3: Test3 (Favori : 3)" + enter + "Pattern\n" +
-                enter + "--------------------" + enter + "|1-RED   ||1-RED   |" +
-                enter + "--------------------" + enter + "Carta Schema 4: Test4 (Favori : 4)" +
-                enter + "Pattern\n" + enter + "--------------------" + enter +
-                "|1-RED   ||1-RED   |" + enter + "--------------------" + enter +
-                "Opzione: " + enter;
-        assertEquals(result, savedStream.toString());
+        CardView cardView = new CardView(new SingleCardView(1, 1), cards, cards);
+
+        this.app.askPattern(pattern1, pattern2, pattern3, pattern4, cardView);
+
+        assertEquals(1, this.app.getCardViewCreator().getPrivateObjectiveCard().cardID);
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getPublicObjectiveCards().toArray());
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getToolCards().toArray());
     }
 
     @Test
@@ -445,20 +440,18 @@ public class CLIAppTest {
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
         PatternView pattern4 = new PatternView("Test4", 4, pattern);
 
-        this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
+        List<SingleCardView> cards = new ArrayList<>();
+        cards.add(new SingleCardView(10, 1));
+        cards.add(new SingleCardView(12, 1));
 
-        String result = "Carta Schema 1: Test1 (Favori : 1)" + enter + "Pattern\n" + enter +
-                "--------------------" + enter + "|1-RED   ||1-RED   |" + enter +
-                "--------------------" + enter + "Carta Schema 2: Test2 (Favori : 2)" +
-                enter + "Pattern\n" + enter + "--------------------" +
-                enter + "|1-RED   ||1-RED   |" + enter + "--------------------" +
-                enter + "Carta Schema 3: Test3 (Favori : 3)" + enter + "Pattern\n" +
-                enter + "--------------------" + enter + "|1-RED   ||1-RED   |" +
-                enter + "--------------------" + enter + "Carta Schema 4: Test4 (Favori : 4)" +
-                enter + "Pattern\n" + enter + "--------------------" + enter +
-                "|1-RED   ||1-RED   |" + enter + "--------------------" + enter +
-                "Opzione: " + enter;
-        assertEquals(result, savedStream.toString());
+        CardView cardView = new CardView(new SingleCardView(1, 1), cards, cards);
+
+        this.app.askPattern(pattern1, pattern2, pattern3, pattern4, cardView);
+
+        assertEquals(1, this.app.getCardViewCreator().getPrivateObjectiveCard().cardID);
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getPublicObjectiveCards().toArray());
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getToolCards().toArray());
+
     }
 
     @Test
@@ -476,20 +469,17 @@ public class CLIAppTest {
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
         PatternView pattern4 = new PatternView("Test4", 4, pattern);
 
-        this.app.askPattern(pattern1, pattern2, pattern3, pattern4);
+        List<SingleCardView> cards = new ArrayList<>();
+        cards.add(new SingleCardView(10, 1));
+        cards.add(new SingleCardView(12, 1));
 
-        String result = "Carta Schema 1: Test1 (Favori : 1)" + enter + "Pattern\n" + enter +
-                "--------------------" + enter + "|1-RED   ||1-RED   |" + enter +
-                "--------------------" + enter + "Carta Schema 2: Test2 (Favori : 2)" +
-                enter + "Pattern\n" + enter + "--------------------" +
-                enter + "|1-RED   ||1-RED   |" + enter + "--------------------" +
-                enter + "Carta Schema 3: Test3 (Favori : 3)" + enter + "Pattern\n" +
-                enter + "--------------------" + enter + "|1-RED   ||1-RED   |" +
-                enter + "--------------------" + enter + "Carta Schema 4: Test4 (Favori : 4)" +
-                enter + "Pattern\n" + enter + "--------------------" + enter +
-                "|1-RED   ||1-RED   |" + enter + "--------------------" + enter +
-                "Opzione: " + enter;
-        assertEquals(result, savedStream.toString());
+        CardView cardView = new CardView(new SingleCardView(1, 1), cards, cards);
+
+        this.app.askPattern(pattern1, pattern2, pattern3, pattern4, cardView);
+
+        assertEquals(1, this.app.getCardViewCreator().getPrivateObjectiveCard().cardID);
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getPublicObjectiveCards().toArray());
+        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getToolCards().toArray());
     }
 
     @Test
@@ -505,11 +495,6 @@ public class CLIAppTest {
         players.add(me);
         players.add(other);
 
-        List<SingleCardView> cards = new ArrayList<>();
-        cards.add(new SingleCardView(10, 1));
-        cards.add(new SingleCardView(12, 1));
-
-        CardView cardView = new CardView(new SingleCardView(1, 1), cards, cards);
 
         Pair<Integer, ColorModel>[][] fakeRoundt = new Pair[1][1];
         fakeRoundt[0][0] = new Pair<>(1, ColorModel.RED);
@@ -521,23 +506,24 @@ public class CLIAppTest {
 
         this.app.startLogin(false);
         this.app.getGridViewCreator().setGridPattern(new Pair[1][1]);
+        this.app.getRoundTrackerViewCreator().setRound(0);
+        this.app.getRoundTrackerViewCreator().setRoundTracker(fakeRoundt);
+
+        List<SingleCardView> cards = new ArrayList<>();
+        cards.add(new SingleCardView(10, 1));
+        cards.add(new SingleCardView(12, 1));
         this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1, 0));
         this.app.getCardViewCreator().setPublicObjectiveCards(cards);
         this.app.getCardViewCreator().setToolCards(cards);
-        this.app.getRoundTrackerViewCreator().setRound(0);
-        this.app.getRoundTrackerViewCreator().setRoundTracker(fakeRoundt);
-        this.app.initGame(players, cardView, reserveView, roundTracker);
-        this.app.startTurn();
 
+        this.app.initGame(players, reserveView, roundTracker);
+        this.app.startTurn();
 
         assertEquals(me.getPlayerName(), this.app.getOwnerPlayerName());
         assertEquals(me.getPlayerID(), this.app.getOwnerPlayerID());
         assertNotNull(this.app.getCardViewCreator());
         assertNotNull(this.app.getRoundTrackerViewCreator());
         assertNotNull(this.app.getReserveViewCreator());
-        assertEquals(1, this.app.getCardViewCreator().getPrivateObjectiveCard().cardID);
-        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getPublicObjectiveCards().toArray());
-        assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getToolCards().toArray());
         assertArrayEquals(fakeRoundt, this.app.getRoundTrackerViewCreator().getRoundTracker());
         assertEquals(0, this.app.getRoundTrackerViewCreator().getRound());
     }
@@ -870,6 +856,13 @@ public class CLIAppTest {
     @Test
     public void testNoAnimation() {
         testSetApp(new FakeViewAction(null));
+
+        List<SingleCardView> cards = new ArrayList<>();
+        cards.add(new SingleCardView(10, 1));
+        cards.add(new SingleCardView(12, 1));
+
+        CardView cardView = new CardView(new SingleCardView(1, 1), cards, cards);
+
         this.app.animation(false);
         this.app.startLogin(false);
         this.app.loginResult(false, null);
@@ -877,7 +870,7 @@ public class CLIAppTest {
         this.app.logoutResult(false);
         this.app.leaveMatchResult(false);
         this.app.pullLeaderBoard(null);
-        this.app.askPattern(null, null, null, null);
+        this.app.askPattern(null, null, null, null, cardView);
         this.app.otherPlayerLeave(null);
         this.app.otherPlayerReconnection(null);
         this.app.startTurn();

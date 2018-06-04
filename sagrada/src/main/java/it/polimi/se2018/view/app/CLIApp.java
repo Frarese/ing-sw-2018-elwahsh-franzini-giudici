@@ -247,15 +247,33 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4) {
+    public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4, CardView cardView) {
+        //Adds CardView Observer
+        cardViewObserver = new CardViewObserver(this);
+        cardView.addObserver(cardViewObserver);
+
+        //Save current player state
+        this.cardViewCreator.setPrivateObjectiveCard(cardView.getPrivateObjectiveCard());
+        this.cardViewCreator.setPublicObjectiveCards(cardView.getPublicObjectiveCards());
+        this.cardViewCreator.setToolCards(cardView.getToolCards());
+
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
 
+        //Print cards
+        printer.print("Carta obiettivo privato: ");
+        printer.print(this.cardViewCreator.makeCard(this.cardViewCreator.getPrivateObjectiveCard().cardID));
+        printer.print("Carte obiettivo pubblico: ");
+        for (int i = 0; i < this.cardViewCreator.getPublicObjectiveCards().size(); i++) {
+            SingleCardView el = (SingleCardView) this.cardViewCreator.getPublicObjectiveCards().get(i);
+            printer.print(this.cardViewCreator.makeCard(el.cardID));
+        }
+
         String favourString = " (Favori : ";
         //Show patterns
-        printer.print("Carta Schema 1: " + pattern1.patternName + favourString + pattern1.favours + ")");
+        printer.print("\nCarta Schema 1: " + pattern1.patternName + favourString + pattern1.favours + ")");
         this.gridViewCreator.setGridPattern(pattern1.template);
         printer.printArray(this.gridViewCreator.display());
         printer.print("Carta Schema 2: " + pattern2.patternName + favourString + pattern2.favours + ")");
@@ -289,7 +307,7 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void initGame(List<PlayerView> players, CardView cardView, ReserveView reserveView, RoundTrackerView roundTrackerView) {
+    public void initGame(List<PlayerView> players, ReserveView reserveView, RoundTrackerView roundTrackerView) {
 
         //Adds PlayerView Observer
         for (PlayerView playerView : players) {
@@ -302,15 +320,6 @@ public class CLIApp extends App {
         for (PlayerView playerView : players) {
             this.players.add(setState(playerView));
         }
-
-        //Adds CardView Observer
-        cardViewObserver = new CardViewObserver(this);
-        cardView.addObserver(cardViewObserver);
-
-        //Save current player state
-        this.cardViewCreator.setPrivateObjectiveCard(cardView.getPrivateObjectiveCard());
-        this.cardViewCreator.setPublicObjectiveCards(cardView.getPublicObjectiveCards());
-        this.cardViewCreator.setToolCards(cardView.getToolCards());
 
         //Adds ReserveView Observer
         reserveViewObserver = new ReserveViewObserver(this);
@@ -340,18 +349,10 @@ public class CLIApp extends App {
         }
         this.isYourTurn = false;
 
-        //Print cards
-        printer.print("Carta obiettivo privato: ");
-        printer.print(this.cardViewCreator.makeCard(this.cardViewCreator.getPrivateObjectiveCard().cardID));
-        printer.print("Carte obiettivo pubblico: ");
-        for (int i = 0; i < this.cardViewCreator.getPublicObjectiveCards().size(); i++) {
-            SingleCardView el = (SingleCardView) this.cardViewCreator.getPublicObjectiveCards().get(i);
-            this.cardViewCreator.makeCard(el.cardID);
-        }
         printer.print("Carte utensili: ");
         for (int i = 0; i < this.cardViewCreator.getToolCards().size(); i++) {
             SingleCardView el = (SingleCardView) this.cardViewCreator.getToolCards().get(i);
-            this.cardViewCreator.makeCard(el.cardID);
+            printer.print(this.cardViewCreator.makeCard(el.cardID));
         }
         //Print Grid
         printer.print("La tua griglia:");

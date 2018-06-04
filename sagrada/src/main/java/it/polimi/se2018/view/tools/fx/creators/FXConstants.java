@@ -20,23 +20,23 @@ abstract class FXConstants {
     /**
      * Constants for grid and dice
      */
-    public static final int GRID_CELL_DIM_VALUE = 100;
-    public static final int GRID_INSETS_SPACING = 10;
-    public static final int GRID_ROW_SPACING = 15;
+    static final int GRID_CELL_DIM_VALUE = 100;
+    static final int GRID_INSETS_SPACING = 10;
+    static final int GRID_ROW_SPACING = 15;
 
     /**
      * Constants for reserve
      */
-    public static final int RESERVE_INSETS_SPACING = 7;
-    public static final int RESERVE_ROW_SPACING = 7;
+    static final int RESERVE_INSETS_SPACING = 7;
+    static final int RESERVE_ROW_SPACING = 7;
 
     /**
      * Constants for roundTracker
      */
-    public static final int ROUNDT_CELL_DIM_VALUE = 70;
-    public static final int ROUNDT_IMG_DIM_VALUE = 35;
-    public static final int ROUNDT_INSETS_SPACING = 15;
-    public static final int ROUNDT_ROW_SPACING = 5;
+    static final int ROUNDT_CELL_DIM_VALUE = 70;
+    static final int ROUNDT_IMG_DIM_VALUE = 35;
+    static final int ROUNDT_INSETS_SPACING = 15;
+    static final int ROUNDT_ROW_SPACING = 5;
 
     /**
      * Creates a string to set background color
@@ -44,7 +44,7 @@ abstract class FXConstants {
      * @param color contains the color to set
      * @return the setting string
      */
-    public static String makeBgColorString(String color) {
+    static String makeBgColorString(String color) {
         return "-fx-background-color: " + color + ";";
     }
 
@@ -59,8 +59,8 @@ abstract class FXConstants {
      * @param rowSpacing    contains the row's spacing
      * @param cellDim       contains the cell's dimension
      */
-    public static void createEmptyGrid(VBox container, String bgColor, int row, int column,
-                                       int insetsSpacing, int rowSpacing, int cellDim) {
+    static void createEmptyGrid(VBox container, String bgColor, int row, int column,
+                                int insetsSpacing, int rowSpacing, int cellDim) {
         //Container properties
         container.setPadding(new Insets(insetsSpacing, insetsSpacing, insetsSpacing, insetsSpacing));
         container.setStyle(makeBgColorString(bgColor));

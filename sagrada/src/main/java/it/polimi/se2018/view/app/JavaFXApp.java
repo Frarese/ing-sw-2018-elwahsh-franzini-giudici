@@ -160,12 +160,12 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4) {
+    public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4, CardView cardView) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void initGame(List<PlayerView> players, CardView cardView, ReserveView reserveView, RoundTrackerView roundTrackerView) {
+    public void initGame(List<PlayerView> players, ReserveView reserveView, RoundTrackerView roundTrackerView) {
         throw new UnsupportedOperationException();
     }
 
