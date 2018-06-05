@@ -217,6 +217,9 @@ public class CLIApp extends App {
             return;
         }
 
+        this.commands.clear();
+        this.commands.add(0, new CommandLogout(this));
+        this.commands.add(0, new CommandChangeLayer(this));
         this.commands.add(0, new CommandCreateInvite(this));
         this.commands.add(0, new CommandAutoComplete(this));
         this.commands.add(0, new CommandAcceptInvite(this));
@@ -386,6 +389,7 @@ public class CLIApp extends App {
 
     @Override
     public void startTurn() {
+        this.reader.reset();
         this.isYourTurn = true;
         //Check if animation is enabled
         if (!this.animationEnable) {
@@ -490,6 +494,7 @@ public class CLIApp extends App {
             printer.print("Turno passato con successo!");
             this.commands.add(0, new CommandWaitYourTurn(this));
             this.isYourTurn = false;
+            this.reader.reset();
         } else {
             printer.print("Non sei riuscito a passare il turno");
         }
@@ -538,7 +543,9 @@ public class CLIApp extends App {
 
     @Override
     public void abortMatch() {
-
+        this.reader.reset();
+        this.isYourTurn = false;
+        this.createLobby();
     }
 
     @Override

@@ -37,7 +37,7 @@ public class CLIScoreViewCreatorTest {
 
     @Test
     public void testDisplay() {
-        MatchIdentifier matchIdentifier = new MatchIdentifier("Marco", "Luca", null, null);
+        MatchIdentifier matchIdentifier = new MatchIdentifier("Luca", "Marco", null, null);
         assertEquals(result, scoreViewCreator.display(matchIdentifier, 2, 1, 0, 0));
     }
 }

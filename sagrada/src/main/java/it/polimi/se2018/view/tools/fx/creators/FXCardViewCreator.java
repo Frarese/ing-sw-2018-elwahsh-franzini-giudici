@@ -60,7 +60,7 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
 
     }
 
-    Image makeImage(String url){
+    Image makeImage(String url) {
         return new Image(url);
     }
 }

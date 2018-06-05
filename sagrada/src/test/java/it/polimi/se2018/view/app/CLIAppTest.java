@@ -319,7 +319,7 @@ public class CLIAppTest {
 
     @Test
     public void testCreateLobby() {
-        String message = 6 + enter + "y" + enter;
+        String message = 7 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction2(null));
