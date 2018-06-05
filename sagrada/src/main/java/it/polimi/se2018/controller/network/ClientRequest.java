@@ -2,8 +2,7 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 
 import java.io.Serializable;
 
@@ -11,7 +10,7 @@ import java.io.Serializable;
  * A request that is used to wrap a serializable object sent from the controller over the request channel
  * @author Francesco Franzini
  */
-public class ClientRequest extends AbsReqServerLogic {
+public class ClientRequest implements AbsReqServerLogic {
     public final Serializable serializedReq;
 
     /**
@@ -35,11 +34,9 @@ public class ClientRequest extends AbsReqServerLogic {
     }
 
     @Override
-    public void serverHandle(Client client, ServerMain server) {
-        if(!checkValid())return;
-        if(client!=null && client.getMatch()!=null){
-            client.getMatch().handleReq(client.usn,serializedReq);
-        }
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
+
     }
 
 

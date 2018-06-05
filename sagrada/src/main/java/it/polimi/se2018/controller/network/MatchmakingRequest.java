@@ -1,13 +1,14 @@
 package it.polimi.se2018.controller.network;
 
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.client.Comm;
+import it.polimi.se2018.controller.network.client.CommUtilizer;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 
 /**
  * Request used to join or leave matchmaking
  * @author Francesco Franzini
  */
-public class MatchmakingRequest extends AbsReqServerLogic{
+public class MatchmakingRequest implements AbsReqServerLogic{
     public final boolean join;
 
     /**
@@ -19,9 +20,13 @@ public class MatchmakingRequest extends AbsReqServerLogic{
     }
 
     @Override
-    public void serverHandle(Client client, ServerMain server) {
-        if(join)server.addToMatchMaking(client);
-        else server.removeFromMatchMaking(client);
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
+    }
+
+    @Override
+    public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+        //This request means nothing if received by client
     }
 
     @Override

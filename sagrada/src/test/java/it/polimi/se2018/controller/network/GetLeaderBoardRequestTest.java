@@ -20,23 +20,24 @@ import static org.junit.Assert.*;
 
 public class GetLeaderBoardRequestTest {
     private GetLeaderBoardRequest uut;
+    private Client c;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception{
         uut=new GetLeaderBoardRequest();
+        ServerMain s = new ServerMain(0, 0, 0, "", InetAddress.getLocalHost(), null);
+        c=new Client("test", s);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testInit() {
         assertTrue(uut.checkValid());
-        uut.serverHandle(null,null);
+        uut.serverVisit(c.getServerVisitor());
     }
 
     @Test
     public void testServer() throws Exception{
-        ServerMain s=new ServerMain(0,0,0,"",InetAddress.getLocalHost(),null);
-        Client c=new Client("test",s);
-        uut.serverHandle(c,s);
+        uut.serverVisit(c.getServerVisitor());
         Field f=Client.class.getDeclaredField("outReqQueue");
         f.setAccessible(true);
         Queue q=(Queue)f.get(c);

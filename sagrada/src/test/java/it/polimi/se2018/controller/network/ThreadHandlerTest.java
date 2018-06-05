@@ -71,9 +71,12 @@ public class ThreadHandlerTest {
     }
 
     @Test
-    public void testInterruptedEx(){
+    public void testInterruptedEx() throws Exception{
         interrupt=true;
-        uut.run();
+        continuaF.set(uut,true);
+        Thread t=new Thread(uut);
+        t.start();
+        t.join();
     }
 
 

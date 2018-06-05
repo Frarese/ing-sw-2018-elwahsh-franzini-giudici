@@ -3,8 +3,7 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 import it.polimi.se2018.util.ScoreEntry;
 
 import java.util.List;
@@ -13,13 +12,12 @@ import java.util.List;
  * Request for the update of the logged users list
  * @author Francesco Franzini
  */
-public class ListUsersRequest extends AbsReqServerLogic {
+public class ListUsersRequest implements AbsReqServerLogic {
     private List<ScoreEntry> list;
 
     @Override
-    public void serverHandle(Client client, ServerMain server) {
-        this.list=server.getUserListCopy();
-        client.pushOutReq(this);
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
     }
 
     @Override

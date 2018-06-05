@@ -43,10 +43,10 @@ public class ChatMessageRequestTest {
     public void testServer() throws Exception{
         ServerMain s=new ServerMain(1,3,2,"test",InetAddress.getLocalHost(),null);
         uut=new ChatMessageRequest("test","test2","test",MessageTypes.PM);
-        uut.serverHandle(new Client("test",s),s);
+        uut.serverVisit(new Client("test",s).getServerVisitor());
 
         uut=new ChatMessageRequest("test","test2","test",MessageTypes.MATCH);
-        uut.serverHandle(new Client("test",s),s);
+        uut.serverVisit(new Client("test",s).getServerVisitor());
     }
 
     private class TestUtilizer implements CommUtilizer{

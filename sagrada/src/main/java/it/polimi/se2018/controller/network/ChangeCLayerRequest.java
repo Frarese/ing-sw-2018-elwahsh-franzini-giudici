@@ -2,14 +2,13 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 
 /**
  * A request to change network technology
  * @author Francesco Franzini
  */
-public class ChangeCLayerRequest extends AbsReqServerLogic {
+public class ChangeCLayerRequest implements AbsReqServerLogic {
     private final boolean toRMI;
     private final int reqPort;
     private final int objPort;
@@ -37,9 +36,8 @@ public class ChangeCLayerRequest extends AbsReqServerLogic {
 
 
     @Override
-    public void serverHandle(Client client, ServerMain server) {
-        if(!checkValid())return;
-        client.zombiefy(false,this);
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
     }
 
 

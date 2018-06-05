@@ -2,19 +2,14 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 import it.polimi.se2018.util.MessageTypes;
-
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Request that is used to send a chat message through the network
  * @author Francesco Franzini
  */
-public class ChatMessageRequest extends AbsReqServerLogic {
+public class ChatMessageRequest implements AbsReqServerLogic {
     public final String sender;
     public final String destination;
     public final String msg;
@@ -47,23 +42,8 @@ public class ChatMessageRequest extends AbsReqServerLogic {
     }
 
     @Override
-    public void serverHandle(Client client, ServerMain server) {
-        if(!checkValid())return;
-        if(!sender.equals(client.usn)){
-            Logger.getGlobal().log(Level.FINE,"Client attempted to cheat on username {0}",client.usn);
-        }
-        switch (type){
-            case BROADCAST:
-                throw new UnsupportedOperationException();
-            case PM:
-                Client d=server.getClient(destination);
-                if(d!=null)d.pushOutReq(this);
-                break;
-            case MATCH:
-                if(client.getMatch()==null)break;
-                List<Client> dst=client.getMatch().getClients();
-                dst.stream().filter(cl->(cl!=client)).forEach(cl->cl.pushOutReq(this));
-        }
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
     }
 
 

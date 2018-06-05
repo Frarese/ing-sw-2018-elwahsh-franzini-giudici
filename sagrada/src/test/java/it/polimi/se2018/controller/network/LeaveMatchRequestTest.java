@@ -30,7 +30,7 @@ public class LeaveMatchRequestTest {
         uut.clientHandle(null,mock);
         assertTrue(notified);
 
-        uut.serverHandle(new Client("usn",null),null);
+        uut.serverVisit(new Client("usn",null).getServerVisitor());
     }
 
 

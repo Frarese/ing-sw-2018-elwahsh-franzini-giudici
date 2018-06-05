@@ -12,22 +12,26 @@ import static org.junit.Assert.*;
 
 public class MatchmakingRequestTest {
     private ServerMainMock s;
+    private Client c;
 
     @Before
     public void setUp() throws Exception{
         s=new ServerMainMock();
+        c=new Client("test",s);
     }
 
     @Test
     public void testServerHandle(){
         MatchmakingRequest uut = new MatchmakingRequest(true);
-        uut.serverHandle(null,s);
+        uut.clientHandle(null,null);
+
+        uut.serverVisit(c.getServerVisitor());
         assertTrue(s.added);
 
         assertTrue(uut.checkValid());
 
         uut =new MatchmakingRequest(false);
-        uut.serverHandle(null,s);
+        uut.serverVisit(c.getServerVisitor());
         assertFalse(s.added);
     }
 

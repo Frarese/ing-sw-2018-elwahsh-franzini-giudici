@@ -1,6 +1,8 @@
 package it.polimi.se2018.controller.network.server;
 
 import it.polimi.se2018.controller.network.AbsReq;
+import it.polimi.se2018.controller.network.client.Comm;
+import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.util.SafeSocket;
 import org.junit.After;
 import org.junit.Test;
@@ -66,7 +68,22 @@ public class InputStreamWaiterTest {
 
     }
 
-    private class TestAbsReq extends AbsReq {
+    private class TestAbsReq implements AbsReq {
         final String str="Req";
+
+        @Override
+        public void serverVisit(ServerVisitor sV) {
+
+        }
+
+        @Override
+        public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+
+        }
+
+        @Override
+        public boolean checkValid() {
+            return false;
+        }
     }
 }

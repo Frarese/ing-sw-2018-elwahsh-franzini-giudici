@@ -2,7 +2,6 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.ServerMain;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
 import it.polimi.se2018.util.ScoreEntry;
@@ -10,64 +9,36 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ListUsersRequestTest {
-    private ListUsersRequest uut;
-    private List<ScoreEntry> list;
-    private ServerMain s;
+public class ClientRequestTest {
+
+    private ClientRequest uut;
     private Client c;
-    private boolean pushed;
+    private boolean received;
+
     @Before
-    public void setUp() throws Exception{
-        pushed=false;
-        uut=new ListUsersRequest();
-        list=new ArrayList<>();
-        s=new ServerMain(0,0,0,"a",InetAddress.getLocalHost(),null);
-        c=new ClientMock();
+    public void setUp() {
+        c=new Client("test",null);
+        uut=new ClientRequest("serializable");
+        received=false;
     }
 
     @Test
-    public void testInit() {
-        assertTrue(uut.checkValid());
-        assertNull(uut.getList());
-    }
-
-    @Test
-    public void testSet() {
-        list=new ArrayList<>();
-        uut.setList(list);
-        assertEquals(list,uut.getList());
+    public void testServerHandle() {
+        try {
+            uut.serverVisit(c.getServerVisitor());
+        }catch (NullPointerException e){
+            fail(e.getMessage());
+        }
     }
 
     @Test
     public void testClientHandle() {
-        uut.setList(list);
         uut.clientHandle(null,new UtilizerMock());
-        assertTrue(pushed);
-    }
-
-    @Test
-    public void serverClientHandle() {
-        uut.setList(list);
-        uut.serverVisit(c.getServerVisitor());
-        assertTrue(pushed);
-    }
-
-    private class ClientMock extends Client{
-
-        ClientMock() {
-            super("test", s);
-        }
-
-        @Override
-        public void pushOutReq(AbsReq req) {
-            pushed=true;
-        }
+        assertTrue(received);
     }
 
     private class UtilizerMock implements CommUtilizer{
@@ -79,7 +50,7 @@ public class ListUsersRequestTest {
 
         @Override
         public void receiveRequest(Serializable req) {
-
+            received=true;
         }
 
         @Override
@@ -102,7 +73,6 @@ public class ListUsersRequestTest {
 
         }
 
-
         @Override
         public void notifyUserLeft(String usn) {
 
@@ -115,7 +85,7 @@ public class ListUsersRequestTest {
 
         @Override
         public void pushUserList(List<ScoreEntry> list) {
-            pushed=true;
+
         }
 
         @Override

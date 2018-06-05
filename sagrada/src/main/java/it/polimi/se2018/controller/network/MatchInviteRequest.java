@@ -2,8 +2,7 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 import it.polimi.se2018.util.MatchIdentifier;
 
 /**
@@ -23,9 +22,8 @@ public class MatchInviteRequest extends AbsMatchReq {
     }
 
     @Override
-    public void serverHandle(Client client, ServerMain server) {
-        if(!checkValid())return;
-        server.addPendingMatch(matchId,client);
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
     }
 
 

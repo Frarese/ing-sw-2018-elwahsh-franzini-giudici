@@ -1,8 +1,8 @@
 package it.polimi.se2018.controller.network;
 
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.PendingApprovalMatch;
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.client.Comm;
+import it.polimi.se2018.controller.network.client.CommUtilizer;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 import it.polimi.se2018.util.MatchIdentifier;
 
 /**
@@ -30,12 +30,13 @@ public class MatchResponseRequest extends AbsMatchReq {
     }
 
     @Override
-    public void serverHandle(Client client, ServerMain server) {
-        if(!checkValid())return;
-        PendingApprovalMatch m=server.getPendingMatch(this.matchId);
-        if(m==null)return;
-        if(accept)m.clientAccepted(client);
-        else m.abort();
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
+    }
+
+    @Override
+    public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+        //This request means nothing if received by server
     }
 
 

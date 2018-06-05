@@ -2,6 +2,7 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 import it.polimi.se2018.util.MatchIdentifier;
 
 /**
@@ -29,6 +30,11 @@ public class MatchEndedRequest extends AbsMatchReq {
         this.playerScore2=playerScore2;
         this.playerScore3=playerScore3;
         if(!checkValid())throw new IllegalArgumentException("Invalid parameters");
+    }
+
+    @Override
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
     }
 
     @Override

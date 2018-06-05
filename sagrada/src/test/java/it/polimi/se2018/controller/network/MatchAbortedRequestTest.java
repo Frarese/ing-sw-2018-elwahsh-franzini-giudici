@@ -18,7 +18,7 @@ public class MatchAbortedRequestTest {
     public void testRequest() {
         MatchAbortedRequest uut;
         uut=new MatchAbortedRequest(new MatchIdentifier("a","b",null,null));
-        uut.serverHandle(new Client("test",null),null);
+        uut.serverVisit(new Client("test",null).getServerVisitor());
         CommUtilizerMock mock=new CommUtilizerMock();
         uut.clientHandle(null,mock);
         assertTrue(mock.aborted);

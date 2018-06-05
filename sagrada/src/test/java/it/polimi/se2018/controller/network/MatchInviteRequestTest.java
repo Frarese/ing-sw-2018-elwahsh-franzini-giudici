@@ -31,7 +31,7 @@ public class MatchInviteRequestTest {
     public void testHandle() {
         MatchIdentifier mId=new MatchIdentifier("us1","us2",null,null);
         uut=new MatchInviteRequest(mId);
-        uut.serverHandle(new Client("us1",s),s);
+        uut.serverVisit(new Client("us1",s).getServerVisitor());
         assertTrue(s.added);
 
         uut.clientHandle(null,new CommUtilizerMock());

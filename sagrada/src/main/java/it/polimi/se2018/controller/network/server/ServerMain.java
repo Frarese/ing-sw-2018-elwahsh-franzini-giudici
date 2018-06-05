@@ -39,6 +39,7 @@ public class ServerMain {
      * @param rmiPort rmi port
      * @param rmiName rmi name
      * @param rmiIp rmi ip to use
+     * @param factory controller factory to use
      * @throws IOException if an I/O error occurs
      */
     public ServerMain(int objPort, int reqPort, int rmiPort, String rmiName, InetAddress rmiIp,MatchControllerFactory factory) throws IOException{
@@ -129,7 +130,7 @@ public class ServerMain {
      * Builds and returns a list of all the logged users with their leaderboard info, ordered desc
      * @return a List of {@link it.polimi.se2018.util.ScoreEntry}
      */
-    public List<ScoreEntry> getUserListCopy() {
+    List<ScoreEntry> getUserListCopy() {
         List<ScoreEntry> list=userBase.getLeaderBoard();
         list.removeIf(a->!clientMap.containsKey(a.usn));
         return list;
@@ -210,7 +211,7 @@ public class ServerMain {
      * @param matchId the matchId to fetch
      * @return the corresponding PendingApprovalMatch or {@code null} if not present
      */
-    public PendingApprovalMatch getPendingMatch(MatchIdentifier matchId) {
+    PendingApprovalMatch getPendingMatch(MatchIdentifier matchId) {
         return pendingMatchesMap.get(matchId.toString());
     }
 
@@ -252,7 +253,7 @@ public class ServerMain {
      * Returns a List of {@link it.polimi.se2018.util.ScoreEntry} with all the registered users, unordered
      * @return a List of {@link it.polimi.se2018.util.ScoreEntry} with all the registered users
      */
-    public List<ScoreEntry> getRegisteredUsers() {
+    List<ScoreEntry> getRegisteredUsers() {
         return userBase.getLeaderBoard();
     }
 

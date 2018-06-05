@@ -1,76 +1,46 @@
 package it.polimi.se2018.controller.network;
 
+import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.ServerMain;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
 import it.polimi.se2018.util.ScoreEntry;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ListUsersRequestTest {
-    private ListUsersRequest uut;
-    private List<ScoreEntry> list;
-    private ServerMain s;
-    private Client c;
-    private boolean pushed;
-    @Before
-    public void setUp() throws Exception{
-        pushed=false;
-        uut=new ListUsersRequest();
-        list=new ArrayList<>();
-        s=new ServerMain(0,0,0,"a",InetAddress.getLocalHost(),null);
-        c=new ClientMock();
-    }
+public class MatchBeginRequestTest {
+    private MatchBeginRequest uut;
+    private boolean notified;
+    private boolean set;
+
 
     @Test
-    public void testInit() {
-        assertTrue(uut.checkValid());
-        assertNull(uut.getList());
+    public void testOkInit() {
+        uut=new MatchBeginRequest(new MatchIdentifier("a","b",null,null));
+        uut.serverVisit(new Client("test",null).getServerVisitor());
     }
 
-    @Test
-    public void testSet() {
-        list=new ArrayList<>();
-        uut.setList(list);
-        assertEquals(list,uut.getList());
+    @Test(expected = IllegalArgumentException.class)
+    public void testFailInit() {
+        uut=new MatchBeginRequest(null);
     }
 
     @Test
     public void testClientHandle() {
-        uut.setList(list);
-        uut.clientHandle(null,new UtilizerMock());
-        assertTrue(pushed);
+        uut=new MatchBeginRequest(new MatchIdentifier("a","b",null,null));
+        notified=false;
+        set=false;
+        uut.clientHandle(new CommMock(),new UtilizerMock());
+        assertTrue(notified);
+        assertTrue(set);
     }
 
-    @Test
-    public void serverClientHandle() {
-        uut.setList(list);
-        uut.serverVisit(c.getServerVisitor());
-        assertTrue(pushed);
-    }
-
-    private class ClientMock extends Client{
-
-        ClientMock() {
-            super("test", s);
-        }
-
-        @Override
-        public void pushOutReq(AbsReq req) {
-            pushed=true;
-        }
-    }
-
-    private class UtilizerMock implements CommUtilizer{
+    private class UtilizerMock implements CommUtilizer {
 
         @Override
         public void receiveObject(Serializable obj) {
@@ -99,9 +69,8 @@ public class ListUsersRequestTest {
 
         @Override
         public void notifyMatchStart() {
-
+            notified=true;
         }
-
 
         @Override
         public void notifyUserLeft(String usn) {
@@ -115,7 +84,7 @@ public class ListUsersRequestTest {
 
         @Override
         public void pushUserList(List<ScoreEntry> list) {
-            pushed=true;
+
         }
 
         @Override
@@ -136,6 +105,13 @@ public class ListUsersRequestTest {
         @Override
         public void notifyUserReconnected(String usn) {
 
+        }
+    }
+
+    private class CommMock extends Comm {
+        @Override
+        public void setMatchInfo(MatchIdentifier newInfo) {
+            set=true;
         }
     }
 }

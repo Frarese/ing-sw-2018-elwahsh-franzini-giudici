@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.network.client;
 
 import it.polimi.se2018.controller.network.AbsReq;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
 import org.junit.Before;
@@ -145,10 +146,20 @@ public class InListenerTest {
         }
     }
 
-    private class TestAbsReq extends AbsReq{
+    private class TestAbsReq implements AbsReq{
+        @Override
+        public void serverVisit(ServerVisitor sV) {
+
+        }
+
         @Override
         public void clientHandle(Comm clientComm, CommUtilizer commUtilizer){
             commUtilizer.receiveObject("TestReq");
+        }
+
+        @Override
+        public boolean checkValid() {
+            return false;
         }
     }
 }

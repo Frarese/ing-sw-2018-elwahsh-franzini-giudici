@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.network.client;
 
 import it.polimi.se2018.controller.network.AbsReq;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,7 +66,22 @@ public class RMIClientListenerTest {
             sentObj=((TestAbsReq)req).str;
         }
     }
-    private class TestAbsReq extends AbsReq {
+    private class TestAbsReq implements AbsReq {
         final String str="Req";
+
+        @Override
+        public void serverVisit(ServerVisitor sV) {
+
+        }
+
+        @Override
+        public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
+
+        }
+
+        @Override
+        public boolean checkValid() {
+            return false;
+        }
     }
 }

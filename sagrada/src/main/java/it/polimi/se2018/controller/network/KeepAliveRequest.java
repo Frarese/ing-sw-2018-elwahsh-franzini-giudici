@@ -2,28 +2,24 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 
 /**
  * A request used as a timely keep-alive
  *
  * @author Francesco Franzini
  */
-public class KeepAliveRequest extends AbsReqServerComm {
+public class KeepAliveRequest implements AbsReqServerComm {
     private boolean bounced=false;
     @Override
-    public void serverHandle(Client client, ServerMain server) {
-        if(!bounced){
-            bounced=true;
-            client.sendReq(this);
-        }
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
     }
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
         if(!bounced){
-            bounced=true;
+            setBounced();
             clientComm.pushOutReq(this);
         }
     }
@@ -33,6 +29,16 @@ public class KeepAliveRequest extends AbsReqServerComm {
         return true;
     }
 
+    /**
+     * Checks if this request has bounced
+     * @return true if this request has bounced
+     */
+    public boolean hasBounced() {
+        return bounced;
+    }
 
+    public void setBounced(){
+        bounced=true;
+    }
 }
 

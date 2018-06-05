@@ -23,7 +23,7 @@ public class LogoutRequestTest {
         uut.clientHandle(new CommMock(),mock);
         assertTrue(mock.dropped);
         ClientMock c=new ClientMock();
-        uut.serverHandle(c, null);
+        uut.serverVisit(c.getServerVisitor());
         assertTrue(c.purged);
     }
 

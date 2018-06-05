@@ -2,15 +2,13 @@ package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.Comm;
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-import it.polimi.se2018.controller.network.server.Client;
-import it.polimi.se2018.controller.network.server.Match;
-import it.polimi.se2018.controller.network.server.ServerMain;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 
 /**
  * Request to leave a match/notify that someone has left
  * @author Francesco Franzini
  */
-public class LeaveMatchRequest extends AbsReqServerLogic {
+public class LeaveMatchRequest implements AbsReqServerLogic {
     public final String usn;
     /**
      * Initializes this request with the given parameter
@@ -33,11 +31,8 @@ public class LeaveMatchRequest extends AbsReqServerLogic {
     }
 
     @Override
-    public void serverHandle(Client client, ServerMain server) {
-        if(!checkValid())return;
-        Match m=client.getMatch();
-        if(m==null)return;
-        m.playerLeft(usn,false);
+    public void serverVisit(ServerVisitor sV) {
+        sV.handle(this);
     }
 
 

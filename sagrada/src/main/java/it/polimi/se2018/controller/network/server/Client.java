@@ -22,6 +22,7 @@ public class Client {
     private static final long DEFAULT_PURGE_TIMEOUT = 5000;
 
     private final ServerMain serverMain;
+    private final ServerVisitor serverVisitor;
     public final String usn;
 
     private boolean acceptedInvite;
@@ -53,6 +54,7 @@ public class Client {
     public Client(String usn, ServerMain server) {
         this.usn=usn;
         this.serverMain=server;
+        this.serverVisitor=new ServerVisitorImpl(this,server);
         this.logger=Logger.getGlobal();
         outReqQueue=new LinkedList<>();
         outObjQueue=new LinkedList<>();
@@ -302,7 +304,7 @@ public class Client {
      */
     public void handleReq() {
         try {
-            UtilMethods.waitAndPopTS(inReqQueue).serverHandle(this,serverMain);
+            UtilMethods.waitAndPopTS(inReqQueue).serverVisit(serverVisitor);
         } catch (InterruptedException e) {
             logger.log(Level.SEVERE,"Interrupted processing in request "+e.getMessage());
             Thread.currentThread().interrupt();
@@ -404,5 +406,13 @@ public class Client {
      */
     void resetAccepted() {
         this.acceptedInvite=false;
+    }
+
+    /**
+     * Returns the visitor for this client
+     * @return the visitor for this client
+     */
+    public ServerVisitor getServerVisitor() {
+        return serverVisitor;
     }
 }

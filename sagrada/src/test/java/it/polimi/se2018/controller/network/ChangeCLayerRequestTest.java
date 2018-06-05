@@ -35,13 +35,13 @@ public class ChangeCLayerRequestTest {
     @Test
     public void testFail() throws IllegalAccessException {
         portField.set(uut,0);
-        uut.serverHandle(null,null);
+        uut.serverVisit(c.getServerVisitor());
         uut.clientHandle(null,null);
     }
 
     @Test
     public void testServer(){
-        uut.serverHandle(c,null);
+        uut.serverVisit(c.getServerVisitor());
         assertTrue(called);
     }
 

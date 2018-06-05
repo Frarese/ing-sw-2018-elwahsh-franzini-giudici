@@ -10,12 +10,12 @@ import java.net.InetAddress;
 
 public class MatchResponseRequestTest {
     private MatchResponseRequest uut;
-    private ServerMain s;
+    private Client c;
 
     @Before
     public void setUp() throws Exception{
-        s=new ServerMain(0,0,0,"",InetAddress.getLocalHost(),null);
-
+        ServerMain s = new ServerMain(0, 0, 0, "", InetAddress.getLocalHost(), null);
+        c=new Client("test", s);
     }
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidInit(){
@@ -26,7 +26,9 @@ public class MatchResponseRequestTest {
     public void testServerHandleInvalid(){
         MatchIdentifier mId=new MatchIdentifier("us1","us2",null,null);
         uut=new MatchResponseRequest(false,mId);
-        uut.serverHandle(null,s);
+
+        uut.clientHandle(null,null);
+        uut.serverVisit(c.getServerVisitor());
     }
 
 

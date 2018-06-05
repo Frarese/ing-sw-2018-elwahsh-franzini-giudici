@@ -20,6 +20,7 @@ public abstract class ThreadHandler implements Runnable {
             try {
                 this.methodToCall();
             } catch (InterruptedException e) {
+                continua=false;
                 Thread.currentThread().interrupt();
             }
         }
