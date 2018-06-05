@@ -42,6 +42,10 @@
                 <targetPath>it/polimi/se2018/view/images</targetPath>
             </resource>
             <resource>
+                <directory>src/main/java/it/polimi/se2018/view/app/fxmlFiles</directory>
+                <targetPath>it/polimi/se2018/view/app/fxmlFiles</targetPath>
+            </resource>
+            <resource>
                 <directory>resources</directory>
                 <targetPath>resources</targetPath>
             </resource>

@@ -31,7 +31,6 @@ public class CLIApp extends App {
     /**
      * Player Information variables
      */
-    private int ownerPlayerID;
     private String ownerPlayerName;
     private boolean useRMI;
     private boolean isYourTurn;
@@ -53,7 +52,6 @@ public class CLIApp extends App {
         super(viewActions, viewToolCardActions, viewMessage);
 
         //Initializes Player Information
-        this.ownerPlayerID = -1;
         this.ownerPlayerName = null;
         this.useRMI = false;
         this.isYourTurn = false;
@@ -346,10 +344,7 @@ public class CLIApp extends App {
         this.commands.add(0, new CommandLeaveMatch(this));
         this.commands.add(0, new CommandWaitYourTurn(this));
 
-        PlayerState me = searchPlayerViewByName(this.players, this.ownerPlayerName);
-        if (me != null) {
-            this.ownerPlayerID = me.getPlayerID();
-        }
+
         this.isYourTurn = false;
 
         printer.print("Carte utensili: ");
@@ -764,15 +759,6 @@ public class CLIApp extends App {
         } else {
             this.menuControl();
         }
-    }
-
-    /**
-     * Getter method for current player's ID
-     *
-     * @return the playerID
-     */
-    public int getOwnerPlayerID() {
-        return ownerPlayerID;
     }
 
     /**

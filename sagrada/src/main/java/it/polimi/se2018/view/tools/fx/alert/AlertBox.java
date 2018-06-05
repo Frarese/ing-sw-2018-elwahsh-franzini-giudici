@@ -28,7 +28,7 @@ public class AlertBox {
      *
      * @param title   contains the alert box's title
      * @param message contains the message to show
-     * @param image   @Nullable contains the image to show
+     * @param image   @Nullable contains the image to show, if it's null AlertBox doesn't show image
      */
     public static void display(String title, String message, Image image) {
         Stage window = new Stage();
@@ -37,22 +37,26 @@ public class AlertBox {
         window.initModality(Modality.APPLICATION_MODAL);
 
         window.setTitle(title);
-        window.setMaxWidth(500);
 
-        Label label = new Label();
-        label.setText(message);
+        Label labelTitle = new Label();
+        labelTitle.setText(title);
+        labelTitle.setStyle("-fx-font-size: 36.0; -fx-font-family: System; -fx-font-weight: Bold");
+
+        Label labelMessage = new Label();
+        labelMessage.setText(message);
 
         Button close = new Button("Chiudi");
+        close.setDefaultButton(true);
         close.setOnAction(e -> window.close());
 
         VBox container = new VBox(10);
         container.setPadding(new Insets(20, 20, 20, 20));
-        container.getChildren().addAll(label, close);
+        container.getChildren().addAll(labelTitle, labelMessage, close);
         container.setAlignment(Pos.CENTER);
 
         if (image != null) {
             ImageView imageView = new ImageView(image);
-            container.getChildren().add(0, imageView);
+            container.getChildren().add(1, imageView);
         }
 
         Scene scene = new Scene(container);

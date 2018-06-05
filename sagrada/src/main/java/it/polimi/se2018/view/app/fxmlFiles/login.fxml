@@ -37,8 +37,7 @@
                         <RadioButton fx:id="socketRadio" mnemonicParsing="false"
                                      onAction="#selectedRadioSocket" text="Socket"/>
                         <RadioButton fx:id="rmiRadio" layoutX="10.0" layoutY="10.0"
-                                     mnemonicParsing="false" onAction="#selectedRadioRMI"
-                                     text="RMI"/>
+                                     mnemonicParsing="false" onAction="#selectedRadioRMI" text="RMI"/>
                     </VBox>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -61,12 +60,11 @@
             <Region prefHeight="30.0" prefWidth="369.0"/>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                 <Button disable="true" mnemonicParsing="false" text="Solo"/>
-                <Button defaultButton="true" mnemonicParsing="false" onAction="#validation"
-                        text="Entra"/>
+                <Button defaultButton="true" mnemonicParsing="false" onAction="#validation" text="Entra"/>
             </HBox>
         </HBox>
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-            <Label fx:id="error" textFill="RED"/>
+        <HBox fx:id="errorContent" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+            <Label id="error" fx:id="error"/>
         </HBox>
     </VBox>
 </AnchorPane>

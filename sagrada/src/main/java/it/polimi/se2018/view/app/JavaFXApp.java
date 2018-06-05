@@ -12,6 +12,8 @@ import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
+import it.polimi.se2018.view.observer.PlayerState;
+import it.polimi.se2018.view.tools.fx.alert.AlertBox;
 import it.polimi.se2018.view.tools.fx.creators.FXCardViewCreator;
 import it.polimi.se2018.view.tools.fx.creators.FXGridViewCreator;
 import it.polimi.se2018.view.tools.fx.creators.FXRoundTrackerViewCreator;
@@ -20,6 +22,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -38,10 +41,9 @@ public class JavaFXApp extends App {
     /**
      * Player Information variables
      */
-    private final int ownerPlayerID;
-    private final String ownerPlayerName;
-    private final boolean useRMI;
-    private final boolean isYourTurn;
+    private String ownerPlayerName;
+    private boolean useRMI;
+    private boolean isYourTurn;
 
     /**
      * Components for GUI
@@ -50,6 +52,12 @@ public class JavaFXApp extends App {
     private FXGridViewCreator fxGridViewCreator;
     private FXRoundTrackerViewCreator fxRoundTrackerViewCreator;
     private FXScoreViewCreator fxScoreViewCreator;
+
+    /**
+     * FXML loading attributes
+     */
+    private FXMLLoader loader;
+    private Pane root;
 
     /**
      * Class constructor to initialize creators
@@ -63,7 +71,6 @@ public class JavaFXApp extends App {
         super(viewActions, viewToolCardActions, viewMessage);
 
         //Initializes Player Information
-        this.ownerPlayerID = -1;
         this.ownerPlayerName = null;
         this.useRMI = false;
         this.isYourTurn = false;
@@ -87,59 +94,111 @@ public class JavaFXApp extends App {
 
         //Check if have to display welcome page
         if (displayWelcome) {
-
-            //Variables
-            FXMLLoader loader;
-            Pane root;
-
             //Trying to load FXML
             try {
                 loader = new FXMLLoader(getClass().getResource("fxmlFiles/start.fxml"));
                 root = loader.load();
 
-                //Create scene
-                Platform.runLater(() -> {
-                    JavaFXStageProducer.getStage().setScene(new Scene(root));
-                    JavaFXStageProducer.setController(loader.getController());
-                    JavaFXStageProducer.getStage().setResizable(false);
-                });
+                loadScene(false);
             } catch (Exception e) {
-                Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
+                logFxmlLoadError();
             }
         } else {
-            //TODO
-            Logger.getGlobal().log(Level.WARNING, "Login Operation");
+            //Trying to load FXML
+            try {
+                loader = new FXMLLoader(getClass().getResource("fxmlFiles/login.fxml"));
+                root = loader.load();
+
+                loadScene(true);
+            } catch (Exception e) {
+                logFxmlLoadError();
+            }
         }
+    }
 
-
+    public void tryLogin(String name, boolean useRMI) {
+        this.ownerPlayerName = name;
+        this.useRMI = useRMI;
     }
 
     @Override
     public void loginResult(boolean success, String error) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
+
+        if (success) {
+            notifySimpleAlert("Login riuscito con successo");
+            this.viewActions.askLobby();
+        } else {
+            notifySimpleAlert("Login NON riuscito");
+        }
     }
 
     @Override
     public void changeLayerResult(boolean successRMI) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        String message;
+        if (successRMI) {
+            message = "Layer attuale: RMI";
+        } else {
+            message = "Layer attuale: Socket";
+        }
+
+        notifySimpleAlert(message);
     }
 
     @Override
     public void leaveMatchResult(boolean success) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        if (success) {
+            notifySimpleAlert("Match lasciato con successo.");
+            this.viewActions.askLobby();
+        } else {
+            notifySimpleAlert("Non sono riuscito a disconnettermi dal match.");
+        }
     }
 
     @Override
     public void logoutResult(boolean success) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        if (success) {
+            notifySimpleAlert("Logout riuscito con successo!");
+            this.startLogin(false);
+        } else {
+            notifySimpleAlert("Logout NON riuscito!");
+        }
     }
 
     @Override
     public void createLobby() {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
+
+        //Trying to load FXML
+        try {
+            loader = new FXMLLoader(getClass().getResource("fxmlFiles/lobby.fxml"));
+            root = loader.load();
+
+            loadScene(false);
+        } catch (Exception e) {
+            logFxmlLoadError();
+        }
     }
 
     @Override
@@ -161,7 +220,20 @@ public class JavaFXApp extends App {
 
     @Override
     public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4, CardView cardView) {
-        throw new UnsupportedOperationException();
+        //Control if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
+
+        //Trying to load FXML
+        try {
+            loader = new FXMLLoader(getClass().getResource("fxmlFiles/patternSelection.fxml"));
+            root = loader.load();
+
+            loadScene(true);
+        } catch (Exception e) {
+            logFxmlLoadError();
+        }
     }
 
     @Override
@@ -171,20 +243,37 @@ public class JavaFXApp extends App {
 
     @Override
     public void otherPlayerLeave(String playerName) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        PlayerState player = this.searchPlayerViewByName(players, playerName);
+        String message = player.getPlayerName() + " ha lasciato il gioco.";
+        notifySimpleAlert(message);
     }
 
     @Override
     public void otherPlayerReconnection(String playerName) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        PlayerState player = this.searchPlayerViewByName(players, playerName);
+        String message = player.getPlayerName() + " è rientrato in gioco.";
+        notifySimpleAlert(message);
     }
 
     @Override
     public void startTurn() {
-        throw new UnsupportedOperationException();
+        this.isYourTurn = true;
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        //TODO enable JavaFx FXML
     }
 
     @Override
@@ -288,17 +377,54 @@ public class JavaFXApp extends App {
      * @param args contains the args passed at main
      */
     private void openWindow(String[] args) {
-        Application.launch(JavaFXStageProducer.class, args);
+        class FxAppLauncher implements Runnable {
+            @Override
+            public void run() {
+                Application.launch(JavaFXStageProducer.class, args);
+            }
+        }
+
+        Thread thread = new Thread(new FxAppLauncher());
+        thread.start();
+
         JavaFXStageProducer.setApp(this);
     }
 
     /**
-     * Getter method for current player's ID
+     * Load a new Scene in FX Application
      *
-     * @return the playerID
+     * @param resizable sets resizable of windows
      */
-    public int getOwnerPlayerID() {
-        return ownerPlayerID;
+    private void loadScene(boolean resizable) {
+        Platform.runLater(() -> {
+            JavaFXStageProducer.getStage().setScene(new Scene(root));
+            JavaFXStageProducer.setController(loader.getController());
+            JavaFXStageProducer.getStage().setResizable(resizable);
+        });
+    }
+
+    /**
+     * Call and show an AlertBox
+     *
+     * @param title   contains the alert box's title
+     * @param message contains the message to show
+     * @param image   @Nullable contains the image to show, if it's null AlertBox doesn't show image
+     */
+    private void showAlert(String title, String message, Image image) {
+        Platform.runLater(() ->
+                AlertBox.display(title, message, image)
+        );
+    }
+
+    private void notifySimpleAlert(String message) {
+        showAlert("Notifica", message, null);
+    }
+
+    /**
+     * Logs error message if FXML hasn't been loaded
+     */
+    private void logFxmlLoadError() {
+        Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
     }
 
     /**

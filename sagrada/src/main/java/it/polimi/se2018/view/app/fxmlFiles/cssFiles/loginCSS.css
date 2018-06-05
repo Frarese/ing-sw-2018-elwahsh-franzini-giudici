@@ -5,8 +5,20 @@
 
 .label {
     -fx-font-weight: bolder;
+    -fx-text-fill: WHITE;
 }
 
-.RadioButton {
+/*noinspection CssUnusedSymbol*/
+.radio-button{
     -fx-font-weight: bolder;
+    -fx-text-fill: WHITE;
+}
+
+.check-box {
+    -fx-font-weight: bolder;
+    -fx-text-fill: WHITE;
+}
+
+#error{
+    -fx-text-fill: WHITE;
 }

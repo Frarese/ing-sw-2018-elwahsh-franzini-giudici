@@ -56,7 +56,10 @@
                     </columns>
                 </TableView>
                 <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="1000.0" text="Invita"/>
-                <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="1000.0" text="Lista inviti"/>
+                <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="1000.0"
+                        text="Lista inviti"/>
+                <Button layoutX="10.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0"
+                        prefWidth="1000.0" text="Matchmaking"/>
             </VBox>
         </HBox>
         <ToolBar prefHeight="36.0" prefWidth="1003.0" VBox.vgrow="ALWAYS">

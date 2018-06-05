@@ -31,10 +31,10 @@
             <GridPane.margin>
                 <Insets/>
             </GridPane.margin>
-            <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="100.0" prefHeight="100.0" prefWidth="200.0"
-                  VBox.vgrow="ALWAYS">
-                <Button contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" prefHeight="132.0"
-                        prefWidth="1000.0" text="PASSA TURNO" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="100.0" prefHeight="100.0"
+                  prefWidth="200.0" VBox.vgrow="ALWAYS">
+                <Button contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false"
+                        prefHeight="132.0" prefWidth="1000.0" text="PASSA TURNO" HBox.hgrow="ALWAYS">
                     <font>
                         <Font name="System Bold" size="13.0"/>
                     </font>
@@ -44,8 +44,8 @@
                   VBox.vgrow="ALWAYS">
                 <Label text="PUNTI FAVORE" HBox.hgrow="ALWAYS"/>
                 <Region prefHeight="43.0" prefWidth="135.0"/>
-                <TextField alignment="CENTER_RIGHT" editable="false" minWidth="-Infinity" prefHeight="27.0"
-                           prefWidth="10.0" HBox.hgrow="ALWAYS"/>
+                <TextField alignment="CENTER_RIGHT" editable="false" minWidth="-Infinity"
+                           prefHeight="27.0" prefWidth="10.0" HBox.hgrow="ALWAYS"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxWidth="1000.0" prefHeight="100.0"
                   prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
@@ -90,14 +90,14 @@
         <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
         <HBox fx:id="publicCardContainer1" alignment="CENTER" layoutX="1007.0" layoutY="15.0" spacing="10.0"
               GridPane.rowIndex="2">
-            <ImageView fitHeight="216.0" fitWidth="158.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="209.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
             </ImageView>
-            <ImageView fitHeight="216.0" fitWidth="158.0" layoutX="181.0" layoutY="49.0" pickOnBounds="true"
+            <ImageView fitHeight="209.0" fitWidth="140.0" layoutX="188.0" layoutY="59.0" pickOnBounds="true"
                        preserveRatio="true">
                 <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
             </ImageView>
-            <ImageView fitHeight="216.0" fitWidth="158.0" layoutX="263.0" layoutY="49.0" pickOnBounds="true"
+            <ImageView fitHeight="209.0" fitWidth="140.0" layoutX="113.0" layoutY="59.0" pickOnBounds="true"
                        preserveRatio="true">
                 <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
             </ImageView>

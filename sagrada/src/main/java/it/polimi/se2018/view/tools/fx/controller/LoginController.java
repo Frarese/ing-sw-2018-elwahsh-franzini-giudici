@@ -4,6 +4,10 @@ import it.polimi.se2018.view.app.JavaFXStageProducer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
 /**
  * Manages actions in login page
@@ -31,6 +35,8 @@ public class LoginController extends FXController {
     TextField objectPort;
     @FXML
     Label error;
+    @FXML
+    HBox errorContent;
 
 
     @FXML
@@ -61,11 +67,19 @@ public class LoginController extends FXController {
         else {
             String returnString = "ERRORI:\n" +
                     stringBuilder;
-            Platform.runLater(() -> error.setText(returnString));
+            Platform.runLater(() -> {
+                error.setText(returnString);
+                errorContent.setBackground(new Background(new BackgroundFill(Color.valueOf("#D11E22"), null, null)));
+                errorContent.setMinHeight(error.getHeight());
+            });
         }
     }
 
     private void loginCall(boolean isRMI, int requestPort, int objectPort) {
+        //Save information in JavaFXApp
+        JavaFXStageProducer.getApp().tryLogin(name.getText(), rmiRadio.isSelected());
+
+        //Call View Actions
         JavaFXStageProducer.getApp().getViewActions().login(
                 name.getText(), password.getText(), this.newUser.isSelected(),
                 server.getText(), isRMI, objectPort, requestPort);
@@ -84,44 +98,52 @@ public class LoginController extends FXController {
     }
 
     private void checkServer(StringBuilder stringBuilder) {
-        if (server.getText() == null || name.getText().equals("")) {
-            stringBuilder.append("Nome non può essere vuoto\n");
+        if (server.getText() == null || server.getText().equals("")) {
+            stringBuilder.append("Server non può essere vuoto\n");
         }
     }
 
     private int checkRequestPort(StringBuilder stringBuilder) {
-        if (requestPort.getText() == null || requestPort.getText().equals(""))
-            stringBuilder.append("Porta Richieste non può essere vuota\n");
-
         int intRequestPort = -1;
-        try {
-            intRequestPort = Integer.parseInt(this.requestPort.getText());
-        } catch (Exception e) {
-            stringBuilder.append("Porta Richieste non contiene un numero");
+
+        if (requestPort.getText() == null || requestPort.getText().equals("")) {
+            stringBuilder.append("Porta Richieste non può essere vuota\n");
+        } else {
+            try {
+                intRequestPort = Integer.parseInt(this.requestPort.getText());
+            } catch (Exception e) {
+                stringBuilder.append("Porta Richieste non contiene un numero\n");
+            }
         }
+
         return intRequestPort;
     }
 
     private int checkObjectPort(StringBuilder stringBuilder) {
-        if (objectPort.getText() == null || objectPort.getText().equals(""))
-            stringBuilder.append("Porta Oggetti non può essere vuota\n");
-
         int intObjectPort = -1;
-        try {
-            intObjectPort = Integer.parseInt(this.objectPort.getText());
-        } catch (Exception e) {
-            stringBuilder.append("Porta Oggetti non contiene un numero");
+
+        if (objectPort.getText() == null || objectPort.getText().equals("")) {
+            stringBuilder.append("Porta Oggetti non può essere vuota\n");
+        } else {
+            try {
+                intObjectPort = Integer.parseInt(this.objectPort.getText());
+            } catch (Exception e) {
+                stringBuilder.append("Porta Oggetti non contiene un numero\n");
+            }
         }
+
         return intObjectPort;
     }
 
     public void selectedRadioRMI() {
         rmiRadio.setSelected(true);
         socketRadio.setSelected(false);
+        objectPort.setDisable(true);
     }
 
     public void selectedRadioSocket() {
         socketRadio.setSelected(true);
         rmiRadio.setSelected(false);
+        objectPort.setDisable(false);
     }
 }

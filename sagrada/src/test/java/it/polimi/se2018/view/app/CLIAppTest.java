@@ -520,7 +520,6 @@ public class CLIAppTest {
         this.app.startTurn();
 
         assertEquals(me.getPlayerName(), this.app.getOwnerPlayerName());
-        assertEquals(me.getPlayerID(), this.app.getOwnerPlayerID());
         assertNotNull(this.app.getCardViewCreator());
         assertNotNull(this.app.getRoundTrackerViewCreator());
         assertNotNull(this.app.getReserveViewCreator());
