@@ -96,7 +96,7 @@ public class Client {
      * Gets the current pending approval match, if present
      * @return the current {@link it.polimi.se2018.controller.network.server.PendingApprovalMatch} or {@code null} if not present
      */
-    public PendingApprovalMatch getPAM() {
+    PendingApprovalMatch getPAM() {
         return this.pAM;
     }
 
@@ -157,7 +157,7 @@ public class Client {
      * Checks if this client has accepted an invite
      * @return true if this client has accepted an invite
      */
-    public boolean hasAcceptedInvite() {
+    boolean hasAcceptedInvite() {
         return this.acceptedInvite;
     }
 
@@ -165,7 +165,7 @@ public class Client {
      * Notifies this object that its user has accepted an invite
      * @return true if success(no other invites where accepted)
      */
-    public boolean acceptInvite() {
+    boolean acceptInvite() {
         if(this.acceptedInvite)return false;
         this.acceptedInvite=true;
         return true;
@@ -176,7 +176,7 @@ public class Client {
      * @param match match
      * @return true if no other match was already active
      */
-    public boolean enrollInMatch(Match match) {
+    boolean enrollInMatch(Match match) {
         if(this.match!=null)return false;
         this.match=match;
         return true;
@@ -185,7 +185,7 @@ public class Client {
     /**
      * Removes the match instance from this client
      */
-    public void removeMatchInstance() {
+    void removeMatchInstance() {
         if(this.match==null)return;
         this.match=null;
     }
@@ -195,7 +195,7 @@ public class Client {
      * @param match match
      * @return true if no other match was already active
      */
-    public boolean acceptPAMatch(PendingApprovalMatch match) {
+    boolean acceptPAMatch(PendingApprovalMatch match) {
         if(this.pAM!=null || this.match!=null)return false;
         this.pAM=match;
         return true;
@@ -205,7 +205,7 @@ public class Client {
      * Removes the Pending approval instance from this client
      * @return true if no errors occur
      */
-    public boolean removePAMInstance() {
+    boolean removePAMInstance() {
         if(this.pAM==null)return false;
         this.pAM=null;
         return true;

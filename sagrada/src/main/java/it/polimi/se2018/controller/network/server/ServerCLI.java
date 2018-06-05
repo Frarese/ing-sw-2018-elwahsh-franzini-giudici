@@ -24,19 +24,18 @@ public class ServerCLI implements Runnable{
      * @param objPort socket object port
      * @param reqPort socket request port
      * @param rmiPort rmi port
-     * @param rmiName rmi name
      * @param rmiIP rmi ip to use
      */
-    public ServerCLI(int objPort,int reqPort, int rmiPort, String rmiName,InetAddress rmiIP) throws IOException {
+    public ServerCLI(int objPort,int reqPort, int rmiPort,InetAddress rmiIP) throws IOException {
         logger=Logger.getGlobal();
         logger.setUseParentHandlers(false);
         ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(Level.ALL);
+        handler.setLevel(Level.INFO);
         logger.addHandler(handler);
         logger.setLevel(Level.ALL);
         logger.log(Level.INFO,"Initiating server startup");
         try {
-            this.serverMain=new ServerMain(objPort,reqPort,rmiPort,rmiName,rmiIP,new ServerControllerFactory());
+            this.serverMain=new ServerMain(objPort,reqPort,rmiPort,LoginResponsesEnum.RESOURCE_NAME.msg,rmiIP,new ServerControllerFactory());
             serverMain.buildServers();
         } catch (IOException e) {
             logger.log(Level.SEVERE,"Server init failed "+e.getMessage());
@@ -49,16 +48,15 @@ public class ServerCLI implements Runnable{
 
 
     public static void main(String[] args) throws UnknownHostException {
-        if(args.length!=5){
+        if(args.length!=4){
             throw new IllegalArgumentException("Missing arguments");
         }
         int objPort=Integer.parseInt(args[0]);
         int reqPort=Integer.parseInt(args[1]);
         int rmiPort=Integer.parseInt(args[2]);
-        String rmiName=args[3];
-        InetAddress rmiIp=InetAddress.getByName(args[4]);
+        InetAddress rmiIp=InetAddress.getByName(args[3]);
         try {
-            new ServerCLI(objPort,reqPort,rmiPort,rmiName,rmiIp);
+            new ServerCLI(objPort,reqPort,rmiPort,rmiIp);
         } catch (IOException e) {
             System.exit(-1);
         }

@@ -58,11 +58,14 @@ public class PendingApprovalMatch {
         logger.log(Level.FINEST,"User {0} accepted match",client.usn);
         int pos;
         if((pos=matchId.findPos(client.usn))!=-1 && !clients.containsKey(pos)){
-            clients.put(pos,client);
-            client.acceptPAMatch(this);
-            client.acceptInvite();
-            isComplete();
-            return true;
+            if(client.acceptInvite()){
+                clients.put(pos,client);
+                client.acceptPAMatch(this);
+
+                isComplete();
+                return true;
+            }
+            abort();
         }
         return false;
     }

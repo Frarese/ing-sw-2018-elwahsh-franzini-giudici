@@ -190,7 +190,9 @@ public class ServerMain {
             pA.abort();
             return;
         }
-        c.acceptInvite();
+        if(!c.acceptInvite()){
+            return;
+        }
         pendingMatchesMap.put(mId.toString(),pA);
         list.stream().filter(cl->cl!=c).forEach(cl->cl.pushOutReq(new MatchInviteRequest(mId)));
     }

@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -250,5 +251,13 @@ public class SafeSocket implements Runnable {
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error closing safe socket" + e.getLocalizedMessage());
         }
+    }
+
+    /**
+     * Retrieves the Socket Address of the wrapped Socket
+     * @return the Socket Address of the wrapped Socket
+     */
+    public SocketAddress getLocalSocketAddress() {
+        return s.getLocalSocketAddress();
     }
 }

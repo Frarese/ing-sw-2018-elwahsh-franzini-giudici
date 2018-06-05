@@ -164,98 +164,95 @@ class SocketServer extends ServerComm {
             }
         }
 
-        /**
-         * Helper method to call in the listener loop
-         * @param s socket that has been accepted
-         * @param isLogin boolean to choose behaviour(true for login, false for completion)
-         * @throws IOException if an IOException occurs
-         * @throws InterruptedException if this thread is interrupted while waiting
-         */
-        private void loopCall(Socket s,boolean isLogin) throws IOException, InterruptedException {
-            if(isLogin){
-                listenLogin(s);
-            }else{
-                listenCompletion(s);
-            }
+    }
+
+    /**
+     * Helper method to call in the listener loop
+     * @param s socket that has been accepted
+     * @param isLogin boolean to choose behaviour(true for login, false for completion)
+     * @throws IOException if an IOException occurs
+     * @throws InterruptedException if this thread is interrupted while waiting
+     */
+    private void loopCall(Socket s,boolean isLogin) throws IOException, InterruptedException {
+        SafeSocket ss=new SafeSocket(s,SafeSocket.DEFAULT_TIMEOUT);
+        if(isLogin){
+            listenLogin(ss);
+        }else{
+            listenCompletion(ss);
         }
+    }
 
-        /**
-         * Processes the login for this socket
-         * @param s Socket to process
-         * @throws IOException if an IOException occurs
-         * @throws InterruptedException if this thread is interrupted
-         */
-        private void listenLogin(Socket s) throws IOException, InterruptedException {
-            logger.log(Level.FINEST,"Attempted socket login from {0}",s.getLocalSocketAddress());
-            SafeSocket ss=new SafeSocket(s,SafeSocket.DEFAULT_TIMEOUT);
-            SocketLoginRequest logReq=checkAndWrap(ss);
-            if(logReq==null)return;
-            LoginResponsesEnum response=SocketServer.super.tryLogin(logReq.username,logReq.password,logReq.isRecovery,logReq.isNewUser);
-            if(response == LoginResponsesEnum.LOGIN_OK){
-                Client c;
-                boolean createResult=true;
-                if(!logReq.isRecovery){
-                    c=new Client(logReq.username,handler);
-                    createResult=SocketServer.this.handler.addClient(c);
-                }
-                if(createResult){
-                    waitingObjConnClients.put(logReq.username,
-                            new WaitingObjSocketClient(ss,logReq.password,logReq.isRecovery));
-                    ss.send(LoginResponsesEnum.LOGIN_OK);
-                    logger.log(Level.FINEST,"Added {0} to waitingObj map",logReq.username);
-                }else{
-                    logger.log(Level.FINEST,"Client {0} was already logged ",logReq.username);
-                    ss.send(LoginResponsesEnum.USER_ALREADY_LOGGED);
-                    ss.close(true);
-                }
-
+    /**
+     * Processes the login for this socket
+     * @param ss SafeSocket to process
+     * @throws InterruptedException if this thread is interrupted
+     */
+    private void listenLogin(SafeSocket ss) throws InterruptedException {
+        logger.log(Level.FINEST,"Attempted socket login from {0}",ss.getLocalSocketAddress());
+        SocketLoginRequest logReq=checkAndWrap(ss);
+        if(logReq==null)return;
+        LoginResponsesEnum response=SocketServer.super.tryLogin(logReq.username,logReq.password,logReq.isRecovery,logReq.isNewUser);
+        if(response == LoginResponsesEnum.LOGIN_OK){
+            Client c;
+            boolean createResult=true;
+            if(!logReq.isRecovery){
+                c=new Client(logReq.username,handler);
+                createResult=SocketServer.this.handler.addClient(c);
+            }
+            if(createResult){
+                waitingObjConnClients.put(logReq.username,
+                        new WaitingObjSocketClient(ss,logReq.password,logReq.isRecovery));
+                ss.send(LoginResponsesEnum.LOGIN_OK);
+                logger.log(Level.FINEST,"Added {0} to waitingObj map",logReq.username);
             }else{
-                ss.send(response);
+                logger.log(Level.FINEST,"Client {0} was already logged ",logReq.username);
+                ss.send(LoginResponsesEnum.USER_ALREADY_LOGGED);
                 ss.close(true);
             }
 
+        }else{
+            ss.send(response);
+            ss.close(true);
         }
 
-        /**
-         * Processes the completion for this socket
-         * @param s Socket to process
-         * @throws IOException if an IOException occurs
-         * @throws InterruptedException if this thread is interrupted
-         */
-        private void listenCompletion(Socket s)throws IOException,InterruptedException{
-            logger.log(Level.FINEST,"Attempted socket completion from {0}",s.getLocalSocketAddress());
-            SafeSocket ss=new SafeSocket(s,SafeSocket.DEFAULT_TIMEOUT);
-            SocketLoginRequest cReq=checkAndWrap(ss);
-            if(cReq==null)return;
+    }
 
-            String username=cReq.username;
-            String password=cReq.password;
-            boolean isRecovery=cReq.isRecovery;
-            WaitingObjSocketClient wObj=waitingObjConnClients.get(username);
-            if(wObj==null){
-                logger.log(Level.FINEST,"A client is trying to complete before initiating login");
-                ss.send(LoginResponsesEnum.MALFORMED_REQUEST);
+    /**
+     * Processes the completion for this socket
+     * @param ss Socket to process
+     * @throws InterruptedException if this thread is interrupted
+     */
+    private void listenCompletion(SafeSocket ss)throws InterruptedException{
+        logger.log(Level.FINEST,"Attempted socket completion from {0}",ss.getLocalSocketAddress());
+        SocketLoginRequest cReq=checkAndWrap(ss);
+        if(cReq==null)return;
+
+        String username=cReq.username;
+        String password=cReq.password;
+        boolean isRecovery=cReq.isRecovery;
+        WaitingObjSocketClient wObj=waitingObjConnClients.get(username);
+        if(wObj==null){
+            logger.log(Level.FINEST,"A client is trying to complete before initiating login");
+            ss.send(LoginResponsesEnum.MALFORMED_REQUEST);
+            ss.close(true);
+            return;
+        }
+        if(wObj.psw.equals(password) && wObj.isRecovery==isRecovery){
+            waitingObjConnClients.remove(username);
+            Client c=SocketServer.this.handler.getClient(username);
+            if(!c.createSocketComm(wObj.reqS,ss)){
+                ss.send(LoginResponsesEnum.USER_ALREADY_LOGGED);
                 ss.close(true);
-                return;
-            }
-            if(wObj.psw.equals(password) && wObj.isRecovery==isRecovery){
-                waitingObjConnClients.remove(username);
-                Client c=SocketServer.this.handler.getClient(username);
-                if(!c.createSocketComm(wObj.reqS,ss)){
-                    ss.send(LoginResponsesEnum.USER_ALREADY_LOGGED);
-                    ss.close(true);
-                }else{
-                    ss.send(LoginResponsesEnum.LOGIN_OK);
-                    logger.log(Level.FINEST,"Successful socket completion from {0}",username);
-                }
-
             }else{
-                logger.log(Level.FINEST,"A client is trying to complete with wrong credentials");
-                ss.send(LoginResponsesEnum.WRONG_CREDENTIALS);
-                ss.close(true);
+                ss.send(LoginResponsesEnum.LOGIN_OK);
+                logger.log(Level.FINEST,"Successful socket completion from {0}",username);
             }
-        }
 
+        }else{
+            logger.log(Level.FINEST,"A client is trying to complete with wrong credentials");
+            ss.send(LoginResponsesEnum.WRONG_CREDENTIALS);
+            ss.close(true);
+        }
     }
 }
 

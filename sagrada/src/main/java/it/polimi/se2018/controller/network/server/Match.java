@@ -5,6 +5,8 @@ import it.polimi.se2018.util.MatchIdentifier;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Represents a match that is being played
@@ -45,6 +47,7 @@ public class Match implements MatchNetworkInterface{
         );
         clientMap.forEach((pos,c)->serverMain.removeFromMatchMaking(c));
         this.control=serverMain.factory.buildMatch(matchId,this);
+        Logger.getGlobal().log(Level.INFO,"Match starting {0}",matchId);
 
     }
 
