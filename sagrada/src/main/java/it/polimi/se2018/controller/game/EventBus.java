@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class EventBus extends Observable implements  Runnable {
 
-    private static BlockingQueue<Event> events = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Event> events = new LinkedBlockingQueue<>();
     private boolean done;
 
     /**

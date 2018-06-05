@@ -1,8 +1,6 @@
 package it.polimi.se2018.controller.game.server;
 
 import it.polimi.se2018.controller.game.EventBus;
-import it.polimi.se2018.controller.game.server.handlers.DiePlacementHandler;
-import it.polimi.se2018.controller.game.server.handlers.ToolCardHandlerFactory;
 import it.polimi.se2018.controller.network.server.MatchController;
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
 import it.polimi.se2018.events.actions.*;
@@ -15,6 +13,7 @@ import it.polimi.se2018.model.cards.PatternCard;
 import it.polimi.se2018.util.MatchIdentifier;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.*;
@@ -28,17 +27,16 @@ import java.util.logging.Logger;
  */
 public class ServerController implements MatchController, Runnable {
 
-    private MatchIdentifier mId;
-    private ArrayList<Player> players = new ArrayList<>();
-    private ArrayList<Player> offlinePlayers = new ArrayList<>();
-    private Board board;
-    private Round round;
-    private EventBus inBus;
-    private boolean done;
-    private MatchNetworkInterface network;
+    private final MatchIdentifier mId;
+    private final ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<Player> offlinePlayers = new ArrayList<>();
+    private final Board board;
+    private final Round round;
+    private final EventBus inBus;
+    private final MatchNetworkInterface network;
     private Timer timer;
     private static final int TIME = 90000;
-    private ArrayList<PatternCard> patternSent = new ArrayList<>();
+    private final ArrayList<PatternCard> patternSent = new ArrayList<>();
     private int playersReady = 0;
 
 
@@ -67,6 +65,9 @@ public class ServerController implements MatchController, Runnable {
     }
 
 
+    /**
+     * Starts this match
+     */
     private void startMatch()
     {
         board.rollDiceOnReserve(players.size());
@@ -79,11 +80,11 @@ public class ServerController implements MatchController, Runnable {
     }
 
     /**
-     * After the 90 seconds limit is reached ends the current player's turn
+     * Timer class to handle turn time limits
      */
     private class TimeSUp extends TimerTask
     {
-        private String name;
+        private final String name;
 
         private TimeSUp(String name)
         {
@@ -105,14 +106,17 @@ public class ServerController implements MatchController, Runnable {
         for(Player p: players)
         {
             if(!offlinePlayers.contains(p) && p.getName().equals(sender))
-                managePlayerMove((PlayerMove) req);
+                try {
+                    managePlayerMove((PlayerMove) req);
+                }catch (ClassCastException ex){
+                    Logger.getGlobal().log(Level.FINEST,"Client {0} sent illegal request",sender);
+                }
         }
     }
 
     @Override
     public void kill() {
         inBus.stopListening();
-        done = true;
     }
 
     @Override
@@ -156,19 +160,26 @@ public class ServerController implements MatchController, Runnable {
             timer = new Timer();
             timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()), TIME);
         }
-            else
-            {
-                network.end(0,0,0,0);
-                inBus.stopListening();
-                done = true;
+        else
+        {
+            int[] scores=new int[4];
+            for(int i=0;i<players.size();i++){
+                scores[i]=scorePlayer(players.get(i));
             }
+
+            network.end(scores[0]
+                    ,scores[1]
+                    ,scores[2]
+                    ,scores[3]);
+            inBus.stopListening();
+        }
     }
 
     /**
      * Sets a new turn and if the round is ended, calls manageNewRound
      * Notifies all player of the new turn
      */
-    private synchronized void newTurn()
+    public synchronized void newTurn()
     {
         timer.cancel();
         round.nextTurn();
@@ -182,7 +193,7 @@ public class ServerController implements MatchController, Runnable {
     }
 
     /**
-     * Handles all player's move
+     * Handles a generic player move
      * If it's a placement it is handled by a DiePlacementHandler
      * If it's a tool card, by a CardHandler (called bya factory)
      * If it's a pass turn it ends the player turn
@@ -191,59 +202,43 @@ public class ServerController implements MatchController, Runnable {
      */
     private synchronized void managePlayerMove(PlayerMove move)
     {
-        if(playersReady != players.size() && mId.findPos(move.getPlayerName())>-1 && move.toString().equals("Pattern"))
+        if(mId.findPos(move.getPlayerName())<=-1 ||(
+                playersReady != players.size()&& !move.toString().equals("Pattern")))return;
+
+        if(playersReady != players.size())
         {
-            PatternChoice choice = (PatternChoice) move;
-            int temp = mId.findPos(move.getPlayerName());
-            for(int i = temp; i<temp + 2; i++)
-            {
-                if(patternSent.get(i).getFrontSide().getName().equals(choice.getPatterName()) ) {
-                    players.get(temp).setPattern(patternSent.get(i).getFrontSide());
-                    players.get(temp).setFavourPoints(patternSent.get(i).getFrontSide().getFavourPoints());
-                    playersReady++;
-                }
-                else if(patternSent.get(i).getBackSide().getName().equals(choice.getPatterName()))
-                {
-                    players.get(temp).setPattern(patternSent.get(i).getBackSide());
-                    players.get(temp).setFavourPoints(patternSent.get(i).getBackSide().getFavourPoints());
-                    playersReady++;
-                }
-            }
-            if(playersReady == players.size())
-                startMatch();
+            handlePatternCard((PatternChoice)move);
         }
-        else
-        if(move.getPlayerName().equals(round.getCurrentPlayer().getName())) {
-            switch (move.toString())
+
+        else if(move.getPlayerName().equals(round.getCurrentPlayer().getName())) {
+            PlayerMoveHandler.handle(this,move,round.getCurrentPlayer(),board,round,network);
+        }
+    }
+
+    /**
+     * Handles a pattern card received from client
+     * @param choice the PatternChoice that has been received
+     */
+    private void handlePatternCard(PatternChoice choice){
+        int temp = mId.findPos(choice.getPlayerName());
+        if(players.get(temp).getPattern()!=null)return;
+
+        for(int i = temp*2; i<temp*2 + 2; i++)
+        {
+            if(patternSent.get(i).getFrontSide().getName().equals(choice.getPatterName()) ) {
+                players.get(temp).setPattern(patternSent.get(i).getFrontSide());
+                players.get(temp).setFavourPoints(patternSent.get(i).getFrontSide().getFavourPoints());
+                playersReady++;
+            }
+            else if(patternSent.get(i).getBackSide().getName().equals(choice.getPatterName()))
             {
-                case "Placement":
-                    DiePlacementMove placement = (DiePlacementMove) move;
-                    new Thread(new DiePlacementHandler(round.getCurrentPlayer(),
-                            placement,
-                            board.getReserve(),
-                            round.getFirstTurn(),
-                            network),
-                            "PlacementHandler" + round.getCurrentPlayer().hashCode()).start();
-                    break;
-
-                case "UseCard":
-                    UseToolCardMove useCard = (UseToolCardMove) move;
-                    new Thread(new ToolCardHandlerFactory()
-                            .getCardHandler(round.getCurrentPlayer(),
-                                    useCard,
-                                    board,
-                                    round.getFirstTurn(),
-                                    network), "CardHandler" + round.getCurrentPlayer().hashCode()).start();
-                    break;
-
-                case "PassTurn":
-                    newTurn();
-                    break;
-
-
-                default : inBus.asyncPush(move);
+                players.get(temp).setPattern(patternSent.get(i).getBackSide());
+                players.get(temp).setFavourPoints(patternSent.get(i).getBackSide().getFavourPoints());
+                playersReady++;
             }
         }
+        if(playersReady == players.size())startMatch();
+
     }
 
     /**
@@ -262,21 +257,17 @@ public class ServerController implements MatchController, Runnable {
     /**
      * Sends pattern loaded from resources to the players
      */
-    private void sendPatternCards()
+    private void sendPatternCards() throws IOException
     {
         ArrayList<PatternCard> temp = new ArrayList<>();
 
         File node = new File("resources");
-        try {
-            if (node.isDirectory()) {
-                String[] subNote = node.list();
-                for (String filename : subNote) {
-                    temp.add(new PatternCard("resources" + File.separator + filename));
-                }
+        if (node.isDirectory()) {
+            String[] subNote = node.list();
+            if(subNote==null)throw new IOException("Error accessing pattern cards");
+            for (String filename : subNote) {
+                temp.add(new PatternCard("resources" + File.separator + filename));
             }
-        }catch (NullPointerException e)
-        {
-            Logger.getGlobal().log(Level.SEVERE, e.toString());
         }
 
         Deck<PatternCard> deck = new Deck<>(temp);
@@ -284,7 +275,7 @@ public class ServerController implements MatchController, Runnable {
         for(Player p: players)
         {
            patternSent.addAll(deck.draw(2));
-           for(int i = p.getId(); i< p.getId()+2;i++) {
+           for(int i = p.getId()*2; i< p.getId()*2+2;i++) {
                network.sendReq(new PatternSelect(patternSent.get(i).getFrontSide()),p.getName());
                network.sendReq(new PatternSelect(patternSent.get(i).getBackSide()),p.getName());
            }
@@ -294,20 +285,39 @@ public class ServerController implements MatchController, Runnable {
 
     @Override
     public void run() {
-
-        sendPatternCards();
-        network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
-
-
-        while(!done)
-        {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e)
-            {
-                Logger.getGlobal().log(Level.SEVERE, e.toString());
-                Thread.currentThread().interrupt();
-            }
+        try {
+            sendPatternCards();
+        } catch (IOException e) {
+            Logger.getGlobal().log(Level.SEVERE,"Error initializing pattern cards "+e);
+            kill();
+            return;
         }
+        network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
+    }
+
+    /**
+     * Getter for InBus
+     * @return InBus
+     */
+    public EventBus getInBus() {
+        return inBus;
+    }
+
+    /**
+     * Calculates the score for the given player
+     * @param player player to score
+     * @return player's score
+     */
+    private int scorePlayer(Player player){
+        int out;
+
+        out=board.totalScore(player);
+        out+=player.getFavourPoints();
+        out+=player.getPrivateObjective().score(player);
+
+        //20- number of placed dice= number of unplaced dice
+        out+=-20+player.getGrid().getPlacedDice();
+
+        return out;
     }
 }

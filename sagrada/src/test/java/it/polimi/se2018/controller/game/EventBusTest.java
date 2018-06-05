@@ -10,7 +10,7 @@ import java.util.Observer;
 
 
 public class EventBusTest {
-    private EventBus test = new EventBus();
+    private final EventBus test = new EventBus();
 
 
     private class testObserver implements Observer
@@ -35,6 +35,13 @@ public class EventBusTest {
         new Thread(test, "test").start();
         test.asyncPush(new DiePlacementMove(0,0,0,"",true,true,true));
 
+    }
+
+    @Test
+    public void testInterrupt(){
+        Thread t=new Thread(test, "test");
+        t.start();
+        t.interrupt();
     }
 
 
