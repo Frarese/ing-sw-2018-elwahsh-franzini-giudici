@@ -37,9 +37,8 @@ public class CommandShowInvitesTest extends AbsCommandTest {
         CommandShowInvites commandShowInvites = new CommandShowInvites(app);
         commandShowInvites.doAction();
 
-        assertEquals("Inviti", savedStream.toString().split(enter)[0]);
-        assertEquals("____________________________", savedStream.toString().split(enter)[1]);
-        assertEquals("0) TestP0, TestP1, TestP2, TestP3", savedStream.toString().split(enter)[2]);
-        assertEquals("1) Test, TestP0", savedStream.toString().split(enter)[3]);
+        String returnString = "Inviti" + "____________________________" + "0) TestP0, TestP1, TestP2, TestP3" + "1) Test, TestP0";
+
+        assertEquals(returnString, savedStream.toString().replaceAll(regexControl, emptyString));
     }
 }

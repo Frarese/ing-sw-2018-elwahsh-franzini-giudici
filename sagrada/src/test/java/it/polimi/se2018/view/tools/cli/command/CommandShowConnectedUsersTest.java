@@ -39,9 +39,8 @@ public class CommandShowConnectedUsersTest extends AbsCommandTest {
         CommandShowConnectedUsers commandShowConnectedUsers = new CommandShowConnectedUsers(app);
         commandShowConnectedUsers.doAction();
 
-        assertEquals("Utenti connessi:", savedStream.toString().split(enter)[0]);
-        assertEquals("____________________________", savedStream.toString().split(enter)[1]);
-        assertEquals("0) Test", savedStream.toString().split(enter)[2]);
-        assertEquals("1) Test1", savedStream.toString().split(enter)[3]);
+        String returnString = "Utenti connessi:" + "____________________________" + "0) Test" + "1) Test1";
+
+        assertEquals(returnString, savedStream.toString().replaceAll(regexControl, emptyString));
     }
 }

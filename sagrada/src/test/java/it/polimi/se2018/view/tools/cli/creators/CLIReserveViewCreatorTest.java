@@ -17,7 +17,9 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIReserveViewCreatorTest {
 
-    private final String enter = System.lineSeparator();
+    private final String regexControl = "\\p{Cntrl}";
+    private final String emptyString = "";
+
 
     private Pair<Integer, ColorModel>[] reserve;
 
@@ -33,7 +35,7 @@ public class CLIReserveViewCreatorTest {
 
     @Test
     public void testDisplay() {
-        assertEquals("0) 1-RED\n" + "1) 2-RED\n", this.cliReserveViewCreator.display());
+        assertEquals("0) 1-RED" + "1) 2-RED", this.cliReserveViewCreator.display().replaceAll(regexControl,emptyString));
     }
 
     @Test

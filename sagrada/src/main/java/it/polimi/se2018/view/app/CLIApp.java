@@ -5,11 +5,15 @@ import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.observable.ReserveView;
 import it.polimi.se2018.observable.RoundTrackerView;
-import it.polimi.se2018.util.*;
+import it.polimi.se2018.util.MatchIdentifier;
+import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.util.PatternView;
+import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.observer.*;
+import it.polimi.se2018.view.tools.DieViewCreator;
 import it.polimi.se2018.view.tools.cli.command.*;
 import it.polimi.se2018.view.tools.cli.creators.*;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
@@ -61,7 +65,6 @@ public class CLIApp extends App {
         this.reader = new CLIReader(this.printer);
 
         //Initializes Arrays
-        this.invites = new ArrayList<>();
         this.commands = new ArrayList<>();
         this.gameCommands = new ArrayList<>();
 
@@ -140,11 +143,9 @@ public class CLIApp extends App {
             printer.print("Login riuscito con successo!");
 
             this.commands.clear();
-            this.commands.add(0, new CommandChangeLayer(this));
             this.commands.add(0, new CommandLogout(this));
+            this.commands.add(0, new CommandChangeLayer(this));
 
-
-            this.invites = new ArrayList<>();
             this.viewActions.askLobby();
         } else {
             printer.print("Login NON riuscito! Riprova.");
@@ -216,6 +217,7 @@ public class CLIApp extends App {
         this.commands.clear();
         this.commands.add(0, new CommandLogout(this));
         this.commands.add(0, new CommandChangeLayer(this));
+        this.commands.add(0, new CommandRefreshLobby(this));
         this.commands.add(0, new CommandCreateInvite(this));
         this.commands.add(0, new CommandAutoComplete(this));
         this.commands.add(0, new CommandAcceptInvite(this));
@@ -225,24 +227,6 @@ public class CLIApp extends App {
 
         //Call menu method
         this.menu();
-    }
-
-    @Override
-    public void pullConnectedPlayers(List<ScoreEntry> players) {
-        //Refresh connected players list
-        this.connectedUsers = players;
-    }
-
-    @Override
-    public void pullLeaderBoard(List<ScoreEntry> leaderBoard) {
-        //Refresh leaderBoard list
-        this.leaderBoard = leaderBoard;
-    }
-
-    @Override
-    public void pullInvitate(MatchIdentifier invite) {
-        //Add invite add list
-        this.invites.add(invite);
     }
 
     @Override
@@ -412,7 +396,7 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void addUpdate(String playerName, int height, int width, int reserveIndex) {
+    public void addUpdate(String playerName, int height, int width) {
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
@@ -428,7 +412,8 @@ public class CLIApp extends App {
         PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
         if (playerView != null) {
             //Print
-            printer.print(playerView.getPlayerName() + " ha posizionato il dado: " + this.reserveViewCreator.pickDie(reserveIndex) + " in posizione (" + height + "," + width + ").");
+            DieViewCreator dieViewCreator = new CLIDieViewCreator();
+            printer.print(playerView.getPlayerName() + " ha posizionato il dado: " + dieViewCreator.makeDie(playerView.getPlayerGrid()[height][width]) + " in posizione (" + height + "," + width + ").");
         }
 
         //Call menu method

@@ -39,9 +39,9 @@ public class CommandShowLeaderBoardTest extends AbsCommandTest {
         CommandShowLeaderBoard commandShowLeaderBoard = new CommandShowLeaderBoard(app);
         commandShowLeaderBoard.doAction();
 
-        assertEquals("Leader Board (Utente, Punti, Vittorie):", savedStream.toString().split(enter)[0]);
-        assertEquals("____________________________", savedStream.toString().split(enter)[1]);
-        assertEquals("0) Test, 0, 0", savedStream.toString().split(enter)[2]);
-        assertEquals("1) Test1, 1, 1", savedStream.toString().split(enter)[3]);
+        String returnString = "Leader Board (Utente, Punti, Vittorie):" + "____________________________" +
+                "0) Test, 0, 0" + "1) Test1, 1, 1";
+
+        assertEquals(returnString, savedStream.toString().replaceAll(regexControl, emptyString));
     }
 }

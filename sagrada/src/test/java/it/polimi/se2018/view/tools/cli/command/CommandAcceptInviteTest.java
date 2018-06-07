@@ -49,7 +49,7 @@ public class CommandAcceptInviteTest extends AbsCommandTest {
         CommandAcceptInvite commandAcceptInvite = new CommandAcceptInvite(app);
         commandAcceptInvite.doAction();
 
-        assertEquals("Inserire ID invito (numerazione da 0)", savedStream.toString().split(enter)[0]);
-        assertEquals("Opzione: ", savedStream.toString().split(enter)[1]);
+        assertEquals("Inserire ID invito (numerazione da 0)", savedStream.toString().split(regexControl)[0]);
+        assertEquals("Opzione: ", savedStream.toString().split(regexControl)[1]);
     }
 }

@@ -49,6 +49,9 @@ public class PatternSelectionController extends FXController {
 
     }
 
+    /**
+     * Manages correct radio button selections
+     */
     @FXML
     public void selectedRadioFirstPattern() {
         radioFirstPattern.setSelected(true);
@@ -57,6 +60,9 @@ public class PatternSelectionController extends FXController {
         radioFourthPattern.setSelected(false);
     }
 
+    /**
+     * Manages correct radio button selections
+     */
     @FXML
     public void selectedRadioSecondPattern() {
         radioFirstPattern.setSelected(false);
@@ -65,6 +71,9 @@ public class PatternSelectionController extends FXController {
         radioFourthPattern.setSelected(false);
     }
 
+    /**
+     * Manages correct radio button selections
+     */
     @FXML
     public void selectedRadioThirdPattern() {
         radioFirstPattern.setSelected(false);
@@ -73,6 +82,9 @@ public class PatternSelectionController extends FXController {
         radioFourthPattern.setSelected(false);
     }
 
+    /**
+     * Manages correct radio button selections
+     */
     @FXML
     public void selectedRadioFourthPattern() {
         radioFirstPattern.setSelected(false);
@@ -81,6 +93,9 @@ public class PatternSelectionController extends FXController {
         radioFourthPattern.setSelected(true);
     }
 
+    /**
+     * Validates form data before call a login request
+     */
     @FXML
     public void validation() {
         if (!radioFirstPattern.isSelected() && !radioSecondPattern.isSelected() && !radioThirdPattern.isSelected() && !radioFourthPattern.isSelected())
@@ -90,6 +105,9 @@ public class PatternSelectionController extends FXController {
         }
     }
 
+    /**
+     * Tries a selectedPattern request in the JavaFXApp
+     */
     private void appRecall() {
         if (radioFirstPattern.isSelected())
             JavaFXStageProducer.getApp().getViewActions().selectedPattern(patternView1.patternName);

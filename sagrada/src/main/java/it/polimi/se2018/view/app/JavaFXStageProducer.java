@@ -28,6 +28,7 @@ public class JavaFXStageProducer extends Application {
         //Setting stage properties
         primaryStage.setTitle("Sagrada Game");
         primaryStage.getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/images/others/icon.png")));
+        primaryStage.centerOnScreen();
         primaryStage.show();
 
         //Setting static public attributes

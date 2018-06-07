@@ -16,6 +16,12 @@ import java.io.PrintStream;
 public abstract class AbsCommandTest {
 
     final String enter = System.lineSeparator();
+
+    final String regexControl = "\\p{Cntrl}";
+
+    final String emptyString = "";
+
+
     ByteArrayOutputStream savedStream;
     CLIApp app;
 

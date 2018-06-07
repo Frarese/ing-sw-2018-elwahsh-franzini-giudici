@@ -8,24 +8,21 @@ import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
 import it.polimi.se2018.util.PatternView;
-import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.observer.PlayerState;
+import it.polimi.se2018.view.tools.DieViewCreator;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
-import it.polimi.se2018.view.tools.fx.creators.FXCardViewCreator;
-import it.polimi.se2018.view.tools.fx.creators.FXGridViewCreator;
-import it.polimi.se2018.view.tools.fx.creators.FXRoundTrackerViewCreator;
-import it.polimi.se2018.view.tools.fx.creators.FXScoreViewCreator;
+import it.polimi.se2018.view.tools.fx.creators.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +58,8 @@ public class JavaFXApp extends App {
 
     /**
      * Class constructor to initialize creators
-     *  @param viewActions         contains ViewActions class for View->Controller communication
+     *
+     * @param viewActions         contains ViewActions class for View->Controller communication
      * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
      * @param viewMessage         contains ViewMessage class for View->Controller communication (chat)
      */
@@ -72,8 +70,6 @@ public class JavaFXApp extends App {
         this.ownerPlayerName = null;
         this.useRMI = false;
         this.isYourTurn = false;
-
-        this.invites = new ArrayList<>();
 
         this.openWindow();
     }
@@ -199,22 +195,6 @@ public class JavaFXApp extends App {
         }
     }
 
-    @Override
-    public void pullConnectedPlayers(List<ScoreEntry> players) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void pullLeaderBoard(List<ScoreEntry> leaderBoard) {
-        throw new UnsupportedOperationException();
-
-    }
-
-    @Override
-    public void pullInvitate(MatchIdentifier invite) {
-        throw new UnsupportedOperationException();
-
-    }
 
     @Override
     public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4, CardView cardView) {
@@ -276,49 +256,136 @@ public class JavaFXApp extends App {
 
     @Override
     public void setDieResult(boolean result, String errorString) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
+
+        //Print result
+        if (result) {
+            notifySimpleAlert("Dado piazzato!");
+        } else {
+            notifySimpleAlert("Non sei riuscito a piazzare il dado: " + errorString);
+        }
 
     }
 
     @Override
-    public void addUpdate(String playerName, int height, int width, int reserveIndex) {
-        throw new UnsupportedOperationException();
+    public void addUpdate(String playerName, int height, int width) {
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        //Check if is my ID
+        if (playerName.equals(this.ownerPlayerName)) {
+            this.setDieResult(true, null);
+            return;
+        }
+
+        //Search information
+        PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
+        if (playerView != null) {
+            //Print
+            DieViewCreator dieViewCreator = new FXDieViewCreator(100);
+            showAlert("Notifica", " ha posizionato il dado in posizione (" + height + "," + width + ").", ((FXDieViewCreator) dieViewCreator).makeDie(playerView.getPlayerGrid()[height][width]));
+        }
     }
 
     @Override
     public void useToolCardResult(boolean result, String errorString) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        //Print result
+        if (result) {
+            notifySimpleAlert("Effetto carta completato!");
+        } else {
+            notifySimpleAlert("Non sei riuscito ad usare la carta: " + errorString);
+        }
     }
 
     @Override
     public void useToolCardUpdate(String playerName, int card) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        //Check if is my ID
+        if (playerName.equals(this.ownerPlayerName)) {
+            this.useToolCardResult(true, null);
+            return;
+        }
+
+        //Search information
+        PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
+        if (playerView != null) {
+            String player = playerView.getPlayerName();
+            //Print
+            notifySimpleAlert(player + " ha usato la carta: " + this.cardViewCreator.makeCard(card));
+        }
     }
 
     @Override
     public void passTurnResult(boolean result) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
+
+        //Print result
+        if (result) {
+            notifySimpleAlert("Turno passato con successo!");
+            this.isYourTurn = false;
+        } else {
+            notifySimpleAlert("Non sei riuscito a passare il turno");
+        }
 
     }
 
     @Override
     public void passTurnUpdate(String playerName) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
 
+        //Check if is my ID
+        if (playerName.equals(this.ownerPlayerName)) {
+            this.passTurnResult(true);
+            return;
+        }
+
+        //Search information
+        PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
+        if (playerView != null) {
+            String player = playerView.getPlayerName();
+            //Print
+            notifySimpleAlert(player + " ha passato il suo turno!");
+        }
     }
 
     @Override
     public void gameEnd(MatchIdentifier matchIdentifier, int player0, int player1, int player2, int player3) {
-        throw new UnsupportedOperationException();
+        //Check if animation is enabled
+        if (!this.animationEnable) {
+            return;
+        }
+
+        //Print
+        this.scoreViewCreator = new FXScoreViewCreator();
+        Platform.runLater(() -> JavaFXStageProducer.getStage().setScene(new Scene((VBox) scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3))));
+        this.isYourTurn = false;
 
     }
 
     @Override
     public void abortMatch() {
-
+        this.viewActions.askLobby();
+        this.isYourTurn = false;
     }
 
     @Override

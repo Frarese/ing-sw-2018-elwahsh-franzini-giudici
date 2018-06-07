@@ -44,7 +44,7 @@ public class CommandPassTurnTest extends AbsCommandTest {
         CommandPassTurn commandPassTurn = new CommandPassTurn(app);
         commandPassTurn.doAction();
 
-        assertEquals("Sei sicuro di voler passare il turno?", savedStream.toString().split(enter)[0]);
+        assertEquals("Sei sicuro di voler passare il turno?", savedStream.toString().split(regexControl)[0]);
     }
 
     @Test
@@ -56,6 +56,6 @@ public class CommandPassTurnTest extends AbsCommandTest {
         CommandPassTurn commandPassTurn = new CommandPassTurn(app);
         commandPassTurn.doAction();
 
-        assertEquals("Sei sicuro di voler passare il turno?", savedStream.toString().split(enter)[0]);
+        assertEquals("Sei sicuro di voler passare il turno?", savedStream.toString().split(regexControl)[0]);
     }
 }

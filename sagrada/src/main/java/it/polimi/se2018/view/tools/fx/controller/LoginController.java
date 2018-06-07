@@ -39,6 +39,9 @@ public class LoginController extends FXController {
     HBox errorContent;
 
 
+    /**
+     * Validates form data before call a login request
+     */
     @FXML
     public void validation() {
         boolean isRMI = false;
@@ -75,6 +78,13 @@ public class LoginController extends FXController {
         }
     }
 
+    /**
+     * Tries a login request in the JavaFXApp
+     *
+     * @param isRMI       contains connection's type
+     * @param requestPort contains request port's number
+     * @param objectPort  contians object port's number
+     */
     private void loginCall(boolean isRMI, int requestPort, int objectPort) {
         //Save information in JavaFXApp
         JavaFXStageProducer.getApp().tryLogin(name.getText(), rmiRadio.isSelected());
@@ -85,24 +95,44 @@ public class LoginController extends FXController {
                 server.getText(), isRMI, objectPort, requestPort);
     }
 
+    /**
+     * Checks name field isn't empty
+     *
+     * @param stringBuilder contains the errors' string builder
+     */
     private void checkName(StringBuilder stringBuilder) {
         if (name.getText() == null || name.getText().equals("")) {
             stringBuilder.append("Nome non può essere vuoto\n");
         }
     }
 
+    /**
+     * Checks password field isn't empty
+     *
+     * @param stringBuilder contains the errors' string builder
+     */
     private void checkPassword(StringBuilder stringBuilder) {
         if (password.getText() == null || password.getText().equals("")) {
             stringBuilder.append("Password non può essere vuota\n");
         }
     }
 
+    /**
+     * Checks server field isn't empty
+     *
+     * @param stringBuilder contains the errors' string builder
+     */
     private void checkServer(StringBuilder stringBuilder) {
         if (server.getText() == null || server.getText().equals("")) {
             stringBuilder.append("Server non può essere vuoto\n");
         }
     }
 
+    /**
+     * Checks request port field isn't empty and contains a number
+     *
+     * @param stringBuilder contains the errors' string builder
+     */
     private int checkRequestPort(StringBuilder stringBuilder) {
         int intRequestPort = -1;
 
@@ -111,6 +141,9 @@ public class LoginController extends FXController {
         } else {
             try {
                 intRequestPort = Integer.parseInt(this.requestPort.getText());
+                if (intRequestPort < 0) {
+                    stringBuilder.append("Porta Richieste deve contenere un numero positivo\n");
+                }
             } catch (Exception e) {
                 stringBuilder.append("Porta Richieste non contiene un numero\n");
             }
@@ -119,6 +152,11 @@ public class LoginController extends FXController {
         return intRequestPort;
     }
 
+    /**
+     * Checks object port field isn't empty and contains a number
+     *
+     * @param stringBuilder contains the errors' string builder
+     */
     private int checkObjectPort(StringBuilder stringBuilder) {
         int intObjectPort = -1;
 
@@ -127,6 +165,9 @@ public class LoginController extends FXController {
         } else {
             try {
                 intObjectPort = Integer.parseInt(this.objectPort.getText());
+                if (intObjectPort < 0) {
+                    stringBuilder.append("Porta Oggetti deve contenere un numero positivo\n");
+                }
             } catch (Exception e) {
                 stringBuilder.append("Porta Oggetti non contiene un numero\n");
             }
@@ -135,12 +176,18 @@ public class LoginController extends FXController {
         return intObjectPort;
     }
 
+    /**
+     * Manages correct radio button selections
+     */
     public void selectedRadioRMI() {
         rmiRadio.setSelected(true);
         socketRadio.setSelected(false);
         objectPort.setDisable(true);
     }
 
+    /**
+     * Manages correct radio button selections
+     */
     public void selectedRadioSocket() {
         socketRadio.setSelected(true);
         rmiRadio.setSelected(false);

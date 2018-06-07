@@ -31,11 +31,11 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     final List<PlayerState> players;
 
-    protected List<MatchIdentifier> invites;
+    private final List<MatchIdentifier> invites;
 
-    List<ScoreEntry> connectedUsers;
+    private final List<ScoreEntry> connectedUsers;
 
-    List<ScoreEntry> leaderBoard;
+    private final List<ScoreEntry> leaderBoard;
 
     /**
      * Communication variables
@@ -77,6 +77,11 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     public App(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
         this.animationEnable = true;
         this.players = new ArrayList<>();
+
+        this.invites = new ArrayList<>();
+        this.connectedUsers = new ArrayList<>();
+        this.leaderBoard = new ArrayList<>();
+
         this.viewActions = viewActions;
         this.viewToolCardActions = viewToolCardActions;
         this.messageBox = new MessageBox(viewMessage);
@@ -169,6 +174,26 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     public List<ScoreEntry> getLeaderBoard() {
         return leaderBoard;
+    }
+
+    @Override
+    public void pullConnectedPlayers(List<ScoreEntry> players) {
+        //Refresh connected players list
+        this.connectedUsers.clear();
+        this.connectedUsers.addAll(players);
+    }
+
+    @Override
+    public void pullLeaderBoard(List<ScoreEntry> leaderBoard) {
+        //Refresh leaderBoard list
+        this.leaderBoard.clear();
+        this.leaderBoard.addAll(leaderBoard);
+    }
+
+    @Override
+    public void pullInvitate(MatchIdentifier invite) {
+        //Add invite add list
+        this.invites.add(invite);
     }
 
     /**

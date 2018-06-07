@@ -139,13 +139,11 @@ public interface ControllerActionsInterface {
 
     /**
      * Notifies a Die placement in a player's grid
-     *
-     * @param playerName   contains the player's name of the player has just done placement
+     *  @param playerName   contains the player's name of the player has just done placement
      * @param height       contains the height position on the grid
      * @param width        contains the width position on the grid
-     * @param reserveIndex contains the reserveIndex of the die just placed
      */
-    void addUpdate(String playerName, int height, int width, int reserveIndex);
+    void addUpdate(String playerName, int height, int width);
 
     /**
      * After a useToolCard() request Controller returns the result

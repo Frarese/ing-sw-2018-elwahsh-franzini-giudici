@@ -12,12 +12,12 @@ import java.io.ByteArrayInputStream;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for CommandLeaveMatch class
+ * Tests for CommandRefreshLobby class
  *
  * @author Mathyas Giudici
  */
 
-public class CommandLeaveMatchTest extends AbsCommandTest {
+public class CommandRefreshLobbyTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
         private FakeViewAction(ActionSender actionSender) {
@@ -25,7 +25,7 @@ public class CommandLeaveMatchTest extends AbsCommandTest {
         }
 
         @Override
-        public void leaveMatch() {
+        public void askLobby() {
             assert true;
         }
     }
@@ -47,10 +47,10 @@ public class CommandLeaveMatchTest extends AbsCommandTest {
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         app = new FakeApp();
-        CommandLeaveMatch commandLeaveMatch = new CommandLeaveMatch(app);
-        commandLeaveMatch.doAction();
+        CommandRefreshLobby commandRefreshLobby = new CommandRefreshLobby(app);
+        commandRefreshLobby.doAction();
 
-        assertEquals("Sei sicuro di voler lasciare la partita?", savedStream.toString().split(regexControl)[0]);
+        assertEquals("Sei sicuro di voler ricaricare la lobby?", savedStream.toString().split(regexControl)[0]);
     }
 
     @Test
@@ -59,9 +59,9 @@ public class CommandLeaveMatchTest extends AbsCommandTest {
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         app = new FakeApp();
-        CommandLeaveMatch commandLeaveMatch = new CommandLeaveMatch(app);
-        commandLeaveMatch.doAction();
+        CommandRefreshLobby commandRefreshLobby = new CommandRefreshLobby(app);
+        commandRefreshLobby.doAction();
 
-        assertEquals("Sei sicuro di voler lasciare la partita?", savedStream.toString().split(regexControl)[0]);
+        assertEquals("Sei sicuro di voler ricaricare la lobby?", savedStream.toString().split(regexControl)[0]);
     }
 }

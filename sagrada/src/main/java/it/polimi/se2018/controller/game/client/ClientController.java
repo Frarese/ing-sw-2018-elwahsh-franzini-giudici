@@ -1,9 +1,7 @@
 package it.polimi.se2018.controller.game.client;
 
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-
 import it.polimi.se2018.events.Event;
-
 import it.polimi.se2018.events.messages.ServerMessageHandler;
 import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
@@ -98,7 +96,7 @@ public class ClientController implements CommUtilizer {
 
     @Override
     public void notifyCommDropped() {
-        app.startLogin(false);
+        app.logoutResult(true);
         cleanUp();
     }
 

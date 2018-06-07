@@ -5,32 +5,29 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Class to create alert box to show to user
+ * Class to create confirm box to manage user choice (yes or no question)
  *
  * @author Mathyas Giudici
  */
 
-public class AlertBox {
+public class ConfirmBox {
 
-    private AlertBox() {
+    private static boolean approve;
 
-    }
 
     /**
-     * Shows the alert box
+     * Shows the confirm box
      *
      * @param title   contains the alert box's title
      * @param message contains the message to show
-     * @param image   @Nullable contains the image to show, if it's null AlertBox doesn't show image
      */
-    public static void display(String title, String message, Image image) {
+    public static boolean display(String title, String message) {
         Stage window = new Stage();
 
         //Locks event in this window
@@ -45,19 +42,29 @@ public class AlertBox {
         Label labelMessage = new Label();
         labelMessage.setText(message);
 
-        Button close = new Button("Chiudi");
-        close.setDefaultButton(true);
-        close.setOnAction(e -> window.close());
+        //Creates two buttons
+        Button yesButton = new Button("Si");
+        Button noButton = new Button("No");
+
+        noButton.setDefaultButton(true);
+
+        yesButton.setOnAction(e -> {
+            approve = true;
+            window.close();
+        });
+        noButton.setOnAction(e -> {
+            approve = false;
+            window.close();
+        });
+
+        HBox buttonContainer = new HBox(10);
+        buttonContainer.getChildren().addAll(noButton, yesButton);
+        buttonContainer.setAlignment(Pos.CENTER);
 
         VBox container = new VBox(10);
         container.setPadding(new Insets(20, 20, 20, 20));
-        container.getChildren().addAll(labelTitle, labelMessage, close);
+        container.getChildren().addAll(labelTitle, labelMessage, buttonContainer);
         container.setAlignment(Pos.CENTER);
-
-        if (image != null) {
-            ImageView imageView = new ImageView(image);
-            container.getChildren().add(1, imageView);
-        }
 
         Scene scene = new Scene(container);
         window.centerOnScreen();
@@ -65,5 +72,7 @@ public class AlertBox {
 
         //Current window must be close to come back to the caller
         window.showAndWait();
+
+        return approve;
     }
 }

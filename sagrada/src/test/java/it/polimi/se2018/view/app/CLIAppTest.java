@@ -247,7 +247,7 @@ public class CLIAppTest {
 
     @Test
     public void testChangeLayerResultRMI() {
-        String message = 0 + enter + "y" + enter;
+        String message = 1 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction2(null));
@@ -260,7 +260,7 @@ public class CLIAppTest {
 
     @Test
     public void testChangeLayerResultSocket() {
-        String message = 0 + enter + "n" + enter + 0 + enter + "y" + enter;
+        String message = 2 + enter + "n" + enter + 1 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction2(null));
@@ -282,7 +282,7 @@ public class CLIAppTest {
 
     @Test
     public void testLeaveMatchResultFail() {
-        String message = 0 + enter + "y" + enter;
+        String message = 1 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction2(null));
@@ -306,7 +306,7 @@ public class CLIAppTest {
 
     @Test
     public void testLogoutResultFail() {
-        String message = 0 + enter + "y" + enter;
+        String message = 1 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction2(null));
@@ -319,7 +319,7 @@ public class CLIAppTest {
 
     @Test
     public void testCreateLobby() {
-        String message = 7 + enter + "y" + enter;
+        String message = 8 + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction2(null));
@@ -364,8 +364,8 @@ public class CLIAppTest {
         this.app.pullInvitate(matchIdentifier2);
 
 
-        assertEquals(matchIdentifier1.toString(), this.app.invites.get(0).toString());
-        assertEquals(matchIdentifier2.toString(), this.app.invites.get(1).toString());
+        assertEquals(matchIdentifier1.toString(), this.app.getInvites().get(0).toString());
+        assertEquals(matchIdentifier2.toString(), this.app.getInvites().get(1).toString());
     }
 
     @Test
@@ -550,7 +550,7 @@ public class CLIAppTest {
 
     @Test
     public void testSetDieResult() {
-        String message = "0" + enter + "y" + enter;
+        String message = "1" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
@@ -562,7 +562,7 @@ public class CLIAppTest {
 
     @Test
     public void testSetDieResultFail() {
-        String message = "0" + enter + "y" + enter;
+        String message = "1" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
@@ -583,7 +583,7 @@ public class CLIAppTest {
 
     @Test
     public void testUseToolCardResult() {
-        String message = "0" + enter + "y" + enter;
+        String message = "1" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
@@ -595,7 +595,7 @@ public class CLIAppTest {
 
     @Test
     public void testUseToolCardResultFail() {
-        String message = "0" + enter + "y" + enter;
+        String message = "1" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
@@ -624,7 +624,7 @@ public class CLIAppTest {
 
     @Test
     public void testPassTurnResultFail() {
-        String message = "0" + enter + "y" + enter;
+        String message = "1" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
@@ -640,7 +640,7 @@ public class CLIAppTest {
 
     @Test
     public void testGameEnd() {
-        String message = "0" + enter + "y" + enter;
+        String message = "1" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
@@ -865,13 +865,12 @@ public class CLIAppTest {
         this.app.changeLayerResult(false);
         this.app.logoutResult(false);
         this.app.leaveMatchResult(false);
-        this.app.pullLeaderBoard(null);
         this.app.askPattern(null, null, null, null, cardView);
         this.app.otherPlayerLeave(null);
         this.app.otherPlayerReconnection(null);
         this.app.startTurn();
         this.app.setDieResult(false, null);
-        this.app.addUpdate(null, 0, 0, 0);
+        this.app.addUpdate(null, 0, 0);
         this.app.useToolCardResult(false, null);
         this.app.useToolCardUpdate(null, 0);
         this.app.passTurnResult(false);

@@ -15,5 +15,6 @@ public class CommandAcceptInvite extends CLICommand {
         int invite = this.app.getReader().chooseInRange(0, this.app.getInvites().size() - 1);
 
         this.app.getViewActions().acceptInvite(this.app.getInvites().get(invite));
+        this.app.getInvites().remove(invite);
     }
 }

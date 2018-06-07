@@ -48,7 +48,6 @@ public class ViewActions {
      */
     public void changeLayer(boolean toRMI, int objectPort, int requestPort) {
         actionSender.changeLayer(toRMI, requestPort, objectPort);
-
     }
 
     /**
@@ -56,7 +55,6 @@ public class ViewActions {
      */
     public void leaveMatch() {
         actionSender.leaveMatch();
-
     }
 
     /**
@@ -64,7 +62,6 @@ public class ViewActions {
      */
     public void logout() {
         actionSender.logout();
-
     }
 
     /**
@@ -72,7 +69,6 @@ public class ViewActions {
      */
     public void askLobby() {
         actionSender.askLobby();
-
     }
 
     /**

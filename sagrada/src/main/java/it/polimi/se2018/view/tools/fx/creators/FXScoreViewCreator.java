@@ -2,11 +2,13 @@ package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.view.app.JavaFXStageProducer;
 import it.polimi.se2018.view.tools.ScoreViewCreator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -58,6 +60,15 @@ public class FXScoreViewCreator extends ScoreViewCreator<VBox> {
         tableView.setItems(getScores());
 
         container.getChildren().add(tableView);
+
+        Button returnButton = new Button("Torna alla lobby");
+        returnButton.setDefaultButton(true);
+
+        returnButton.setOnAction(event -> {
+            JavaFXStageProducer.getApp().getViewActions().askLobby();
+        });
+
+        container.getChildren().add(returnButton);
 
         return container;
     }

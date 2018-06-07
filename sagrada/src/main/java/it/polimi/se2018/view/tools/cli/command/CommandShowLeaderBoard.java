@@ -10,13 +10,18 @@ public class CommandShowLeaderBoard extends CLICommand {
 
     @Override
     public void doAction() {
-        this.app.getPrinter().print("Leader Board (Utente, Punti, Vittorie):");
-        this.app.getPrinter().print("____________________________");
-        for (int i = 0; i < this.app.getLeaderBoard().size(); i++) {
-            this.app.getPrinter().print(i + ") " +
-                    this.app.getLeaderBoard().get(i).usn + ", " +
-                    this.app.getLeaderBoard().get(i).tot + ", " +
-                    this.app.getLeaderBoard().get(i).wins);
+        if (this.app.getLeaderBoard().isEmpty()) {
+            this.app.getPrinter().print("Leader Board al momento non disponibile");
+        } else {
+
+            this.app.getPrinter().print("Leader Board (Utente, Punti, Vittorie):");
+            this.app.getPrinter().print("____________________________");
+            for (int i = 0; i < this.app.getLeaderBoard().size(); i++) {
+                this.app.getPrinter().print(i + ") " +
+                        this.app.getLeaderBoard().get(i).usn + ", " +
+                        this.app.getLeaderBoard().get(i).tot + ", " +
+                        this.app.getLeaderBoard().get(i).wins);
+            }
         }
         //Call menu method
         this.app.menu();
