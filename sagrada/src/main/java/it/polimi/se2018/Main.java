@@ -32,7 +32,7 @@ public class Main {
             ConsoleHandler handler=new ConsoleHandler();
             logger.addHandler(handler);
             logger.setLevel(Level.ALL);
-            handler.setLevel(Level.ALL);
+            //handler.setLevel(Level.ALL);
             if(args.length<2)throw new IllegalArgumentException("Not enough parameters");
             Boolean useGui=Boolean.parseBoolean(args[1]);
             ActionSender actionSender = new ActionSender();

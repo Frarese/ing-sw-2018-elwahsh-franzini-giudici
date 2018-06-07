@@ -78,7 +78,6 @@ public class ClientController implements CommUtilizer {
             players.add(new PlayerView(mId.player3,3));
         app.initGame(players,reserve,roundTrack);
 
-
     }
 
     @Override
@@ -94,6 +93,7 @@ public class ClientController implements CommUtilizer {
     @Override
     public void pushUserList(List<ScoreEntry> list) {
         app.pullConnectedPlayers(list);
+        app.createLobby();
     }
 
     @Override

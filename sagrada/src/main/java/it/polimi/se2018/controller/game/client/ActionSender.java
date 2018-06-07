@@ -71,6 +71,7 @@ public class ActionSender {
      */
     public void askLobby() {
         network.requestUserList();
+        network.requestLeaderboard();
     }
 
     /**
