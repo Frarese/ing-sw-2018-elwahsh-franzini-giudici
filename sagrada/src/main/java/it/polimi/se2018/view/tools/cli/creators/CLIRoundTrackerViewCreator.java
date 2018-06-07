@@ -44,8 +44,10 @@ public class CLIRoundTrackerViewCreator extends RoundTrackerViewCreator<List<Str
         //Visit round tracker
         for (int i = 0; i < round && i < roundTracker.length; i++) {
             strings.add("Turno " + (i + 1) + " : ");
-            for (int j = 0; j < this.roundTracker[i].length; j++) {
-                strings.add(j + ") " + this.dieViewCreator.makeDie(this.roundTracker[i][j]));
+            if (this.roundTracker[i] != null) {
+                for (int j = 0; j < this.roundTracker[i].length; j++) {
+                    strings.add(j + ") " + this.dieViewCreator.makeDie(this.roundTracker[i][j]));
+                }
             }
         }
         return strings;

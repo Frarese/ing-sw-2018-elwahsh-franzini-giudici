@@ -44,4 +44,16 @@ public class CommandShowLeaderBoardTest extends AbsCommandTest {
 
         assertEquals(returnString, savedStream.toString().replaceAll(regexControl, emptyString));
     }
+
+    @Test
+    public void testDoActionNothing() {
+        app = new FakeApp();
+
+        CommandShowLeaderBoard commandShowLeaderBoard = new CommandShowLeaderBoard(app);
+        commandShowLeaderBoard.doAction();
+
+        String returnString = "Leader Board al momento non disponibile";
+
+        assertEquals(returnString, savedStream.toString().replaceAll(regexControl, emptyString));
+    }
 }
