@@ -3,6 +3,8 @@ package it.polimi.se2018.controller.game.server.handlers;
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
 import it.polimi.se2018.events.actions.DiePlacementMove;
 import it.polimi.se2018.events.messages.InvalidMove;
+import it.polimi.se2018.events.messages.PlayerStatus;
+import it.polimi.se2018.events.messages.ReserveStatus;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.dice.Reserve;
 
@@ -40,7 +42,8 @@ public class DiePlacementHandler implements Runnable {
      */
     private void notifySuccess()
     {
-        network.sendObj(move);
+        network.sendObj(new PlayerStatus(player));
+        network.sendObj(new ReserveStatus(reserve));
     }
 
     /**

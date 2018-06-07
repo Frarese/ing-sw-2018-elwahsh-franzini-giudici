@@ -8,6 +8,10 @@ import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Player;
 
+/**
+ * Handler for all the basic player's moves
+ * @author Francesco Franzini, Alì El Wahsh
+ */
 public interface PlayerMoveHandler {
 
     /**

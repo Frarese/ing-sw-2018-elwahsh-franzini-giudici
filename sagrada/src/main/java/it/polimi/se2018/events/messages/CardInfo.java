@@ -11,6 +11,7 @@ import it.polimi.se2018.model.cards.ActiveTools;
 public class CardInfo extends Event {
 
     private int[] tools = new int[3];
+    private int[] toolCost = new int[3];
     private int[] objectives = new int[3];
 
     /**
@@ -22,8 +23,12 @@ public class CardInfo extends Event {
     {
         for(int i = 0; i<3;i++) {
             tools[i] = t.getTool(i).getId();
+            if(t.getTool(i).isUsed())
+                toolCost[i] = 2;
+            else toolCost[i] = 1 ;
             objectives[i] = o.getObjective(i).getId();
         }
+        this.description = "CardInfo";
     }
 
     /**
@@ -40,5 +45,13 @@ public class CardInfo extends Event {
      */
     public int[] getTools() {
         return tools;
+    }
+
+    /**
+     * Getter for all tool cards cost
+     * @return array of costs
+     */
+    public int[] getToolCost() {
+        return toolCost;
     }
 }

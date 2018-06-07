@@ -59,15 +59,6 @@ public class MessageBox implements ControllerMessage {
     }
 
     /**
-     * Sets player's name used in events thrown to the Controller
-     *
-     * @param ownerName contains the player's name
-     */
-    public void setOwnerName(String ownerName) {
-        this.viewMessage.setOwnerName(ownerName);
-    }
-
-    /**
      * Gets messages' list
      *
      * @return the messages' list

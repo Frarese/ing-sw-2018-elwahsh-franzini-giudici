@@ -1,7 +1,9 @@
 package it.polimi.se2018.observable;
 
+import it.polimi.se2018.events.messages.CardInfo;
 import it.polimi.se2018.util.SingleCardView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -11,8 +13,8 @@ public class CardView extends Observable {
      * Class attributes
      */
     private SingleCardView privateObjectiveCard;
-    private List<SingleCardView> publicObjectiveCards;
-    private List<SingleCardView> toolCards;
+    private List<SingleCardView> publicObjectiveCards = new ArrayList<>();
+    private List<SingleCardView> toolCards = new ArrayList<>();
 
     public CardView(SingleCardView privateObjectiveCard, List<SingleCardView> publicObjectiveCards, List<SingleCardView> toolCards) {
         this.privateObjectiveCard = privateObjectiveCard;
@@ -20,6 +22,16 @@ public class CardView extends Observable {
         this.toolCards = toolCards;
         this.uniqueNotify();
     }
+
+    public void setCardView(CardInfo info)
+    {
+        for(int i= 0; i<3;i++)
+        {
+            this.publicObjectiveCards.add(new SingleCardView(info.getObjectives()[i],0));
+            this.toolCards.add(new SingleCardView(info.getTools()[i],info.getToolCost()[i]));
+        }
+    }
+
 
     public SingleCardView getPrivateObjectiveCard() {
         return privateObjectiveCard;
@@ -48,7 +60,7 @@ public class CardView extends Observable {
         this.uniqueNotify();
     }
 
-    private synchronized void uniqueNotify() {
+    public synchronized void uniqueNotify() {
         setChanged();
         notifyObservers(this);
     }

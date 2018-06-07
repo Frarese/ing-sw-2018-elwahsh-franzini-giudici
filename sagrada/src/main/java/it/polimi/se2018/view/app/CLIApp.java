@@ -118,8 +118,6 @@ public class CLIApp extends App {
 
         //Save player name
         this.ownerPlayerName = name;
-        this.viewToolCardActions.setOwnerName(name);
-        this.messageBox.setOwnerName(name);
         this.useRMI = isRMI;
 
         //Controller call

@@ -65,7 +65,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>it.polimi.se2018.App</mainClass>
+                            <mainClass>it.polimi.se2018.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

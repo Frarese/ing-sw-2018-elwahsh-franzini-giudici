@@ -17,19 +17,12 @@ public class AppFactory {
 
     /**
      * Constructor called to create an App
-     * Checks if in first position in mainArgs's array there is "gui" string.
-     * If it's true starts a FXApp, in other cases start a CLIApp
+     *  @param isGui contains boolean value to choose between cli or gui
      *
-     * @param mainArgs contains the arg passed at mains
      */
-    public AppFactory(String[] mainArgs, ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
-        boolean useGui = false;
-        if (mainArgs != null && mainArgs[0] != null && mainArgs[0].equals("gui")) {
-            useGui = true;
-        }
-
-        if (useGui) {
-            this.app = new JavaFXApp(viewActions, viewToolCardActions, viewMessage, mainArgs);
+    public AppFactory(boolean isGui, ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
+        if (isGui) {
+            this.app = new JavaFXApp(viewActions, viewToolCardActions, viewMessage);
         } else {
             this.app = new CLIApp(viewActions, viewToolCardActions, viewMessage);
         }

@@ -61,13 +61,11 @@ public class JavaFXApp extends App {
 
     /**
      * Class constructor to initialize creators
-     *
-     * @param viewActions         contains ViewActions class for View->Controller communication
+     *  @param viewActions         contains ViewActions class for View->Controller communication
      * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
      * @param viewMessage         contains ViewMessage class for View->Controller communication (chat)
-     * @param args                contains the arg passed at mains
      */
-    public JavaFXApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage, String[] args) {
+    public JavaFXApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
         super(viewActions, viewToolCardActions, viewMessage);
 
         //Initializes Player Information
@@ -77,7 +75,7 @@ public class JavaFXApp extends App {
 
         this.invites = new ArrayList<>();
 
-        this.openWindow(args);
+        this.openWindow();
     }
 
     @Override
@@ -373,14 +371,12 @@ public class JavaFXApp extends App {
 
     /**
      * Launches FX Application
-     *
-     * @param args contains the args passed at main
      */
-    private void openWindow(String[] args) {
+    private void openWindow() {
         class FxAppLauncher implements Runnable {
             @Override
             public void run() {
-                Application.launch(JavaFXStageProducer.class, args);
+                Application.launch(JavaFXStageProducer.class, new String[1]);
             }
         }
 

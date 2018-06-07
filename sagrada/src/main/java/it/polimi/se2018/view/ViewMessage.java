@@ -1,5 +1,6 @@
 package it.polimi.se2018.view;
 
+import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.util.MessageTypes;
 
 import java.util.Observable;
@@ -12,16 +13,16 @@ import java.util.Observable;
 
 public class ViewMessage extends Observable {
 
-    private String ownerName;
+    private final ActionSender actionSender;
 
     /**
      * Class constructor
      * Sets player's name used in events thrown to the Controller
      *
-     * @param ownerName contains the player's name
+     * @param actionSender contains the controller class to manage events
      */
-    public ViewMessage(String ownerName) {
-        this.ownerName = ownerName;
+    public ViewMessage(ActionSender actionSender) {
+        this.actionSender = actionSender;
     }
 
     /**
@@ -33,14 +34,5 @@ public class ViewMessage extends Observable {
      */
     public void sendMessage(String destination, MessageTypes type, String message) {
         throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Sets player's name used in events thrown to the Controller
-     *
-     * @param ownerName contains the player's name
-     */
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
     }
 }

@@ -61,6 +61,23 @@ public class RoundTrackStatus extends Event {
     }
 
     /**
+     * Getter for all the round track's dice
+     * @return all round track content
+     */
+    public List<ArrayList<Pair<ColorModel, Integer>>> getDice() {
+        return dice;
+    }
+
+    /**
+     * Gets last filled round
+     * @return last filled round
+     */
+    public int round()
+    {
+        return dice.size();
+    }
+
+    /**
      *
      * @param round round position
      * @return a list of dide or null in case of invalid position
@@ -70,7 +87,7 @@ public class RoundTrackStatus extends Event {
             return dice.get(round);
         } catch (IndexOutOfBoundsException e)
         {
-            return null;
+            return new ArrayList<>();
         }
     }
 }

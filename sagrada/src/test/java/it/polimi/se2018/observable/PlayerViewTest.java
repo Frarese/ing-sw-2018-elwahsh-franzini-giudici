@@ -29,8 +29,8 @@ public class PlayerViewTest {
                 assertEquals(playerFavours, ((PlayerView) arg).getPlayerFavours());
                 assertArrayEquals(playerTemplate, ((PlayerView) arg).getPlayerTemplate());
                 assertArrayEquals(playerGrid, ((PlayerView) arg).getPlayerGrid());
-                assertEquals(placementRights, ((PlayerView) arg).isPlacementRights());
-                assertEquals(cardRights, ((PlayerView) arg).isCardRights());
+                assertEquals(placementRights, ((PlayerView) arg).isFirstPlacementRights());
+                assertEquals(cardRights, ((PlayerView) arg).isFirstCardRights());
             }
         }
     }
@@ -54,11 +54,14 @@ public class PlayerViewTest {
         playerTemplate = new Pair[1][1];
         playerGrid = new Pair[2][2];
         placementRights = true;
-        cardRights = false;
+        cardRights = true;
 
-        playerView = new PlayerView(playerName, playerID, playerFavours, playerTemplate, playerGrid, true, false);
+        playerView = new PlayerView(playerName, playerID);
         ObjectObserver objectObserver = new ObjectObserver();
         playerView.addObserver(objectObserver);
+        playerView.setPlayerGrid(playerGrid);
+        playerView.setPlayerTemplate(playerTemplate);
+
 
     }
 
@@ -119,23 +122,23 @@ public class PlayerViewTest {
 
     @Test
     public void testIsPlacementRights() {
-        assertEquals(placementRights, playerView.isPlacementRights());
+        assertEquals(placementRights, playerView.isFirstPlacementRights());
     }
 
     @Test
     public void testSetPlacementRights() {
         placementRights = false;
-        playerView.setPlacementRights(placementRights);
+        playerView.setFirstPlacementRights(placementRights);
     }
 
     @Test
     public void testIsCardRights() {
-        assertEquals(cardRights, playerView.isCardRights());
+        assertEquals(cardRights, playerView.isFirstCardRights());
     }
 
     @Test
     public void testSetCardRights() {
         cardRights = true;
-        playerView.setCardRights(cardRights);
+        playerView.setFirstCardRights(cardRights);
     }
 }

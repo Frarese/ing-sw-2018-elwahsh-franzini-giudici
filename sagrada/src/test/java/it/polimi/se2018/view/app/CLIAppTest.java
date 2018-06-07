@@ -122,8 +122,8 @@ public class CLIAppTest {
 
     private class FakeViewToolActions extends ViewToolCardActions {
 
-        FakeViewToolActions(String ownerName) {
-            super(ownerName);
+        FakeViewToolActions() {
+            super(null);
         }
 
         @Override
@@ -173,7 +173,7 @@ public class CLIAppTest {
      */
 
     private void testSetApp(ViewActions fakeViewAction) {
-        this.app = new CLIApp(fakeViewAction, new FakeViewToolActions(null), new ViewMessage(null));
+        this.app = new CLIApp(fakeViewAction, new FakeViewToolActions(), new ViewMessage(null));
         this.app.animation(true);
     }
 
@@ -484,14 +484,14 @@ public class CLIAppTest {
 
     @Test
     public void testInitGame() {
-        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "8" + enter + "y" + enter;
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "10" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
 
         List<PlayerView> players = new ArrayList<>();
-        PlayerView me = new PlayerView("Test", 0, 2, new Pair[1][1], null, false, false);
-        PlayerView other = new PlayerView("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerView me = new PlayerView("Test", 0);
+        PlayerView other = new PlayerView("OtherPlayerTest", 1);
         players.add(me);
         players.add(other);
 

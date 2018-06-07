@@ -1,7 +1,6 @@
 package it.polimi.se2018.controller.game.client;
 
 import it.polimi.se2018.controller.network.client.CommFE;
-import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.events.actions.DiePlacementMove;
 import it.polimi.se2018.events.actions.PassTurn;
 import it.polimi.se2018.events.actions.PatternChoice;
@@ -19,14 +18,6 @@ public class ActionSender {
     private CommFE network = new CommFE();
     private ClientController controller;
 
-    /**
-     * Constructor
-     *
-     * @param controller FrontEnd network controller
-     */
-    public ActionSender(ClientController controller) {
-        this.controller = controller;
-    }
 
     /**
      * Tries to login
@@ -42,8 +33,10 @@ public class ActionSender {
      */
     public String login(String host, int requestPort, int objectPort, String username, String password, boolean newUser, boolean useRMI) {
         String result = network.login(host, requestPort, objectPort, false, username, password, newUser, useRMI, controller);
-        if (result == null)
+        if (result == null) {
             this.username = username;
+            controller.setLocalPlayer(username);
+        }
 
         return result;
     }
@@ -160,5 +153,11 @@ public class ActionSender {
         network.sendReq(new PassTurn(username));
     }
 
-
+    /**
+     * Sets the controller
+     * @param controller Client controller
+     */
+    public void setController(ClientController controller) {
+        this.controller = controller;
+    }
 }

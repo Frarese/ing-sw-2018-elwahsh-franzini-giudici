@@ -7,9 +7,11 @@ import it.polimi.se2018.events.actions.*;
 import it.polimi.se2018.events.messages.*;
 import it.polimi.se2018.model.Board;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.cards.Deck;
 import it.polimi.se2018.model.cards.PatternCard;
+import it.polimi.se2018.model.cards.PrivateObjectiveCard;
 import it.polimi.se2018.util.MatchIdentifier;
 
 import java.io.File;
@@ -19,6 +21,9 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
+
+import static it.polimi.se2018.model.ColorModel.WHITE;
 
 
 /**
@@ -247,11 +252,12 @@ public class ServerController implements MatchController, Runnable {
      */
     private void sendMatchStatus(Player player)
     {
+        for(Player p: players)
+            network.sendReq(new PlayerStatus(p),player.getName());
+
         network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
         network.sendReq(new RoundTrackStatus(board.getRoundTrack()),player.getName());
 
-        for(Player p: players)
-            network.sendReq(new PlayerStatus(p),player.getName());
     }
 
     /**
@@ -282,9 +288,29 @@ public class ServerController implements MatchController, Runnable {
         }
     }
 
+    /**
+     * Sends to all players their own private objective card
+     */
+    private void sendPrivateObjectives()
+    {
+        ArrayList<PrivateObjectiveCard> temp = new ArrayList<>();
+        Stream.of(ColorModel.values()).filter(c-> c != WHITE).forEach(c->temp.add(new PrivateObjectiveCard(c)));
+        Deck<PrivateObjectiveCard> deck = new Deck<>(temp);
+        deck.shuffle();
+
+        for(Player p: players)
+            network.sendReq(new PrivateObjectiveStatus(deck.draw(1).get(0)),p.getName());
+    }
 
     @Override
     public void run() {
+
+        for(Player p: players)
+            sendMatchStatus(p);
+
+        network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
+        sendPrivateObjectives();
+
         try {
             sendPatternCards();
         } catch (IOException e) {
@@ -292,7 +318,8 @@ public class ServerController implements MatchController, Runnable {
             kill();
             return;
         }
-        network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
+
+
     }
 
     /**
@@ -317,7 +344,6 @@ public class ServerController implements MatchController, Runnable {
 
         //20- number of placed dice= number of unplaced dice
         out+=-20+player.getGrid().getPlacedDice();
-
         return out;
     }
 }
