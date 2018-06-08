@@ -12,6 +12,8 @@ import it.polimi.se2018.view.app.App;
 
 import java.util.List;
 
+
+
 public interface ServerMessageHandler {
 
     static void handle(ClientController controller, Event message, App app, List<PlayerView> players, ReserveView reserve, RoundTrackerView roundTrack,CardView cards) {
@@ -45,14 +47,19 @@ public interface ServerMessageHandler {
             case "RoundTrack":
                 RoundTrackStatus roundTrackStatus = (RoundTrackStatus) message;
                 roundTrack.setRound(roundTrackStatus.round());
-                //roundTrack.setRoundTracker(roundTrackStatus.getDice().toArray());
+                roundTrack.setRoundTracker(roundTrackStatus.getDice());
+                roundTrack.uniqueNotify();
                 break;
 
             case "Reserve":
                 ReserveStatus reserveStatus = (ReserveStatus) message;
-               //reserve.setReserve(reserveStatus.getDice().toArray();
+                reserve.setReserve(reserveStatus.getDice());
+                reserve.uniqueNotify();
                 break;
 
+            case "Pattern":
+                controller.addPatternView((PatternSelect) message);
+                break;
             default:
 
         }

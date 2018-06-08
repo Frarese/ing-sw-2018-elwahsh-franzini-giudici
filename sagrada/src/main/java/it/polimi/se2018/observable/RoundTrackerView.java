@@ -31,7 +31,6 @@ public class RoundTrackerView extends Observable {
 
     public void setRound(int round) {
         this.round = round;
-        this.uniqueNotify();
     }
 
     public Pair<Integer, ColorModel>[][] getRoundTracker() {
@@ -40,10 +39,9 @@ public class RoundTrackerView extends Observable {
 
     public void setRoundTracker(Pair<Integer, ColorModel>[][] roundTracker) {
         this.roundTracker = roundTracker;
-        this.uniqueNotify();
     }
 
-    private synchronized void uniqueNotify() {
+    public synchronized void uniqueNotify() {
         setChanged();
         notifyObservers(this);
     }

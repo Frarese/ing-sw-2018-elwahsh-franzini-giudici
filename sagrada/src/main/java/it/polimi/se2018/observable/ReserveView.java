@@ -29,10 +29,9 @@ public class ReserveView extends Observable {
 
     public void setReserve(Pair<Integer, ColorModel>[] reserve) {
         this.reserve = reserve;
-        this.uniqueNotify();
     }
 
-    private synchronized void uniqueNotify() {
+    public synchronized void uniqueNotify() {
         setChanged();
         notifyObservers(this);
     }

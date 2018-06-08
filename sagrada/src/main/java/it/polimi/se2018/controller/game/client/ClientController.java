@@ -2,15 +2,13 @@ package it.polimi.se2018.controller.game.client;
 
 import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.events.Event;
+import it.polimi.se2018.events.messages.PatternSelect;
 import it.polimi.se2018.events.messages.ServerMessageHandler;
 import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.observable.ReserveView;
 import it.polimi.se2018.observable.RoundTrackerView;
-import it.polimi.se2018.util.MatchIdentifier;
-import it.polimi.se2018.util.MessageTypes;
-import it.polimi.se2018.util.Pair;
-import it.polimi.se2018.util.ScoreEntry;
+import it.polimi.se2018.util.*;
 import it.polimi.se2018.view.app.App;
 
 import java.io.Serializable;
@@ -27,12 +25,14 @@ import java.util.logging.Logger;
 public class ClientController implements CommUtilizer {
 
     private String localPlayer;
-    private App app;
+    private final App app;
     private ArrayList<PlayerView> players = new ArrayList<>();
     private ReserveView reserve = new ReserveView(new Pair[9]);
     private RoundTrackerView roundTrack = new RoundTrackerView(0,new Pair[9][10]);
     private CardView cards;
     private MatchIdentifier mId;
+    private ArrayList<PatternView> patternsReceived;
+
 
 
     public ClientController(App app)
@@ -138,6 +138,21 @@ public class ClientController implements CommUtilizer {
      */
     public String getLocalPlayer() {
         return localPlayer;
+    }
+
+    /**
+     * Adds pattern to patternsReceived and if the pattern quota is reached it calls the view
+     * @param patternSelect pattern sent by the server
+     */
+    public void addPatternView(PatternSelect patternSelect)
+    {
+        PatternView pattern = new PatternView(patternSelect.getName(),patternSelect.getFavourPoints(),patternSelect.getPattern());
+        if(!patternsReceived.contains(pattern))
+        {
+            patternsReceived.add(pattern);
+            if(patternsReceived.size() == 4)
+                app.askPattern(patternsReceived.get(0),patternsReceived.get(1),patternsReceived.get(2),patternsReceived.get(3),cards);
+        }
     }
 
     /**
