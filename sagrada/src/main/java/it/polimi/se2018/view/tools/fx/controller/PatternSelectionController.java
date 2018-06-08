@@ -3,10 +3,11 @@ package it.polimi.se2018.view.tools.fx.controller;
 
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.view.app.JavaFXStageProducer;
-import javafx.application.Platform;
+import it.polimi.se2018.view.tools.fx.creators.FXGridViewCreator;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.layout.VBox;
 
 /**
  * Manages actions in pattern selection page
@@ -19,17 +20,32 @@ public class PatternSelectionController extends FXController {
     @FXML
     RadioButton radioFirstPattern;
     @FXML
+    VBox boxFirstPattern;
+
+    @FXML
     RadioButton radioSecondPattern;
+    @FXML
+    VBox boxSecondPattern;
+
     @FXML
     RadioButton radioThirdPattern;
     @FXML
+    VBox boxThirdPattern;
+
+    @FXML
     RadioButton radioFourthPattern;
     @FXML
-    Label error;
+    VBox boxFourthPattern;
+
+    @FXML
+    Button useButton;
 
     private PatternView patternView1;
+
     private PatternView patternView2;
+
     private PatternView patternView3;
+
     private PatternView patternView4;
 
 
@@ -39,14 +55,17 @@ public class PatternSelectionController extends FXController {
         this.patternView3 = pattern3;
         this.patternView4 = pattern4;
 
-        Platform.runLater(() -> {
-            String favourLabel = " - fav: ";
-            radioFirstPattern.setText(pattern1.patternName + favourLabel + pattern1.favours);
-            radioSecondPattern.setText(pattern2.patternName + favourLabel + pattern2.favours);
-            radioThirdPattern.setText(pattern3.patternName + favourLabel + pattern3.favours);
-            radioFourthPattern.setText(pattern4.patternName + favourLabel + pattern4.favours);
-        });
+        String favourLabel = " - FAVORI: ";
+        String bgColor = "BLACK";
+        radioFirstPattern.setText(pattern1.patternName + favourLabel + pattern1.favours);
+        radioSecondPattern.setText(pattern2.patternName + favourLabel + pattern2.favours);
+        radioThirdPattern.setText(pattern3.patternName + favourLabel + pattern3.favours);
+        radioFourthPattern.setText(pattern4.patternName + favourLabel + pattern4.favours);
 
+        boxFirstPattern.getChildren().add(new FXGridViewCreator(null, pattern1.template, bgColor).display());
+        boxSecondPattern.getChildren().add(new FXGridViewCreator(null, pattern2.template, bgColor).display());
+        boxThirdPattern.getChildren().add(new FXGridViewCreator(null, pattern3.template, bgColor).display());
+        boxFourthPattern.getChildren().add(new FXGridViewCreator(null, pattern4.template, bgColor).display());
     }
 
     /**
@@ -58,6 +77,7 @@ public class PatternSelectionController extends FXController {
         radioSecondPattern.setSelected(false);
         radioThirdPattern.setSelected(false);
         radioFourthPattern.setSelected(false);
+        useButton.setDisable(false);
     }
 
     /**
@@ -69,6 +89,7 @@ public class PatternSelectionController extends FXController {
         radioSecondPattern.setSelected(true);
         radioThirdPattern.setSelected(false);
         radioFourthPattern.setSelected(false);
+        useButton.setDisable(false);
     }
 
     /**
@@ -80,6 +101,7 @@ public class PatternSelectionController extends FXController {
         radioSecondPattern.setSelected(false);
         radioThirdPattern.setSelected(true);
         radioFourthPattern.setSelected(false);
+        useButton.setDisable(false);
     }
 
     /**
@@ -91,6 +113,7 @@ public class PatternSelectionController extends FXController {
         radioSecondPattern.setSelected(false);
         radioThirdPattern.setSelected(false);
         radioFourthPattern.setSelected(true);
+        useButton.setDisable(false);
     }
 
     /**
@@ -99,7 +122,7 @@ public class PatternSelectionController extends FXController {
     @FXML
     public void validation() {
         if (!radioFirstPattern.isSelected() && !radioSecondPattern.isSelected() && !radioThirdPattern.isSelected() && !radioFourthPattern.isSelected())
-            Platform.runLater(() -> error.setText("Devi selezionare un pattern"));
+            useButton.setDisable(true);
         else {
             appRecall();
         }

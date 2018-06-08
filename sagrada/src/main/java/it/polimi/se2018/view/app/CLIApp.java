@@ -163,8 +163,10 @@ public class CLIApp extends App {
 
         if (successRMI) {
             printer.print("L'attuale layer è RMI.");
+            useRMI = true;
         } else {
             printer.print("L'attuale layer è Socket.");
+            useRMI = false;
         }
 
         //Call menu method

@@ -19,10 +19,6 @@ import javafx.stage.Stage;
 
 public class AlertBox {
 
-    private AlertBox() {
-
-    }
-
     /**
      * Shows the alert box
      *
@@ -35,6 +31,7 @@ public class AlertBox {
 
         //Locks event in this window
         window.initModality(Modality.APPLICATION_MODAL);
+        window.setAlwaysOnTop(true);
 
         window.setTitle(title);
 

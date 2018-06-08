@@ -10,11 +10,14 @@ public class CommandShowConnectedUsers extends CLICommand {
 
     @Override
     public void doAction() {
-        this.app.getPrinter().print("Utenti connessi:");
-        this.app.getPrinter().print("____________________________");
-        for (int i = 0; i < this.app.getConnectedUsers().size(); i++)
-            this.app.getPrinter().print(i + ") " + this.app.getConnectedUsers().get(i).usn);
-
+        if (this.app.getConnectedUsers().isEmpty()) {
+            this.app.getPrinter().print("Lista utenti connessi al momento non disponibile");
+        } else {
+            this.app.getPrinter().print("Utenti connessi:");
+            this.app.getPrinter().print("____________________________");
+            for (int i = 0; i < this.app.getConnectedUsers().size(); i++)
+                this.app.getPrinter().print(i + ") " + this.app.getConnectedUsers().get(i).usn);
+        }
         //Call menu method
         this.app.menu();
     }

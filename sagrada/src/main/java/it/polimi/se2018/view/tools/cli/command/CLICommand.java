@@ -20,7 +20,7 @@ public abstract class CLICommand {
      * @param message contains the command text displayed
      * @param app     contains the CLIApp reference
      */
-    public CLICommand(String message, CLIApp app) {
+    CLICommand(String message, CLIApp app) {
         this.message = message;
         this.app = app;
     }

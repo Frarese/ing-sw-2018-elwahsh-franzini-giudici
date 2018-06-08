@@ -16,7 +16,7 @@ public abstract class ScoreViewCreator<E> {
 
     protected final List<Pair<String, Integer>> scores;
 
-    public ScoreViewCreator() {
+    protected ScoreViewCreator() {
         scores = new ArrayList<>();
     }
 

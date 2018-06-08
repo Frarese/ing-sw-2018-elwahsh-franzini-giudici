@@ -4,9 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="275.0" prefWidth="526.0" spacing="20.0" xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml/1">
+<VBox id="anchor" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="275.0" prefWidth="526.0" spacing="20.0"
+      stylesheets="/it/polimi/se2018/view/app/fxmlFiles/cssFiles/loginCSS.css" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.polimi.se2018.view.tools.fx.controller.ChangeLayerController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
@@ -18,22 +20,28 @@
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
         <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
             <Label prefHeight="17.0" prefWidth="108.0" text="Connessione"/>
-            <RadioButton mnemonicParsing="false" text="Socket"/>
-            <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="RMI"/>
+            <RadioButton fx:id="socketRadio" mnemonicParsing="false" onAction="#selectedRadioSocket"
+                         text="Socket"/>
+            <RadioButton fx:id="rmiRadio" layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
+                         onAction="#selectedRadioRMI" text="RMI"/>
         </VBox>
         <VBox alignment="CENTER_LEFT" prefHeight="103.0" prefWidth="183.0" spacing="5.0">
             <VBox alignment="CENTER_LEFT" spacing="5.0">
                 <Label layoutX="10.0" layoutY="10.0" text="Porta Richieste"/>
-                <TextField layoutX="10.0" layoutY="27.0" prefHeight="27.0" prefWidth="154.0"/>
+                <TextField fx:id="requestPort" layoutX="10.0" layoutY="27.0" prefHeight="27.0"
+                           prefWidth="154.0"/>
             </VBox>
             <VBox alignment="CENTER_LEFT" spacing="5.0">
                 <Label text="Porta oggetti"/>
-                <TextField/>
+                <TextField fx:id="objectPort"/>
             </VBox>
         </VBox>
     </HBox>
     <HBox alignment="CENTER" prefHeight="43.0" prefWidth="560.0" spacing="10.0">
-        <Button defaultButton="true" mnemonicParsing="false" text="Indietro"/>
-        <Button mnemonicParsing="false" text="Cambia"/>
+        <Button fx:id="close" defaultButton="true" mnemonicParsing="false" onAction="#close" text="Indietro"/>
+        <Button fx:id="change" mnemonicParsing="false" onAction="#validation" text="Cambia"/>
+    </HBox>
+    <HBox fx:id="errorContent" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+        <Label fx:id="error"/>
     </HBox>
 </VBox>

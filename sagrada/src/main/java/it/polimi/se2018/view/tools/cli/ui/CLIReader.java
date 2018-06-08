@@ -30,8 +30,9 @@ public class CLIReader {
      * @return the result string
      */
     public synchronized String read() {
-        //Print message
-        return scanner.next();
+        String message = scanner.next();
+        reset();
+        return message;
     }
 
     /**
@@ -43,6 +44,7 @@ public class CLIReader {
         int number;
         try {
             number = scanner.nextInt();
+            reset();
         } catch (Exception e) {
             printer.print("Non hai inserito un numero, riprova");
             scanner.nextLine();
@@ -61,6 +63,7 @@ public class CLIReader {
         //Ask option
         printer.print("[Y=si, N= no]");
         String response = scanner.next();
+        reset();
 
         //Upper case
         response = response.toUpperCase();

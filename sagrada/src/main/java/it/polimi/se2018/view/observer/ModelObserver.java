@@ -10,7 +10,7 @@ import it.polimi.se2018.view.app.App;
 
 abstract class ModelObserver {
 
-    protected final App app;
+    final App app;
 
     ModelObserver(App app) {
         this.app = app;

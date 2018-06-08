@@ -34,7 +34,7 @@ public class JavaFXStageProducer extends Application {
         //Setting static public attributes
         setStage(primaryStage);
 
-        Logger.getGlobal().log(Level.WARNING, "Start JavaFX app");
+        Logger.getGlobal().log(Level.INFO, "Start JavaFX app");
     }
 
     /**
@@ -69,7 +69,7 @@ public class JavaFXStageProducer extends Application {
      *
      * @param stage contains Application's Stage to set
      */
-    public static void setStage(Stage stage) {
+    private static void setStage(Stage stage) {
         JavaFXStageProducer.stage = stage;
     }
 

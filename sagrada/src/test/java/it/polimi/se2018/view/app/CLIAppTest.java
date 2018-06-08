@@ -247,7 +247,7 @@ public class CLIAppTest {
 
     @Test
     public void testChangeLayerResultRMI() {
-        String message = 1 + enter + "y" + enter;
+        String message = "1" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction2(null));
@@ -260,7 +260,7 @@ public class CLIAppTest {
 
     @Test
     public void testChangeLayerResultSocket() {
-        String message = 2 + enter + "n" + enter + 1 + enter + "y" + enter;
+        String message = "2" + enter + "n" + enter + "1" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction2(null));
@@ -573,12 +573,30 @@ public class CLIAppTest {
     }
 
     @Test
-    public void testAddUpdate() {
-        //TODO
-//        this.app.addUpdate(0, 0, 0, 0);
-//        this.app.addUpdate(1, 2, 3, 0);
-//
-//        assertEquals("OtherPlayerTest ha posizionato il dado: 1-RED in posizione (2,3).", savedStream.toString().split(enter)[savedStream.toString().split(enter).length - 1]);
+    public void testAddUpdateMe() {
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
+
+        this.app.addUpdate("Test", 1, 1);
+    }
+
+    @Test
+    public void testAddUpdateOther() {
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
+
+        Pair<Integer, ColorModel>[][] fakeGrid = new Pair[1][1];
+        fakeGrid[0][0] = new Pair<>(1, ColorModel.RED);
+        PlayerState playerState = new PlayerState("Other", 1, 1, null, fakeGrid, false, false);
+        this.app.players.add(playerState);
+
+        this.app.addUpdate("Other", 0, 0);
     }
 
     @Test
@@ -606,8 +624,44 @@ public class CLIAppTest {
     }
 
     @Test
-    public void testUseToolCardUpdate() {
-        //TODO
+    public void testUseToolCardUpdateMe() {
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
+
+        List<SingleCardView> cards = new ArrayList<>();
+        cards.add(new SingleCardView(10, 1));
+        cards.add(new SingleCardView(12, 1));
+
+        this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1,1));
+        this.app.getCardViewCreator().setPublicObjectiveCards(cards);
+        this.app.getCardViewCreator().setToolCards(cards);
+
+        this.app.useToolCardUpdate("Test",10);
+    }
+
+    @Test
+    public void testUseToolCardUpdateOther() {
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
+
+        List<SingleCardView> cards = new ArrayList<>();
+        cards.add(new SingleCardView(10, 1));
+        cards.add(new SingleCardView(12, 1));
+
+        this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1,1));
+        this.app.getCardViewCreator().setPublicObjectiveCards(cards);
+        this.app.getCardViewCreator().setToolCards(cards);
+
+        PlayerState playerState = new PlayerState("Other", 1, 1, null, null, false, false);
+        this.app.players.add(playerState);
+
+        this.app.useToolCardUpdate("Other",10);
     }
 
     @Test
@@ -635,7 +689,28 @@ public class CLIAppTest {
     }
 
     @Test
-    public void testPassTurnUpdate() {
+    public void testPassTurnUpdateMe() {
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
+
+        this.app.passTurnUpdate("Test");
+    }
+
+    @Test
+    public void testPassTurnUpdateOther() {
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction(null));
+        this.app.loginResult(true, null);
+
+        PlayerState playerState = new PlayerState("Other", 1, 1, null, null, false, false);
+        this.app.players.add(playerState);
+
+        this.app.passTurnUpdate("Other");
     }
 
     @Test

@@ -14,6 +14,9 @@ import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.observer.PlayerState;
 import it.polimi.se2018.view.tools.DieViewCreator;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
+import it.polimi.se2018.view.tools.fx.alert.ChangeLayerBox;
+import it.polimi.se2018.view.tools.fx.controller.LobbyController;
+import it.polimi.se2018.view.tools.fx.controller.PatternSelectionController;
 import it.polimi.se2018.view.tools.fx.creators.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -140,8 +143,12 @@ public class JavaFXApp extends App {
         String message;
         if (successRMI) {
             message = "Layer attuale: RMI";
+            ChangeLayerBox.close();
+            useRMI = true;
         } else {
             message = "Layer attuale: Socket";
+            ChangeLayerBox.close();
+            useRMI = false;
         }
 
         notifySimpleAlert(message);
@@ -189,15 +196,23 @@ public class JavaFXApp extends App {
             loader = new FXMLLoader(getClass().getResource("fxmlFiles/lobby.fxml"));
             root = loader.load();
 
-            loadScene(false);
+            loadScene(true);
         } catch (Exception e) {
             logFxmlLoadError();
         }
+
+
+        Platform.runLater(() -> {
+            LobbyController lobbyController = (LobbyController) JavaFXStageProducer.getController();
+            lobbyController.setTables();
+        });
     }
 
 
     @Override
     public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4, CardView cardView) {
+
+
         //Control if animation is enabled
         if (!this.animationEnable) {
             return;
@@ -212,6 +227,11 @@ public class JavaFXApp extends App {
         } catch (Exception e) {
             logFxmlLoadError();
         }
+
+        Platform.runLater(() -> {
+            PatternSelectionController patternSelectionController = (PatternSelectionController) JavaFXStageProducer.getController();
+            patternSelectionController.showPattern(pattern1, pattern2, pattern3, pattern4);
+        });
     }
 
     @Override
@@ -252,6 +272,7 @@ public class JavaFXApp extends App {
         }
 
         //TODO enable JavaFx FXML
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -379,7 +400,6 @@ public class JavaFXApp extends App {
         this.scoreViewCreator = new FXScoreViewCreator();
         Platform.runLater(() -> JavaFXStageProducer.getStage().setScene(new Scene((VBox) scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3))));
         this.isYourTurn = false;
-
     }
 
     @Override
@@ -463,6 +483,7 @@ public class JavaFXApp extends App {
             JavaFXStageProducer.getStage().setScene(new Scene(root));
             JavaFXStageProducer.setController(loader.getController());
             JavaFXStageProducer.getStage().setResizable(resizable);
+            JavaFXStageProducer.getStage().centerOnScreen();
         });
     }
 
@@ -486,7 +507,7 @@ public class JavaFXApp extends App {
     /**
      * Logs error message if FXML hasn't been loaded
      */
-    private void logFxmlLoadError() {
+    public static void logFxmlLoadError() {
         Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
     }
 

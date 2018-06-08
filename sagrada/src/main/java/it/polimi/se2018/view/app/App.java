@@ -74,7 +74,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      * @param viewActions         contains ViewActions class for View->Controller communication
      * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
      */
-    public App(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
+    App(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
         this.animationEnable = true;
         this.players = new ArrayList<>();
 

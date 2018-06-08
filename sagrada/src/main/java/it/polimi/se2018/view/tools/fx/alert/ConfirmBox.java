@@ -32,6 +32,7 @@ public class ConfirmBox {
 
         //Locks event in this window
         window.initModality(Modality.APPLICATION_MODAL);
+        window.setAlwaysOnTop(true);
 
         window.setTitle(title);
 
