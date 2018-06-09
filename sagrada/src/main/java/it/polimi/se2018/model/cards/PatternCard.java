@@ -2,7 +2,7 @@ package it.polimi.se2018.model.cards;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.Pattern;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,7 +30,7 @@ public class PatternCard extends CardModel {
      */
     public PatternCard(String path)
     {
-        Pair[][] schema;
+        IntColorPair[][] schema;
         int height;
         int width;
         int value;
@@ -48,7 +48,7 @@ public class PatternCard extends CardModel {
 
             NodeList lList = doc.getElementsByTagName("pattern");
             for (int j = 0; j < 2; j++) {
-                schema  = new Pair[Pattern.HEIGHT][Pattern.WIDTH];
+                schema  = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
                 Node lNode = lList.item(j);
 
                 Element xElement = (Element) lNode;
@@ -70,7 +70,7 @@ public class PatternCard extends CardModel {
                         color = ColorModel.valueOf(eElement.getElementsByTagName("color").item(0).getTextContent());
                         value = Integer.parseInt(eElement.getElementsByTagName("value").item(0).getTextContent());
 
-                        schema[height][width] = new Pair<>(color,value);
+                        schema[height][width] = new IntColorPair(value,color);
                     }
 
                     if(j == 0)
@@ -82,8 +82,8 @@ public class PatternCard extends CardModel {
             } catch(Exception e){
             Logger logger = Logger.getGlobal();
             logger.log(Level.SEVERE, e.toString());
-            frontSide = new Pattern(new Pair[Pattern.HEIGHT][Pattern.WIDTH],"Invalid",0);
-            backSide = new Pattern(new Pair[Pattern.HEIGHT][Pattern.WIDTH],"Invalid",0);
+            frontSide = new Pattern(new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH],"Invalid",0);
+            backSide = new Pattern(new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH],"Invalid",0);
         }
     }
 

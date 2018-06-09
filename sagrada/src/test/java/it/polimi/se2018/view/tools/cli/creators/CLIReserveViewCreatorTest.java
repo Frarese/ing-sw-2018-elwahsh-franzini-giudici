@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,15 +21,15 @@ public class CLIReserveViewCreatorTest {
     private final String emptyString = "";
 
 
-    private Pair<Integer, ColorModel>[] reserve;
+    private IntColorPair[] reserve;
 
     private CLIReserveViewCreator cliReserveViewCreator;
 
     @Before
     public void testInit() {
-        this.reserve = new Pair[2];
-        this.reserve[0] = new Pair<>(1, ColorModel.RED);
-        this.reserve[1] = new Pair<>(2, ColorModel.RED);
+        this.reserve = new IntColorPair[2];
+        this.reserve[0] = new IntColorPair(1, ColorModel.RED);
+        this.reserve[1] = new IntColorPair(2, ColorModel.RED);
         this.cliReserveViewCreator = new CLIReserveViewCreator(reserve);
     }
 
@@ -50,8 +50,8 @@ public class CLIReserveViewCreatorTest {
 
     @Test
     public void testSetReserve() {
-        Pair<Integer, ColorModel>[] reserveTest = new Pair[2];
-        reserveTest[0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[] reserveTest = new IntColorPair[2];
+        reserveTest[0] = new IntColorPair(1, ColorModel.RED);
         this.cliReserveViewCreator = new CLIReserveViewCreator(null);
         this.cliReserveViewCreator.setReserve(reserveTest);
         assertArrayEquals(reserveTest, cliReserveViewCreator.getReserve());

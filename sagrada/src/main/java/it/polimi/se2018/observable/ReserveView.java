@@ -1,7 +1,6 @@
 package it.polimi.se2018.observable;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 import java.util.Observable;
 
@@ -16,18 +15,18 @@ public class ReserveView extends Observable {
     /**
      * Class attributes
      */
-    private Pair<Integer, ColorModel>[] reserve;
+    private IntColorPair[] reserve;
 
-    public ReserveView(Pair<Integer, ColorModel>[] reserve) {
+    public ReserveView(IntColorPair[] reserve) {
         this.reserve = reserve;
         this.uniqueNotify();
     }
 
-    public Pair<Integer, ColorModel>[] getReserve() {
+    public IntColorPair[] getReserve() {
         return reserve;
     }
 
-    public void setReserve(Pair<Integer, ColorModel>[] reserve) {
+    public void setReserve(IntColorPair[] reserve) {
         this.reserve = reserve;
     }
 

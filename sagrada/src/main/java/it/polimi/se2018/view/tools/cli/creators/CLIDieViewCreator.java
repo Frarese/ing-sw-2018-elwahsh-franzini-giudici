@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.DieViewCreator;
 
 /**
@@ -13,7 +12,7 @@ import it.polimi.se2018.view.tools.DieViewCreator;
 public class CLIDieViewCreator implements DieViewCreator<String> {
 
     @Override
-    public String makeDie(Pair<Integer, ColorModel> die) {
+    public String makeDie(IntColorPair die) {
         return die.getFirst().toString() + "-" + die.getSecond().toString();
     }
 }

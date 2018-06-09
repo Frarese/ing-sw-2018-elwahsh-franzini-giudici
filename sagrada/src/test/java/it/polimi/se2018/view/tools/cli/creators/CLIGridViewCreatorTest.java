@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class CLIGridViewCreatorTest {
     private CLIPrinter printer;
     private ArrayList<String> result;
 
-    private Pair<Integer, ColorModel>[][] grid, pattern;
+    private IntColorPair[][] grid, pattern;
 
     private CLIGridViewCreator cliGridViewCreator;
 
@@ -42,9 +42,9 @@ public class CLIGridViewCreatorTest {
         result.add("|1-RED   ||1-VIOLET|");
         result.add("--------------------");
         grid = null;
-        pattern = new Pair[1][2];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        pattern[0][1] = new Pair<>(1, ColorModel.VIOLET);
+        pattern = new IntColorPair[1][2];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        pattern[0][1] = new IntColorPair(1, ColorModel.VIOLET);
         this.cliGridViewCreator = new CLIGridViewCreator(grid, pattern, printer);
 
         assertEquals(result.toString().replaceAll(regexControl, emptyString), cliGridViewCreator.display().toString().replaceAll(regexControl, emptyString));
@@ -61,10 +61,10 @@ public class CLIGridViewCreatorTest {
         result.add("--------------------");
         result.add("|        ||        |");
         result.add("--------------------");
-        grid = new Pair[1][2];
-        pattern = new Pair[1][2];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        grid = new IntColorPair[1][2];
+        pattern = new IntColorPair[1][2];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        pattern[0][1] = new IntColorPair(1, ColorModel.RED);
         this.cliGridViewCreator = new CLIGridViewCreator(grid, pattern, printer);
 
         assertEquals(result.toString().replaceAll(regexControl, emptyString), cliGridViewCreator.display().toString().replaceAll(regexControl, emptyString));
@@ -81,12 +81,12 @@ public class CLIGridViewCreatorTest {
         result.add("--------------------");
         result.add("|1-RED   ||1-RED   |");
         result.add("--------------------");
-        grid = new Pair[1][2];
-        pattern = new Pair[1][2];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        pattern[0][1] = new Pair<>(1, ColorModel.RED);
-        grid[0][0] = new Pair<>(1, ColorModel.RED);
-        grid[0][1] = new Pair<>(1, ColorModel.RED);
+        grid = new IntColorPair[1][2];
+        pattern = new IntColorPair[1][2];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        pattern[0][1] = new IntColorPair(1, ColorModel.RED);
+        grid[0][0] = new IntColorPair(1, ColorModel.RED);
+        grid[0][1] = new IntColorPair(1, ColorModel.RED);
         this.cliGridViewCreator = new CLIGridViewCreator(grid, pattern, printer);
 
         assertEquals(result.toString().replaceAll(regexControl, emptyString), cliGridViewCreator.display().toString().replaceAll(regexControl, emptyString));
@@ -100,33 +100,33 @@ public class CLIGridViewCreatorTest {
 
     @Test
     public void testPickDie() {
-        grid = new Pair[1][1];
-        grid[0][0] = new Pair<>(1, ColorModel.RED);
+        grid = new IntColorPair[1][1];
+        grid[0][0] = new IntColorPair(1, ColorModel.RED);
         this.cliGridViewCreator = new CLIGridViewCreator(grid, null, printer);
         assertEquals("1-RED", cliGridViewCreator.pickDie(0, 0));
     }
 
     @Test
     public void testGetGridPattern() {
-        grid = new Pair[1][2];
-        grid[0][0] = new Pair<>(1, ColorModel.RED);
-        grid[0][1] = new Pair<>(1, ColorModel.RED);
+        grid = new IntColorPair[1][2];
+        grid[0][0] = new IntColorPair(1, ColorModel.RED);
+        grid[0][1] = new IntColorPair(1, ColorModel.RED);
         this.cliGridViewCreator = new CLIGridViewCreator(null, grid, printer);
         assertArrayEquals(grid, cliGridViewCreator.getGridPattern());
     }
 
     @Test
     public void testGetGrid() {
-        grid = new Pair[1][2];
-        grid[0][0] = new Pair<>(1, ColorModel.RED);
-        grid[0][1] = new Pair<>(1, ColorModel.RED);
+        grid = new IntColorPair[1][2];
+        grid[0][0] = new IntColorPair(1, ColorModel.RED);
+        grid[0][1] = new IntColorPair(1, ColorModel.RED);
         this.cliGridViewCreator = new CLIGridViewCreator(grid, null, printer);
         assertArrayEquals(grid, cliGridViewCreator.getGrid());
     }
 
     @Test
     public void testSetGrid() {
-        grid = new Pair[1][1];
+        grid = new IntColorPair[1][1];
         this.cliGridViewCreator = new CLIGridViewCreator(null, null, printer);
         this.cliGridViewCreator.setGrid(grid);
         assertArrayEquals(grid, cliGridViewCreator.getGrid());

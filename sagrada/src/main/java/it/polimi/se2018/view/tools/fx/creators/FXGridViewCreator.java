@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.GridViewCreator;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
 import javafx.application.Platform;
@@ -28,7 +28,7 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
      * @param grid        the grid to use
      * @param gridPattern the pattern to use
      */
-    public FXGridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern, String color) {
+    public FXGridViewCreator(IntColorPair[][] grid, IntColorPair[][] gridPattern, String color) {
         super(grid, gridPattern);
         this.dieViewCreator = new FXDieViewCreator(FXConstants.GRID_CELL_DIM_VALUE);
         this.gridColor = color;
@@ -89,7 +89,7 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
      * @param patternCell contains the cell restriction
      * @param cell        contains the cell in the view grid
      */
-    private void setCellBackgroundColor(Pair<Integer, ColorModel> patternCell, VBox cell) {
+    private void setCellBackgroundColor(IntColorPair patternCell, VBox cell) {
         if (patternCell != null) {
             if (patternCell.getSecond() != ColorModel.WHITE) {
                 //Set color restriction

@@ -1,8 +1,8 @@
 package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.Event;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.model.Pattern;
-import it.polimi.se2018.util.Pair;
 
 /**
  * One of the options from which the player has to choose from
@@ -12,7 +12,7 @@ public class PatternSelect extends Event {
 
     private String name;
     private int favourPoints;
-    private Pair [][] pattern = new Pair[Pattern.HEIGHT][Pattern.WIDTH];
+    private IntColorPair [][] pattern = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
 
     /**
      * PatterSelect's constructor
@@ -25,7 +25,7 @@ public class PatternSelect extends Event {
         for(int i = 0; i< Pattern.HEIGHT;i++)
         {
             for(int j = 0; j<Pattern.WIDTH;j++)
-                pattern[i][j] = new Pair<>(p.getColor(i,j),p.getValue(i,j));
+                pattern[i][j] = new IntColorPair(p.getValue(i,j),p.getColor(i,j));
         }
         description = "Pattern";
     }
@@ -50,7 +50,7 @@ public class PatternSelect extends Event {
      * Getter for pattern's layout
      * @return pattern's layout
      */
-    public Pair[][] getPattern() {
+    public IntColorPair[][] getPattern() {
         return pattern;
     }
 }

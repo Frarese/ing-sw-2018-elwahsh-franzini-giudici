@@ -2,6 +2,7 @@ package it.polimi.se2018.view.app;
 
 import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.model.ColorModel;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.observable.ReserveView;
@@ -375,9 +376,9 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] pattern = new IntColorPair[1][2];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        pattern[0][1] = new IntColorPair(1, ColorModel.RED);
         PatternView pattern1 = new PatternView("Test1", 1, pattern);
         PatternView pattern2 = new PatternView("Test2", 2, pattern);
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
@@ -404,9 +405,9 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] pattern = new IntColorPair[1][2];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        pattern[0][1] = new IntColorPair(1, ColorModel.RED);
         PatternView pattern1 = new PatternView("Test1", 1, pattern);
         PatternView pattern2 = new PatternView("Test2", 2, pattern);
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
@@ -432,9 +433,9 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] pattern = new IntColorPair[1][2];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        pattern[0][1] = new IntColorPair(1, ColorModel.RED);
         PatternView pattern1 = new PatternView("Test1", 1, pattern);
         PatternView pattern2 = new PatternView("Test2", 2, pattern);
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
@@ -461,9 +462,9 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[][] pattern = new Pair[1][2];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        pattern[0][1] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] pattern = new IntColorPair[1][2];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        pattern[0][1] = new IntColorPair(1, ColorModel.RED);
         PatternView pattern1 = new PatternView("Test1", 1, pattern);
         PatternView pattern2 = new PatternView("Test2", 2, pattern);
         PatternView pattern3 = new PatternView("Test3", 3, pattern);
@@ -496,16 +497,16 @@ public class CLIAppTest {
         players.add(other);
 
 
-        Pair<Integer, ColorModel>[][] fakeRoundt = new Pair[1][1];
-        fakeRoundt[0][0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] fakeRoundt = new IntColorPair[1][1];
+        fakeRoundt[0][0] = new IntColorPair(1, ColorModel.RED);
         RoundTrackerView roundTracker = new RoundTrackerView(0, fakeRoundt);
 
-        Pair<Integer, ColorModel>[] fakeReserve = new Pair[1];
-        fakeReserve[0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[] fakeReserve = new IntColorPair[1];
+        fakeReserve[0] = new IntColorPair(1, ColorModel.RED);
         ReserveView reserveView = new ReserveView(fakeReserve);
 
         this.app.startLogin(false);
-        this.app.getGridViewCreator().setGridPattern(new Pair[1][1]);
+        this.app.getGridViewCreator().setGridPattern(new IntColorPair[1][1]);
         this.app.getRoundTrackerViewCreator().setRound(0);
         this.app.getRoundTrackerViewCreator().setRoundTracker(fakeRoundt);
 
@@ -530,7 +531,7 @@ public class CLIAppTest {
     @Test
     public void testOtherPlayerLeave() {
         testSetApp(new FakeViewAction(null));
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
         this.app.otherPlayerLeave("OtherPlayerTest");
@@ -541,7 +542,7 @@ public class CLIAppTest {
     @Test
     public void testOtherPlayerReconnection() {
         testSetApp(new FakeViewAction(null));
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
         this.app.otherPlayerReconnection("OtherPlayerTest");
@@ -591,8 +592,8 @@ public class CLIAppTest {
         testSetApp(new FakeViewAction(null));
         this.app.startLogin(false);
 
-        Pair<Integer, ColorModel>[][] fakeGrid = new Pair[1][1];
-        fakeGrid[0][0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] fakeGrid = new IntColorPair[1][1];
+        fakeGrid[0][0] = new IntColorPair(1, ColorModel.RED);
         PlayerState playerState = new PlayerState("Other", 1, 1, null, fakeGrid, false, false);
         this.app.players.add(playerState);
 
@@ -732,8 +733,8 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[] reserve = new Pair[1];
-        reserve[0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[] reserve = new IntColorPair[1];
+        reserve[0] = new IntColorPair(1, ColorModel.RED);
 
         this.app.reserveViewCreator = new CLIReserveViewCreator(reserve);
 
@@ -758,8 +759,8 @@ public class CLIAppTest {
     public void testUpdateReserve() {
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[] reserve = new Pair[1];
-        reserve[0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[] reserve = new IntColorPair[1];
+        reserve[0] = new IntColorPair(1, ColorModel.RED);
 
         this.app.reserveViewCreator = new CLIReserveViewCreator(reserve);
 
@@ -776,10 +777,10 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        Pair<Integer, ColorModel>[][] grid = new Pair[1][1];
-        grid[0][0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] pattern = new IntColorPair[1][1];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        IntColorPair[][] grid = new IntColorPair[1][1];
+        grid[0][0] = new IntColorPair(1, ColorModel.RED);
 
         this.app.gridViewCreator = new CLIGridViewCreator(grid, pattern, this.app.getPrinter());
 
@@ -795,14 +796,14 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        Pair<Integer, ColorModel>[][] grid = new Pair[1][1];
-        grid[0][0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] pattern = new IntColorPair[1][1];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        IntColorPair[][] grid = new IntColorPair[1][1];
+        grid[0][0] = new IntColorPair(1, ColorModel.RED);
 
         this.app.gridViewCreator = new CLIGridViewCreator(grid, pattern, this.app.getPrinter());
 
-        this.app.setDieOnGrid(new Pair<>(1, ColorModel.RED));
+        this.app.setDieOnGrid(new IntColorPair(1, ColorModel.RED));
 
         assertEquals("Devi posizionare il dado: 1-RED", savedStream.toString().split(enter)[0]);
         assertEquals("(la numerazione sulla griglia parte da 0)", savedStream.toString().split(enter)[1]);
@@ -815,8 +816,8 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[][] fakeRoundt = new Pair[1][1];
-        fakeRoundt[0][0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] fakeRoundt = new IntColorPair[1][1];
+        fakeRoundt[0][0] = new IntColorPair(1, ColorModel.RED);
 
         this.app.roundTrackerViewCreator = new CLIRoundTrackerViewCreator(2, fakeRoundt);
 
@@ -839,7 +840,7 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        this.app.selectFace(new Pair<>(1, ColorModel.RED));
+        this.app.selectFace(new IntColorPair(1, ColorModel.RED));
 
         assertEquals("Devi selezionare il nuovo valore del dado: 1-RED", savedStream.toString().split(enter)[0]);
         assertEquals("Inserisci nuovo valore:", savedStream.toString().split(enter)[1]);
@@ -852,10 +853,10 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        Pair<Integer, ColorModel>[][] grid = new Pair[1][1];
-        grid[0][0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] pattern = new IntColorPair[1][1];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        IntColorPair[][] grid = new IntColorPair[1][1];
+        grid[0][0] = new IntColorPair(1, ColorModel.RED);
 
         this.app.gridViewCreator = new CLIGridViewCreator(grid, pattern, this.app.getPrinter());
 
@@ -958,10 +959,10 @@ public class CLIAppTest {
     public void testGridViewCreator() {
         testSetApp(new FakeViewAction(null));
 
-        Pair<Integer, ColorModel>[][] pattern = new Pair[1][1];
-        pattern[0][0] = new Pair<>(1, ColorModel.RED);
-        Pair<Integer, ColorModel>[][] grid = new Pair[1][1];
-        grid[0][0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] pattern = new IntColorPair[1][1];
+        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        IntColorPair[][] grid = new IntColorPair[1][1];
+        grid[0][0] = new IntColorPair(1, ColorModel.RED);
 
         GridViewCreator gridViewCreator = new CLIGridViewCreator(grid, pattern, this.app.getPrinter());
         this.app.gridViewCreator = gridViewCreator;

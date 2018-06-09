@@ -1,7 +1,6 @@
 package it.polimi.se2018.observable;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 import java.util.Observable;
 
@@ -17,9 +16,9 @@ public class RoundTrackerView extends Observable {
      * Class attributes
      */
     private int round;
-    private Pair<Integer, ColorModel>[][] roundTracker;
+    private IntColorPair[][] roundTracker;
 
-    public RoundTrackerView(int round, Pair<Integer, ColorModel>[][] roundTracker) {
+    public RoundTrackerView(int round, IntColorPair[][] roundTracker) {
         this.round = round;
         this.roundTracker = roundTracker;
         this.uniqueNotify();
@@ -33,11 +32,11 @@ public class RoundTrackerView extends Observable {
         this.round = round;
     }
 
-    public Pair<Integer, ColorModel>[][] getRoundTracker() {
+    public IntColorPair[][] getRoundTracker() {
         return roundTracker;
     }
 
-    public void setRoundTracker(Pair<Integer, ColorModel>[][] roundTracker) {
+    public void setRoundTracker(IntColorPair[][] roundTracker) {
         this.roundTracker = roundTracker;
     }
 

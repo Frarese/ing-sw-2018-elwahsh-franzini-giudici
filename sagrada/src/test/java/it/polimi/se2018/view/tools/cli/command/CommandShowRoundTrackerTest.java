@@ -2,7 +2,7 @@ package it.polimi.se2018.view.tools.cli.command;
 
 import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
@@ -64,8 +64,8 @@ public class CommandShowRoundTrackerTest extends AbsCommandTest {
         app = new FakeApp();
         app.startLogin(false);
 
-        Pair<Integer, ColorModel>[][] fakeRoundt = new Pair[1][1];
-        fakeRoundt[0][0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] fakeRoundt = new IntColorPair[1][1];
+        fakeRoundt[0][0] = new IntColorPair(1, ColorModel.RED);
 
         app.getRoundTrackerViewCreator().setRound(1);
         app.getRoundTrackerViewCreator().setRoundTracker(fakeRoundt);

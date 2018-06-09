@@ -1,7 +1,6 @@
 package it.polimi.se2018.observable;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,14 +30,14 @@ public class RoundTrackerViewTest {
     }
 
     private int round;
-    private Pair<Integer, ColorModel>[][] roundTracker;
+    private IntColorPair[][] roundTracker;
 
     private RoundTrackerView roundTrackerView;
 
     @Before
     public void testInit() {
         round = 0;
-        roundTracker = new Pair[1][1];
+        roundTracker = new IntColorPair[1][1];
 
         roundTrackerView = new RoundTrackerView(round, roundTracker);
         ObjectObserver objectObserver = new ObjectObserver();

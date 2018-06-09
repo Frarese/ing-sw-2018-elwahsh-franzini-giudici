@@ -1,7 +1,6 @@
 package it.polimi.se2018.observable;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,8 +39,8 @@ public class PlayerViewTest {
     private String playerName;
     private int playerID;
     private int playerFavours;
-    private Pair<Integer, ColorModel>[][] playerTemplate;
-    private Pair<Integer, ColorModel>[][] playerGrid;
+    private IntColorPair[][] playerTemplate;
+    private IntColorPair[][] playerGrid;
     private boolean placementRights;
     private boolean cardRights;
 
@@ -51,8 +50,8 @@ public class PlayerViewTest {
         playerName = "Test";
         playerID = 1;
         playerFavours = 0;
-        playerTemplate = new Pair[1][1];
-        playerGrid = new Pair[2][2];
+        playerTemplate = new IntColorPair[1][1];
+        playerGrid = new IntColorPair[2][2];
         placementRights = true;
         cardRights = true;
 
@@ -116,7 +115,7 @@ public class PlayerViewTest {
 
     @Test
     public void testSetPlayerGrid() {
-        playerGrid = new Pair[5][5];
+        playerGrid = new IntColorPair[5][5];
         playerView.setPlayerGrid(playerGrid);
     }
 

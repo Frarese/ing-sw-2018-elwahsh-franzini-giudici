@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.GridViewCreator;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
 
@@ -36,7 +35,7 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
      * @param gridPattern contains user pattern
      * @param printer     contains user CLIui printer
      */
-    public CLIGridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern, CLIPrinter printer) {
+    public CLIGridViewCreator(IntColorPair[][] grid, IntColorPair[][] gridPattern, CLIPrinter printer) {
         super(grid, gridPattern);
         this.dieViewCreator = new CLIDieViewCreator();
         this.printer = printer;
@@ -114,7 +113,7 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
      * @param toPrint contains the grid matrix
      * @return string that represents the grid
      */
-    private ArrayList<String> gridHelper(Pair<Integer, ColorModel>[][] toPrint) {
+    private ArrayList<String> gridHelper(IntColorPair[][] toPrint) {
         ArrayList<String> returnArray = new ArrayList<>();
 
         //Start to create grid

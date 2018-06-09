@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.tools.cli.command;
 
 import it.polimi.se2018.controller.game.client.ActionSender;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
@@ -64,12 +64,12 @@ public class CommandShowGridTest extends AbsCommandTest {
         app = new FakeApp();
         app.startLogin(false);
 
-        PlayerState me = new PlayerState("Test", 0, 2, new Pair[1][1], null, false, false);
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerState me = new PlayerState("Test", 0, 2, new IntColorPair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
         app.getPlayers().add(me);
         app.getPlayers().add(other);
 
-        app.getGridViewCreator().setGridPattern(new Pair[1][1]);
+        app.getGridViewCreator().setGridPattern(new IntColorPair[1][1]);
 
         CommandShowGrid commandShowGrid = new CommandShowGrid(app);
         commandShowGrid.doAction();
@@ -83,8 +83,8 @@ public class CommandShowGridTest extends AbsCommandTest {
         app = new FakeApp();
         app.startLogin(false);
 
-        PlayerState me = new PlayerState("Test", 0, 2, new Pair[1][1], null, false, false);
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new Pair[1][1], null, false, false);
+        PlayerState me = new PlayerState("Test", 0, 2, new IntColorPair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
         app.getPlayers().add(me);
         app.getPlayers().add(other);
 

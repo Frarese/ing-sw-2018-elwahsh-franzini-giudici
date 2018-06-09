@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class CLIDieViewCreatorTest {
 
     @Test
     public void testMakeDie() {
-        assertEquals("1-RED", cliDieViewCreator.makeDie(new Pair<>(1, ColorModel.RED)));
-        assertEquals("2-BLUE", cliDieViewCreator.makeDie(new Pair<>(2, ColorModel.BLUE)));
+        assertEquals("1-RED", cliDieViewCreator.makeDie(new IntColorPair(1, ColorModel.RED)));
+        assertEquals("2-BLUE", cliDieViewCreator.makeDie(new IntColorPair(2, ColorModel.BLUE)));
     }
 }

@@ -1,7 +1,6 @@
 package it.polimi.se2018.observable;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,13 +27,13 @@ public class ReserveViewTest {
         }
     }
 
-    private Pair<Integer, ColorModel>[] reserve;
+    private IntColorPair[] reserve;
 
     private ReserveView reserveView;
 
     @Before
     public void testInit() {
-        reserve = new Pair[1];
+        reserve = new IntColorPair[1];
 
         reserveView = new ReserveView(reserve);
         ObjectObserver objectObserver = new ObjectObserver();
@@ -48,7 +47,7 @@ public class ReserveViewTest {
 
     @Test
     public void testSetReserve() {
-        reserve = new Pair[10];
+        reserve = new IntColorPair[10];
         reserveView.setReserve(reserve);
     }
 }

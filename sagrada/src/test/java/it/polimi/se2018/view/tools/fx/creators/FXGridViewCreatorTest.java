@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.DieViewCreator;
 import it.polimi.se2018.view.tools.GridViewCreator;
 import org.junit.Before;
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class FXGridViewCreatorTest {
-    private ArrayList<Pair> hitList;
+    private ArrayList<IntColorPair> hitList;
     private Field dieCreatorF;
 
     @Before
@@ -32,14 +32,14 @@ public class FXGridViewCreatorTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testDisplay() throws Exception{
-        Pair<Integer, ColorModel>[][] pattern = new Pair[2][3];
-        pattern[0][0] = new Pair<>(1, ColorModel.WHITE);
-        pattern[0][1] = new Pair<>(0, ColorModel.RED);
-        pattern[0][2] = new Pair<>(0, ColorModel.RED);
+        IntColorPair[][] pattern = new IntColorPair[2][3];
+        pattern[0][0] = new IntColorPair(1, ColorModel.WHITE);
+        pattern[0][1] = new IntColorPair(0, ColorModel.RED);
+        pattern[0][2] = new IntColorPair(0, ColorModel.RED);
 
-        Pair<Integer, ColorModel>[][] grid = new Pair[2][3];
-        grid[1][0] = new Pair<>(1, ColorModel.BLUE);
-        grid[1][1] = new Pair<>(6, ColorModel.VIOLET);
+        IntColorPair[][] grid = new IntColorPair[2][3];
+        grid[1][0] = new IntColorPair(1, ColorModel.BLUE);
+        grid[1][1] = new IntColorPair(6, ColorModel.VIOLET);
 
         FXGridViewCreator gridViewCreator = new FXGridViewCreator(grid,pattern,"BLACK");
         dieCreatorF.set(gridViewCreator,new DieViewCreatorMock());
@@ -61,8 +61,8 @@ public class FXGridViewCreatorTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testPickDie() throws Exception{
-        Pair<Integer, ColorModel>[][] grid = new Pair[2][3];
-        grid[1][0] = new Pair<>(1, ColorModel.BLUE);
+        IntColorPair[][] grid = new IntColorPair[2][3];
+        grid[1][0] = new IntColorPair(1, ColorModel.BLUE);
 
         FXGridViewCreator gridViewCreator = new FXGridViewCreator(grid,null,"BLACK");
         dieCreatorF.set(gridViewCreator,new DieViewCreatorMock());
@@ -76,7 +76,7 @@ public class FXGridViewCreatorTest {
 
 
         @Override
-        public Object makeDie(Pair die) {
+        public Object makeDie(IntColorPair die) {
             hitList.add(die);
             return null;
         }

@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.observer;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 /**
  * This class represents current state of a player
@@ -17,13 +16,13 @@ public class PlayerState {
     private String playerName;
     private int playerID;
     private int playerFavours;
-    private Pair<Integer, ColorModel>[][] playerTemplate;
-    private Pair<Integer, ColorModel>[][] playerGrid;
+    private IntColorPair[][] playerTemplate;
+    private IntColorPair[][] playerGrid;
     private boolean placementRights;
     private boolean cardRights;
 
 
-    public PlayerState(String playerName, int playerID, int favours, Pair<Integer, ColorModel>[][] playerTemplate, Pair<Integer, ColorModel>[][] playerGrid, boolean placementRights, boolean cardRights) {
+    public PlayerState(String playerName, int playerID, int favours, IntColorPair[][] playerTemplate, IntColorPair[][] playerGrid, boolean placementRights, boolean cardRights) {
         this.playerName = playerName;
         this.playerID = playerID;
         this.playerFavours = favours;
@@ -57,19 +56,19 @@ public class PlayerState {
         this.playerFavours = playerFavours;
     }
 
-    public Pair<Integer, ColorModel>[][] getPlayerTemplate() {
+    public IntColorPair[][] getPlayerTemplate() {
         return playerTemplate;
     }
 
-    public void setPlayerTemplate(Pair<Integer, ColorModel>[][] playerTemplate) {
+    public void setPlayerTemplate(IntColorPair[][] playerTemplate) {
         this.playerTemplate = playerTemplate;
     }
 
-    public Pair<Integer, ColorModel>[][] getPlayerGrid() {
+    public IntColorPair[][] getPlayerGrid() {
         return playerGrid;
     }
 
-    public void setPlayerGrid(Pair<Integer, ColorModel>[][] playerGrid) {
+    public void setPlayerGrid(IntColorPair[][] playerGrid) {
         this.playerGrid = playerGrid;
     }
 

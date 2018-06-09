@@ -1,6 +1,6 @@
 package it.polimi.se2018.util;
 
-import it.polimi.se2018.model.ColorModel;
+import it.polimi.se2018.model.IntColorPair;
 
 /**
  * Simple class that contains window's pattern properties
@@ -12,7 +12,7 @@ public class PatternView {
 
     public final String patternName;
     public final int favours;
-    public final Pair<Integer, ColorModel>[][] template;
+    public final IntColorPair[][] template;
 
     /**
      * Class constructor
@@ -21,7 +21,7 @@ public class PatternView {
      * @param favours     contains the window's pattern favour points
      * @param template    contains the window's pattern grid
      */
-    public PatternView(String patternName, int favours, Pair<Integer, ColorModel>[][] template) {
+    public PatternView(String patternName, int favours, IntColorPair[][] template) {
         this.patternName = patternName;
         this.favours = favours;
         this.template = template;

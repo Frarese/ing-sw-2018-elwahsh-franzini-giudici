@@ -6,7 +6,7 @@ import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.observable.ReserveView;
 import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.ViewActions;
@@ -573,7 +573,7 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void setDieOnGrid(Pair<Integer, ColorModel> die) {
+    public void setDieOnGrid(IntColorPair die) {
         CLIDieViewCreator dieCreator = new CLIDieViewCreator();
 
         //Print and read operation
@@ -601,7 +601,7 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void selectFace(Pair<Integer, ColorModel> die) {
+    public void selectFace(IntColorPair die) {
         CLIDieViewCreator dieCreator = new CLIDieViewCreator();
 
         //Print and read operation

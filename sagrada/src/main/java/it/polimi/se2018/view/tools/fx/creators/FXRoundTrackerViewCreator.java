@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools.fx.creators;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.RoundTrackerViewCreator;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -24,7 +23,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
      * @param round        contains the round
      * @param roundTracker contains the round tracker
      */
-    public FXRoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] roundTracker) {
+    public FXRoundTrackerViewCreator(int round, IntColorPair[][] roundTracker) {
         super(round, roundTracker);
         this.dieViewCreator = new FXDieViewCreator(FXConstants.ROUNDT_IMG_DIM_VALUE);
     }
@@ -112,7 +111,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
         });
     }
 
-    private void makeCellDie(Pair<Integer, ColorModel> die, ComboBox<ImageView> comboBox) {
+    private void makeCellDie(IntColorPair die, ComboBox<ImageView> comboBox) {
         if (die != null) {
             Image image = (Image) dieViewCreator.makeDie(die);
             ImageView imageView = new ImageView(image);

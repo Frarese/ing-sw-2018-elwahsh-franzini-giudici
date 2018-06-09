@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 /**
  * Interface to define RoundTrackerViewCreator's Object
@@ -15,7 +14,7 @@ public abstract class RoundTrackerViewCreator<E> {
 
     protected int round;
 
-    protected Pair<Integer, ColorModel>[][] roundTracker;
+    protected IntColorPair[][] roundTracker;
 
     /**
      * Basic Class constructor that initializes elements at default value
@@ -31,7 +30,7 @@ public abstract class RoundTrackerViewCreator<E> {
      * @param round        contains the round
      * @param roundTracker contains the round tracker
      */
-    protected RoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] roundTracker) {
+    protected RoundTrackerViewCreator(int round, IntColorPair[][] roundTracker) {
         this.round = round;
         this.roundTracker = roundTracker;
     }
@@ -66,7 +65,7 @@ public abstract class RoundTrackerViewCreator<E> {
      *
      * @return the round tracker
      */
-    public synchronized Pair<Integer, ColorModel>[][] getRoundTracker() {
+    public synchronized IntColorPair[][] getRoundTracker() {
         return roundTracker;
     }
 
@@ -75,7 +74,7 @@ public abstract class RoundTrackerViewCreator<E> {
      *
      * @param roundTracker contains the round tracker to set
      */
-    public synchronized void setRoundTracker(Pair<Integer, ColorModel>[][] roundTracker) {
+    public synchronized void setRoundTracker(IntColorPair[][] roundTracker) {
         this.roundTracker = roundTracker;
     }
 }

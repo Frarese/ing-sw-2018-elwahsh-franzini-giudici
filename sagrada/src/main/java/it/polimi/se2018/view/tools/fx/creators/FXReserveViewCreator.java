@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools.fx.creators;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.ReserveViewCreator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +20,7 @@ public class FXReserveViewCreator extends ReserveViewCreator<VBox, Image> {
      *
      * @param reserve contains the reserve
      */
-    public FXReserveViewCreator(Pair<Integer, ColorModel>[] reserve) {
+    public FXReserveViewCreator(IntColorPair[] reserve) {
         super(reserve);
         this.dieViewCreator = new FXDieViewCreator(FXConstants.GRID_CELL_DIM_VALUE);
     }

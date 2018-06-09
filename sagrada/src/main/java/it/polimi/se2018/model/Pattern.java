@@ -1,5 +1,5 @@
 package it.polimi.se2018.model;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 /**
  * Model representation of a window pattern
@@ -9,7 +9,7 @@ public class Pattern {
     public static final int HEIGHT = 4;
     public static final int WIDTH = 5;
 
-    private final Pair[][] schema;
+    private final IntColorPair[][] schema;
     private final int favourPoints;
     private final String name;
 
@@ -20,7 +20,7 @@ public class Pattern {
      * @param name pattern's name
      * @param favourPoints pattern's favour points
      */
-    public Pattern(Pair[][] schema, String name, int favourPoints)
+    public Pattern(IntColorPair[][] schema, String name, int favourPoints)
     {
         this.schema = schema;
         this.name = name;
@@ -28,7 +28,7 @@ public class Pattern {
         for(int h=0; h<Pattern.HEIGHT;h++)
             for(int w = 0; w<Pattern.WIDTH;w++)
                 if(schema[h][w] == null)
-                    schema[h][w] = new Pair<>(ColorModel.WHITE,0);
+                    schema[h][w] = new IntColorPair(0,ColorModel.WHITE);
     }
 
     /**
@@ -55,7 +55,7 @@ public class Pattern {
      */
     public ColorModel getColor(int h, int w )
     {
-        return (ColorModel) schema[h][w].getFirst();
+        return schema[h][w].getSecond();
     }
 
     /**
@@ -66,7 +66,7 @@ public class Pattern {
      */
     public int getValue(int h, int w)
     {
-        return (Integer) schema[h][w].getSecond();
+        return schema[h][w].getFirst();
     }
 
     /**

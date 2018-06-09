@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 /**
  * Class to define GridViewCreator's Object
@@ -13,9 +12,9 @@ public abstract class GridViewCreator<E, V> {
 
     protected DieViewCreator dieViewCreator;
 
-    protected Pair<Integer, ColorModel>[][] grid;
+    protected IntColorPair[][] grid;
 
-    protected Pair<Integer, ColorModel>[][] gridPattern;
+    protected IntColorPair[][] gridPattern;
 
     /**
      * Basic Class constructor that initializes elements at default value
@@ -31,7 +30,7 @@ public abstract class GridViewCreator<E, V> {
      * @param grid        contains user grid
      * @param gridPattern contains user pattern
      */
-    protected GridViewCreator(Pair<Integer, ColorModel>[][] grid, Pair<Integer, ColorModel>[][] gridPattern) {
+    protected GridViewCreator(IntColorPair[][] grid, IntColorPair[][] gridPattern) {
         this.grid = grid;
         this.gridPattern = gridPattern;
     }
@@ -66,7 +65,7 @@ public abstract class GridViewCreator<E, V> {
      *
      * @return the grid
      */
-    public synchronized Pair<Integer, ColorModel>[][] getGrid() {
+    public synchronized IntColorPair[][] getGrid() {
         return grid;
     }
 
@@ -75,7 +74,7 @@ public abstract class GridViewCreator<E, V> {
      *
      * @param grid contains the grid to set
      */
-    public synchronized void setGrid(Pair<Integer, ColorModel>[][] grid) {
+    public synchronized void setGrid(IntColorPair[][] grid) {
         this.grid = grid;
     }
 
@@ -84,7 +83,7 @@ public abstract class GridViewCreator<E, V> {
      *
      * @return the grid's pattern
      */
-    public synchronized Pair<Integer, ColorModel>[][] getGridPattern() {
+    public synchronized IntColorPair[][] getGridPattern() {
         return gridPattern;
     }
 
@@ -93,7 +92,7 @@ public abstract class GridViewCreator<E, V> {
      *
      * @param gridPattern contains the grid's pattern to set
      */
-    public synchronized void setGridPattern(Pair<Integer, ColorModel>[][] gridPattern) {
+    public synchronized void setGridPattern(IntColorPair[][] gridPattern) {
         this.gridPattern = gridPattern;
     }
 }

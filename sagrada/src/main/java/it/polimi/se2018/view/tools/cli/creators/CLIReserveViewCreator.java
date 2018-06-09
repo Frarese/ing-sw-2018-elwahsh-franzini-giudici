@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.ReserveViewCreator;
 
 /**
@@ -26,7 +25,7 @@ public class CLIReserveViewCreator extends ReserveViewCreator<String, String> {
      *
      * @param reserve contains the reserve
      */
-    public CLIReserveViewCreator(Pair<Integer, ColorModel>[] reserve) {
+    public CLIReserveViewCreator(IntColorPair[] reserve) {
         super(reserve);
         this.dieViewCreator = new CLIDieViewCreator();
     }

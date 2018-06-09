@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 /**
  * Interface to define DieViewCreator's Object
@@ -17,5 +16,5 @@ public interface DieViewCreator<E> {
      * @param die contains the die's information
      * @return die
      */
-    E makeDie(Pair<Integer, ColorModel> die);
+    E makeDie(IntColorPair die);
 }

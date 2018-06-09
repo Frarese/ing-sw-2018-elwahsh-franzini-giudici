@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.events.Event;
 import it.polimi.se2018.events.messages.PatternSelect;
 import it.polimi.se2018.events.messages.ServerMessageHandler;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.observable.ReserveView;
@@ -159,8 +160,8 @@ public class ClientController implements CommUtilizer {
     private void cleanUp()
     {
         players = new ArrayList<>();
-        reserve = new ReserveView(new Pair[9]);
-        roundTrack = new RoundTrackerView(0,new Pair[9][10]);
+        reserve = new ReserveView(new IntColorPair[9]);
+        roundTrack = new RoundTrackerView(0,new IntColorPair[9][10]);
         cards = new CardView(null,null,null);
         patternsReceived=new ArrayList<>();
     }

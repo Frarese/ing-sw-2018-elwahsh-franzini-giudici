@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 /**
  * Class to define ReserveViewCreator's Object
@@ -13,7 +12,7 @@ public abstract class ReserveViewCreator<V, E> {
 
     protected DieViewCreator dieViewCreator;
 
-    protected Pair<Integer, ColorModel>[] reserve;
+    protected IntColorPair[] reserve;
 
     /**
      * Basic Class constructor that initializes elements at default value
@@ -27,7 +26,7 @@ public abstract class ReserveViewCreator<V, E> {
      *
      * @param reserve contains the reserve
      */
-    protected ReserveViewCreator(Pair<Integer, ColorModel>[] reserve) {
+    protected ReserveViewCreator(IntColorPair[] reserve) {
         this.reserve = reserve;
     }
 
@@ -51,7 +50,7 @@ public abstract class ReserveViewCreator<V, E> {
      *
      * @return the reserve
      */
-    public synchronized Pair<Integer, ColorModel>[] getReserve() {
+    public synchronized IntColorPair[] getReserve() {
         return reserve;
     }
 
@@ -60,7 +59,7 @@ public abstract class ReserveViewCreator<V, E> {
      *
      * @param reserve contains the reserve to set
      */
-    public synchronized void setReserve(Pair<Integer, ColorModel>[] reserve) {
+    public synchronized void setReserve(IntColorPair[] reserve) {
         this.reserve = reserve;
     }
 }

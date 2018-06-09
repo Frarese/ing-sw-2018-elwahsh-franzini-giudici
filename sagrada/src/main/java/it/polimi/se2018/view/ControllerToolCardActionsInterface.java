@@ -1,7 +1,7 @@
 package it.polimi.se2018.view;
 
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 /**
  * Interface for Controller-View communication
@@ -40,7 +40,7 @@ public interface ControllerToolCardActionsInterface {
      *
      * @param die contains the die that player have to place
      */
-    void setDieOnGrid(Pair<Integer, ColorModel> die);
+    void setDieOnGrid(IntColorPair die);
 
     /**
      * Asks at currentPlayer to select a die from the Round Tracker
@@ -52,7 +52,7 @@ public interface ControllerToolCardActionsInterface {
      *
      * @param die contains the die
      */
-    void selectFace(Pair<Integer, ColorModel> die);
+    void selectFace(IntColorPair die);
 
     /**
      * Asks at currentPlayer to select a die from his grid with a color limit

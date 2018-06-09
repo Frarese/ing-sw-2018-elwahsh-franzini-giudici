@@ -1,6 +1,6 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,8 +13,8 @@ public class PatternTest {
     @Before
     public void testInit()
     {
-        Pair[][] temp = new Pair[Pattern.HEIGHT][Pattern.WIDTH];
-        temp[0][0] = new Pair<>(ColorModel.RED,0);
+        IntColorPair[][] temp = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
+        temp[0][0] = new IntColorPair(0,ColorModel.RED);
         test = new Pattern(temp,"test",3);
     }
 

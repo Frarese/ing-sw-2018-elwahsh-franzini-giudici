@@ -1,9 +1,8 @@
 package it.polimi.se2018.observable;
 
 import it.polimi.se2018.events.messages.PlayerStatus;
-import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.Pattern;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 import java.util.Observable;
 
@@ -22,8 +21,8 @@ public class PlayerView extends Observable {
     private String playerName;
     private int playerID;
     private int playerFavours;
-    private Pair[][] playerTemplate;
-    private Pair[][] playerGrid;
+    private IntColorPair[][]  playerTemplate;
+    private IntColorPair[][]  playerGrid;
     private boolean firstPlacementRights;
     private boolean firstCardRights;
     private boolean secondPlacementRights;
@@ -34,8 +33,8 @@ public class PlayerView extends Observable {
         this.playerName = playerName;
         this.playerID = playerID;
         this.playerFavours = 0;
-        this.playerTemplate = new Pair[Pattern.HEIGHT][Pattern.WIDTH];
-        this.playerGrid = new Pair[Pattern.HEIGHT][Pattern.WIDTH];
+        this.playerTemplate = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
+        this.playerGrid = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
         this.firstPlacementRights = true;
         this.firstCardRights = true;
         this.secondPlacementRights = true;
@@ -85,20 +84,20 @@ public class PlayerView extends Observable {
 
     }
 
-    public Pair[][] getPlayerTemplate() {
+    public IntColorPair[][]  getPlayerTemplate() {
         return playerTemplate;
     }
 
-    public void setPlayerTemplate(Pair<Integer, ColorModel>[][] playerTemplate) {
+    public void setPlayerTemplate(IntColorPair[][] playerTemplate) {
         this.playerTemplate = playerTemplate;
 
     }
 
-    public Pair[][] getPlayerGrid() {
+    public IntColorPair[][] getPlayerGrid() {
         return playerGrid;
     }
 
-    public void setPlayerGrid(Pair[][] playerGrid) {
+    public void setPlayerGrid(IntColorPair[][] playerGrid) {
         this.playerGrid = playerGrid;
 
     }

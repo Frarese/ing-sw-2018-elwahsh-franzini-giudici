@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.RoundTrackerViewCreator;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class CLIRoundTrackerViewCreator extends RoundTrackerViewCreator<List<Str
      * @param round        contains the round
      * @param roundTracker contains the round tracker
      */
-    public CLIRoundTrackerViewCreator(int round, Pair<Integer, ColorModel>[][] roundTracker) {
+    public CLIRoundTrackerViewCreator(int round, IntColorPair[][] roundTracker) {
         super(round, roundTracker);
         this.dieViewCreator = new CLIDieViewCreator();
     }

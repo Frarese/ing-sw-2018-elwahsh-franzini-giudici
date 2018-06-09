@@ -1,8 +1,8 @@
 package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.Event;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.model.dice.Reserve;
-import it.polimi.se2018.util.Pair;
 
 /**
  * Update of the reserve status
@@ -10,7 +10,7 @@ import it.polimi.se2018.util.Pair;
  */
 public class ReserveStatus  extends Event{
 
-    private final Pair[] dice = new Pair[9];
+    private final IntColorPair[] dice = new IntColorPair[9];
 
     /**
      * Constructor
@@ -20,7 +20,7 @@ public class ReserveStatus  extends Event{
     {
         for(int i = 0; i< r.size();i++)
         {
-            dice[i] = new Pair<>(r.get(i).getColor(),r.get(i).getValue());
+            dice[i] = new IntColorPair(r.get(i).getValue(),r.get(i).getColor());
         }
 
         this.description = "Reserve";
@@ -31,7 +31,7 @@ public class ReserveStatus  extends Event{
      * Getter for dice inside the reserve
      * @return dice inside the reserve
      */
-    public Pair[] getDice() {
+    public IntColorPair[] getDice() {
         return dice;
     }
 }

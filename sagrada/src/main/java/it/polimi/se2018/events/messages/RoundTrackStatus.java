@@ -1,9 +1,8 @@
 package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.Event;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.model.dice.RoundTracker;
-import it.polimi.se2018.util.Pair;
-
 
 
 /**
@@ -12,7 +11,7 @@ import it.polimi.se2018.util.Pair;
  */
 public class RoundTrackStatus extends Event {
 
-    private final Pair[][] dice = new Pair[9][10];
+    private final IntColorPair[][] dice = new IntColorPair[9][10];
     private final int round;
 
     /**
@@ -32,7 +31,7 @@ public class RoundTrackStatus extends Event {
             {
                 if(t.getDie(i,j) != null)
                 {
-                    dice[i][j] =new Pair<>(t.getDie(i,j).getColor(), t.getDie(i,j).getValue());
+                    dice[i][j] =new IntColorPair(t.getDie(i,j).getValue(),t.getDie(i,j).getColor());
                 }
                 else
                     done = true;
@@ -48,7 +47,7 @@ public class RoundTrackStatus extends Event {
      * @param diePosition position in the single round
      * @return a die or null in case of invalid position
      */
-    public Pair getDie(int round, int diePosition)
+    public IntColorPair getDie(int round, int diePosition)
     {
         try {
             return dice[round][diePosition];
@@ -62,7 +61,7 @@ public class RoundTrackStatus extends Event {
      * Getter for all the round track's dice
      * @return all round track content
      */
-    public Pair[][] getDice() {
+    public IntColorPair[][] getDice() {
         return dice;
     }
 
@@ -80,12 +79,12 @@ public class RoundTrackStatus extends Event {
      * @param round round position
      * @return a list of dide or null in case of invalid position
      */
-    public Pair[] getRound(int round) {
+    public IntColorPair[] getRound(int round) {
         try {
             return dice[round];
         } catch (IndexOutOfBoundsException e)
         {
-            return new Pair[9];
+            return new IntColorPair[9];
         }
     }
 }

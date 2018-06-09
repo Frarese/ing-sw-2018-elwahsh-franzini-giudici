@@ -2,7 +2,7 @@ package it.polimi.se2018.view.tools.cli.command;
 
 import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.app.CLIApp;
 import org.junit.Test;
@@ -45,17 +45,17 @@ public class CommandAddDieTest extends AbsCommandTest {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         app = new FakeApp();
 
-        Pair<Integer, ColorModel>[] fakeReserve = new Pair[1];
-        fakeReserve[0] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[] fakeReserve = new IntColorPair[1];
+        fakeReserve[0] = new IntColorPair(1, ColorModel.RED);
         app.getReserveViewCreator().setReserve(fakeReserve);
 
-        Pair<Integer, ColorModel>[][] fakePattern = new Pair[1][2];
-        Pair<Integer, ColorModel>[][] fakeGrid = new Pair[1][2];
-        fakePattern = new Pair[1][2];
-        fakePattern[0][0] = new Pair<>(1, ColorModel.RED);
-        fakePattern[0][1] = new Pair<>(1, ColorModel.RED);
-        fakeGrid[0][0] = new Pair<>(1, ColorModel.RED);
-        fakeGrid[0][1] = new Pair<>(1, ColorModel.RED);
+        IntColorPair[][] fakePattern = new IntColorPair[1][2];
+        IntColorPair[][] fakeGrid = new IntColorPair[1][2];
+        fakePattern = new IntColorPair[1][2];
+        fakePattern[0][0] = new IntColorPair(1, ColorModel.RED);
+        fakePattern[0][1] = new IntColorPair(1, ColorModel.RED);
+        fakeGrid[0][0] = new IntColorPair(1, ColorModel.RED);
+        fakeGrid[0][1] = new IntColorPair(1, ColorModel.RED);
         app.getGridViewCreator().setGridPattern(fakePattern);
         app.getGridViewCreator().setGrid(fakeGrid);
 

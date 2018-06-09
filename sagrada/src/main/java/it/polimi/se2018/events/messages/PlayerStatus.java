@@ -1,10 +1,10 @@
 package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.Event;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.dice.Die;
 import it.polimi.se2018.model.dice.Grid;
-import it.polimi.se2018.util.Pair;
 
 /**
  * Update on player status
@@ -16,7 +16,7 @@ public class PlayerStatus extends Event {
     private final int id;
     private final int favourPoints;
 
-    private final Pair[][] grid = new Pair[Grid.WIDTH][Grid.HEIGHT];
+    private final IntColorPair[][] grid = new IntColorPair[Grid.WIDTH][Grid.HEIGHT];
     private final boolean firstTurnPlacement;
     private final boolean secondTurnPlacement;
     private final boolean firstTurnCard;
@@ -36,7 +36,7 @@ public class PlayerStatus extends Event {
             for(int j =0; j<Grid.WIDTH; j++) {
                 Die d;
                 if((d = player.getGrid().getDie(i,j)) != null)
-                grid[i][j] = new Pair<>(d.getColor(),d.getValue()); }
+                grid[i][j] = new IntColorPair(d.getValue(),d.getColor()); }
 
 
         this.firstTurnPlacement = player.canPlaceOnThisTurn(true);
@@ -53,7 +53,7 @@ public class PlayerStatus extends Event {
      * Getter for grid status
      * @return grid status
      */
-    public Pair[][] getGrid() {
+    public IntColorPair[][] getGrid() {
         return grid;
     }
 
