@@ -16,6 +16,7 @@ public class TurnStart extends Event {
     public TurnStart(String playerName)
     {
          this.name = playerName;
+         this.description = "TurnStart";
     }
 
     /**

@@ -63,6 +63,15 @@ public interface ServerMessageHandler {
             case "MatchStart":
                 app.initGame(players,reserve,roundTrack);
                 break;
+            case "TurnStart":
+                TurnStart start = (TurnStart) message;
+                if(start.getName().equals(controller.getLocalPlayer()))
+                {
+                    app.startTurn();
+                }
+                else
+                    app.passTurnResult(true);
+                break;
             default:
 
         }

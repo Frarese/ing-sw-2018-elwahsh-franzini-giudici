@@ -44,6 +44,7 @@ public class ServerController implements MatchController, Runnable {
     private final ArrayList<PatternCard> patternSent = new ArrayList<>();
     private int playersReady = 0;
     private final Thread t;
+    private final ArrayList<PrivateObjectiveCard> privateObjectiveSent = new ArrayList<>();
 
 
     /**
@@ -135,6 +136,8 @@ public class ServerController implements MatchController, Runnable {
         {
             if(offlinePlayers.contains(p) && p.getName().equals(username)) {
                 offlinePlayers.remove(p);
+                network.sendReq(new CardInfo(board.getTools(),board.getObjectives()),p.getName());
+                network.sendReq(new PrivateObjectiveStatus(privateObjectiveSent.get(mId.findPos(p.getName()))),p.getName());
                 sendMatchStatus(p);
             }
         }
@@ -303,8 +306,14 @@ public class ServerController implements MatchController, Runnable {
         Deck<PrivateObjectiveCard> deck = new Deck<>(temp);
         deck.shuffle();
 
+        for(int i =0; i<players.size();i++)
+            privateObjectiveSent.add(deck.draw(1).get(0));
+
         for(Player p: players)
-            network.sendReq(new PrivateObjectiveStatus(deck.draw(1).get(0)),p.getName());
+        {
+            network.sendReq(new PrivateObjectiveStatus(privateObjectiveSent.get(mId.findPos(p.getName()))),p.getName());
+        }
+
     }
 
     @Override
