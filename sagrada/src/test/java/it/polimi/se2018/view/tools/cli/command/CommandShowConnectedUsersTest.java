@@ -43,4 +43,16 @@ public class CommandShowConnectedUsersTest extends AbsCommandTest {
 
         assertEquals(returnString, savedStream.toString().replaceAll(regexControl, emptyString));
     }
+
+    @Test
+    public void testDoActionNothing() {
+        app = new FakeApp();
+
+        CommandShowConnectedUsers commandShowConnectedUsers = new CommandShowConnectedUsers(app);
+        commandShowConnectedUsers.doAction();
+
+        String returnString = "Lista utenti connessi al momento non disponibile";
+
+        assertEquals(returnString, savedStream.toString().replaceAll(regexControl, emptyString));
+    }
 }

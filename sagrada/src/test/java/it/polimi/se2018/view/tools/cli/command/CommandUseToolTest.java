@@ -47,7 +47,7 @@ public class CommandUseToolTest extends AbsCommandTest {
 
         @Override
         public void useToolCard(int card) {
-            assertEquals(20,card);
+            assertEquals(20, card);
         }
     }
 
@@ -55,11 +55,16 @@ public class CommandUseToolTest extends AbsCommandTest {
         private FakeApp() {
             super(new FakeViewAction(null), new ViewToolCardActions(null), new ViewMessage(null));
         }
+
+        @Override
+        public void menu() {
+            assert true;
+        }
     }
 
     @Test
     public void testDoAction() {
-        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "1" + enter + "80" + enter + "0" + enter;
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "1" + enter + "80" + enter + 0 + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         app = new FakeApp();
@@ -69,7 +74,7 @@ public class CommandUseToolTest extends AbsCommandTest {
         cards.add(new SingleCardView(20, 1));
         cards.add(new SingleCardView(25, 1));
 
-        app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1,1));
+        app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1, 1));
         app.getCardViewCreator().setPublicObjectiveCards(cards);
         app.getCardViewCreator().setToolCards(cards);
 

@@ -19,6 +19,7 @@ public class CommandRefreshLobby extends CLICommand {
         this.app.getPrinter().print("Sei sicuro di voler ricaricare la lobby?");
         if (this.app.getReader().chooseYes()) {
             this.app.getViewActions().askLobby();
+            new Thread(this.app::createLobby).start();
         } else {
             this.app.menu();
         }

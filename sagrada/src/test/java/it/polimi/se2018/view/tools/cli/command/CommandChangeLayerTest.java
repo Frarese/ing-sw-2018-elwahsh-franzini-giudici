@@ -94,6 +94,11 @@ public class CommandChangeLayerTest extends AbsCommandTest {
         private FakeApp2() {
             super(new FakeViewAction2(null), new ViewToolCardActions(null), new ViewMessage(null));
         }
+        
+        @Override
+        public void menu() {
+            assert true;
+        }
     }
 
     @Test
@@ -103,6 +108,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
 
         app = new FakeApp2();
         app.startLogin(false);
+        app.loginResult(true, null);
 
         CommandChangeLayer commandChangeLayer = new CommandChangeLayer(app);
         commandChangeLayer.doAction();
@@ -115,6 +121,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
 
         app = new FakeApp();
         app.startLogin(false);
+        app.loginResult(true, null);
 
         CommandChangeLayer commandChangeLayer = new CommandChangeLayer(app);
         commandChangeLayer.doAction();

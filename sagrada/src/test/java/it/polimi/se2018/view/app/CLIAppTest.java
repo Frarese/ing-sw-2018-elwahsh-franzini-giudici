@@ -578,7 +578,7 @@ public class CLIAppTest {
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
-        this.app.loginResult(true, null);
+        this.app.startLogin(false);
 
         this.app.addUpdate("Test", 1, 1);
     }
@@ -589,7 +589,7 @@ public class CLIAppTest {
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
-        this.app.loginResult(true, null);
+        this.app.startLogin(false);
 
         Pair<Integer, ColorModel>[][] fakeGrid = new Pair[1][1];
         fakeGrid[0][0] = new Pair<>(1, ColorModel.RED);
@@ -629,17 +629,17 @@ public class CLIAppTest {
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
-        this.app.loginResult(true, null);
+        this.app.startLogin(false);
 
         List<SingleCardView> cards = new ArrayList<>();
         cards.add(new SingleCardView(10, 1));
         cards.add(new SingleCardView(12, 1));
 
-        this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1,1));
+        this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1, 1));
         this.app.getCardViewCreator().setPublicObjectiveCards(cards);
         this.app.getCardViewCreator().setToolCards(cards);
 
-        this.app.useToolCardUpdate("Test",10);
+        this.app.useToolCardUpdate("Test", 10);
     }
 
     @Test
@@ -648,20 +648,20 @@ public class CLIAppTest {
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
-        this.app.loginResult(true, null);
+        this.app.startLogin(false);
 
         List<SingleCardView> cards = new ArrayList<>();
         cards.add(new SingleCardView(10, 1));
         cards.add(new SingleCardView(12, 1));
 
-        this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1,1));
+        this.app.getCardViewCreator().setPrivateObjectiveCard(new SingleCardView(1, 1));
         this.app.getCardViewCreator().setPublicObjectiveCards(cards);
         this.app.getCardViewCreator().setToolCards(cards);
 
         PlayerState playerState = new PlayerState("Other", 1, 1, null, null, false, false);
         this.app.players.add(playerState);
 
-        this.app.useToolCardUpdate("Other",10);
+        this.app.useToolCardUpdate("Other", 10);
     }
 
     @Test
@@ -694,7 +694,7 @@ public class CLIAppTest {
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
-        this.app.loginResult(true, null);
+        this.app.startLogin(false);
 
         this.app.passTurnUpdate("Test");
     }
@@ -705,7 +705,7 @@ public class CLIAppTest {
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         testSetApp(new FakeViewAction(null));
-        this.app.loginResult(true, null);
+        this.app.startLogin(false);
 
         PlayerState playerState = new PlayerState("Other", 1, 1, null, null, false, false);
         this.app.players.add(playerState);
@@ -938,6 +938,7 @@ public class CLIAppTest {
         this.app.startLogin(false);
         this.app.loginResult(false, null);
         this.app.changeLayerResult(false);
+        this.app.createLobby();
         this.app.logoutResult(false);
         this.app.leaveMatchResult(false);
         this.app.askPattern(null, null, null, null, cardView);
@@ -981,7 +982,14 @@ public class CLIAppTest {
         }
     }
 
-    private class CLIAppMock extends CLIApp{
+    @Test
+    public void testAbortMatch(){
+        testSetApp(new FakeViewAction(null));
+
+        app.abortMatch();
+    }
+
+    private class CLIAppMock extends CLIApp {
 
         CLIAppMock(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
             super(viewActions, viewToolCardActions, viewMessage);

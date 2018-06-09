@@ -450,6 +450,7 @@ public class CLIApp extends App {
 
         //Check if is my ID
         if (playerName.equals(this.ownerPlayerName)) {
+
             this.useToolCardResult(true, null);
             return;
         }
@@ -526,7 +527,8 @@ public class CLIApp extends App {
     public void abortMatch() {
         this.reader.reset();
         this.isYourTurn = false;
-        this.createLobby();
+        this.viewActions.askLobby();
+        new Thread(this::createLobby).start();
     }
 
     @Override

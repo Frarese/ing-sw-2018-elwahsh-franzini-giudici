@@ -63,7 +63,6 @@ public class CLIReader {
         //Ask option
         printer.print("[Y=si, N= no]");
         String response = scanner.next();
-        reset();
 
         //Upper case
         response = response.toUpperCase();
