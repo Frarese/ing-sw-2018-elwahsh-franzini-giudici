@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Francesco Franzini
  */
 public class SocketLoginRequest implements Serializable {
-    private static final String TO_MATCH ="[a-zA-Z]+";
+    private static final String TO_MATCH ="^[a-zA-Z][a-zA-Z0-9]*";
     public final String username;
     public final String password;
     public final boolean isRecovery;

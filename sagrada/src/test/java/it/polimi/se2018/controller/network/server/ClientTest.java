@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.network.server;
 
 import it.polimi.se2018.controller.network.AbsReq;
+import it.polimi.se2018.controller.network.ChangeCLayerRequest;
 import it.polimi.se2018.controller.network.KeepAliveRequest;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.SafeSocket;
@@ -31,7 +32,7 @@ public class ClientTest {
         s=new ServerMain(0,0
                 ,0,"a",InetAddress.getLocalHost(),new MockFactory());
 
-        uut=new Client("usn",s);
+        uut=new ClientMock();
 
         Field f=Client.class.getDeclaredField("outObjQueue");
         f.setAccessible(true);
@@ -141,6 +142,7 @@ public class ClientTest {
 
     @Test
     public void testZombiefy() throws Exception{
+        uut=new Client("test",s);
         uut.createSocketComm(new SafeSocket(100),new SafeSocket(100));
         uut.zombiefy(false,null);
         assertFalse(uut.sendReq(new KeepAliveRequest()));
@@ -159,6 +161,17 @@ public class ClientTest {
         @Override
         public MatchController buildMatch(MatchIdentifier mId, MatchNetworkInterface network) {
             return null;
+        }
+    }
+
+    private class ClientMock extends Client{
+        ClientMock(){
+            super("usn",s);
+        }
+
+        @Override
+        public void zombiefy(boolean notifyMatchPlayers, ChangeCLayerRequest cReq) {
+
         }
     }
 }

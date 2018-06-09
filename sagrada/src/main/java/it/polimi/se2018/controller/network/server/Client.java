@@ -220,6 +220,8 @@ public class Client {
      */
     public void zombiefy(boolean notifyMatchPlayers, ChangeCLayerRequest cReq) {
         logger.log(Level.FINE,"Zombiefying {0}", usn);
+        outQueueEmpReq.stop();
+        outQueueEmpObj.stop();
         if(cReq!=null)this.sendReq(cReq);
         if(this.cComm==null)return;
         this.cComm.terminate();
@@ -329,6 +331,7 @@ public class Client {
             if(!result){
                 logger.log(Level.WARNING,"Failed to send object {0}",obj);
                 this.pushObjBack(obj);
+                this.zombiefy(false,null);
             }
         } catch (InterruptedException e) {
             logger.log(Level.SEVERE,"Interrupted processing out obj "+e.getMessage());
@@ -363,6 +366,7 @@ public class Client {
             if(!result){
                 logger.log(Level.WARNING,"Failed to send request {0}",req);
                 this.pushRequestBack(req);
+                this.zombiefy(false,null);
             }
         } catch (InterruptedException e) {
             logger.log(Level.SEVERE,"Interrupted processing out request "+e.getMessage());

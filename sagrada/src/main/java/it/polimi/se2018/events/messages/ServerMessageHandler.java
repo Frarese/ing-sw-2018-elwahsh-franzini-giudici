@@ -37,7 +37,7 @@ public interface ServerMessageHandler {
             case "CardInfo":
                 CardInfo cardInfo = (CardInfo) message;
                 cards.setCardView(cardInfo);
-
+                app.initGame(players,reserve,roundTrack);
                 break;
             case "PrivateObjective":
                 PrivateObjectiveStatus privateObjectiveStatus = (PrivateObjectiveStatus) message;

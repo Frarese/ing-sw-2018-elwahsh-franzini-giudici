@@ -43,6 +43,7 @@ public class ServerController implements MatchController, Runnable {
     private static final int TIME = 90000;
     private final ArrayList<PatternCard> patternSent = new ArrayList<>();
     private int playersReady = 0;
+    private final Thread t;
 
 
     /**
@@ -66,6 +67,8 @@ public class ServerController implements MatchController, Runnable {
         this.round = new Round(this.players);
         this.inBus = new EventBus();
         new Thread(inBus, "eventBus" + mId.hashCode()).start();
+        t=new Thread(this);
+        t.start();
         this.network = network;
     }
 
@@ -122,6 +125,7 @@ public class ServerController implements MatchController, Runnable {
     @Override
     public void kill() {
         inBus.stopListening();
+        t.interrupt();
     }
 
     @Override
@@ -307,7 +311,6 @@ public class ServerController implements MatchController, Runnable {
 
         for(Player p: players)
             sendMatchStatus(p);
-
         network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
         sendPrivateObjectives();
 

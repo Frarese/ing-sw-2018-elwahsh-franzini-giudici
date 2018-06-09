@@ -74,7 +74,6 @@ public class ClientController implements CommUtilizer {
             players.add(new PlayerView(mId.player2,2));
         if(mId.playerCount >3)
             players.add(new PlayerView(mId.player3,3));
-        app.initGame(players,reserve,roundTrack);
 
     }
 

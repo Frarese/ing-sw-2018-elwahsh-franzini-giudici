@@ -107,14 +107,14 @@ class SocketServer extends ServerComm {
         Serializable reqSer=ss.receive();
         if(reqSer==null)return null;
         if(!reqSer.getClass().equals(SocketLoginRequest.class)){
-            logger.log(Level.FINEST,"A Client is sending malformed login object");
+            logger.log(Level.FINEST,"A Client is sending malformed login object "+reqSer.getClass());
             ss.close(true);
             return null;
         }
 
         SocketLoginRequest req=(SocketLoginRequest)reqSer;
         if(!req.isValid()){
-            logger.log(Level.FINEST,"A Client is sending malformed login object");
+            logger.log(Level.FINEST,"A Client is sending an invalid login object");
             ss.send(LoginResponsesEnum.MALFORMED_REQUEST);
             ss.close(true);
             return null;
