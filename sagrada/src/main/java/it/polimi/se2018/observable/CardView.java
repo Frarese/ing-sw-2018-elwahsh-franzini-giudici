@@ -13,8 +13,8 @@ public class CardView extends Observable {
      * Class attributes
      */
     private SingleCardView privateObjectiveCard;
-    private List<SingleCardView> publicObjectiveCards = new ArrayList<>();
-    private List<SingleCardView> toolCards = new ArrayList<>();
+    private List<SingleCardView> publicObjectiveCards;
+    private List<SingleCardView> toolCards;
 
     public CardView(SingleCardView privateObjectiveCard, List<SingleCardView> publicObjectiveCards, List<SingleCardView> toolCards) {
         this.privateObjectiveCard = privateObjectiveCard;
@@ -25,6 +25,8 @@ public class CardView extends Observable {
 
     public void setCardView(CardInfo info)
     {
+        publicObjectiveCards=new ArrayList<>();
+        toolCards=new ArrayList<>();
         for(int i= 0; i<3;i++)
         {
             this.publicObjectiveCards.add(new SingleCardView(info.getObjectives()[i],0));
@@ -46,7 +48,7 @@ public class CardView extends Observable {
         return publicObjectiveCards;
     }
 
-    public void setPublicObjectiveCards(List<SingleCardView> publicObjectiveCards) {
+    void setPublicObjectiveCards(List<SingleCardView> publicObjectiveCards) {
         this.publicObjectiveCards = publicObjectiveCards;
         this.uniqueNotify();
     }
@@ -55,7 +57,7 @@ public class CardView extends Observable {
         return toolCards;
     }
 
-    public void setToolCards(List<SingleCardView> toolCards) {
+    void setToolCards(List<SingleCardView> toolCards) {
         this.toolCards = toolCards;
         this.uniqueNotify();
     }

@@ -26,9 +26,9 @@ public class ClientController implements CommUtilizer {
 
     private String localPlayer;
     private final App app;
-    private ArrayList<PlayerView> players = new ArrayList<>();
-    private ReserveView reserve = new ReserveView(new Pair[9]);
-    private RoundTrackerView roundTrack = new RoundTrackerView(0,new Pair[9][10]);
+    private ArrayList<PlayerView> players;
+    private ReserveView reserve;
+    private RoundTrackerView roundTrack;
     private CardView cards;
     private MatchIdentifier mId;
     private ArrayList<PatternView> patternsReceived;
@@ -67,7 +67,7 @@ public class ClientController implements CommUtilizer {
 
     @Override
     public void notifyMatchStart() {
-
+        cleanUp();
         players.add(new PlayerView(mId.player0,0));
         players.add(new PlayerView(mId.player1,1));
         if(mId.playerCount >2)
@@ -162,6 +162,7 @@ public class ClientController implements CommUtilizer {
         reserve = new ReserveView(new Pair[9]);
         roundTrack = new RoundTrackerView(0,new Pair[9][10]);
         cards = new CardView(null,null,null);
+        patternsReceived=new ArrayList<>();
     }
 
 

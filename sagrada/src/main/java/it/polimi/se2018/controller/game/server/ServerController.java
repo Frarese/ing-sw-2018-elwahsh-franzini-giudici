@@ -78,6 +78,7 @@ public class ServerController implements MatchController, Runnable {
      */
     private void startMatch()
     {
+        network.sendObj(new MatchStart());
         board.rollDiceOnReserve(players.size());
         for(Player p: players)
             sendMatchStatus(p);
@@ -282,13 +283,13 @@ public class ServerController implements MatchController, Runnable {
 
         Deck<PatternCard> deck = new Deck<>(temp);
         deck.shuffle();
+        patternSent.addAll(deck.draw(mId.playerCount*2));
         for(Player p: players)
         {
-           patternSent.addAll(deck.draw(2));
-           for(int i = p.getId()*2; i< p.getId()*2+2;i++) {
-               network.sendReq(new PatternSelect(patternSent.get(i).getFrontSide()),p.getName());
-               network.sendReq(new PatternSelect(patternSent.get(i).getBackSide()),p.getName());
-           }
+            for(int i = p.getId()*2; i< p.getId()*2+2;i++) {
+                network.sendReq(new PatternSelect(patternSent.get(i).getFrontSide()),p.getName());
+                network.sendReq(new PatternSelect(patternSent.get(i).getBackSide()),p.getName());
+            }
         }
     }
 

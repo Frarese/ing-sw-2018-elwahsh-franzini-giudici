@@ -37,7 +37,6 @@ public interface ServerMessageHandler {
             case "CardInfo":
                 CardInfo cardInfo = (CardInfo) message;
                 cards.setCardView(cardInfo);
-                app.initGame(players,reserve,roundTrack);
                 break;
             case "PrivateObjective":
                 PrivateObjectiveStatus privateObjectiveStatus = (PrivateObjectiveStatus) message;
@@ -59,6 +58,10 @@ public interface ServerMessageHandler {
 
             case "Pattern":
                 controller.addPatternView((PatternSelect) message);
+                break;
+
+            case "MatchStart":
+                app.initGame(players,reserve,roundTrack);
                 break;
             default:
 

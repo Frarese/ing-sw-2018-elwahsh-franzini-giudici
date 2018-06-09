@@ -239,6 +239,7 @@ public class CLIApp extends App {
         cardView.addObserver(cardViewObserver);
 
         //Save current player state
+
         this.cardViewCreator.setPrivateObjectiveCard(cardView.getPrivateObjectiveCard());
         this.cardViewCreator.setPublicObjectiveCards(cardView.getPublicObjectiveCards());
         this.cardViewCreator.setToolCards(cardView.getToolCards());
