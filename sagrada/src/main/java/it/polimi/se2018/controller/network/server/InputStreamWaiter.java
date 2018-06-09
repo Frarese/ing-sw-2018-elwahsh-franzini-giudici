@@ -36,10 +36,10 @@ class InputStreamWaiter extends ThreadHandler {
     protected void methodToCall() throws InterruptedException {
         Serializable obj=sSocket.receive();
         if(isReq){
-            logger.log(Level.INFO,"Received request from user {0}",obj);
+            logger.log(Level.FINEST,"Received request from user {0}",obj);
             cComm.pushInReq((AbsReq)obj);
         }else{
-            logger.log(Level.INFO,"Received object from user {0}",obj);
+            logger.log(Level.FINEST,"Received object from user {0}",obj);
             cComm.pushInObj(obj);
         }
     }

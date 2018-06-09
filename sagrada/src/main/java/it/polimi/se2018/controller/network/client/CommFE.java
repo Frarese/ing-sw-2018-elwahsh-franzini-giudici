@@ -5,6 +5,8 @@ import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Represents the Client Front End of the network architecture
@@ -75,7 +77,11 @@ public class CommFE {
      * @param objPort object port to use, ignored if RMI
      */
     public void changeLayer(boolean toRMI, int reqPort,int objPort) {
-        comm.changeLayer(toRMI,reqPort,objPort);
+        try {
+            comm.changeLayer(toRMI, reqPort, objPort);
+        }catch (IllegalArgumentException e){
+            Logger.getGlobal().log(Level.WARNING,"Invalid arguments for layer change "+reqPort+" "+objPort);
+        }
     }
 
     /**

@@ -147,6 +147,7 @@ public class CLIApp extends App {
             this.commands.add(0, new CommandChangeLayer(this));
 
             this.viewActions.askLobby();
+            new Thread(this::createLobby).start();
         } else {
             printer.print("Login NON riuscito! Riprova.");
             printer.print(error);

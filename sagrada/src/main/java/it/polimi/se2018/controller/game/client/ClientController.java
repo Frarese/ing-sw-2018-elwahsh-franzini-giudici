@@ -91,7 +91,6 @@ public class ClientController implements CommUtilizer {
     @Override
     public void pushUserList(List<ScoreEntry> list) {
         app.pullConnectedPlayers(list);
-        app.createLobby();
     }
 
     @Override

@@ -173,7 +173,7 @@ public class CLIAppTest {
      */
 
     private void testSetApp(ViewActions fakeViewAction) {
-        this.app = new CLIApp(fakeViewAction, new FakeViewToolActions(), new ViewMessage(null));
+        this.app = new CLIAppMock(fakeViewAction, new FakeViewToolActions(), new ViewMessage(null));
         this.app.animation(true);
     }
 
@@ -978,6 +978,18 @@ public class CLIAppTest {
         Field fields[] = instance.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             assertEquals(fields[i], this.app.getGridViewCreator().getClass().getDeclaredFields()[i]);
+        }
+    }
+
+    private class CLIAppMock extends CLIApp{
+
+        CLIAppMock(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
+            super(viewActions, viewToolCardActions, viewMessage);
+        }
+
+        @Override
+        public void menu() {
+
         }
     }
 }
