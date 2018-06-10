@@ -10,14 +10,14 @@ import it.polimi.se2018.model.cards.ActiveTools;
  */
 public class CardInfo extends Event {
 
-    private int[] tools = new int[3];
-    private int[] toolCost = new int[3];
-    private int[] objectives = new int[3];
+    private final int[] tools = new int[3];
+    private final int[] toolCost = new int[3];
+    private final int[] objectives = new int[3];
 
     /**
      * Class' constructor
-     * @param t tool's in game
-     * @param o objective's in game
+     * @param t tools in game
+     * @param o objectives in game
      */
     public CardInfo(ActiveTools t, ActiveObjectives o)
     {

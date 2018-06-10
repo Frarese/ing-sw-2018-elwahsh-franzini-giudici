@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.network;
 
 import it.polimi.se2018.controller.network.client.CommUtilizer;
+import it.polimi.se2018.controller.network.server.ServerVisitor;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.MessageTypes;
 import it.polimi.se2018.util.ScoreEntry;
@@ -14,6 +15,7 @@ import static org.junit.Assert.*;
 public class UserReconnectedRequestTest {
     private UserReconnectedRequest uut;
     private String name;
+    private boolean called;
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalArgument() {
@@ -26,6 +28,10 @@ public class UserReconnectedRequestTest {
         assertTrue(uut.checkValid());
         uut.clientHandle(null,new UtilizerMock());
         assertEquals("test",name);
+
+        called=false;
+        uut.serverVisit(new VisitorMock());
+        assertTrue(called);
     }
     private class UtilizerMock implements CommUtilizer{
 
@@ -92,6 +98,84 @@ public class UserReconnectedRequestTest {
         @Override
         public void notifyUserReconnected(String usn) {
             name=usn;
+        }
+    }
+
+    private class VisitorMock implements ServerVisitor{
+
+        @Override
+        public void handle(ChangeCLayerRequest c) {
+
+        }
+
+        @Override
+        public void handle(ChatMessageRequest c) {
+
+        }
+
+        @Override
+        public void handle(ClientRequest c) {
+
+        }
+
+        @Override
+        public void handle(GetLeaderBoardRequest c) {
+
+        }
+
+        @Override
+        public void handle(KeepAliveRequest c) {
+
+        }
+
+        @Override
+        public void handle(LeaveMatchRequest c) {
+
+        }
+
+        @Override
+        public void handle(ListUsersRequest c) {
+
+        }
+
+        @Override
+        public void handle(LogoutRequest c) {
+
+        }
+
+        @Override
+        public void handle(MatchAbortedRequest c) {
+
+        }
+
+        @Override
+        public void handle(MatchBeginRequest c) {
+
+        }
+
+        @Override
+        public void handle(MatchEndedRequest c) {
+
+        }
+
+        @Override
+        public void handle(MatchInviteRequest c) {
+
+        }
+
+        @Override
+        public void handle(MatchmakingRequest c) {
+
+        }
+
+        @Override
+        public void handle(MatchResponseRequest c) {
+
+        }
+
+        @Override
+        public void handle(UserReconnectedRequest c) {
+            called=true;
         }
     }
 }

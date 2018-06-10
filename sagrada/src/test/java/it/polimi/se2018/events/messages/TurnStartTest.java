@@ -10,6 +10,7 @@ public class TurnStartTest {
     @Test
     public void testGetter()
     {
+        assertEquals("Marco",test.getOldPlayer());
         assertEquals("Carlo", test.getName());
     }
 

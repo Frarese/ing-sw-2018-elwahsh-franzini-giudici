@@ -32,6 +32,7 @@ public class RoundTrackStatus extends Event {
                 if(t.getDie(i,j) != null)
                 {
                     dice[i][j] =new IntColorPair(t.getDie(i,j).getValue(),t.getDie(i,j).getColor());
+                    i++;
                 }
                 else
                     done = true;
@@ -77,7 +78,7 @@ public class RoundTrackStatus extends Event {
     /**
      *
      * @param round round position
-     * @return a list of dide or null in case of invalid position
+     * @return a list of dice or null in case of invalid position
      */
     public IntColorPair[] getRound(int round) {
         try {

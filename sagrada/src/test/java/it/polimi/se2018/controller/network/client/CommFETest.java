@@ -56,7 +56,10 @@ public class CommFETest {
     @Test
     public void testChangeLayer() {
         uut.changeLayer(false,0,0);
+
         assertEquals("false:0:0",obj);
+
+        uut.changeLayer(true,1,-1);
     }
 
     @Test
@@ -171,6 +174,7 @@ public class CommFETest {
 
         @Override
         public void changeLayer(boolean toRMI, int reqPort,int objPort){
+            if(toRMI&& objPort<0)throw new IllegalArgumentException();
             obj=toRMI+":"+reqPort+":"+objPort;
         }
 

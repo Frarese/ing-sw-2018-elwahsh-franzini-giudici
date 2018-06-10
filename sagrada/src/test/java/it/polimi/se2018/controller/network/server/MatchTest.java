@@ -121,6 +121,8 @@ public class MatchTest {
     public void testHandle(){
         uut.handleReq(null,null);
         assertTrue(handled);
+
+        new UserReconnectedRequest("test").serverVisit(new ServerVisitorImpl(null,null));
     }
 
     private class ClientTest extends Client{

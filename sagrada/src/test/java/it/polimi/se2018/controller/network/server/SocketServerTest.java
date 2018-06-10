@@ -116,6 +116,12 @@ public class SocketServerTest {
         assertFalse(sM.closed);
     }
 
+
+    @Test
+    public void testSocClientCommObj() throws Exception{
+        SocClientComm socComm=new SocClientComm(null,new SocketMock(),null);
+        assertTrue(socComm.sendObj("test"));
+    }
     private class SocketMock extends SafeSocket{
         boolean invalidClass=true;
         boolean invalidArgs=false;

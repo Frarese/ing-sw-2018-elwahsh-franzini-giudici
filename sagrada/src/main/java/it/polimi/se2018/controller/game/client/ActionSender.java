@@ -24,7 +24,7 @@ public class ActionSender {
      * @param objectPort  object port
      * @param username    player's username
      * @param password    player's password
-     * @param newUser     true if it's a nuew user
+     * @param newUser     true if it's a new user
      * @param useRMI      true if the user want's to use RMI, false for Socket
      * @return null if it's successful, an error otherwise
      */
