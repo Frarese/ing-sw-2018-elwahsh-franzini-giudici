@@ -32,5 +32,10 @@ public class PlayerViewObserver extends ModelObserver implements Observer {
                 this.app.getPlayers().add(i, playerState);
             }
         }
+
+        if (playerView.getPlayerName().equals(app.getOwnerPlayerName())) {
+            app.getGridViewCreator().setGridPattern(playerView.getPlayerTemplate());
+            app.getGridViewCreator().setGridPattern(playerView.getPlayerGrid());
+        }
     }
 }

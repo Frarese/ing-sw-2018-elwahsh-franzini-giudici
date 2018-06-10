@@ -36,8 +36,6 @@ public class CLIApp extends App {
     /**
      * Player Information variables
      */
-    private String ownerPlayerName;
-    private boolean useRMI;
     private boolean isYourTurn;
 
 
@@ -342,7 +340,6 @@ public class CLIApp extends App {
         this.commands.add(0, new CommandChangeLayer(this));
         this.commands.add(0, new CommandLeaveMatch(this));
         this.commands.add(0, new CommandWaitYourTurn(this));
-
 
         this.isYourTurn = false;
 
@@ -810,23 +807,5 @@ public class CLIApp extends App {
         } else {
             this.menuControl();
         }
-    }
-
-    /**
-     * Getter method for current player's name
-     *
-     * @return the player's name
-     */
-    public String getOwnerPlayerName() {
-        return ownerPlayerName;
-    }
-
-    /**
-     * Getter method for boolean value that represents current type of connection
-     *
-     * @return boolean value that represents if user is using RMI connection
-     */
-    public boolean useRMI() {
-        return useRMI;
     }
 }

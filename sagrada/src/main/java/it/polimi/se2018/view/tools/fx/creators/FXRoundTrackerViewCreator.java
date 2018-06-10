@@ -55,7 +55,9 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
             //Create die in comboBox
             if (i < round && roundTracker[i] != null) {
                 for (int j = 0; j < roundTracker[i].length; j++) {
-                    this.makeCellDie(roundTracker[i][j], comboBox);
+                    if (roundTracker[i][j] != null) {
+                        this.makeCellDie(roundTracker[i][j], comboBox);
+                    }
                 }
             } else {
                 comboBox.setDisable(true);

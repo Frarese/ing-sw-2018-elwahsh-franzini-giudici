@@ -1,6 +1,5 @@
 package it.polimi.se2018.view.tools.fx.alert;
 
-import it.polimi.se2018.view.app.JavaFXApp;
 import it.polimi.se2018.view.app.JavaFXStageProducer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,19 +7,13 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * Class to create change layer box to show to user
- *
- * @author Mathyas Giudici
- */
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class ChangeLayerBox {
+public class GameMenuBox {
 
-    /**
-     * Class constructor
-     */
-    private ChangeLayerBox(){
-        throw new IllegalStateException("Utility JavaFX class");
+    private GameMenuBox() {
+        throw new IllegalStateException("Utility class");
     }
 
     private static Stage window;
@@ -32,21 +25,21 @@ public class ChangeLayerBox {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setAlwaysOnTop(true);
 
-        window.setTitle("Cambio Connessione");
+        window.setTitle("Menu");
 
         FXMLLoader loader;
         Pane root;
-        //Trying to load FXML
         try {
-            loader = new FXMLLoader(JavaFXStageProducer.class.getResource("fxmlFiles/layerChange.fxml"));
+            loader = new FXMLLoader(JavaFXStageProducer.class.getResource("fxmlFiles/gameMenu.fxml"));
             root = loader.load();
 
             window.centerOnScreen();
             window.setScene(new Scene(root));
+
             //Current window must be close to come back to the caller
             window.showAndWait();
         } catch (Exception e) {
-            JavaFXApp.logFxmlLoadError(e.getMessage());
+            Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
         }
     }
 
@@ -56,3 +49,4 @@ public class ChangeLayerBox {
         }
     }
 }
+

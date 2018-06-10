@@ -44,16 +44,12 @@ public class ChangeLayerController {
      */
     @FXML
     public void validation() {
-        boolean isRMI = false;
-        int intRequestPort = -1;
-        int intObjectPort = -1;
-
         StringBuilder stringBuilder = new StringBuilder();
 
         checkConnection(rmiRadio, socketRadio, requestPort, objectPort, stringBuilder);
 
         if (stringBuilder.toString().equals(""))
-            this.changeLayerCall(isRMI, intRequestPort, intObjectPort);
+            this.changeLayerCall();
         else {
             String returnString = "ERRORI:\n" +
                     stringBuilder;
@@ -67,14 +63,15 @@ public class ChangeLayerController {
 
     /**
      * Tries a change layer request in the JavaFXApp
-     *
-     * @param isRMI       contains connection's type
-     * @param requestPort contains request port's number
-     * @param objectPort  contains object port's number
      */
-    private void changeLayerCall(boolean isRMI, int requestPort, int objectPort) {
+    private void changeLayerCall() {
         close.setDisable(true);
-        JavaFXStageProducer.getApp().getViewActions().changeLayer(isRMI, objectPort, requestPort);
+
+        if (rmiRadio.isSelected()) {
+            JavaFXStageProducer.getApp().getViewActions().changeLayer(true, -1, Integer.parseInt(requestPort.getText()));
+        } else {
+            JavaFXStageProducer.getApp().getViewActions().changeLayer(false, Integer.parseInt(objectPort.getText()), Integer.parseInt(requestPort.getText()));
+        }
     }
 
     /**

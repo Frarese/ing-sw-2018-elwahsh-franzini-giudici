@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.GridViewCreator;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
@@ -124,7 +125,11 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
                 if (toPrint[i][j] == null) {
                     currentString.append(fixPrintSpace(""));
                 } else {
-                    currentString.append(fixPrintSpace((String) dieViewCreator.makeDie(toPrint[i][j])));
+                    if (toPrint[i][j].getFirst() == 0 && toPrint[i][j].getSecond() == ColorModel.WHITE) {
+                        currentString.append(fixPrintSpace(""));
+                    } else {
+                        currentString.append(fixPrintSpace((String) dieViewCreator.makeDie(toPrint[i][j])));
+                    }
                 }
                 currentString.append("|");
             }

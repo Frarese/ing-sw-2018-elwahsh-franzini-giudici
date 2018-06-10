@@ -49,7 +49,7 @@ public class LoginController implements FXController {
         checkPassword(stringBuilder);
         checkServer(stringBuilder);
 
-        checkConnectioncheckConnection(rmiRadio, socketRadio, requestPort, objectPort, stringBuilder);
+        checkConnection(rmiRadio, socketRadio, requestPort, objectPort, stringBuilder);
 
         if (stringBuilder.toString().equals(""))
             this.loginCall();
@@ -85,7 +85,7 @@ public class LoginController implements FXController {
     }
 
 
-    private void checkConnectioncheckConnection(RadioButton rmiRadio, RadioButton socketRadio, TextField requestPort, TextField objectPort, StringBuilder stringBuilder) {
+    private void checkConnection(RadioButton rmiRadio, RadioButton socketRadio, TextField requestPort, TextField objectPort, StringBuilder stringBuilder) {
         ChangeLayerController.checkConnection(rmiRadio, socketRadio, requestPort, objectPort, stringBuilder);
     }
 

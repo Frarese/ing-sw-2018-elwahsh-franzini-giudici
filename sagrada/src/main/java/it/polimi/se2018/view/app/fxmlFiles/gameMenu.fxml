@@ -4,9 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="408.0" prefWidth="314.0" spacing="10.0" xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml/1">
+<VBox id="container" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="408.0" prefWidth="314.0" spacing="10.0"
+      stylesheets="/it/polimi/se2018/view/app/fxmlFiles/cssFiles/standardCSS.css" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.tools.fx.controller.GameMenuController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
@@ -15,9 +16,12 @@
             <Font name="System Bold" size="64.0"/>
         </font>
     </Label>
-    <Button defaultButton="true" layoutX="75.0" layoutY="174.0" mnemonicParsing="false" prefHeight="50.0"
-            prefWidth="185.0" text="Indietro"/>
-    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="185.0" text="Cambio Layer"/>
-    <Button layoutX="75.0" layoutY="258.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="185.0" text="Lobby"/>
-    <Button layoutX="75.0" layoutY="288.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="185.0" text="Uscita"/>
+    <Button defaultButton="true" layoutX="75.0" layoutY="174.0" mnemonicParsing="false" onAction="#close"
+            prefHeight="50.0" prefWidth="185.0" text="Indietro"/>
+    <Button mnemonicParsing="false" onAction="#changeLayer" prefHeight="50.0" prefWidth="185.0"
+            text="Cambio Layer"/>
+    <Button layoutX="75.0" layoutY="258.0" mnemonicParsing="false" onAction="#lobby" prefHeight="50.0"
+            prefWidth="185.0" text="Lobby"/>
+    <Button layoutX="75.0" layoutY="288.0" mnemonicParsing="false" onAction="#logout" prefHeight="50.0"
+            prefWidth="185.0" text="Uscita (Logout)"/>
 </VBox>

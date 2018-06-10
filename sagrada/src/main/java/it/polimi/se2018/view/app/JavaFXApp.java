@@ -11,13 +11,12 @@ import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
-import it.polimi.se2018.view.observer.CardViewObserver;
-import it.polimi.se2018.view.observer.PlayerState;
+import it.polimi.se2018.view.observer.*;
 import it.polimi.se2018.view.tools.DieViewCreator;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
 import it.polimi.se2018.view.tools.fx.alert.ChangeLayerBox;
 import it.polimi.se2018.view.tools.fx.controller.LobbyController;
-import it.polimi.se2018.view.tools.fx.controller.PatternSelectionController;
+import it.polimi.se2018.view.tools.fx.controller.ShowCardsController;
 import it.polimi.se2018.view.tools.fx.creators.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -41,8 +40,6 @@ public class JavaFXApp extends App {
     /**
      * Player Information variables
      */
-    private String ownerPlayerName;
-    private boolean useRMI;
     private boolean isYourTurn;
 
 
@@ -96,7 +93,7 @@ public class JavaFXApp extends App {
 
                 loadScene(false);
             } catch (Exception e) {
-                logFxmlLoadError();
+                logFxmlLoadError(e.getMessage());
             }
         } else {
             //Trying to load FXML
@@ -106,7 +103,7 @@ public class JavaFXApp extends App {
 
                 loadScene(true);
             } catch (Exception e) {
-                logFxmlLoadError();
+                logFxmlLoadError(e.getMessage());
             }
         }
     }
@@ -196,7 +193,7 @@ public class JavaFXApp extends App {
 
             loadScene(true);
         } catch (Exception e) {
-            logFxmlLoadError();
+            logFxmlLoadError(e.getMessage());
         }
 
 
@@ -225,23 +222,62 @@ public class JavaFXApp extends App {
 
         //Trying to load FXML
         try {
-            loader = new FXMLLoader(getClass().getResource("fxmlFiles/patternSelection.fxml"));
+            loader = new FXMLLoader(getClass().getResource("fxmlFiles/showCards.fxml"));
             root = loader.load();
 
             loadScene(true);
-        } catch (Exception e) {
-            logFxmlLoadError();
-        }
+            ShowCardsController showCardsController = loader.getController();
+            showCardsController.saveState(pattern1, pattern2, pattern3, pattern4);
+            showCardsController.display();
 
-        Platform.runLater(() -> {
-            PatternSelectionController patternSelectionController = (PatternSelectionController) JavaFXStageProducer.getController();
-            patternSelectionController.showPattern(pattern1, pattern2, pattern3, pattern4);
-        });
+        } catch (Exception e) {
+            logFxmlLoadError(e.getMessage());
+        }
     }
 
     @Override
     public void initGame(List<PlayerView> players, ReserveView reserveView, RoundTrackerView roundTrackerView) {
-        throw new UnsupportedOperationException();
+        //Adds PlayerView Observer
+        for (PlayerView playerView : players) {
+            PlayerViewObserver playerViewObserver = new PlayerViewObserver(this);
+            playerView.addObserver(playerViewObserver);
+            playerViewObserverList.add(playerViewObserver);
+        }
+
+        //Save current players states
+        for (PlayerView playerView : players) {
+            this.players.add(setState(playerView));
+        }
+
+        //Adds ReserveView Observer
+        reserveViewObserver = new ReserveViewObserver(this);
+        reserveView.addObserver(reserveViewObserver);
+
+        //Save current reserve state
+        this.reserveViewCreator.setReserve(reserveView.getReserve());
+
+        //Adds RoundTrackerView Observer
+        roundTrackerViewObserver = new RoundTrackerViewObserver(this);
+        roundTrackerView.addObserver(roundTrackerViewObserver);
+
+        //Save current round tracker state
+        this.roundTrackerViewCreator.setRound(roundTrackerView.getRound());
+        this.roundTrackerViewCreator.setRoundTracker(roundTrackerView.getRoundTracker());
+
+        this.isYourTurn = false;
+
+        //Trying to load FXML
+        try {
+            loader = new FXMLLoader(getClass().getResource("fxmlFiles/game.fxml"));
+            root = loader.load();
+
+            loadScene(true);
+            JavaFXStageProducer.getStage().setMaximized(true);
+        } catch (Exception e) {
+            logFxmlLoadError(e.getMessage());
+        }
+
+        this.viewActions.endInitGame();
     }
 
     @Override
@@ -507,25 +543,8 @@ public class JavaFXApp extends App {
     /**
      * Logs error message if FXML hasn't been loaded
      */
-    public static void logFxmlLoadError() {
-        Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
-    }
-
-    /**
-     * Getter method for current player's name
-     *
-     * @return the player's name
-     */
-    public String getOwnerPlayerName() {
-        return ownerPlayerName;
-    }
-
-    /**
-     * Getter method for boolean value that represents current type of connection
-     *
-     * @return boolean value that represents if user is using RMI connection
-     */
-    public boolean useRMI() {
-        return useRMI;
+    public static void logFxmlLoadError(String error) {
+        String message = "Non sono riuscito a caricare FXML: " + error;
+        Logger.getGlobal().log(Level.WARNING, message);
     }
 }

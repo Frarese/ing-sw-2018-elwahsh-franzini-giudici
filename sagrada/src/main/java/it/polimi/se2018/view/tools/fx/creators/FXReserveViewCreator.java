@@ -44,33 +44,35 @@ public class FXReserveViewCreator extends ReserveViewCreator<VBox, Image> {
 
         //Iterate on reserve
         for (int i = 0; i < reserve.length; i++) {
-            //Check iterator's index to set die in correct position on grid
-            if (i >= 3) {
-                if (i >= 6) {
-                    HBox row = (HBox) container.getChildren().get(2);
-                    VBox cell = (VBox) row.getChildren().get(i - 6);
-                    ImageView die = new ImageView((Image) dieViewCreator.makeDie(reserve[i]));
-                    die.setPreserveRatio(true);
-                    die.setFitWidth(cell.getWidth());
-                    die.setFitHeight(cell.getHeight());
-                    cell.getChildren().add(0, die);
+            if (reserve[i] != null) {
+                //Check iterator's index to set die in correct position on grid
+                if (i >= 3) {
+                    if (i >= 6) {
+                        HBox row = (HBox) container.getChildren().get(2);
+                        VBox cell = (VBox) row.getChildren().get(i - 6);
+                        ImageView die = new ImageView((Image) dieViewCreator.makeDie(reserve[i]));
+                        die.setPreserveRatio(true);
+                        die.setFitWidth(cell.getWidth());
+                        die.setFitHeight(cell.getHeight());
+                        cell.getChildren().add(0, die);
+                    } else {
+                        HBox row = (HBox) container.getChildren().get(1);
+                        VBox cell = (VBox) row.getChildren().get(i - 3);
+                        ImageView die = new ImageView((Image) dieViewCreator.makeDie(reserve[i]));
+                        die.setPreserveRatio(true);
+                        die.setFitWidth(cell.getWidth());
+                        die.setFitHeight(cell.getHeight());
+                        cell.getChildren().add(0, die);
+                    }
                 } else {
-                    HBox row = (HBox) container.getChildren().get(1);
-                    VBox cell = (VBox) row.getChildren().get(i - 3);
+                    HBox row = (HBox) container.getChildren().get(0);
+                    VBox cell = (VBox) row.getChildren().get(i);
                     ImageView die = new ImageView((Image) dieViewCreator.makeDie(reserve[i]));
                     die.setPreserveRatio(true);
                     die.setFitWidth(cell.getWidth());
                     die.setFitHeight(cell.getHeight());
                     cell.getChildren().add(0, die);
                 }
-            } else {
-                HBox row = (HBox) container.getChildren().get(0);
-                VBox cell = (VBox) row.getChildren().get(i);
-                ImageView die = new ImageView((Image) dieViewCreator.makeDie(reserve[i]));
-                die.setPreserveRatio(true);
-                die.setFitWidth(cell.getWidth());
-                die.setFitHeight(cell.getHeight());
-                cell.getChildren().add(0, die);
             }
         }
 

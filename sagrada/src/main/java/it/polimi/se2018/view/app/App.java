@@ -24,7 +24,9 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     /**
      * App variables
      */
-    protected boolean animationEnable;
+    boolean animationEnable;
+    String ownerPlayerName;
+    protected boolean useRMI;
 
     /**
      * Game variables
@@ -209,5 +211,23 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
         return new PlayerState(playerView.getPlayerName(), playerView.getPlayerID(),
                 playerView.getPlayerFavours(), playerView.getPlayerTemplate(), playerView.getPlayerGrid(),
                 playerView.isFirstPlacementRights(), playerView.isFirstCardRights());
+    }
+
+    /**
+     * Getter method for current player's name
+     *
+     * @return the player's name
+     */
+    public String getOwnerPlayerName() {
+        return ownerPlayerName;
+    }
+
+    /**
+     * Getter method for boolean value that represents current type of connection
+     *
+     * @return boolean value that represents if user is using RMI connection
+     */
+    public boolean useRMI() {
+        return useRMI;
     }
 }
