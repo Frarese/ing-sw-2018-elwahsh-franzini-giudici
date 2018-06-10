@@ -20,7 +20,7 @@ public class CardViewObserver extends ModelObserver implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        CardView cardView = (CardView) arg;
+        CardView cardView = (CardView) o;
         this.app.getCardViewCreator().setPrivateObjectiveCard(cardView.getPrivateObjectiveCard());
         this.app.getCardViewCreator().setPublicObjectiveCards(cardView.getPublicObjectiveCards());
         this.app.getCardViewCreator().setToolCards(cardView.getToolCards());

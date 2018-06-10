@@ -20,7 +20,7 @@ public class PlayerViewObserver extends ModelObserver implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        PlayerView playerView = (PlayerView) arg;
+        PlayerView playerView = (PlayerView) o;
         PlayerState playerState = new PlayerState(playerView.getPlayerName(),
                 playerView.getPlayerID(), playerView.getPlayerFavours(), playerView.getPlayerTemplate(),
                 playerView.getPlayerGrid(), playerView.isFirstPlacementRights(), playerView.isFirstCardRights());

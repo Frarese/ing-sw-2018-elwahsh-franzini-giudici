@@ -1,10 +1,7 @@
 package it.polimi.se2018.controller.game.client;
 
 import it.polimi.se2018.controller.network.client.CommFE;
-import it.polimi.se2018.events.actions.DiePlacementMove;
-import it.polimi.se2018.events.actions.PassTurn;
-import it.polimi.se2018.events.actions.PatternChoice;
-import it.polimi.se2018.events.actions.UseToolCardMove;
+import it.polimi.se2018.events.actions.*;
 import it.polimi.se2018.util.MatchIdentifier;
 
 /**
@@ -15,7 +12,7 @@ import it.polimi.se2018.util.MatchIdentifier;
 public class ActionSender {
 
     private String username;
-    private CommFE network = new CommFE();
+    private final CommFE network = new CommFE();
     private ClientController controller;
 
 
@@ -109,7 +106,7 @@ public class ActionSender {
      * Communicates to the Controller that View ended init operations
      */
     public void endInitGame() {
-        throw new UnsupportedOperationException();
+        network.sendObj(new ReadyView(username));
     }
 
 

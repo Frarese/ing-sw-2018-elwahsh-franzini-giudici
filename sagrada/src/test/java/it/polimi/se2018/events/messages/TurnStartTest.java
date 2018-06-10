@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 public class TurnStartTest {
 
-    private final TurnStart test = new TurnStart("Carlo");
+    private final TurnStart test = new TurnStart("Marco","Carlo");
 
     @Test
     public void testGetter()

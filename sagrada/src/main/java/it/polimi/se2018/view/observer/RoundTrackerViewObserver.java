@@ -20,7 +20,7 @@ public class RoundTrackerViewObserver extends ModelObserver implements Observer 
 
     @Override
     public void update(Observable o, Object arg) {
-        RoundTrackerView roundTrackerView = (RoundTrackerView) arg;
+        RoundTrackerView roundTrackerView = (RoundTrackerView) o;
         this.app.getRoundTrackerViewCreator().setRound(roundTrackerView.getRound());
         this.app.getRoundTrackerViewCreator().setRoundTracker(roundTrackerView.getRoundTracker());
     }

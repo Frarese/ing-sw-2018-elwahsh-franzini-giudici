@@ -7,14 +7,16 @@ import it.polimi.se2018.events.Event;
  */
 public class TurnStart extends Event {
 
-    private String name;
+    private final String name;
+    private final String oldPlayer;
 
     /**
      * TurnStart's constructor
      * @param playerName new current player
      */
-    public TurnStart(String playerName)
+    public TurnStart(String oldPlayer, String playerName)
     {
+        this.oldPlayer = oldPlayer;
          this.name = playerName;
          this.description = "TurnStart";
     }
@@ -25,5 +27,14 @@ public class TurnStart extends Event {
      */
     public String getName() {
         return name;
+    }
+
+
+    /**
+     * Getter for previous player
+     * @return previous player
+     */
+    public String getOldPlayer() {
+        return oldPlayer;
     }
 }

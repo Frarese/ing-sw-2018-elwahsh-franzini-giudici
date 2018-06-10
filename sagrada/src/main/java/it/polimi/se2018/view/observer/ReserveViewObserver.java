@@ -20,7 +20,7 @@ public class ReserveViewObserver extends ModelObserver implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        ReserveView reserveView = (ReserveView) arg;
+        ReserveView reserveView = (ReserveView) o;
         this.app.getReserveViewCreator().setReserve(reserveView.getReserve());
     }
 }

@@ -30,6 +30,8 @@ public interface ServerMessageHandler {
                         p.setSecondCardRights(playerStatus.isSecondTurnCard());
                         p.setSecondPlacementRights(playerStatus.isSecondTurnPlacement());
                         p.setPlayerFavours(playerStatus.getFavourPoints());
+                        if(playerStatus.getPattern()!= null)
+                            p.setPlayerTemplate(playerStatus.getPattern());
                         p.uniqueNotify();
                     }
 
@@ -69,8 +71,10 @@ public interface ServerMessageHandler {
                 {
                     app.startTurn();
                 }
-                else
+                else if(start.getOldPlayer().equals(controller.getLocalPlayer()))
                     app.passTurnResult(true);
+                else
+                    app.passTurnUpdate(start.getOldPlayer());
                 break;
             default:
 

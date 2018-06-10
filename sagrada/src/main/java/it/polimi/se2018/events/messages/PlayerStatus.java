@@ -2,6 +2,7 @@ package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.Event;
 import it.polimi.se2018.model.IntColorPair;
+import it.polimi.se2018.model.Pattern;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.dice.Die;
 import it.polimi.se2018.model.dice.Grid;
@@ -16,7 +17,8 @@ public class PlayerStatus extends Event {
     private final int id;
     private final int favourPoints;
 
-    private final IntColorPair[][] grid = new IntColorPair[Grid.WIDTH][Grid.HEIGHT];
+    private final IntColorPair[][] grid = new IntColorPair[Grid.HEIGHT][Grid.WIDTH];
+    private final IntColorPair[][] pattern = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
     private final boolean firstTurnPlacement;
     private final boolean secondTurnPlacement;
     private final boolean firstTurnCard;
@@ -36,15 +38,15 @@ public class PlayerStatus extends Event {
             for(int j =0; j<Grid.WIDTH; j++) {
                 Die d;
                 if((d = player.getGrid().getDie(i,j)) != null)
-                grid[i][j] = new IntColorPair(d.getValue(),d.getColor()); }
-
+                    grid[i][j] = new IntColorPair(d.getValue(),d.getColor());
+                if(player.getPattern()!= null)
+                    pattern[i][j] = new IntColorPair(player.getPattern().getValue(i,j),player.getPattern().getColor(i,j));
+        }
 
         this.firstTurnPlacement = player.canPlaceOnThisTurn(true);
         this.secondTurnPlacement = player.canPlaceOnThisTurn(false);
         this.firstTurnCard = player.canUseCardOnThisTurn(true);
         this.secondTurnCard = player.canUseCardOnThisTurn(false);
-
-
 
         this.description = "Player";
     }
@@ -55,6 +57,14 @@ public class PlayerStatus extends Event {
      */
     public IntColorPair[][] getGrid() {
         return grid;
+    }
+
+    /**
+     * Getter for pattern selected
+     * @return pattern selected
+     */
+    public IntColorPair[][] getPattern() {
+        return pattern;
     }
 
     /**

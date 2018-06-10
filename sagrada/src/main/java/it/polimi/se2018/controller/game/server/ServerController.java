@@ -84,7 +84,7 @@ public class ServerController implements MatchController, Runnable {
         for(Player p: players)
             sendMatchStatus(p);
 
-        network.sendObj(new TurnStart(round.getCurrentPlayer().getName()));
+        network.sendObj(new TurnStart(null,round.getCurrentPlayer().getName()));
         timer = new Timer();
         timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
     }
@@ -156,8 +156,9 @@ public class ServerController implements MatchController, Runnable {
     /**
      * Sets all the necessary flags for a new round and initialize the new order
      * If round 10 has passed, ends the game
+     * @param previousPlayer previous player
      */
-    private void manageNewRound()
+    private void manageNewRound(String previousPlayer)
     {
 
         if(round.getRoundNumber() <10) {
@@ -169,7 +170,7 @@ public class ServerController implements MatchController, Runnable {
             }
             round.prepareNextRound();
             board.putReserveOnRoundTrack();
-            network.sendObj(new TurnStart(round.getCurrentPlayer().getName()));
+            network.sendObj(new TurnStart(previousPlayer,round.getCurrentPlayer().getName()));
             timer = new Timer();
             timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()), TIME);
         }
@@ -194,12 +195,13 @@ public class ServerController implements MatchController, Runnable {
      */
     public synchronized void newTurn()
     {
+        String temp = round.getCurrentPlayer().getName();
         timer.cancel();
         round.nextTurn();
         if(round.getCurrentPlayer() == null)
-            manageNewRound();
+            manageNewRound(temp);
         else{
-            network.sendObj(new TurnStart(round.getCurrentPlayer().getName()));
+            network.sendObj(new TurnStart(temp,round.getCurrentPlayer().getName()));
             timer = new Timer();
             timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
         }
@@ -216,7 +218,7 @@ public class ServerController implements MatchController, Runnable {
     private synchronized void managePlayerMove(PlayerMove move)
     {
         if(mId.findPos(move.getPlayerName())<=-1 ||(
-                playersReady != players.size()&& !move.toString().equals("Pattern")))return;
+                playersReady != players.size()&& !move.toString().equals("Pattern selected")))return;
 
         if(playersReady != players.size())
         {
@@ -262,6 +264,7 @@ public class ServerController implements MatchController, Runnable {
     {
         for(Player p: players)
             network.sendReq(new PlayerStatus(p),player.getName());
+
 
         network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
         network.sendReq(new RoundTrackStatus(board.getRoundTrack()),player.getName());
