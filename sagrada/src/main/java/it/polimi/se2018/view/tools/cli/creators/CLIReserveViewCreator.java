@@ -37,8 +37,10 @@ public class CLIReserveViewCreator extends ReserveViewCreator<String, String> {
 
         //Iterate on reserve
         for (int i = 0; i < this.reserve.length; i++) {
-            stringBuilder.append(i).append(") ").append(this.dieViewCreator.makeDie(this.reserve[i]));
-            stringBuilder.append("\n");
+            if(this.reserve[i]!= null) {
+                stringBuilder.append(i).append(") ").append(this.dieViewCreator.makeDie(this.reserve[i]));
+                stringBuilder.append("\n");
+            }
         }
 
         //Return

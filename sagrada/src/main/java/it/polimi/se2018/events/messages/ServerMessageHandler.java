@@ -43,7 +43,6 @@ public interface ServerMessageHandler {
             case "PrivateObjective":
                 PrivateObjectiveStatus privateObjectiveStatus = (PrivateObjectiveStatus) message;
                 cards.setPrivateObjectiveCard(new SingleCardView(privateObjectiveStatus.getCardId(),0));
-                cards.uniqueNotify();
                 break;
             case "RoundTrack":
                 RoundTrackStatus roundTrackStatus = (RoundTrackStatus) message;
@@ -53,6 +52,7 @@ public interface ServerMessageHandler {
                 break;
 
             case "Reserve":
+
                 ReserveStatus reserveStatus = (ReserveStatus) message;
                 reserve.setReserve(reserveStatus.getDice());
                 reserve.uniqueNotify();
@@ -71,10 +71,11 @@ public interface ServerMessageHandler {
                 {
                     app.startTurn();
                 }
-                else if(start.getOldPlayer().equals(controller.getLocalPlayer()))
+                else if(start.getOldPlayer()!= null && start.getOldPlayer().equals(controller.getLocalPlayer()))
                     app.passTurnResult(true);
                 else
-                    app.passTurnUpdate(start.getOldPlayer());
+                    if(start.getOldPlayer()!= null)
+                        app.passTurnUpdate(start.getOldPlayer());
                 break;
             default:
 

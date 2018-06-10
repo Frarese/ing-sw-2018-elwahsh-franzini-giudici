@@ -30,7 +30,7 @@ public class ReserveView extends Observable {
         this.reserve = reserve;
     }
 
-    public synchronized void uniqueNotify() {
+    public void uniqueNotify() {
         setChanged();
         notifyObservers(this);
     }

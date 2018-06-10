@@ -63,7 +63,7 @@ public class ServerController implements MatchController, Runnable {
         for(int i = 0; i<mId.playerCount; i++)
             players.add(new Player(temp.get(i), i));
 
-        Collections.shuffle(players);
+
         this.board = new Board();
         this.round = new Round(this.players);
         this.inBus = new EventBus();
@@ -118,8 +118,8 @@ public class ServerController implements MatchController, Runnable {
             if(!offlinePlayers.contains(p) && p.getName().equals(sender))
                 try {
                     managePlayerMove((PlayerMove) req);
-                }catch (ClassCastException ex){
-                    Logger.getGlobal().log(Level.FINEST,"Client {0} sent illegal request",sender);
+                }catch (Exception ex){
+                    Logger.getGlobal().log(Level.SEVERE,"Client {0} sent illegal request",sender);
                 }
         }
     }
@@ -170,7 +170,10 @@ public class ServerController implements MatchController, Runnable {
             }
             round.prepareNextRound();
             board.putReserveOnRoundTrack();
+            board.rollDiceOnReserve(players.size());
             network.sendObj(new TurnStart(previousPlayer,round.getCurrentPlayer().getName()));
+            for(Player p: players)
+                sendMatchStatus(p);
             timer = new Timer();
             timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()), TIME);
         }
@@ -323,7 +326,7 @@ public class ServerController implements MatchController, Runnable {
     public void run() {
 
         for(Player p: players)
-            sendMatchStatus(p);
+            network.sendObj(new PlayerStatus(p));
         network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
         sendPrivateObjectives();
 
@@ -332,7 +335,6 @@ public class ServerController implements MatchController, Runnable {
         } catch (IOException e) {
             Logger.getGlobal().log(Level.SEVERE,"Error initializing pattern cards "+e);
             kill();
-            return;
         }
 
 

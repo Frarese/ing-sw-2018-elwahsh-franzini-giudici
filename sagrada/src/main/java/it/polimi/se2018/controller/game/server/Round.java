@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Round {
 
-    private ArrayList<Player> order = new ArrayList<>();
+    private final ArrayList<Player> order = new ArrayList<>();
     private boolean firstTurn;
     private int index;
     private int roundNumber;
@@ -52,6 +52,7 @@ public class Round {
     public void prepareNextRound()
     {
         index = 0;
+        firstTurn = true;
         order.add(order.remove(0));
         roundNumber++;
     }
