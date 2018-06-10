@@ -50,16 +50,7 @@ public class ChangeLayerController {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        if (!rmiRadio.isSelected() && !socketRadio.isSelected()) {
-            stringBuilder.append("Deve essere selezionato il tipo di connessione\n");
-        } else {
-            isRMI = true;
-            intRequestPort = checkRequestPort(requestPort, stringBuilder);
-            if (socketRadio.isSelected()) {
-                isRMI = false;
-                intObjectPort = checkObjectPort(objectPort, stringBuilder);
-            }
-        }
+        checkConnection(rmiRadio, socketRadio, requestPort, objectPort, stringBuilder);
 
         if (stringBuilder.toString().equals(""))
             this.changeLayerCall(isRMI, intRequestPort, intObjectPort);
@@ -82,6 +73,7 @@ public class ChangeLayerController {
      * @param objectPort  contains object port's number
      */
     private void changeLayerCall(boolean isRMI, int requestPort, int objectPort) {
+        close.setDisable(true);
         JavaFXStageProducer.getApp().getViewActions().changeLayer(isRMI, objectPort, requestPort);
     }
 
@@ -92,14 +84,46 @@ public class ChangeLayerController {
         ChangeLayerBox.close();
     }
 
+
+    /**
+     * Checks connection's layer attributes
+     *
+     * @param rmiRadio      contains rmi button
+     * @param socketRadio   contains socket button
+     * @param requestPort   contains the request port's field
+     * @param objectPort    contains the object port's field
+     * @param stringBuilder contains the errors' string builder
+     */
+    static void checkConnection(RadioButton rmiRadio, RadioButton socketRadio, TextField requestPort, TextField objectPort, StringBuilder stringBuilder) {
+        if (!rmiRadio.isSelected() && !socketRadio.isSelected()) {
+            stringBuilder.append("Deve essere selezionato il tipo di connessione\n");
+        } else {
+            checkRequestPort(requestPort, stringBuilder);
+            if (socketRadio.isSelected()) {
+                checkObjectPort(objectPort, stringBuilder);
+            }
+        }
+    }
+
     /**
      * Checks request port field isn't empty and contains a number
      *
      * @param requestPort   contains the field to check
      * @param stringBuilder contains the errors' string builder
      */
-    private int checkRequestPort(TextField requestPort, StringBuilder stringBuilder) {
-        return LoginController.checkRequestPort(requestPort, stringBuilder);
+    private static void checkRequestPort(TextField requestPort, StringBuilder stringBuilder) {
+        if (requestPort.getText() == null || requestPort.getText().equals("")) {
+            stringBuilder.append("Porta Richieste non può essere vuota\n");
+        } else {
+            try {
+                int intRequestPort = Integer.parseInt(requestPort.getText());
+                if (intRequestPort < 0) {
+                    stringBuilder.append("Porta Richieste deve contenere un numero positivo\n");
+                }
+            } catch (Exception e) {
+                stringBuilder.append("Porta Richieste non contiene un numero\n");
+            }
+        }
     }
 
     /**
@@ -108,8 +132,19 @@ public class ChangeLayerController {
      * @param objectPort    contains the field to check
      * @param stringBuilder contains the errors' string builder
      */
-    private int checkObjectPort(TextField objectPort, StringBuilder stringBuilder) {
-        return LoginController.checkObjectPort(objectPort, stringBuilder);
+    private static void checkObjectPort(TextField objectPort, StringBuilder stringBuilder) {
+        if (objectPort.getText() == null || objectPort.getText().equals("")) {
+            stringBuilder.append("Porta Oggetti non può essere vuota\n");
+        } else {
+            try {
+                int intObjectPort = Integer.parseInt(objectPort.getText());
+                if (intObjectPort < 0) {
+                    stringBuilder.append("Porta Oggetti deve contenere un numero positivo\n");
+                }
+            } catch (Exception e) {
+                stringBuilder.append("Porta Oggetti non contiene un numero\n");
+            }
+        }
     }
 
     /**

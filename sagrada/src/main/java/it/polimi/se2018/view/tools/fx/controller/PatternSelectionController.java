@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
  * @author Mathyas Giudici
  */
 
-public class PatternSelectionController extends FXController {
+public class PatternSelectionController implements FXController {
 
     @FXML
     RadioButton radioFirstPattern;

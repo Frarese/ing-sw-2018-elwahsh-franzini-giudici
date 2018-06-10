@@ -1,16 +1,17 @@
 package it.polimi.se2018.view.app;
 
 import it.polimi.se2018.model.ColorModel;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.observable.ReserveView;
 import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
-import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
+import it.polimi.se2018.view.observer.CardViewObserver;
 import it.polimi.se2018.view.observer.PlayerState;
 import it.polimi.se2018.view.tools.DieViewCreator;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
@@ -22,7 +23,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -45,13 +45,6 @@ public class JavaFXApp extends App {
     private boolean useRMI;
     private boolean isYourTurn;
 
-    /**
-     * Components for GUI
-     */
-    private FXCardViewCreator fxCardViewCreator;
-    private FXGridViewCreator fxGridViewCreator;
-    private FXRoundTrackerViewCreator fxRoundTrackerViewCreator;
-    private FXScoreViewCreator fxScoreViewCreator;
 
     /**
      * FXML loading attributes
@@ -73,6 +66,11 @@ public class JavaFXApp extends App {
         this.ownerPlayerName = null;
         this.useRMI = false;
         this.isYourTurn = false;
+
+        this.cardViewCreator = new FXCardViewCreator();
+        this.roundTrackerViewCreator = new FXRoundTrackerViewCreator();
+        this.reserveViewCreator = new FXReserveViewCreator();
+        this.gridViewCreator = new FXGridViewCreator(ColorModel.RED.toJavaFXColor());
 
         this.openWindow();
     }
@@ -211,7 +209,14 @@ public class JavaFXApp extends App {
 
     @Override
     public void askPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4, CardView cardView) {
+        //Adds CardView Observer
+        cardViewObserver = new CardViewObserver(this);
+        cardView.addObserver(cardViewObserver);
 
+        //Save current player state
+        this.cardViewCreator.setPrivateObjectiveCard(cardView.getPrivateObjectiveCard());
+        this.cardViewCreator.setPublicObjectiveCards(cardView.getPublicObjectiveCards());
+        this.cardViewCreator.setToolCards(cardView.getToolCards());
 
         //Control if animation is enabled
         if (!this.animationEnable) {
@@ -309,7 +314,8 @@ public class JavaFXApp extends App {
         if (playerView != null) {
             //Print
             DieViewCreator dieViewCreator = new FXDieViewCreator(100);
-            showAlert("Notifica", " ha posizionato il dado in posizione (" + height + "," + width + ").", ((FXDieViewCreator) dieViewCreator).makeDie(playerView.getPlayerGrid()[height][width]));
+            Platform.runLater(() -> AlertBox.display("Notifica", " ha posizionato il dado in posizione (" + height + "," + width + ").",
+                    ((FXDieViewCreator) dieViewCreator).makeDie(playerView.getPlayerGrid()[height][width])));
         }
     }
 
@@ -490,18 +496,12 @@ public class JavaFXApp extends App {
     /**
      * Call and show an AlertBox
      *
-     * @param title   contains the alert box's title
      * @param message contains the message to show
-     * @param image   @Nullable contains the image to show, if it's null AlertBox doesn't show image
      */
-    private void showAlert(String title, String message, Image image) {
-        Platform.runLater(() ->
-                AlertBox.display(title, message, image)
-        );
-    }
-
     private void notifySimpleAlert(String message) {
-        showAlert("Notifica", message, null);
+        Platform.runLater(() ->
+                AlertBox.notifyBox(message)
+        );
     }
 
     /**

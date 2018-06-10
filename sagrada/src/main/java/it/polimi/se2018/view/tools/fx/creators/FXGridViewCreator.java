@@ -23,6 +23,13 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
     private final String gridColor;
 
     /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    public FXGridViewCreator(String gridColor) {
+        this.gridColor = gridColor;
+    }
+
+    /**
      * Class constructor
      *
      * @param grid        the grid to use
@@ -95,10 +102,15 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
                 //Set color restriction
                 cell.setStyle(FXConstants.makeBgColorString(patternCell.getSecond().toJavaFXColor()));
             } else {
-                //Set value restriction
-                String url = MessageFormat.format("/it/polimi/se2018/view/images/pattern/value{0}.png", patternCell.getFirst());
-                String css = MessageFormat.format("-fx-background-size: COVER;-fx-background-image: url({0});", url);
-                cell.setStyle(css);
+                if (patternCell.getFirst() != 0) {
+                    //Set value restriction
+                    String url = MessageFormat.format("/it/polimi/se2018/view/images/pattern/value{0}.png", patternCell.getFirst());
+                    String css = MessageFormat.format("-fx-background-size: COVER;-fx-background-image: url({0});", url);
+                    cell.setStyle(css);
+                } else {
+                    //Set no restriction (white bg)
+                    cell.setStyle(FXConstants.makeBgColorString(ColorModel.WHITE.toJavaFXColor()));
+                }
             }
         } else {
             //Set no restriction (white bg)

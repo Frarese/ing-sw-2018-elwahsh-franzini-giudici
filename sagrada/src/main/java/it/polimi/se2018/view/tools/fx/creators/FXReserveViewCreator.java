@@ -16,6 +16,13 @@ import javafx.scene.layout.VBox;
 public class FXReserveViewCreator extends ReserveViewCreator<VBox, Image> {
 
     /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    public FXReserveViewCreator() {
+        super();
+    }
+
+    /**
      * Class constructor
      *
      * @param reserve contains the reserve

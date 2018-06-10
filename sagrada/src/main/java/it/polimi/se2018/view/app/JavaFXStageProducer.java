@@ -1,7 +1,9 @@
 package it.polimi.se2018.view.app;
 
+import it.polimi.se2018.view.tools.fx.alert.ConfirmBox;
 import it.polimi.se2018.view.tools.fx.controller.FXController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -29,6 +31,12 @@ public class JavaFXStageProducer extends Application {
         primaryStage.setTitle("Sagrada Game");
         primaryStage.getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/images/others/icon.png")));
         primaryStage.centerOnScreen();
+
+        primaryStage.setOnCloseRequest(e -> {
+            e.consume();
+            closeHandler();
+        });
+
         primaryStage.show();
 
         //Setting static public attributes
@@ -89,5 +97,18 @@ public class JavaFXStageProducer extends Application {
      */
     public static void setApp(JavaFXApp app) {
         JavaFXStageProducer.app = app;
+    }
+
+    /**
+     * Manages the window's close
+     */
+    private void closeHandler() {
+        boolean answer = ConfirmBox.displaySafeExit();
+        if (answer) {
+            Logger.getGlobal().log(Level.INFO, "Close JavaFX app");
+            stage.close();
+            Platform.exit();
+            System.exit(0);
+        }
     }
 }

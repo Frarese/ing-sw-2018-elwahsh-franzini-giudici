@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
  * @author Mathyas Giudici
  */
 
-public class LoginController extends FXController {
+public class LoginController implements FXController {
 
     @FXML
     TextField name;
@@ -43,29 +43,16 @@ public class LoginController extends FXController {
      */
     @FXML
     public void validation() {
-        boolean isRMI = false;
-        int intRequestPort = -1;
-        int intObjectPort = -1;
-
         StringBuilder stringBuilder = new StringBuilder();
 
         checkName(stringBuilder);
         checkPassword(stringBuilder);
         checkServer(stringBuilder);
 
-        if (!rmiRadio.isSelected() && !socketRadio.isSelected()) {
-            stringBuilder.append("Deve essere selezionato il tipo di connessione\n");
-        } else {
-            isRMI = true;
-            intRequestPort = checkRequestPort(requestPort, stringBuilder);
-            if (socketRadio.isSelected()) {
-                isRMI = false;
-                intObjectPort = checkObjectPort(objectPort, stringBuilder);
-            }
-        }
+        checkConnectioncheckConnection(rmiRadio, socketRadio, requestPort, objectPort, stringBuilder);
 
         if (stringBuilder.toString().equals(""))
-            this.loginCall(isRMI, intRequestPort, intObjectPort);
+            this.loginCall();
         else {
             String returnString = "ERRORI:\n" + stringBuilder;
             error.setText(returnString);
@@ -74,27 +61,32 @@ public class LoginController extends FXController {
         }
     }
 
-    /**
-     * Tries a login request in the JavaFXApp
-     *
-     * @param isRMI       contains connection's type
-     * @param requestPort contains request port's number
-     * @param objectPort  contains object port's number
-     */
-    private void loginCall(boolean isRMI, int requestPort, int objectPort) {
+    private void loginCall() {
         //Save information in JavaFXApp
         JavaFXStageProducer.getApp().tryLogin(name.getText(), rmiRadio.isSelected());
 
+        String loginResult;
         //Call View Actions
-        String loginResult = JavaFXStageProducer.getApp().getViewActions().login(
-                name.getText(), password.getText(), this.newUser.isSelected(),
-                server.getText(), isRMI, objectPort, requestPort);
+        if (rmiRadio.isSelected()) {
+            loginResult = JavaFXStageProducer.getApp().getViewActions().login(
+                    name.getText(), password.getText(), this.newUser.isSelected(),
+                    server.getText(), true, -1, Integer.parseInt(requestPort.getText()));
+        } else {
+            loginResult = JavaFXStageProducer.getApp().getViewActions().login(
+                    name.getText(), password.getText(), this.newUser.isSelected(),
+                    server.getText(), false, Integer.parseInt(objectPort.getText()), Integer.parseInt(requestPort.getText()));
+        }
 
         if (loginResult == null) {
             JavaFXStageProducer.getApp().loginResult(true, null);
         } else {
             JavaFXStageProducer.getApp().loginResult(false, loginResult);
         }
+    }
+
+
+    private void checkConnectioncheckConnection(RadioButton rmiRadio, RadioButton socketRadio, TextField requestPort, TextField objectPort, StringBuilder stringBuilder) {
+        ChangeLayerController.checkConnection(rmiRadio, socketRadio, requestPort, objectPort, stringBuilder);
     }
 
     /**
@@ -128,56 +120,6 @@ public class LoginController extends FXController {
         if (server.getText() == null || server.getText().equals("")) {
             stringBuilder.append("Server non può essere vuoto\n");
         }
-    }
-
-    /**
-     * Checks request port field isn't empty and contains a number
-     *
-     * @param requestPort   contains the field to check
-     * @param stringBuilder contains the errors' string builder
-     */
-    static int checkRequestPort(TextField requestPort, StringBuilder stringBuilder) {
-        int intRequestPort = -1;
-
-        if (requestPort.getText() == null || requestPort.getText().equals("")) {
-            stringBuilder.append("Porta Richieste non può essere vuota\n");
-        } else {
-            try {
-                intRequestPort = Integer.parseInt(requestPort.getText());
-                if (intRequestPort < 0) {
-                    stringBuilder.append("Porta Richieste deve contenere un numero positivo\n");
-                }
-            } catch (Exception e) {
-                stringBuilder.append("Porta Richieste non contiene un numero\n");
-            }
-        }
-
-        return intRequestPort;
-    }
-
-    /**
-     * Checks object port field isn't empty and contains a number
-     *
-     * @param objectPort    contains the field to check
-     * @param stringBuilder contains the errors' string builder
-     */
-    static int checkObjectPort(TextField objectPort, StringBuilder stringBuilder) {
-        int intObjectPort = -1;
-
-        if (objectPort.getText() == null || objectPort.getText().equals("")) {
-            stringBuilder.append("Porta Oggetti non può essere vuota\n");
-        } else {
-            try {
-                intObjectPort = Integer.parseInt(objectPort.getText());
-                if (intObjectPort < 0) {
-                    stringBuilder.append("Porta Oggetti deve contenere un numero positivo\n");
-                }
-            } catch (Exception e) {
-                stringBuilder.append("Porta Oggetti non contiene un numero\n");
-            }
-        }
-
-        return intObjectPort;
     }
 
     /**

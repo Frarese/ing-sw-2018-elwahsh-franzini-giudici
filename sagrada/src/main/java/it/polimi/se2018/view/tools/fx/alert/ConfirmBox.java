@@ -20,6 +20,12 @@ public class ConfirmBox {
 
     private static boolean approve;
 
+    /**
+     * Class constructor
+     */
+    private ConfirmBox() {
+        throw new IllegalStateException("Utility JavaFX class");
+    }
 
     /**
      * Shows the confirm box
@@ -75,5 +81,9 @@ public class ConfirmBox {
         window.showAndWait();
 
         return approve;
+    }
+
+    public static boolean displaySafeExit() {
+        return ConfirmBox.display("Uscita", "Sei sicuro di voler uscire?");
     }
 }

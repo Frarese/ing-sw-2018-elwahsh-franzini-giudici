@@ -17,6 +17,13 @@ import java.util.logging.Logger;
 public class FXCardViewCreator extends CardViewCreator<Image> {
 
     /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    public FXCardViewCreator() {
+        super();
+    }
+
+    /**
      * Class constructor
      *
      * @param privateObjectiveCard contains the private objective

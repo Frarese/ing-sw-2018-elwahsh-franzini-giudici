@@ -20,6 +20,13 @@ import javafx.stage.Stage;
 public class AlertBox {
 
     /**
+     * Class constructor
+     */
+    private AlertBox(){
+        throw new IllegalStateException("Utility JavaFX class");
+    }
+
+    /**
      * Shows the alert box
      *
      * @param title   contains the alert box's title
@@ -62,5 +69,23 @@ public class AlertBox {
 
         //Current window must be close to come back to the caller
         window.showAndWait();
+    }
+
+    /**
+     * Shows a notify alert box
+     *
+     * @param message contains the message to show
+     */
+    public static void notifyBox(String message) {
+        AlertBox.display("Notifica", message, null);
+    }
+
+    /**
+     * Shows an attention alert box
+     *
+     * @param message contains the message to show
+     */
+    public static void attentionBox(String message) {
+        AlertBox.display("Attenzione", message, null);
     }
 }

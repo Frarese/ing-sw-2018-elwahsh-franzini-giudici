@@ -39,7 +39,7 @@ public class CommandAcceptInviteTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoAction() throws Exception{
+    public void testDoAction() throws Exception {
         String input = "0" + enter;
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         app = new FakeApp();
@@ -49,7 +49,6 @@ public class CommandAcceptInviteTest extends AbsCommandTest {
         CommandAcceptInvite commandAcceptInvite = new CommandAcceptInvite(app);
         commandAcceptInvite.doAction();
 
-        assertEquals("Inserire ID invito (numerazione da 0)", savedStream.toString().split(regexControl)[0]);
-        assertEquals("Opzione: ", savedStream.toString().split(regexControl)[1]);
+        assertEquals("Inserire ID invito (numerazione da 0)Opzione: ", savedStream.toString().replaceAll(regexControl, emptyString));
     }
 }

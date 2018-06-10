@@ -3,23 +3,33 @@ package it.polimi.se2018.view.tools.fx.controller;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.view.app.JavaFXStageProducer;
+import it.polimi.se2018.view.tools.fx.alert.AlertBox;
 import it.polimi.se2018.view.tools.fx.alert.ChangeLayerBox;
 import it.polimi.se2018.view.tools.fx.alert.ConfirmBox;
+import it.polimi.se2018.view.tools.fx.alert.ShowInvitesBox;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages actions in lobby page
  *
  * @author Mathyas Giudici
  */
-public class LobbyController extends FXController {
+public class LobbyController implements FXController {
+
+    private static final String USER_STRING = "Utente";
 
     @FXML
     TableView<ScoreEntry> leaderBoardTable;
@@ -28,16 +38,12 @@ public class LobbyController extends FXController {
     TableView<ScoreEntry> connectedUserTable;
 
     @FXML
-    TableView<MatchIdentifier> inviteTable;
-
-    @FXML
-    Button inviteButton;
-
-    @FXML
-    Button listOfInviteButton;
+    TableView<ScoreEntry> inviteTable;
 
     @FXML
     Button matchmakingButton;
+
+    private ObservableList<ScoreEntry> inviteUserList;
 
     public void setTables() {
         if (!JavaFXStageProducer.getApp().getConnectedUsers().isEmpty()) {
@@ -46,10 +52,12 @@ public class LobbyController extends FXController {
         if (!JavaFXStageProducer.getApp().getLeaderBoard().isEmpty()) {
             setLeaderBoardTable();
         }
+
+        setInviteTable();
     }
 
     public void logout() {
-        if (ConfirmBox.display("Uscita", "Sei sicuro di voler uscire?"))
+        if (ConfirmBox.displaySafeExit())
             JavaFXStageProducer.getApp().getViewActions().logout();
     }
 
@@ -78,9 +86,9 @@ public class LobbyController extends FXController {
     }
 
     private void setConnectedTable() {
-        TableColumn<ScoreEntry, String> tableColumnName = new TableColumn<>("Utente");
+        TableColumn<ScoreEntry, String> tableColumnName = new TableColumn<>(USER_STRING);
         tableColumnName.setPrefWidth(connectedUserTable.getPrefWidth());
-        tableColumnName.setCellValueFactory(new PropertyValueFactory<>("usn"));
+        tableColumnName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().usn));
 
         connectedUserTable.getColumns().clear();
         connectedUserTable.getColumns().add(tableColumnName);
@@ -89,21 +97,40 @@ public class LobbyController extends FXController {
         for (ScoreEntry scoreEntry : JavaFXStageProducer.getApp().getConnectedUsers()) {
             observableList.add(new ScoreEntry(scoreEntry.usn, scoreEntry.tot, scoreEntry.tot));
         }
+
         connectedUserTable.setItems(observableList);
+
+        connectedUserTable.setRowFactory(trEvent -> {
+            TableRow<ScoreEntry> tableRow = new TableRow<>();
+
+            tableRow.setOnDragDetected(ddEvent -> {
+                if (!tableRow.isEmpty()) {
+                    String user = tableRow.getTableView().getItems().get(tableRow.getIndex()).usn;
+                    Dragboard dragboard = tableRow.startDragAndDrop(TransferMode.COPY);
+                    dragboard.setDragView(tableRow.snapshot(null, null));
+                    ClipboardContent clipboardContent = new ClipboardContent();
+                    clipboardContent.putString(user);
+                    dragboard.setContent(clipboardContent);
+
+                    ddEvent.consume();
+                }
+            });
+            return tableRow;
+        });
     }
 
     private void setLeaderBoardTable() {
-        TableColumn<ScoreEntry, String> tableColumnName = new TableColumn<>("Utente");
+        TableColumn<ScoreEntry, String> tableColumnName = new TableColumn<>(USER_STRING);
         tableColumnName.setPrefWidth(leaderBoardTable.getPrefWidth() / 2);
-        tableColumnName.setCellValueFactory(new PropertyValueFactory<>("usn"));
+        tableColumnName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().usn));
 
         TableColumn<ScoreEntry, Integer> tableColumnPoints = new TableColumn<>("Punti");
         tableColumnPoints.setPrefWidth(leaderBoardTable.getPrefWidth() / 4);
-        tableColumnPoints.setCellValueFactory(new PropertyValueFactory<>("tot"));
+        tableColumnPoints.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().tot));
 
         TableColumn<ScoreEntry, Integer> tableColumnWins = new TableColumn<>("Vittorie");
         tableColumnWins.setPrefWidth(leaderBoardTable.getPrefWidth() / 4);
-        tableColumnWins.setCellValueFactory(new PropertyValueFactory<>("wins"));
+        tableColumnWins.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().wins));
 
         leaderBoardTable.getColumns().clear();
         leaderBoardTable.getColumns().add(tableColumnName);
@@ -114,5 +141,81 @@ public class LobbyController extends FXController {
         observableList.addAll(JavaFXStageProducer.getApp().getLeaderBoard());
 
         leaderBoardTable.setItems(observableList);
+    }
+
+    private void setInviteTable() {
+        TableColumn<ScoreEntry, String> tableColumnName = new TableColumn<>(USER_STRING);
+        tableColumnName.setPrefWidth(inviteTable.getPrefWidth());
+        tableColumnName.setCellValueFactory(new PropertyValueFactory<>("usn"));
+
+        inviteTable.getColumns().clear();
+        inviteTable.getColumns().add(tableColumnName);
+
+        inviteUserList = FXCollections.observableArrayList();
+
+        inviteTable.setItems(inviteUserList);
+
+        inviteTable.setOnDragOver(doEvent -> {
+            if (doEvent.getDragboard().hasString()) {
+                doEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+
+        inviteTable.setOnDragDropped(ddEvent -> {
+            if (inviteUserList.size() < 3) {
+                String user = ddEvent.getDragboard().getString();
+                for (ScoreEntry scoreEntry : inviteUserList) {
+                    if (scoreEntry.usn.equals(user)) {
+                        AlertBox.attentionBox("Non puoi inserire lo stesso utente più volte in un invito");
+                        return;
+                    }
+                }
+                inviteUserList.add(new ScoreEntry(user, 0, 0));
+            } else {
+                AlertBox.attentionBox("Non puoi inserire più di 3 utenti in un invito");
+            }
+        });
+
+        inviteTable.setRowFactory(trEvent -> {
+            TableRow<ScoreEntry> tableRow = new TableRow<>();
+
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem delete = new MenuItem("Elimina");
+            delete.setOnAction(event -> {
+                inviteUserList.remove(inviteTable.getSelectionModel().getSelectedItem());
+                event.consume();
+            });
+            contextMenu.getItems().add(delete);
+            tableRow.setContextMenu(contextMenu);
+
+            return tableRow;
+        });
+    }
+
+    public void invite() {
+        if (inviteUserList.isEmpty()) {
+            AlertBox.attentionBox("Deve essere presente almeno una persona nell'invito");
+        } else {
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                try {
+                    list.add(inviteUserList.get(i).usn);
+                } catch (Exception e) {
+                    list.add(null);
+                }
+            }
+            MatchIdentifier matchIdentifier = new MatchIdentifier(JavaFXStageProducer.getApp().getOwnerPlayerName(), list.get(0), list.get(1), list.get(2));
+            JavaFXStageProducer.getApp().getViewActions().pushInvite(matchIdentifier);
+            clearInvite();
+        }
+
+    }
+
+    public void clearInvite() {
+        inviteUserList.clear();
+    }
+
+    public void showInvites() {
+        ShowInvitesBox.display();
     }
 }

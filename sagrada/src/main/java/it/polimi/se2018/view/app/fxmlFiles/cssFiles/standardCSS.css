@@ -1,4 +1,4 @@
-#anchor {
+#container {
     -fx-background-image: url("/it/polimi/se2018/view/images/others/background.jpg");
     -fx-background-position: center center;
 }
@@ -9,7 +9,7 @@
 }
 
 /*noinspection CssUnusedSymbol*/
-.radio-button{
+.radio-button {
     -fx-font-weight: bolder;
     -fx-text-fill: WHITE;
 }
@@ -20,6 +20,10 @@
     -fx-text-fill: WHITE;
 }
 
-#error{
+.table-view .column-header-background .label {
+    -fx-text-fill: BLACK;
+}
+
+#error {
     -fx-text-fill: WHITE;
 }

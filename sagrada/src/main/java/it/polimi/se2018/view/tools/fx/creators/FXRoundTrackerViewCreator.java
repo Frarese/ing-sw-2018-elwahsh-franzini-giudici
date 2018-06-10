@@ -18,6 +18,13 @@ import javafx.util.Callback;
 public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
 
     /**
+     * Basic Class constructor that initializes elements at default value
+     */
+    public FXRoundTrackerViewCreator() {
+        super();
+    }
+
+    /**
      * Class constructor
      *
      * @param round        contains the round

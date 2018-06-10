@@ -6,6 +6,6 @@ package it.polimi.se2018.view.tools.fx.controller;
  * @author Mathyas Giudici
  */
 
-public abstract class FXController {
+public interface FXController {
 
 }

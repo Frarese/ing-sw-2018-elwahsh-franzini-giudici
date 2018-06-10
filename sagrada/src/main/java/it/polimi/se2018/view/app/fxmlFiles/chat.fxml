@@ -13,7 +13,7 @@
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
     <VBox spacing="5.0">
-        <Label text="Chat">
+        <Label text="CHAT">
             <font>
                 <Font name="System Bold" size="22.0"/>
             </font>

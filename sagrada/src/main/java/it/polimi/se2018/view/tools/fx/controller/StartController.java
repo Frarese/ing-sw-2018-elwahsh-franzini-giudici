@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
  * @author Mathyas Giudici
  */
 
-public class StartController extends FXController {
+public class StartController implements FXController {
 
     /**
      * Recalls JavaFXApp and creates login page

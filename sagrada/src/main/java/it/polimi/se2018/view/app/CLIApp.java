@@ -1,12 +1,12 @@
 package it.polimi.se2018.view.app;
 
 import it.polimi.se2018.model.ColorModel;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.observable.ReserveView;
 import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
-import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.ViewActions;
@@ -245,7 +245,6 @@ public class CLIApp extends App {
         cardView.addObserver(cardViewObserver);
 
         //Save current player state
-
         this.cardViewCreator.setPrivateObjectiveCard(cardView.getPrivateObjectiveCard());
         this.cardViewCreator.setPublicObjectiveCards(cardView.getPublicObjectiveCards());
         this.cardViewCreator.setToolCards(cardView.getToolCards());
