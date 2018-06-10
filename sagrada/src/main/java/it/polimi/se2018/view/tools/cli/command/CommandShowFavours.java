@@ -3,6 +3,8 @@ package it.polimi.se2018.view.tools.cli.command;
 import it.polimi.se2018.view.app.CLIApp;
 import it.polimi.se2018.view.observer.PlayerState;
 
+import java.io.IOException;
+
 /**
  * Class to handle show favours request
  *
@@ -16,7 +18,7 @@ public class CommandShowFavours extends CLICommand {
     }
 
     @Override
-    public void doAction() {
+    public void doAction() throws IOException {
         this.app.getPrinter().print("Vuoi visualizzare i tuoi punti favore??");
         if (this.app.getReader().chooseYes()) {
             PlayerState me = this.app.searchPlayerViewByName(this.app.getPlayers(), this.app.getOwnerPlayerName());

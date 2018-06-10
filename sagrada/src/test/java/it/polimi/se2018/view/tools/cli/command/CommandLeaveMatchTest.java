@@ -42,7 +42,7 @@ public class CommandLeaveMatchTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionYes() {
+    public void testDoActionYes() throws Exception{
         String message = "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -54,7 +54,7 @@ public class CommandLeaveMatchTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionNo() {
+    public void testDoActionNo() throws Exception{
         String message = "n" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 

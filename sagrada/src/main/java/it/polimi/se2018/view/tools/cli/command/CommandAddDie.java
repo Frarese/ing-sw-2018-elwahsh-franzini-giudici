@@ -2,6 +2,8 @@ package it.polimi.se2018.view.tools.cli.command;
 
 import it.polimi.se2018.view.app.CLIApp;
 
+import java.io.IOException;
+
 /**
  * Class to handle add die in grid command
  *
@@ -15,7 +17,7 @@ public class CommandAddDie extends CLICommand {
     }
 
     @Override
-    public void doAction() {
+    public void doAction() throws IOException {
         this.app.getPrinter().print("Seleziona un dado dalla riserva: ");
         this.app.getPrinter().print(this.app.getReserveViewCreator().display());
         int reserveIndex = this.app.getReader().chooseInRange(0, this.app.getReserveViewCreator().getReserve().length - 1);

@@ -102,7 +102,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionToSocket() {
+    public void testDoActionToSocket() throws Exception{
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "y" + enter + "80" + enter + "y" + enter + "72" + enter + "5" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -115,7 +115,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionToRMI() {
+    public void testDoActionToRMI() throws Exception{
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "90" + enter + "y" + enter + "72" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -128,7 +128,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
     }
 
     @Test
-    public void testNoChange() {
+    public void testNoChange() throws Exception{
         String message = "n" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 

@@ -63,7 +63,7 @@ public class CommandUseToolTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoAction() {
+    public void testDoAction() throws Exception{
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "1" + enter + "80" + enter + 0 + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 

@@ -57,7 +57,7 @@ public class CommandShowGridTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionYour() {
+    public void testDoActionYour() throws Exception{
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "20" + enter + "80" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -76,7 +76,7 @@ public class CommandShowGridTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionOther() {
+    public void testDoActionOther() throws Exception{
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "20" + enter + "80" + enter + "n" + enter + "0" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 

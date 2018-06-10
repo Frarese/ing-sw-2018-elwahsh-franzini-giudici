@@ -19,6 +19,7 @@ import it.polimi.se2018.view.tools.cli.creators.*;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
 import it.polimi.se2018.view.tools.cli.ui.CLIReader;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -44,6 +45,7 @@ public class CLIApp extends App {
     private final CLIReader reader;
     private final ArrayList<CLICommand> commands;
     private final ArrayList<CLICommand> gameCommands;
+    private final Logger logger;
 
     /**
      * Class constructor that creates CLICreators' objects and CLIui' objects
@@ -73,6 +75,7 @@ public class CLIApp extends App {
         this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
         this.reserveViewCreator = new CLIReserveViewCreator();
         this.gridViewCreator = new CLIGridViewCreator(printer);
+        logger=Logger.getGlobal();
     }
 
     @Override
@@ -94,41 +97,44 @@ public class CLIApp extends App {
             welcome = welcome + "---------------------------------\n";
             printer.print(welcome);
         }
+        try {
+            //Ask for a new User
+            printer.print("Sei un nuovo utente? ");
+            boolean newUser = reader.chooseYes();
 
-        //Ask for a new User
-        printer.print("Sei un nuovo utente? ");
-        boolean newUser = reader.chooseYes();
+            //Ask login information
+            printer.print("INSERIRE LE CREDENZIALI PER IL LOGIN");
+            printer.print("Nome: ");
+            String name = reader.read();
+            printer.print("Password: ");
+            String password = reader.read();
 
-        //Ask login information
-        printer.print("INSERIRE LE CREDENZIALI PER IL LOGIN");
-        printer.print("Nome: ");
-        String name = reader.read();
-        printer.print("Password: ");
-        String password = reader.read();
+            //Connection information
+            printer.print("Inserire server: ");
+            String server = reader.read();
+            printer.print("Vuoi usare RMI connection? ");
+            boolean isRMI = reader.chooseYes();
+            printer.print("Inserire request port: ");
+            int requestPort = reader.readInt();
+            int objectPort = -1;
+            if (!isRMI) {
+                printer.print("Inserire object port: ");
+                objectPort = reader.readInt();
+            }
 
-        //Connection information
-        printer.print("Inserire server: ");
-        String server = reader.read();
-        printer.print("Vuoi usare RMI connection? ");
-        boolean isRMI = reader.chooseYes();
-        printer.print("Inserire request port: ");
-        int requestPort = reader.readInt();
-        int objectPort = -1;
-        if (!isRMI) {
-            printer.print("Inserire object port: ");
-            objectPort = reader.readInt();
-        }
+            //Save player name
+            this.ownerPlayerName = name;
+            this.useRMI = isRMI;
 
-        //Save player name
-        this.ownerPlayerName = name;
-        this.useRMI = isRMI;
-
-        //Controller call
-        String loginResult = this.viewActions.login(name, password, newUser, server, isRMI, objectPort, requestPort);
-        if (loginResult == null) {
-            this.loginResult(true, null);
-        } else {
-            this.loginResult(false, loginResult);
+            //Controller call
+            String loginResult = this.viewActions.login(name, password, newUser, server, isRMI, objectPort, requestPort);
+            if (loginResult == null) {
+                this.loginResult(true, null);
+            } else {
+                this.loginResult(false, loginResult);
+            }
+        }catch (IOException e){
+            logger.log(Level.WARNING,"Error reading login "+e.getMessage());
         }
     }
 
@@ -274,7 +280,14 @@ public class CLIApp extends App {
         printer.printArray(this.gridViewCreator.display());
 
         //Ask pattern
-        int pattern = reader.chooseInRange(1, 4);
+        reader.interrupt();
+        int pattern = 0;
+        try {
+            pattern = reader.chooseInRange(1, 4);
+        } catch (IOException e) {
+            logger.log(Level.WARNING,"Error reading pattern option "+e.getMessage());
+            return;
+        }
         switch (pattern) {
             case 1:
                 viewActions.selectedPattern(pattern1.patternName);
@@ -291,6 +304,7 @@ public class CLIApp extends App {
             default:
                 Logger.getGlobal().log(Level.WARNING, "Qualcosa è andato storto nella selezione del pattern.");
         }
+        printer.print("Waiting for match start");
     }
 
     @Override
@@ -370,7 +384,6 @@ public class CLIApp extends App {
 
     @Override
     public void startTurn() {
-        this.reader.reset();
         this.isYourTurn = true;
         //Check if animation is enabled
         if (!this.animationEnable) {
@@ -477,7 +490,6 @@ public class CLIApp extends App {
             printer.print("Turno passato con successo!");
             this.commands.add(0, new CommandWaitYourTurn(this));
             this.isYourTurn = false;
-            this.reader.reset();
         } else {
             printer.print("Non sei riuscito a passare il turno");
         }
@@ -526,7 +538,6 @@ public class CLIApp extends App {
 
     @Override
     public void abortMatch() {
-        this.reader.reset();
         this.isYourTurn = false;
         this.viewActions.askLobby();
         new Thread(this::createLobby).start();
@@ -537,7 +548,13 @@ public class CLIApp extends App {
         //Print and read operations
         printer.print("Seleziona un dado dalla riserva: ");
         printer.print(this.reserveViewCreator.display());
-        int reserveIndex = reader.chooseInRange(0, this.reserveViewCreator.getReserve().length - 1);
+        int reserveIndex = 0;
+        try {
+            reserveIndex = reader.chooseInRange(0, this.reserveViewCreator.getReserve().length - 1);
+        } catch (IOException e) {
+            logger.log(Level.WARNING,"Error selecting die from reserve "+e.getMessage());
+            return;
+        }
 
         //Call ViewToolCardActions
         viewToolCardActions.selectedDieFromReserve(reserveIndex);
@@ -547,7 +564,13 @@ public class CLIApp extends App {
     public void selectNewValueForDie(int low, int high) {
         //Print and read operations
         printer.print("Seleziona il valore del dado tra " + low + " e " + high);
-        int choice = reader.chooseBetweenTwo(low, high);
+        int choice;
+        try {
+            choice = reader.chooseBetweenTwo(low, high);
+        } catch (IOException e) {
+            logger.log(Level.WARNING,"Error selecting new value for a die login "+e.getMessage());
+            return;
+        }
 
         //Call ViewToolCardActions
         viewToolCardActions.selectedValueForDie(choice);
@@ -592,12 +615,17 @@ public class CLIApp extends App {
         //Print and read operation
         printer.printArray(roundTrackerViewCreator.display());
         printer.print("Inserire il numero del round da cui si vuole estrarre il dado:");
-        int roundIndex = reader.chooseInRange(1, roundTrackerViewCreator.getRound() - 1) - 1;
-        printer.print("Inserire il numero del dado nel round selezionato");
-        int dieIndex = reader.chooseInRange(0, roundTrackerViewCreator.getRoundTracker()[roundIndex].length - 1);
 
-        //Call ViewToolCardActions
-        viewToolCardActions.selectedDieFromRoundTracker(roundIndex, dieIndex);
+        try {
+            int roundIndex = reader.chooseInRange(1, roundTrackerViewCreator.getRound() - 1) - 1;
+            printer.print("Inserire il numero del dado nel round selezionato");
+            int dieIndex = reader.chooseInRange(0, roundTrackerViewCreator.getRoundTracker()[roundIndex].length - 1);
+
+            //Call ViewToolCardActions
+            viewToolCardActions.selectedDieFromRoundTracker(roundIndex, dieIndex);
+        } catch (IOException e) {
+            logger.log(Level.WARNING,"Error selecting die from round tracker "+e.getMessage());
+        }
     }
 
     @Override
@@ -607,10 +635,15 @@ public class CLIApp extends App {
         //Print and read operation
         printer.print("Devi selezionare il nuovo valore del dado: " + dieCreator.makeDie(die));
         printer.print("Inserisci nuovo valore:");
-        int value = reader.chooseInRange(1, 6);
 
-        //Call ViewToolCardActions
-        viewToolCardActions.selectedFace(value);
+        try {
+            int value = reader.chooseInRange(1, 6);
+
+            //Call ViewToolCardActions
+            viewToolCardActions.selectedFace(value);
+        }catch (IOException e){
+            logger.log(Level.WARNING,"Error selecting face for a die "+e.getMessage());
+        }
     }
 
     @Override
@@ -633,7 +666,12 @@ public class CLIApp extends App {
      */
     public int getCoordinateX() {
         printer.print("Inserisci coordinata x:");
-        return reader.chooseInRange(0, 4);
+        try {
+            return reader.chooseInRange(0, 4);
+        } catch (IOException e) {
+            logger.log(Level.WARNING,"Error fetching x coordinate "+e.getMessage());
+            return -1;
+        }
     }
 
     /**
@@ -643,7 +681,12 @@ public class CLIApp extends App {
      */
     public int getCoordinateY() {
         printer.print("Inserisci coordinata y:");
-        return reader.chooseInRange(0, 3);
+        try {
+            return reader.chooseInRange(0, 3);
+        } catch (IOException e) {
+            logger.log(Level.WARNING,"Error fetching y coordinate "+e.getMessage());
+            return -1;
+        }
     }
 
     /**
@@ -712,8 +755,18 @@ public class CLIApp extends App {
             printer.print(i + "-" + printArray.get(i).display());
         }
         printer.print("Seleziona un comando: ");
-        int actionID = reader.chooseInRange(0, printArray.size() - 1);
-        printArray.get(actionID).doAction();
+        int actionID = 0;
+        try {
+            actionID = reader.chooseInRange(0, printArray.size() - 1);
+        } catch (IOException e) {
+            logger.log(Level.FINE,"Error reading option "+e.getMessage());
+            return;
+        }
+        try {
+            printArray.get(actionID).doAction();
+        } catch (IOException e) {
+            logger.log(Level.WARNING,"Error executing turn action "+e.getMessage());
+        }
     }
 
     /**
@@ -735,8 +788,18 @@ public class CLIApp extends App {
 
         //Asks command to execute
         printer.print("Seleziona un comando: ");
-        int actionID = reader.chooseInRange(0, this.commands.size() - 1);
-        this.commands.get(actionID).doAction();
+        int actionID = 0;
+        try {
+            actionID = reader.chooseInRange(0, this.commands.size() - 1);
+        } catch (IOException e) {
+            logger.log(Level.FINE,"Error reading option "+e.getMessage());
+            return;
+        }
+        try {
+            this.commands.get(actionID).doAction();
+        } catch (IOException e) {
+            logger.log(Level.WARNING,"Error executing menu option "+e.getMessage());
+        }
     }
 
     /**

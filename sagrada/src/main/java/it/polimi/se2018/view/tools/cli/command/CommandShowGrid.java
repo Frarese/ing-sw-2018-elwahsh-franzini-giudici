@@ -3,6 +3,8 @@ package it.polimi.se2018.view.tools.cli.command;
 import it.polimi.se2018.view.app.CLIApp;
 import it.polimi.se2018.view.tools.cli.creators.CLIGridViewCreator;
 
+import java.io.IOException;
+
 /**
  * Class to handle show grid request
  *
@@ -16,7 +18,7 @@ public class CommandShowGrid extends CLICommand {
     }
 
     @Override
-    public void doAction() {
+    public void doAction() throws IOException {
         this.app.getPrinter().print("Vuoi visualizzare la tua vetrata?");
         if (this.app.getReader().chooseYes()) {
             this.app.getPrinter().printArray(this.app.getGridViewCreator().display());

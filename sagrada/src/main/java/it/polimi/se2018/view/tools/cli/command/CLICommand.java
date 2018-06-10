@@ -2,6 +2,8 @@ package it.polimi.se2018.view.tools.cli.command;
 
 import it.polimi.se2018.view.app.CLIApp;
 
+import java.io.IOException;
+
 /**
  * Abstract Class to handle CLI command during game
  *
@@ -28,7 +30,7 @@ public abstract class CLICommand {
     /**
      * To perform the command's action
      */
-    public abstract void doAction();
+    public abstract void doAction() throws IOException;
 
     /**
      * Returns the message of the command to print in CLI' menu

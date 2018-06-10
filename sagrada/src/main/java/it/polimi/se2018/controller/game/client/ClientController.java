@@ -150,7 +150,7 @@ public class ClientController implements CommUtilizer {
         {
             patternsReceived.add(pattern);
             if(patternsReceived.size() == 4)
-                app.askPattern(patternsReceived.get(0),patternsReceived.get(1),patternsReceived.get(2),patternsReceived.get(3),cards);
+                new Thread(()->app.askPattern(patternsReceived.get(0),patternsReceived.get(1),patternsReceived.get(2),patternsReceived.get(3),cards)).start();
         }
     }
 

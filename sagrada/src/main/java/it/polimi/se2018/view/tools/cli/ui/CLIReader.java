@@ -1,6 +1,12 @@
 package it.polimi.se2018.view.tools.cli.ui;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class to handle input from console
@@ -10,18 +16,21 @@ import java.util.Scanner;
 
 public class CLIReader {
 
-    private final Scanner scanner;
-
+    private final BufferedReader scanner;
     private final CLIPrinter printer;
-
     private static final String ERROR_MESSAGE = "Risposta non valida, riprovare";
-
+    private final AtomicBoolean interrupt;
+    private final Logger logger;
+    private final Semaphore lock;
     /**
      * Class constructor
      */
     public CLIReader(CLIPrinter printer) {
-        scanner = new Scanner(System.in);
+        scanner = new BufferedReader(new InputStreamReader(System.in));
         this.printer = printer;
+        interrupt=new AtomicBoolean(false);
+        logger=Logger.getGlobal();
+        lock=new Semaphore(1,true);
     }
 
     /**
@@ -29,10 +38,29 @@ public class CLIReader {
      *
      * @return the result string
      */
-    public synchronized String read() {
-        String message = scanner.next();
-        reset();
-        return message;
+    public String read() throws IOException{
+        try{
+            if(!lock.tryAcquire()){
+                logger.log(Level.WARNING,"Error reading, another thread is already inside the lock");
+                throw new IOException("Error reading, already locked");
+            }
+            interrupt.set(false);
+            while(!scanner.ready()){
+                if(interrupt.get()){
+                    lock.release();
+                    throw new IOException("Error reading, interrupted");
+                }
+                Thread.sleep(1);
+            }
+            String message=scanner.readLine();
+            lock.release();
+            return message;
+        } catch (InterruptedException e) {
+            lock.release();
+            logger.log(Level.WARNING,"Interrupted reading from console "+e);
+            Thread.currentThread().interrupt();
+        }
+        throw new IOException("Unknown Error reading");
     }
 
     /**
@@ -40,17 +68,14 @@ public class CLIReader {
      *
      * @return the result number
      */
-    public synchronized int readInt() {
+    public synchronized int readInt() throws IOException {
         int number;
         try {
-            number = scanner.nextInt();
-            reset();
-        } catch (Exception e) {
+            number = Integer.parseInt(read());
+        } catch (NumberFormatException e) {
             printer.print("Non hai inserito un numero, riprova");
-            scanner.nextLine();
             number = readInt();
         }
-
         return number;
     }
 
@@ -59,10 +84,10 @@ public class CLIReader {
      *
      * @return the result
      */
-    public synchronized boolean chooseYes() {
+    public synchronized boolean chooseYes() throws IOException {
         //Ask option
         printer.print("[Y=si, N= no]");
-        String response = scanner.next();
+        String response = read();
 
         //Upper case
         response = response.toUpperCase();
@@ -78,7 +103,6 @@ public class CLIReader {
             } else {
                 //Invalid option, recall
                 printer.print(ERROR_MESSAGE);
-                scanner.nextLine();
                 return chooseYes();
             }
         }
@@ -92,7 +116,7 @@ public class CLIReader {
      * @param maxValue contains the max value of the range
      * @return the result of the choice
      */
-    public synchronized int chooseInRange(int minValue, int maxValue) {
+    public synchronized int chooseInRange(int minValue, int maxValue) throws IOException {
         //Ask option
         printer.print("Opzione: ");
         int response = readInt();
@@ -104,7 +128,6 @@ public class CLIReader {
         } else {
             //Invalid option, recall
             printer.print(ERROR_MESSAGE);
-            scanner.nextLine();
             return chooseInRange(minValue, maxValue);
         }
     }
@@ -116,7 +139,7 @@ public class CLIReader {
      * @param high contains higher value
      * @return the user choice
      */
-    public synchronized int chooseBetweenTwo(int low, int high) {
+    public synchronized int chooseBetweenTwo(int low, int high) throws IOException {
         //Ask option
         printer.print("Opzione: ");
         int response = readInt();
@@ -128,23 +151,22 @@ public class CLIReader {
         } else {
             //Invalid option, recall
             printer.print(ERROR_MESSAGE);
-            scanner.nextLine();
             return chooseInRange(low, high);
         }
-    }
-
-    /**
-     * Resets the input reader
-     */
-    public synchronized void reset() {
-        scanner.reset();
     }
 
     /**
      * Closes the input reader
      */
     public synchronized void close() {
-        scanner.reset();
-        scanner.close();
+        try {
+            scanner.close();
+        } catch (IOException e) {
+            logger.log(Level.WARNING,"Error closing input "+e.getMessage());
+        }
+    }
+
+    public void interrupt(){
+        interrupt.set(true);
     }
 }

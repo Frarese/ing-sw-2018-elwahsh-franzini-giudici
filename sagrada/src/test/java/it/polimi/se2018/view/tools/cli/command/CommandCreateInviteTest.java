@@ -64,7 +64,7 @@ public class CommandCreateInviteTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoAction() {
+    public void testDoAction() throws Exception{
         String message = "y" + enter + "TestPlayer" + enter + "test" + enter + "test" + enter + "y" + enter + "80" + enter +
                 "TestPerson1" + enter + "y" + enter + "TestPerson2" + enter + "y" + enter + "TestPerson3" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));

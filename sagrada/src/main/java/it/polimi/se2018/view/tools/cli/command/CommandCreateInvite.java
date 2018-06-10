@@ -3,6 +3,8 @@ package it.polimi.se2018.view.tools.cli.command;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.view.app.CLIApp;
 
+import java.io.IOException;
+
 public class CommandCreateInvite extends CLICommand {
 
     public CommandCreateInvite(CLIApp app) {
@@ -10,7 +12,7 @@ public class CommandCreateInvite extends CLICommand {
     }
 
     @Override
-    public void doAction() {
+    public void doAction() throws IOException {
         //variables
         String player1;
         String player2 = null;

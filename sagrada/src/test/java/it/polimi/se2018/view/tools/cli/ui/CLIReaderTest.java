@@ -28,7 +28,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void testRead() {
+    public void testRead() throws Exception{
         String message = "Test";
         System.setIn(new ByteArrayInputStream((message + enter).getBytes()));
 
@@ -39,7 +39,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void testReadInt() {
+    public void testReadInt() throws Exception{
         int message = 1;
         System.setIn(new ByteArrayInputStream((message + enter).getBytes()));
 
@@ -50,7 +50,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void testReadIntFail() {
+    public void testReadIntFail() throws Exception{
         String message = "fail" + enter + "11";
         System.setIn(new ByteArrayInputStream((message + enter).getBytes()));
 
@@ -61,7 +61,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void testChooseYes() {
+    public void testChooseYes() throws Exception{
         String message = "a" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -72,7 +72,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void testChooseNo() {
+    public void testChooseNo() throws Exception{
         String message = "n";
         System.setIn(new ByteArrayInputStream((message + enter).getBytes()));
 
@@ -84,7 +84,7 @@ public class CLIReaderTest {
 
 
     @Test
-    public void testChooseInRangeFirst() {
+    public void testChooseInRangeFirst() throws Exception{
         String numberString = "0";
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
@@ -95,7 +95,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void testChooseInRangeSecond() {
+    public void testChooseInRangeSecond() throws Exception{
         String numberString = "0" + enter + "4" + enter + "2";
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
@@ -106,7 +106,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void testChooseBetweenFirstSecond() {
+    public void testChooseBetweenFirstSecond() throws Exception{
         String numberString = "1";
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
@@ -117,7 +117,7 @@ public class CLIReaderTest {
     }
 
     @Test
-    public void testChooseBetweenTwoSecond() {
+    public void testChooseBetweenTwoSecond() throws Exception{
         String numberString = "0" + enter + "2";
         System.setIn(new ByteArrayInputStream((numberString + enter).getBytes()));
 
@@ -130,7 +130,6 @@ public class CLIReaderTest {
     @After
     public void testCloseOperation() {
         System.setIn(System.in);
-        cliReader.reset();
         cliReader.close();
     }
 }

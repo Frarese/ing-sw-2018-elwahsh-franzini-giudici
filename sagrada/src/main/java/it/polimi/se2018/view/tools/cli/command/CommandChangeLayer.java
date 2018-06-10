@@ -2,6 +2,8 @@ package it.polimi.se2018.view.tools.cli.command;
 
 import it.polimi.se2018.view.app.CLIApp;
 
+import java.io.IOException;
+
 /**
  * Class to handle layer's change command
  *
@@ -15,7 +17,7 @@ public class CommandChangeLayer extends CLICommand {
     }
 
     @Override
-    public void doAction() {
+    public void doAction() throws IOException {
         this.app.getPrinter().print("Sei sicuro di voler cambiare tipo di connessione?");
         if (this.app.getReader().chooseYes()) {
             if (this.app.useRMI()) {

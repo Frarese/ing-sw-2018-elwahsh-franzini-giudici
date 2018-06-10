@@ -57,7 +57,7 @@ public class CommandShowFavoursTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionYourFavours() {
+    public void testDoActionYourFavours() throws Exception{
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "10" + enter + "80" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -74,7 +74,7 @@ public class CommandShowFavoursTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionOtherFavours() {
+    public void testDoActionOtherFavours() throws Exception{
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "10" + enter + "80" + enter + "n" + enter + "0" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 

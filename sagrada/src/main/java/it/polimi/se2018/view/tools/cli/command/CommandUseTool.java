@@ -3,6 +3,8 @@ package it.polimi.se2018.view.tools.cli.command;
 import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.app.CLIApp;
 
+import java.io.IOException;
+
 /**
  * Class to handle show Reserve request
  *
@@ -16,7 +18,7 @@ public class CommandUseTool extends CLICommand {
     }
 
     @Override
-    public void doAction() {
+    public void doAction() throws IOException {
         for (int i = 0; i < this.app.getCardViewCreator().getToolCards().size(); i++) {
             SingleCardView el = (SingleCardView) this.app.getCardViewCreator().getToolCards().get(i);
             this.app.getPrinter().print(i + ") " + this.app.getCardViewCreator().makeCard(el.cardID) + " prezzo: " + this.app.getCardViewCreator().makeCard(el.cardCost));

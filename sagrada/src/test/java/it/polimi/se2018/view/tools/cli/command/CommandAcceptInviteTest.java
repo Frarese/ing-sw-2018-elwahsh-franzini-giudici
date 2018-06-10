@@ -39,7 +39,7 @@ public class CommandAcceptInviteTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoAction() {
+    public void testDoAction() throws Exception{
         String input = "0" + enter;
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         app = new FakeApp();
