@@ -85,12 +85,12 @@ public class ServerController implements MatchController, Runnable {
      */
     private void startMatch()
     {
-        network.sendObj(new MatchStart());
         board.rollDiceOnReserve(players.size());
         for(Player p: players)
             sendMatchStatus(p);
 
         network.sendObj(new TurnStart(null,round.getCurrentPlayer().getName()));
+        network.sendObj(new MatchStart());
         timer = new Timer();
         timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
     }

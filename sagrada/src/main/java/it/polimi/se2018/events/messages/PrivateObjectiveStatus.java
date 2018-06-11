@@ -1,13 +1,13 @@
 package it.polimi.se2018.events.messages;
 
-import it.polimi.se2018.events.Event;
+import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.model.cards.PrivateObjectiveCard;
 
 /**
  * Each player get a single private objective ID
  * @author Alì El wahsh
  */
-public class PrivateObjectiveStatus extends Event {
+public class PrivateObjectiveStatus extends ServerMessage {
 
     private int cardId;
 
@@ -23,5 +23,10 @@ public class PrivateObjectiveStatus extends Event {
      */
     public int getCardId() {
         return cardId;
+    }
+
+    @Override
+    public void visit(ServerMessageHandler handler) {
+        handler.handle(this);
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.se2018.events.messages;
 
-import it.polimi.se2018.events.Event;
+import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.model.Pattern;
 
@@ -8,7 +8,7 @@ import it.polimi.se2018.model.Pattern;
  * One of the options from which the player has to choose from
  * @author Alì El wahsh
  */
-public class PatternSelect extends Event {
+public class PatternSelect extends ServerMessage {
 
     private String name;
     private int favourPoints;
@@ -52,5 +52,10 @@ public class PatternSelect extends Event {
      */
     public IntColorPair[][] getPattern() {
         return pattern;
+    }
+
+    @Override
+    public void visit(ServerMessageHandler handler) {
+        handler.handle(this);
     }
 }

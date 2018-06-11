@@ -1,14 +1,12 @@
 package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.ServerMessageHandler;
-
-/**
- * Message representing the end of the match setup phase
- * @author Francesco Franzini
- */
-public class MatchStart extends ServerMessage {
-    public MatchStart() {
-        this.description="MatchStart";
+public class ReadyView extends ServerMessage {
+    public final String playerName;
+    public ReadyView(String username)
+    {
+        this.playerName = username;
+        this.description = "ReadyView";
     }
 
     @Override

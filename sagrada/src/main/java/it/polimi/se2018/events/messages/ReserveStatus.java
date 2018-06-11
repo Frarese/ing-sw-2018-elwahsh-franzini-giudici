@@ -1,6 +1,6 @@
 package it.polimi.se2018.events.messages;
 
-import it.polimi.se2018.events.Event;
+import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.model.dice.Reserve;
 
@@ -8,7 +8,7 @@ import it.polimi.se2018.model.dice.Reserve;
  * Update of the reserve status
  * @author Alì El wahsh
  */
-public class ReserveStatus  extends Event{
+public class ReserveStatus  extends ServerMessage{
 
     private final IntColorPair[] dice = new IntColorPair[9];
 
@@ -33,5 +33,10 @@ public class ReserveStatus  extends Event{
      */
     public IntColorPair[] getDice() {
         return dice;
+    }
+
+    @Override
+    public void visit(ServerMessageHandler handler) {
+        handler.handle(this);
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.se2018.events.messages;
 
-import it.polimi.se2018.events.Event;
+import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.model.cards.ActiveObjectives;
 import it.polimi.se2018.model.cards.ActiveTools;
 
@@ -8,7 +8,7 @@ import it.polimi.se2018.model.cards.ActiveTools;
  * Info abouts the cards in game
  * @author Alì El Wahsh
  */
-public class CardInfo extends Event {
+public class CardInfo extends ServerMessage {
 
     private final int[] tools = new int[3];
     private final int[] toolCost = new int[3];
@@ -53,5 +53,10 @@ public class CardInfo extends Event {
      */
     public int[] getToolCost() {
         return toolCost;
+    }
+
+    @Override
+    public void visit(ServerMessageHandler handler) {
+        handler.handle(this);
     }
 }

@@ -1,13 +1,13 @@
 package it.polimi.se2018.events.messages;
 
-import it.polimi.se2018.events.Event;
+import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.events.actions.PlayerMove;
 
 /**
  * Invalid move message, to be handled by the client controllers
  * @author Alì El Wahsh
  */
-public class InvalidMove extends Event {
+public class InvalidMove extends ServerMessage {
 
 
     private PlayerMove move;
@@ -29,5 +29,10 @@ public class InvalidMove extends Event {
      */
     public PlayerMove getMove() {
         return move;
+    }
+
+    @Override
+    public void visit(ServerMessageHandler handler) {
+        handler.handle(this);
     }
 }

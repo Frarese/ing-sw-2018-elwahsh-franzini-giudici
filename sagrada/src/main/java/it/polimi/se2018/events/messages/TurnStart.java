@@ -1,11 +1,11 @@
 package it.polimi.se2018.events.messages;
 
-import it.polimi.se2018.events.Event;
+import it.polimi.se2018.events.ServerMessageHandler;
 
 /**
  * Notifies players the beginning of a new turn
  */
-public class TurnStart extends Event {
+public class TurnStart extends ServerMessage {
 
     private final String name;
     private final String oldPlayer;
@@ -36,5 +36,10 @@ public class TurnStart extends Event {
      */
     public String getOldPlayer() {
         return oldPlayer;
+    }
+
+    @Override
+    public void visit(ServerMessageHandler handler) {
+        handler.handle(this);
     }
 }

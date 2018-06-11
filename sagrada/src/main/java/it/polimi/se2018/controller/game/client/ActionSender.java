@@ -2,6 +2,7 @@ package it.polimi.se2018.controller.game.client;
 
 import it.polimi.se2018.controller.network.client.CommFE;
 import it.polimi.se2018.events.actions.*;
+import it.polimi.se2018.events.messages.ReadyView;
 import it.polimi.se2018.util.MatchIdentifier;
 
 /**
@@ -106,7 +107,7 @@ public class ActionSender {
      * Communicates to the Controller that View ended init operations
      */
     public void endInitGame() {
-        network.sendObj(new ReadyView(username));
+        network.sendReq(new ReadyView(username));
     }
 
 

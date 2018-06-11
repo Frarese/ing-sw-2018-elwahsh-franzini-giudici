@@ -1,6 +1,6 @@
 package it.polimi.se2018.events.messages;
 
-import it.polimi.se2018.events.Event;
+import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.model.Pattern;
 import it.polimi.se2018.model.Player;
@@ -11,7 +11,7 @@ import it.polimi.se2018.model.dice.Grid;
  * Update on player status
  * @author Alì El wahsh
  */
-public class PlayerStatus extends Event {
+public class PlayerStatus extends ServerMessage {
 
     private final String name;
     private final int id;
@@ -104,5 +104,8 @@ public class PlayerStatus extends Event {
         return placementRights;
     }
 
-
+    @Override
+    public void visit(ServerMessageHandler handler) {
+        handler.handle(this);
+    }
 }

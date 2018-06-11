@@ -1,9 +1,10 @@
 package it.polimi.se2018.controller.game.client;
 
 import it.polimi.se2018.controller.network.client.CommUtilizer;
-import it.polimi.se2018.events.Event;
 import it.polimi.se2018.events.messages.PatternSelect;
-import it.polimi.se2018.events.messages.ServerMessageHandler;
+import it.polimi.se2018.events.ServerMessageHandler;
+import it.polimi.se2018.events.messages.ServerMessage;
+import it.polimi.se2018.events.messages.ServerMessageHandlerImpl;
 import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
@@ -33,7 +34,7 @@ public class ClientController implements CommUtilizer {
     private CardView cards;
     private MatchIdentifier mId;
     private ArrayList<PatternView> patternsReceived;
-
+    private ServerMessageHandler messageHandler;
 
 
     public ClientController(App app)
@@ -43,12 +44,20 @@ public class ClientController implements CommUtilizer {
 
     @Override
     public void receiveObject(Serializable obj) {
-        ServerMessageHandler.handle(this,(Event) obj, app,players,reserve,roundTrack,cards);
+        try {
+            ((ServerMessage) obj).visit(messageHandler);
+        }catch (ClassCastException e){
+            Logger.getGlobal().log(Level.SEVERE,"Unknown object type "+obj.getClass());
+        }
     }
 
     @Override
     public void receiveRequest(Serializable req) {
-        ServerMessageHandler.handle(this,(Event) req, app,players,reserve,roundTrack,cards);
+        try {
+            ((ServerMessage) req).visit(messageHandler);
+        }catch (ClassCastException e){
+            Logger.getGlobal().log(Level.SEVERE,"Unknown object type "+req.getClass());
+        }
     }
 
     @Override
@@ -77,6 +86,7 @@ public class ClientController implements CommUtilizer {
         if(mId.playerCount >3)
             players.add(new PlayerView(mId.player3,3));
 
+        messageHandler=new ServerMessageHandlerImpl(this,app,players,reserve,roundTrack,cards);
     }
 
     @Override

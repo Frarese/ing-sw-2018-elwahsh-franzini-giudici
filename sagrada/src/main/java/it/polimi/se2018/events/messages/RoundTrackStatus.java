@@ -1,6 +1,6 @@
 package it.polimi.se2018.events.messages;
 
-import it.polimi.se2018.events.Event;
+import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.model.dice.RoundTracker;
 
@@ -9,7 +9,7 @@ import it.polimi.se2018.model.dice.RoundTracker;
  * Update on the status of the round track
  * @author Alì El wahsh
  */
-public class RoundTrackStatus extends Event {
+public class RoundTrackStatus extends ServerMessage {
 
     private final IntColorPair[][] dice = new IntColorPair[9][10];
     private final int round;
@@ -32,7 +32,7 @@ public class RoundTrackStatus extends Event {
                 if(t.getDie(i,j) != null)
                 {
                     dice[i][j] =new IntColorPair(t.getDie(i,j).getValue(),t.getDie(i,j).getColor());
-                    i++;
+                    j++;
                 }
                 else
                     done = true;
@@ -87,5 +87,10 @@ public class RoundTrackStatus extends Event {
         {
             return new IntColorPair[9];
         }
+    }
+
+    @Override
+    public void visit(ServerMessageHandler handler) {
+        handler.handle(this);
     }
 }

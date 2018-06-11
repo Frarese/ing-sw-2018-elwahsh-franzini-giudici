@@ -284,7 +284,7 @@ public class CLIApp extends App {
     }
 
     private void choosePattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4){
-        int pattern = 0;
+        int pattern;
         try {
             pattern = reader.chooseInRange(1, 4);
         } catch (IOException e) {
