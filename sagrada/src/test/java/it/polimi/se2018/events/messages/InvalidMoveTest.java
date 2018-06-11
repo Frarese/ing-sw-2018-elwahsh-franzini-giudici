@@ -13,7 +13,7 @@ public class InvalidMoveTest {
     public void testGetters()
     {
         DiePlacementMove move = new DiePlacementMove(0,0,0,"",true,true,true);
-        InvalidMove test = new InvalidMove(move, "test");
+        InvalidMove test = new InvalidMove(move, "test",true);
         assertEquals(move,test.getMove());
         assertEquals("test",test.toString());
     }

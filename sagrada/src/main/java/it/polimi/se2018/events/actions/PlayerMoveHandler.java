@@ -26,6 +26,7 @@ public interface PlayerMoveHandler {
                      ,"Placement Handler" + round.getCurrentPlayer().hashCode()).start();
                  break;
             case "UseCard":
+
                 new Thread(new ToolCardHandlerFactory()
                         .getCardHandler(controller.getInBus(),round.getCurrentPlayer(),
                                 (UseToolCardMove)move,

@@ -37,7 +37,25 @@ public class ServerMessageHandlerImpl implements ServerMessageHandler {
 
     @Override
     public void handle(InvalidMove move) {
-        //Not implemented yet
+        if(move.getMove().toString().equals(controller.getLastAction().toString()))
+        {
+            if(move.isPlacement())
+                app.setDieResult(false,move.toString());
+            else
+                app.useToolCardResult(false,move.toString());
+        }
+    }
+
+    @Override
+    public void handle(ConfirmMove move) {
+
+        if(move.getMove().toString().equals(controller.getLastAction().toString()))
+        {
+            if(move.isPlacement())
+                app.setDieResult(true,null);
+            else
+                app.useToolCardResult(true,null);
+        }
     }
 
     @Override

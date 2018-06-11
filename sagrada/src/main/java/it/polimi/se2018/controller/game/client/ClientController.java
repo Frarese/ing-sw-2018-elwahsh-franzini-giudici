@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.game.client;
 
 import it.polimi.se2018.controller.network.client.CommUtilizer;
+import it.polimi.se2018.events.actions.PlayerMove;
 import it.polimi.se2018.events.messages.PatternSelect;
 import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.events.messages.ServerMessage;
@@ -35,6 +36,7 @@ public class ClientController implements CommUtilizer {
     private MatchIdentifier mId;
     private ArrayList<PatternView> patternsReceived;
     private ServerMessageHandler messageHandler;
+    private PlayerMove lastAction;
 
 
     public ClientController(App app)
@@ -177,5 +179,20 @@ public class ClientController implements CommUtilizer {
         patternsReceived=new ArrayList<>();
     }
 
+    /**
+     * Sets last action sent
+     * @param move last move sent by the player
+     */
+    void setLastAction(PlayerMove move)
+    {
+        this.lastAction = move;
+    }
 
+    /**
+     * Getter for last player move
+     * @return last player move
+     */
+    public PlayerMove getLastAction() {
+        return lastAction;
+    }
 }

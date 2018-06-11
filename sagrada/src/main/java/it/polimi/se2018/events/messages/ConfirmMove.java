@@ -3,25 +3,18 @@ package it.polimi.se2018.events.messages;
 import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.events.actions.PlayerMove;
 
-/**
- * Invalid move message, to be handled by the client controllers
- * @author Alì El Wahsh
- */
-public class InvalidMove extends ServerMessage {
-
-
+public class ConfirmMove extends ServerMessage {
     private final PlayerMove move;
     private final boolean placement;
 
     /**
-     * InvalidMove's constructor
+     * ConfirmMove's constructor
      * @param move invalid move
-     * @param error error message
      */
-    public InvalidMove(PlayerMove move, String error,boolean placement)
+    public ConfirmMove(PlayerMove move,boolean placement)
     {
         this.move = move;
-        this.description = error;
+        this.description = "You did it";
         this.placement = placement;
     }
 

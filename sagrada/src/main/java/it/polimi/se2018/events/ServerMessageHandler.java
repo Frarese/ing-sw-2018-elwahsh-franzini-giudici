@@ -8,8 +8,10 @@ import it.polimi.se2018.events.messages.*;
  */
 public interface ServerMessageHandler {
 
+
     void handle(CardInfo move);
     void handle(InvalidMove move);
+    void handle(ConfirmMove move);
     void handle(MatchStart move);
     void handle(PatternSelect move);
     void handle(PlayerStatus move);

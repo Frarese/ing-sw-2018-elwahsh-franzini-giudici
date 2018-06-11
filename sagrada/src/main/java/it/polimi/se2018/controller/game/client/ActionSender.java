@@ -133,7 +133,9 @@ public class ActionSender {
      * @param width        contains width on the grid
      */
     public void setDie(int reserveIndex, int height, int width) {
-        network.sendReq(new DiePlacementMove(height, width, reserveIndex, username, true, true, true));
+        DiePlacementMove move = new DiePlacementMove(height, width, reserveIndex, username, true, true, true);
+        network.sendReq(move);
+        controller.setLastAction(move);
     }
 
     /**
@@ -142,14 +144,18 @@ public class ActionSender {
      * @param id contains the Tool Card's ID
      */
     public void userToolCard(int id) {
-        network.sendReq(new UseToolCardMove(username, id));
+        UseToolCardMove move= new UseToolCardMove(username, id);
+        network.sendReq(move);
+        controller.setLastAction(move);
     }
 
     /**
      * Pass Turn operation
      */
     public void passTurn() {
-        network.sendReq(new PassTurn(username));
+        PassTurn move = new PassTurn(username);
+        network.sendReq(move);
+        controller.setLastAction(move);
     }
 
     /**

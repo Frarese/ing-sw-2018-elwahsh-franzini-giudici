@@ -37,7 +37,7 @@ public class HandleTest {
         s.visit(hand);
         assertEquals(s,mov);
 
-        s=new InvalidMove(new UseToolCardMove("a",0),"error");
+        s=new InvalidMove(new UseToolCardMove("a",0),"error",false);
         s.visit(hand);
         assertEquals(s,mov);
 
@@ -91,6 +91,8 @@ public class HandleTest {
             mov=move;
         }
 
+        @Override
+        public void handle(ConfirmMove move) {mov = move;}
         @Override
         public void handle(PatternSelect move) {
             mov=move;

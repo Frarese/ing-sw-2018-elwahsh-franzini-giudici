@@ -2,6 +2,7 @@ package it.polimi.se2018.controller.game.server.handlers;
 
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
 import it.polimi.se2018.events.actions.DiePlacementMove;
+import it.polimi.se2018.events.messages.ConfirmMove;
 import it.polimi.se2018.events.messages.InvalidMove;
 import it.polimi.se2018.events.messages.PlayerStatus;
 import it.polimi.se2018.events.messages.ReserveStatus;
@@ -42,6 +43,7 @@ public class DiePlacementHandler implements Runnable {
      */
     private void notifySuccess()
     {
+        network.sendReq(new ConfirmMove(move,true),player.getName());
         network.sendObj(new PlayerStatus(player,firstTurn));
         network.sendObj(new ReserveStatus(reserve));
     }
@@ -52,7 +54,7 @@ public class DiePlacementHandler implements Runnable {
      */
     private void notifyFailure(String error)
     {
-        network.sendReq(new InvalidMove(move, error), player.getName());
+        network.sendReq(new InvalidMove(move, error,true), player.getName());
     }
 
     @Override
