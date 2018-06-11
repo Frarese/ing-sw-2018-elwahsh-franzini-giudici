@@ -57,15 +57,15 @@ public class CommandShowFavoursTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionYourFavours() throws Exception{
+    public void testDoActionYourFavours() throws Exception {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "10" + enter + "80" + enter + "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         app = new FakeApp();
         app.startLogin(false);
 
-        PlayerState me = new PlayerState("Test", 0, 2, new IntColorPair[1][1], null, false, false);
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
+        PlayerState me = new PlayerState("Test", 2, new IntColorPair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 2, new IntColorPair[1][1], null, false, false);
         app.getPlayers().add(me);
         app.getPlayers().add(other);
 
@@ -74,15 +74,15 @@ public class CommandShowFavoursTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionOtherFavours() throws Exception{
+    public void testDoActionOtherFavours() throws Exception {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "10" + enter + "80" + enter + "n" + enter + "0" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         app = new FakeApp();
         app.startLogin(false);
 
-        PlayerState me = new PlayerState("Test", 0, 2, new IntColorPair[1][1], null, false, false);
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
+        PlayerState me = new PlayerState("Test", 2, new IntColorPair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 2, new IntColorPair[1][1], null, false, false);
         app.getPlayers().add(me);
         app.getPlayers().add(other);
 

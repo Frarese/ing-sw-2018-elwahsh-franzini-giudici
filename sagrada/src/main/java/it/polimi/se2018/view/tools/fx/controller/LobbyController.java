@@ -14,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Manages actions in lobby page
+ * Manages lobby page
  *
  * @author Mathyas Giudici
  */
@@ -45,6 +44,9 @@ public class LobbyController implements FXController {
 
     private ObservableList<ScoreEntry> inviteUserList;
 
+    /**
+     * Creates lobby table's content
+     */
     public void setTables() {
         if (!JavaFXStageProducer.getApp().getConnectedUsers().isEmpty()) {
             Platform.runLater(this::setConnectedTable);
@@ -56,19 +58,31 @@ public class LobbyController implements FXController {
         setInviteTable();
     }
 
+    /**
+     * Exits from server (logout)
+     */
     public void logout() {
         if (ConfirmBox.displaySafeExit())
             JavaFXStageProducer.getApp().getViewActions().logout();
     }
 
+    /**
+     * Opens change layer's box
+     */
     public void changeLayer() {
         ChangeLayerBox.display();
     }
 
+    /**
+     * Refreshes lobby
+     */
     public void refresh() {
         JavaFXStageProducer.getApp().getViewActions().askLobby();
     }
 
+    /**
+     * Starts matchmaking
+     */
     public void startMatchmaking() {
         matchmakingButton.setText("Stop Matchmaking");
         matchmakingButton.setDefaultButton(false);
@@ -77,6 +91,9 @@ public class LobbyController implements FXController {
         JavaFXStageProducer.getApp().getViewActions().joinMatchMaking();
     }
 
+    /**
+     * Stops matchmaking
+     */
     private void stopMatchmaking() {
         matchmakingButton.setText("Matchmaking");
         matchmakingButton.setDefaultButton(true);
@@ -85,6 +102,9 @@ public class LobbyController implements FXController {
         JavaFXStageProducer.getApp().getViewActions().leaveMatchMaking();
     }
 
+    /**
+     * Creates connected user table's content
+     */
     private void setConnectedTable() {
         TableColumn<ScoreEntry, String> tableColumnName = new TableColumn<>(USER_STRING);
         tableColumnName.setPrefWidth(connectedUserTable.getPrefWidth());
@@ -119,6 +139,9 @@ public class LobbyController implements FXController {
         });
     }
 
+    /**
+     * Creates leader board table's content
+     */
     private void setLeaderBoardTable() {
         TableColumn<ScoreEntry, String> tableColumnName = new TableColumn<>(USER_STRING);
         tableColumnName.setPrefWidth(leaderBoardTable.getPrefWidth() / 2);
@@ -143,10 +166,13 @@ public class LobbyController implements FXController {
         leaderBoardTable.setItems(observableList);
     }
 
+    /**
+     * Creates invite's table and sets operations to catch new entries
+     */
     private void setInviteTable() {
         TableColumn<ScoreEntry, String> tableColumnName = new TableColumn<>(USER_STRING);
         tableColumnName.setPrefWidth(inviteTable.getPrefWidth());
-        tableColumnName.setCellValueFactory(new PropertyValueFactory<>("usn"));
+        tableColumnName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().usn));
 
         inviteTable.getColumns().clear();
         inviteTable.getColumns().add(tableColumnName);
@@ -192,6 +218,9 @@ public class LobbyController implements FXController {
         });
     }
 
+    /**
+     * Creates a new invite using people in invite's table
+     */
     public void invite() {
         if (inviteUserList.isEmpty()) {
             AlertBox.attentionBox("Deve essere presente almeno una persona nell'invito");
@@ -211,10 +240,16 @@ public class LobbyController implements FXController {
 
     }
 
+    /**
+     * Clears invite's table
+     */
     public void clearInvite() {
         inviteUserList.clear();
     }
 
+    /**
+     * Shows invites
+     */
     public void showInvites() {
         ShowInvitesBox.display();
     }

@@ -21,9 +21,8 @@ public class PlayerViewObserver extends ModelObserver implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         PlayerView playerView = (PlayerView) o;
-        PlayerState playerState = new PlayerState(playerView.getPlayerName(),
-                playerView.getPlayerID(), playerView.getPlayerFavours(), playerView.getPlayerTemplate(),
-                playerView.getPlayerGrid(), playerView.isPlacementRights(), playerView.isCardRights());
+        PlayerState playerState = new PlayerState(playerView.getPlayerName(), playerView.getPlayerFavours(),
+                playerView.getPlayerTemplate(), playerView.getPlayerGrid(), playerView.isPlacementRights(), playerView.isCardRights());
 
         //Search in player view and update
         for (int i = 0; i < this.app.getPlayers().size(); i++) {

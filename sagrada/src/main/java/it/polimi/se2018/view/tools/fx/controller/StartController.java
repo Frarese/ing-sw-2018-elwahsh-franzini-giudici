@@ -4,7 +4,7 @@ import it.polimi.se2018.view.app.JavaFXStageProducer;
 import javafx.fxml.FXML;
 
 /**
- * Manages actions in start page
+ * Manages start page
  *
  * @author Mathyas Giudici
  */

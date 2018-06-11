@@ -83,7 +83,7 @@ public class ChangeLayerController {
 
 
     /**
-     * Checks connection's layer attributes
+     * Checks connection's fields
      *
      * @param rmiRadio      contains rmi button
      * @param socketRadio   contains socket button

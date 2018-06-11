@@ -7,7 +7,10 @@ import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.observable.ReserveView;
 import it.polimi.se2018.observable.RoundTrackerView;
-import it.polimi.se2018.util.*;
+import it.polimi.se2018.util.MatchIdentifier;
+import it.polimi.se2018.util.PatternView;
+import it.polimi.se2018.util.ScoreEntry;
+import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
@@ -531,7 +534,7 @@ public class CLIAppTest {
     @Test
     public void testOtherPlayerLeave() {
         testSetApp(new FakeViewAction(null));
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 2, new IntColorPair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
         this.app.otherPlayerLeave("OtherPlayerTest");
@@ -542,7 +545,7 @@ public class CLIAppTest {
     @Test
     public void testOtherPlayerReconnection() {
         testSetApp(new FakeViewAction(null));
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest", 2, new IntColorPair[1][1], null, false, false);
         this.app.getPlayers().add(other);
 
         this.app.otherPlayerReconnection("OtherPlayerTest");
@@ -594,7 +597,7 @@ public class CLIAppTest {
 
         IntColorPair[][] fakeGrid = new IntColorPair[1][1];
         fakeGrid[0][0] = new IntColorPair(1, ColorModel.RED);
-        PlayerState playerState = new PlayerState("Other", 1, 1, null, fakeGrid, false, false);
+        PlayerState playerState = new PlayerState("Other", 1, null, fakeGrid, false, false);
         this.app.players.add(playerState);
 
         this.app.addUpdate("Other", 0, 0);
@@ -659,7 +662,7 @@ public class CLIAppTest {
         this.app.getCardViewCreator().setPublicObjectiveCards(cards);
         this.app.getCardViewCreator().setToolCards(cards);
 
-        PlayerState playerState = new PlayerState("Other", 1, 1, null, null, false, false);
+        PlayerState playerState = new PlayerState("Other", 1, null, null, false, false);
         this.app.players.add(playerState);
 
         this.app.useToolCardUpdate("Other", 10);
@@ -708,7 +711,7 @@ public class CLIAppTest {
         testSetApp(new FakeViewAction(null));
         this.app.startLogin(false);
 
-        PlayerState playerState = new PlayerState("Other", 1, 1, null, null, false, false);
+        PlayerState playerState = new PlayerState("Other", 1, null, null, false, false);
         this.app.players.add(playerState);
 
         this.app.passTurnUpdate("Other");

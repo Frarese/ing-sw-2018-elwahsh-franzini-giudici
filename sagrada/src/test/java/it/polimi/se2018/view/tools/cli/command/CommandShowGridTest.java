@@ -64,8 +64,8 @@ public class CommandShowGridTest extends AbsCommandTest {
         app = new FakeApp();
         app.startLogin(false);
 
-        PlayerState me = new PlayerState("Test", 0, 2, new IntColorPair[1][1], null, false, false);
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
+        PlayerState me = new PlayerState("Test",  2, new IntColorPair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest",  2, new IntColorPair[1][1], null, false, false);
         app.getPlayers().add(me);
         app.getPlayers().add(other);
 
@@ -83,8 +83,8 @@ public class CommandShowGridTest extends AbsCommandTest {
         app = new FakeApp();
         app.startLogin(false);
 
-        PlayerState me = new PlayerState("Test", 0, 2, new IntColorPair[1][1], null, false, false);
-        PlayerState other = new PlayerState("OtherPlayerTest", 1, 2, new IntColorPair[1][1], null, false, false);
+        PlayerState me = new PlayerState("Test",  2, new IntColorPair[1][1], null, false, false);
+        PlayerState other = new PlayerState("OtherPlayerTest",  2, new IntColorPair[1][1], null, false, false);
         app.getPlayers().add(me);
         app.getPlayers().add(other);
 

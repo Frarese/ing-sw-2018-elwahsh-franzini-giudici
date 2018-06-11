@@ -13,18 +13,16 @@ public class PlayerState {
     /**
      * Class attributes
      */
-    private String playerName;
-    private int playerID;
-    private int playerFavours;
-    private IntColorPair[][] playerTemplate;
-    private IntColorPair[][] playerGrid;
-    private boolean placementRights;
-    private boolean cardRights;
+    private final String playerName;
+    private final int playerFavours;
+    private final IntColorPair[][] playerTemplate;
+    private final IntColorPair[][] playerGrid;
+    private final boolean placementRights;
+    private final boolean cardRights;
 
 
-    public PlayerState(String playerName, int playerID, int favours, IntColorPair[][] playerTemplate, IntColorPair[][] playerGrid, boolean placementRights, boolean cardRights) {
+    public PlayerState(String playerName, int favours, IntColorPair[][] playerTemplate, IntColorPair[][] playerGrid, boolean placementRights, boolean cardRights) {
         this.playerName = playerName;
-        this.playerID = playerID;
         this.playerFavours = favours;
         this.playerTemplate = playerTemplate;
         this.playerGrid = playerGrid;
@@ -36,57 +34,25 @@ public class PlayerState {
         return playerName;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public int getPlayerID() {
-        return playerID;
-    }
-
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
-    }
-
     public int getPlayerFavours() {
         return playerFavours;
-    }
-
-    public void setPlayerFavours(int playerFavours) {
-        this.playerFavours = playerFavours;
     }
 
     public IntColorPair[][] getPlayerTemplate() {
         return playerTemplate;
     }
 
-    public void setPlayerTemplate(IntColorPair[][] playerTemplate) {
-        this.playerTemplate = playerTemplate;
-    }
-
     public IntColorPair[][] getPlayerGrid() {
         return playerGrid;
-    }
-
-    public void setPlayerGrid(IntColorPair[][] playerGrid) {
-        this.playerGrid = playerGrid;
     }
 
     public boolean isPlacementRights() {
         return placementRights;
     }
 
-    public void setPlacementRights(boolean placementRights) {
-        this.placementRights = placementRights;
-    }
-
     public boolean isCardRights() {
         return cardRights;
     }
 
-    public void setCardRights(boolean cardRights) {
-        this.cardRights = cardRights;
-
-    }
 }
 

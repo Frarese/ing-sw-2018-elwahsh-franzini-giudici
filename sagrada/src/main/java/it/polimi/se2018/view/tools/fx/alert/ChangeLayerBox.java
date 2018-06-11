@@ -19,12 +19,15 @@ public class ChangeLayerBox {
     /**
      * Class constructor
      */
-    private ChangeLayerBox(){
+    private ChangeLayerBox() {
         throw new IllegalStateException("Utility JavaFX class");
     }
 
     private static Stage window;
 
+    /**
+     * Show a new window to manage change layer request
+     */
     public static void display() {
         window = new Stage();
 
@@ -50,6 +53,9 @@ public class ChangeLayerBox {
         }
     }
 
+    /**
+     * Closes the window
+     */
     public static void close() {
         if (window != null) {
             window.close();

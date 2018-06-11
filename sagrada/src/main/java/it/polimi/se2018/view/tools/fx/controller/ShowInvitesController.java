@@ -11,13 +11,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+/**
+ * Manages invites show page
+ *
+ * @author Mathyas Giudici
+ */
 
 public class ShowInvitesController {
-
 
     @FXML
     TableView<MatchIdentifier> table;
 
+    /**
+     * Sets content in the invites' table
+     */
     public void setTable() {
         TableColumn<MatchIdentifier, String> tableColumnName = new TableColumn<>("Invito");
         tableColumnName.setMinWidth(table.getPrefWidth());
@@ -33,6 +40,9 @@ public class ShowInvitesController {
 
     }
 
+    /**
+     * Accepts the selected invite
+     */
     public void acceptInvite() {
         if (table.getSelectionModel().isEmpty()) {
             AlertBox.attentionBox("Deve essere prima selezionato un invito");
@@ -43,6 +53,9 @@ public class ShowInvitesController {
         }
     }
 
+    /**
+     * Closes invites' window
+     */
     public void close() {
         ShowInvitesBox.close();
     }

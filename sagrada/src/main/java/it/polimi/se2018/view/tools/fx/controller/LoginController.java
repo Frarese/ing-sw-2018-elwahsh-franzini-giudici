@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 /**
- * Manages actions in login page
+ * Manages login page
  *
  * @author Mathyas Giudici
  */
@@ -61,6 +61,9 @@ public class LoginController implements FXController {
         }
     }
 
+    /**
+     * Calls a login request
+     */
     private void loginCall() {
         //Save information in JavaFXApp
         JavaFXStageProducer.getApp().tryLogin(name.getText(), rmiRadio.isSelected());
@@ -84,13 +87,21 @@ public class LoginController implements FXController {
         }
     }
 
-
+    /**
+     * Checks connection's fields using ChangeLayerController methods
+     *
+     * @param rmiRadio      contains rmi button
+     * @param socketRadio   contains socket button
+     * @param requestPort   contains the request port's field
+     * @param objectPort    contains the object port's field
+     * @param stringBuilder contains the errors' string builder
+     */
     private void checkConnection(RadioButton rmiRadio, RadioButton socketRadio, TextField requestPort, TextField objectPort, StringBuilder stringBuilder) {
         ChangeLayerController.checkConnection(rmiRadio, socketRadio, requestPort, objectPort, stringBuilder);
     }
 
     /**
-     * Checks name field isn't empty
+     * Checks name's field isn't empty
      *
      * @param stringBuilder contains the errors' string builder
      */
@@ -101,7 +112,7 @@ public class LoginController implements FXController {
     }
 
     /**
-     * Checks password field isn't empty
+     * Checks password's field isn't empty
      *
      * @param stringBuilder contains the errors' string builder
      */
@@ -112,7 +123,7 @@ public class LoginController implements FXController {
     }
 
     /**
-     * Checks server field isn't empty
+     * Checks server's field isn't empty
      *
      * @param stringBuilder contains the errors' string builder
      */

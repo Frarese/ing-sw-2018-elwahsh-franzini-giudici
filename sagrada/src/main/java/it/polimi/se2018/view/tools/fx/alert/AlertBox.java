@@ -22,7 +22,7 @@ public class AlertBox {
     /**
      * Class constructor
      */
-    private AlertBox(){
+    private AlertBox() {
         throw new IllegalStateException("Utility JavaFX class");
     }
 
@@ -78,6 +78,16 @@ public class AlertBox {
      */
     public static void notifyBox(String message) {
         AlertBox.display("Notifica", message, null);
+    }
+
+    /**
+     * Shows a notify alert box
+     *
+     * @param message contains the message to show
+     * @param image   @Nullable contains the image to show, if it's null AlertBox doesn't show image
+     */
+    public static void notifyWithImageBox(String message, Image image) {
+        AlertBox.display("Notifica", message, image);
     }
 
     /**

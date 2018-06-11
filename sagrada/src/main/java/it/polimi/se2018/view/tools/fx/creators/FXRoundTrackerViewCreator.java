@@ -1,7 +1,9 @@
 package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.model.IntColorPair;
+import it.polimi.se2018.view.app.JavaFXStageProducer;
 import it.polimi.se2018.view.tools.RoundTrackerViewCreator;
+import it.polimi.se2018.view.tools.fx.alert.ConfirmBox;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +24,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
      */
     public FXRoundTrackerViewCreator() {
         super();
+        this.dieViewCreator = new FXDieViewCreator(FXConstants.GRID_CELL_DIM_VALUE);
     }
 
     /**
@@ -37,11 +40,20 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
 
     @Override
     public VBox display() {
+        return roundTrackerCreator(false);
+    }
+
+
+    public VBox displayWithClick() {
+        return roundTrackerCreator(true);
+    }
+
+    private VBox roundTrackerCreator(boolean hasClickProp) {
         //Initialize container
         VBox container = new VBox(0);
 
         //Initialize grid
-        FXConstants.createEmptyGrid(container, "WHITE", 2, 5,
+        FXConstants.createEmptyGrid(container, "transparent", 2, 5,
                 FXConstants.ROUNDT_INSETS_SPACING, FXConstants.ROUNDT_ROW_SPACING, FXConstants.ROUNDT_CELL_DIM_VALUE);
 
         for (int i = 0; i < roundTracker.length; i++) {
@@ -56,7 +68,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
             if (i < round && roundTracker[i] != null) {
                 for (int j = 0; j < roundTracker[i].length; j++) {
                     if (roundTracker[i][j] != null) {
-                        this.makeCellDie(roundTracker[i][j], comboBox);
+                        this.makeCellDie(roundTracker[i][j], comboBox, hasClickProp, i, j);
                     }
                 }
             } else {
@@ -120,12 +132,23 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
         });
     }
 
-    private void makeCellDie(IntColorPair die, ComboBox<ImageView> comboBox) {
+    private void makeCellDie(IntColorPair die, ComboBox<ImageView> comboBox, boolean hasClickProp, int roundIndex, int dieIndex) {
         if (die != null) {
             Image image = (Image) dieViewCreator.makeDie(die);
             ImageView imageView = new ImageView(image);
             imageView.setFitHeight(FXConstants.ROUNDT_IMG_DIM_VALUE);
             imageView.setFitWidth(FXConstants.ROUNDT_IMG_DIM_VALUE);
+
+            if (hasClickProp) {
+                imageView.setOnMouseClicked(clickEvent -> {
+                    boolean answer = ConfirmBox.display("Selezione Dado", "Vuoi selezionare il dado cliccato?");
+                    if (answer) {
+                        JavaFXStageProducer.getApp().getViewToolCardActions().selectedDieFromRoundTracker(roundIndex, dieIndex);
+                    }
+                    clickEvent.consume();
+                });
+            }
+
             comboBox.getItems().add(imageView);
             comboBox.setValue(imageView);
         }

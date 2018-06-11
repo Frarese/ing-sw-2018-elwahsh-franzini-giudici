@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.fx.alert;
 
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,85 +12,78 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Class to create confirm box to manage user choice (yes or no question)
+ * Class to create a box to show to user new value die choice
  *
  * @author Mathyas Giudici
  */
 
-public class ConfirmBox {
+public class NewValueDieBox {
 
-    private static boolean approve;
+    private static int returnValue;
 
     /**
      * Class constructor
      */
-    private ConfirmBox() {
+    private NewValueDieBox() {
         throw new IllegalStateException("Utility JavaFX class");
     }
 
-    /**
-     * Shows the confirm box
-     *
-     * @param title   contains the alert box's title
-     * @param message contains the message to show
-     * @return contains the user's choice
-     */
-    public static boolean display(String title, String message) {
+
+    public static int display(int low, int high) {
         Stage window = new Stage();
 
         //Locks event in this window
         window.initModality(Modality.APPLICATION_MODAL);
         window.setAlwaysOnTop(true);
 
+        String title = "Scelta valore dado";
         window.setTitle(title);
 
-        Label labelTitle = new Label();
+        Label labelTitle = new Label(title);
         labelTitle.setText(title);
         labelTitle.setStyle("-fx-font-size: 36.0; -fx-font-family: System; -fx-font-weight: Bold");
 
-        Label labelMessage = new Label();
-        labelMessage.setText(message);
 
         //Creates two buttons
-        Button yesButton = new Button("Si");
-        Button noButton = new Button("No");
+        Button lowButton = new Button(Integer.toString(low));
+        Button highButton = new Button(Integer.toString(high));
 
-        noButton.setDefaultButton(true);
 
-        yesButton.setOnAction(e -> {
-            approve = true;
+        lowButton.setOnAction(e -> {
+            returnValue = low;
             window.close();
         });
-        noButton.setOnAction(e -> {
-            approve = false;
+        highButton.setOnAction(e -> {
+            returnValue = high;
             window.close();
         });
+
 
         HBox buttonContainer = new HBox(10);
-        buttonContainer.getChildren().addAll(noButton, yesButton);
+        buttonContainer.getChildren().addAll(lowButton, highButton);
         buttonContainer.setAlignment(Pos.CENTER);
+
+        lowButton.setPrefWidth(buttonContainer.getPrefWidth() / 2);
+        highButton.setPrefWidth(buttonContainer.getPrefWidth() / 2);
+
+        lowButton.setPrefHeight(buttonContainer.getPrefHeight() / 2);
+        highButton.setPrefHeight(buttonContainer.getPrefHeight() / 2);
 
         VBox container = new VBox(10);
         container.setPadding(new Insets(20, 20, 20, 20));
-        container.getChildren().addAll(labelTitle, labelMessage, buttonContainer);
+        container.getChildren().addAll(labelTitle, buttonContainer);
         container.setAlignment(Pos.CENTER);
+
 
         Scene scene = new Scene(container);
         window.centerOnScreen();
         window.setScene(scene);
+        window.setOnCloseRequest(Event::consume);
 
         //Current window must be close to come back to the caller
         window.showAndWait();
 
-        return approve;
-    }
 
-    /**
-     * Shows a confirm box for exit and close operations
-     *
-     * @return contains the user's choice
-     */
-    public static boolean displaySafeExit() {
-        return ConfirmBox.display("Uscita", "Sei sicuro di voler uscire?");
+        return returnValue;
     }
 }

@@ -13,7 +13,7 @@ import java.io.IOException;
 public class CommandAddDie extends CLICommand {
 
     public CommandAddDie(CLIApp app) {
-        super("add) Prendi un dado dalla riserva e piazzalo alla tua vetrata", app);
+        super("add) Prendi un dado dalla riserva e piazzalo sulla tua vetrata", app);
     }
 
     @Override

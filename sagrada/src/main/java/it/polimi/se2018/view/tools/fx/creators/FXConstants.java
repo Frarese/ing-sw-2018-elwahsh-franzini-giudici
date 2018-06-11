@@ -21,6 +21,7 @@ abstract class FXConstants {
      * Constants for grid and dice
      */
     static final int GRID_CELL_DIM_VALUE = 50;
+    static final int GRID_DIE_DIM_VALUE = 40;
     static final int GRID_INSETS_SPACING = 5;
     static final int GRID_ROW_SPACING = 10;
 

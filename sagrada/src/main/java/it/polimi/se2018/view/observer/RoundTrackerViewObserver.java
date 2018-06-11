@@ -12,7 +12,8 @@ import java.util.Observer;
  * @author Mathyas Giudici
  */
 
-public class RoundTrackerViewObserver extends ModelObserver implements Observer {
+public class
+RoundTrackerViewObserver extends ModelObserver implements Observer {
 
     public RoundTrackerViewObserver(App app) {
         super(app);

@@ -321,7 +321,12 @@ public class CLIApp extends App {
 
         //Save current players states
         for (PlayerView playerView : players) {
-            this.players.add(setState(playerView));
+            this.players.add(createState(playerView));
+
+            if (playerView.getPlayerName().equals(getOwnerPlayerName())) {
+                gridViewCreator.setGridPattern(playerView.getPlayerTemplate());
+                gridViewCreator.setGrid(playerView.getPlayerGrid());
+            }
         }
 
         //Adds ReserveView Observer

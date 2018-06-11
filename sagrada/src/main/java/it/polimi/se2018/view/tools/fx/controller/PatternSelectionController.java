@@ -10,7 +10,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.VBox;
 
 /**
- * Manages actions in pattern selection page
+ * Manages pattern selection page
  *
  * @author Mathyas Giudici
  */

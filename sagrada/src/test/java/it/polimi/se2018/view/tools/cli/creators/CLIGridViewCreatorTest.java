@@ -39,12 +39,12 @@ public class CLIGridViewCreatorTest {
         result = new ArrayList<>();
         result.add("Pattern");
         result.add("--------------------");
-        result.add("|1-RED   ||1-VIOLET|");
+        result.add("|1-RED   ||        |");
         result.add("--------------------");
         grid = null;
         pattern = new IntColorPair[1][2];
         pattern[0][0] = new IntColorPair(1, ColorModel.RED);
-        pattern[0][1] = new IntColorPair(1, ColorModel.VIOLET);
+        pattern[0][1] = new IntColorPair(0, ColorModel.WHITE);
         this.cliGridViewCreator = new CLIGridViewCreator(grid, pattern, printer);
 
         assertEquals(result.toString().replaceAll(regexControl, emptyString), cliGridViewCreator.display().toString().replaceAll(regexControl, emptyString));
@@ -55,7 +55,7 @@ public class CLIGridViewCreatorTest {
         result = new ArrayList<>();
         result.add("Pattern");
         result.add("--------------------");
-        result.add("|1-RED   ||1-RED   |");
+        result.add("|1-RED   ||1-VIOLET|");
         result.add("--------------------");
         result.add("Griglia");
         result.add("--------------------");
@@ -64,7 +64,7 @@ public class CLIGridViewCreatorTest {
         grid = new IntColorPair[1][2];
         pattern = new IntColorPair[1][2];
         pattern[0][0] = new IntColorPair(1, ColorModel.RED);
-        pattern[0][1] = new IntColorPair(1, ColorModel.RED);
+        pattern[0][1] = new IntColorPair(1, ColorModel.VIOLET);
         this.cliGridViewCreator = new CLIGridViewCreator(grid, pattern, printer);
 
         assertEquals(result.toString().replaceAll(regexControl, emptyString), cliGridViewCreator.display().toString().replaceAll(regexControl, emptyString));

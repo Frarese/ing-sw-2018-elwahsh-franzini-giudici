@@ -11,6 +11,12 @@ import javafx.stage.Stage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class to create invites box to show to user
+ *
+ * @author Mathyas Giudici
+ */
+
 public class ShowInvitesBox {
 
     private static Stage window;
@@ -22,6 +28,9 @@ public class ShowInvitesBox {
         throw new IllegalStateException("Utility JavaFX class");
     }
 
+    /**
+     * Shows invites in a table in a new window
+     */
     public static void display() {
         window = new Stage();
 
@@ -49,6 +58,9 @@ public class ShowInvitesBox {
         }
     }
 
+    /**
+     * Closes invite's window
+     */
     public static void close() {
         if (window != null) {
             window.close();

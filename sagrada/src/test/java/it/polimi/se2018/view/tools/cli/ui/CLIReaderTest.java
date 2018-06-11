@@ -127,6 +127,12 @@ public class CLIReaderTest {
         assertEquals(2, returnValue);
     }
 
+    @Test
+    public void testInterrupt(){
+        this.cliReader = new CLIReader(this.cliPrinter);
+        this.cliReader.interrupt();
+    }
+
     @After
     public void testCloseOperation() {
         System.setIn(System.in);

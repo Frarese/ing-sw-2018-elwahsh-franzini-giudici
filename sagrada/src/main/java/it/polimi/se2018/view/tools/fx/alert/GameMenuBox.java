@@ -10,14 +10,27 @@ import javafx.stage.Stage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class to create game menu box to show to user
+ *
+ * @author Mathyas Giudici
+ */
+
 public class GameMenuBox {
 
+    /**
+     * Class constructor
+     */
     private GameMenuBox() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Utility JavaFX class");
     }
+
 
     private static Stage window;
 
+    /**
+     * Shows the game's menu
+     */
     public static void display() {
         window = new Stage();
 
@@ -43,6 +56,9 @@ public class GameMenuBox {
         }
     }
 
+    /**
+     * Close the menu's window
+     */
     public static void close() {
         if (window != null) {
             window.close();

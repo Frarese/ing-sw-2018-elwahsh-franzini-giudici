@@ -5,13 +5,13 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="892.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="779.0" prefWidth="1432.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.polimi.se2018.view.tools.fx.controller.GameController">
-    <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                minWidth="-Infinity" stylesheets="/it/polimi/se2018/view/app/fxmlFiles/cssFiles/gameCSS.css"
+    <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="778.0" maxWidth="1405.0" prefHeight="777.0"
+                prefWidth="1405.0" stylesheets="/it/polimi/se2018/view/app/fxmlFiles/cssFiles/gameCSS.css"
                 AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0">
-        <GridPane id="grid" alignment="CENTER">
+        <GridPane id="grid" alignment="CENTER" minHeight="777.0" minWidth="1400.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -48,8 +48,7 @@
                     <Label text="PUNTI FAVORE" HBox.hgrow="ALWAYS"/>
                     <Region prefHeight="43.0" prefWidth="135.0"/>
                     <TextField fx:id="myFavours" alignment="CENTER_RIGHT" editable="false"
-                               minWidth="-Infinity" prefHeight="27.0" prefWidth="10.0"
-                               HBox.hgrow="ALWAYS"/>
+                               minWidth="-Infinity" prefHeight="27.0" prefWidth="10.0" HBox.hgrow="ALWAYS"/>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxWidth="1000.0"
                       prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
@@ -63,67 +62,95 @@
                 <padding>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </padding>
-                <ImageView fx:id="publicObjectiveCard0" fitHeight="216.0" fitWidth="158.0"
+                <ImageView fx:id="publicObjectiveCard0" fitHeight="200.0" fitWidth="140.0"
                            pickOnBounds="true" preserveRatio="true">
                     <Image url="@../../images/public_cards/publicObjectiveBACK.jpg"/>
                 </ImageView>
-                <ImageView fx:id="publicObjectiveCard1" fitHeight="216.0" fitWidth="158.0" layoutX="181.0"
+                <ImageView fx:id="publicObjectiveCard1" fitHeight="200.0" fitWidth="140.0" layoutX="181.0"
                            layoutY="49.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../../images/public_cards/publicObjectiveBACK.jpg"/>
                 </ImageView>
-                <ImageView fx:id="publicObjectiveCard2" fitHeight="216.0" fitWidth="158.0" layoutX="258.0"
+                <ImageView fx:id="publicObjectiveCard2" fitHeight="200.0" fitWidth="140.0" layoutX="258.0"
                            layoutY="49.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../../images/public_cards/publicObjectiveBACK.jpg"/>
                 </ImageView>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0"
+            <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="5.0"
                   GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <VBox fx:id="reserveContainer" alignment="CENTER_LEFT" prefHeight="297.0" prefWidth="344.0"
-                      style="-fx-background-color: BLACK;" HBox.hgrow="ALWAYS"/>
-                <VBox alignment="CENTER_RIGHT" maxWidth="1000.0" prefHeight="297.0" prefWidth="183.0"
+                <VBox fx:id="reserveContainer" alignment="CENTER" prefHeight="293.0" prefWidth="293.0"
                       HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                </VBox>
+                <VBox alignment="CENTER_RIGHT" prefWidth="140.0" HBox.hgrow="ALWAYS">
                     <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </padding>
-                    <ImageView fx:id="privateObjectiveCard" fitHeight="287.0" fitWidth="277.0"
+                    <ImageView fx:id="privateObjectiveCard" fitHeight="200.0" fitWidth="140.0"
                                pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                         <Image url="@../../images/private_cards/privateObjectiveBACK.jpg"/>
                     </ImageView>
                 </VBox>
             </HBox>
-            <VBox fx:id="roundTrackerContainer" prefHeight="200.0" prefWidth="100.0"/>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1"/>
+            <VBox fx:id="roundTrackerContainer" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"/>
+            <VBox fx:id="secondOtherPlayer" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                  GridPane.rowIndex="1">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+            </VBox>
             <VBox fx:id="myGridContainer" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1"
-                  GridPane.rowIndex="2"/>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1"/>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                  GridPane.rowIndex="2">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+            </VBox>
+            <VBox fx:id="firstOtherPlayer" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                  GridPane.columnIndex="1">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+            </VBox>
+            <VBox fx:id="thirdOtherPlayer" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                  GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+            </VBox>
             <HBox alignment="CENTER" layoutX="1007.0" layoutY="15.0" prefHeight="293.0" prefWidth="498.0"
                   spacing="10.0" GridPane.rowIndex="2">
                 <padding>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </padding>
-                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                    <ImageView fx:id="toolCard0" fitHeight="209.0" fitWidth="140.0" pickOnBounds="true"
-                               preserveRatio="true">
-                        <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
-                    </ImageView>
-                    <Label fx:id="toolCardFV0" text="FV : 0"/>
+                <VBox alignment="CENTER">
+                    <VBox alignment="CENTER" spacing="5.0" style="-fx-border-color: BLACK;">
+                        <ImageView fx:id="toolCard0" fitHeight="200.0" fitWidth="140.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
+                        </ImageView>
+                        <Label fx:id="toolCardFV0" text="FV : 0"/>
+                    </VBox>
                 </VBox>
-                <VBox alignment="CENTER" layoutX="188.0" layoutY="15.0" prefHeight="200.0"
-                      prefWidth="100.0" spacing="5.0">
-                    <ImageView fx:id="toolCard1" fitHeight="209.0" fitWidth="140.0" pickOnBounds="true"
-                               preserveRatio="true">
-                        <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
-                    </ImageView>
-                    <Label fx:id="toolCardFV1" text="FV : 0"/>
+                <VBox alignment="CENTER">
+                    <VBox alignment="CENTER" layoutX="188.0" layoutY="15.0" prefHeight="200.0"
+                          prefWidth="100.0" spacing="5.0" style="-fx-border-color: BLACK;">
+                        <ImageView fx:id="toolCard1" fitHeight="200.0" fitWidth="140.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
+                        </ImageView>
+                        <Label fx:id="toolCardFV1" text="FV : 0"/>
+                    </VBox>
                 </VBox>
-                <VBox alignment="CENTER" layoutX="113.0" layoutY="15.0" prefHeight="200.0"
-                      prefWidth="100.0" spacing="5.0">
-                    <ImageView fx:id="toolCard2" fitHeight="209.0" fitWidth="140.0" pickOnBounds="true"
-                               preserveRatio="true">
-                        <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
-                    </ImageView>
-                    <Label fx:id="toolCardFV2" text="FV : 0"/>
+                <VBox alignment="CENTER">
+                    <VBox alignment="CENTER" layoutX="113.0" layoutY="15.0" prefHeight="200.0"
+                          prefWidth="100.0" spacing="5.0" style="-fx-border-color: BLACK;">
+                        <ImageView fx:id="toolCard2" fitHeight="200.0" fitWidth="140.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
+                        </ImageView>
+                        <Label fx:id="toolCardFV2" text="FV : 0"/>
+                    </VBox>
                 </VBox>
             </HBox>
         </GridPane>

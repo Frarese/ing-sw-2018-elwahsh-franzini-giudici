@@ -2,11 +2,15 @@ package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.IntColorPair;
+import it.polimi.se2018.view.app.JavaFXStageProducer;
 import it.polimi.se2018.view.tools.GridViewCreator;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
+import it.polimi.se2018.view.tools.fx.alert.ConfirmBox;
+import it.polimi.se2018.view.tools.fx.controller.GameController;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -27,6 +31,7 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
      */
     public FXGridViewCreator(String gridColor) {
         this.gridColor = gridColor;
+        this.dieViewCreator = new FXDieViewCreator(FXConstants.GRID_DIE_DIM_VALUE);
     }
 
     /**
@@ -37,7 +42,7 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
      */
     public FXGridViewCreator(IntColorPair[][] grid, IntColorPair[][] gridPattern, String color) {
         super(grid, gridPattern);
-        this.dieViewCreator = new FXDieViewCreator(FXConstants.GRID_CELL_DIM_VALUE);
+        this.dieViewCreator = new FXDieViewCreator(FXConstants.GRID_DIE_DIM_VALUE);
         this.gridColor = color;
     }
 
@@ -70,6 +75,56 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
                     imageView.setFitHeight(cell.getHeight());
                     cell.getChildren().add(0, imageView);
                 }
+            }
+        }
+
+        //Return
+        return container;
+    }
+
+    public VBox displayWithDeD() {
+        //Initialize container
+        VBox container = display();
+
+        //Iterate on grid pattern
+        for (int i = 0; i < gridPattern.length; i++) {
+            for (int j = 0; j < gridPattern[i].length; j++) {
+                //Get equivalent view  cell
+                HBox row = (HBox) container.getChildren().get(i);
+                VBox cell = (VBox) row.getChildren().get(j);
+
+                cell.setOnDragOver(doEvent -> {
+                    if (doEvent.getDragboard().hasString()) {
+                        doEvent.acceptTransferModes(TransferMode.COPY);
+                    }
+                });
+
+                int finalI = i;
+                int finalJ = j;
+                cell.setOnDragDropped(ddEvent -> {
+                    String reserveIndex = ddEvent.getDragboard().getString();
+                    JavaFXStageProducer.getApp().getViewActions().setDie(Integer.parseInt(reserveIndex), finalI, finalJ);
+                    ((GameController) JavaFXStageProducer.getController()).disablePlacement();
+                });
+            }
+        }
+
+        //Return
+        return container;
+    }
+
+    public VBox displayWithClick(boolean isDieSelection, boolean isColorSelection) {
+        //Initialize container
+        VBox container = display();
+
+        //Iterate on grid pattern
+        for (int i = 0; i < gridPattern.length; i++) {
+            for (int j = 0; j < gridPattern[i].length; j++) {
+                //Get equivalent view  cell
+                HBox row = (HBox) container.getChildren().get(i);
+                VBox cell = (VBox) row.getChildren().get(j);
+
+                handleClick(cell, i, j, isDieSelection, isColorSelection);
             }
         }
 
@@ -115,6 +170,39 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
         } else {
             //Set no restriction (white bg)
             cell.setStyle(FXConstants.makeBgColorString(ColorModel.WHITE.toJavaFXColor()));
+        }
+    }
+
+    /**
+     * Handles grid cell's click
+     *
+     * @param cell             contains VBox's cell
+     * @param i                contains row index
+     * @param j                contains column index
+     * @param isDieSelection   contains boolean value for die selection
+     * @param isColorSelection contains boolean value for color die selection
+     */
+    private void handleClick(VBox cell, int i, int j, boolean isDieSelection, boolean isColorSelection) {
+        if (isDieSelection) {
+            cell.setOnMouseClicked(clickEvent -> {
+                boolean answer = ConfirmBox.display("Selezione Dado", "Vuoi usare il dado cliccato?");
+                if (answer) {
+                    if (isColorSelection) {
+                        JavaFXStageProducer.getApp().getViewToolCardActions().selectedDieFromGridByColor(j, i);
+                    } else {
+                        JavaFXStageProducer.getApp().getViewToolCardActions().selectedDieFromGrid(j, i);
+                    }
+                }
+                clickEvent.consume();
+            });
+        } else {
+            cell.setOnMouseClicked(clickEvent -> {
+                boolean answer = ConfirmBox.display("Selezione Cella", "Vuoi selezionare la cella cliccata?");
+                if (answer) {
+                    JavaFXStageProducer.getApp().getViewToolCardActions().selectedDieToGrid(j, i);
+                }
+                clickEvent.consume();
+            });
         }
     }
 }

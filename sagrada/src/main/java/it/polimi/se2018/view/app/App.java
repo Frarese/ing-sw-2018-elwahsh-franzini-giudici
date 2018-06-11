@@ -116,6 +116,15 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
+     * Getter method for ViewToolCardActions
+     *
+     * @return ViewToolCardActions class reference
+     */
+    public ViewToolCardActions getViewToolCardActions() {
+        return viewToolCardActions;
+    }
+
+    /**
      * Getter method for CardViewCreator
      *
      * @return the current CardViewCreator
@@ -207,10 +216,15 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
         return connectedUsers;
     }
 
-    PlayerState setState(PlayerView playerView) {
-        return new PlayerState(playerView.getPlayerName(), playerView.getPlayerID(),
-                playerView.getPlayerFavours(), playerView.getPlayerTemplate(), playerView.getPlayerGrid(),
-                playerView.isPlacementRights(), playerView.isCardRights());
+    /**
+     * Creates a new PlayerState from a PlayerView
+     *
+     * @param playerView contains the PlayerView
+     * @return return the correlative PlayerState
+     */
+    PlayerState createState(PlayerView playerView) {
+        return new PlayerState(playerView.getPlayerName(), playerView.getPlayerFavours(), playerView.getPlayerTemplate(),
+                playerView.getPlayerGrid(), playerView.isPlacementRights(), playerView.isCardRights());
     }
 
     /**

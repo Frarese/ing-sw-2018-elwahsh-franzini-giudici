@@ -12,9 +12,11 @@ import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.observer.*;
-import it.polimi.se2018.view.tools.DieViewCreator;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
 import it.polimi.se2018.view.tools.fx.alert.ChangeLayerBox;
+import it.polimi.se2018.view.tools.fx.alert.NewFaceDieBox;
+import it.polimi.se2018.view.tools.fx.alert.NewValueDieBox;
+import it.polimi.se2018.view.tools.fx.controller.GameController;
 import it.polimi.se2018.view.tools.fx.controller.LobbyController;
 import it.polimi.se2018.view.tools.fx.controller.ShowCardsController;
 import it.polimi.se2018.view.tools.fx.creators.*;
@@ -38,12 +40,6 @@ import java.util.logging.Logger;
 public class JavaFXApp extends App {
 
     /**
-     * Player Information variables
-     */
-    private boolean isYourTurn;
-
-
-    /**
      * FXML loading attributes
      */
     private FXMLLoader loader;
@@ -62,7 +58,6 @@ public class JavaFXApp extends App {
         //Initializes Player Information
         this.ownerPlayerName = null;
         this.useRMI = false;
-        this.isYourTurn = false;
 
         this.cardViewCreator = new FXCardViewCreator();
         this.roundTrackerViewCreator = new FXRoundTrackerViewCreator();
@@ -246,7 +241,11 @@ public class JavaFXApp extends App {
 
         //Save current players states
         for (PlayerView playerView : players) {
-            this.players.add(setState(playerView));
+            this.players.add(createState(playerView));
+            if (playerView.getPlayerName().equals(getOwnerPlayerName())) {
+                getGridViewCreator().setGridPattern(playerView.getPlayerTemplate());
+                getGridViewCreator().setGrid(playerView.getPlayerGrid());
+            }
         }
 
         //Adds ReserveView Observer
@@ -257,14 +256,12 @@ public class JavaFXApp extends App {
         this.reserveViewCreator.setReserve(reserveView.getReserve());
 
         //Adds RoundTrackerView Observer
-        roundTrackerViewObserver = new RoundTrackerViewObserver(this);
+        this.roundTrackerViewObserver = new RoundTrackerViewObserver(this);
         roundTrackerView.addObserver(roundTrackerViewObserver);
 
         //Save current round tracker state
         this.roundTrackerViewCreator.setRound(roundTrackerView.getRound());
         this.roundTrackerViewCreator.setRoundTracker(roundTrackerView.getRoundTracker());
-
-        this.isYourTurn = false;
 
         //Trying to load FXML
         try {
@@ -272,10 +269,14 @@ public class JavaFXApp extends App {
             root = loader.load();
 
             loadScene(true);
-            JavaFXStageProducer.getStage().setMaximized(true);
         } catch (Exception e) {
             logFxmlLoadError(e.getMessage());
         }
+
+        Platform.runLater(() -> {
+            GameController gameController = (GameController) JavaFXStageProducer.getController();
+            gameController.display();
+        });
 
         this.viewActions.endInitGame();
     }
@@ -306,14 +307,14 @@ public class JavaFXApp extends App {
 
     @Override
     public void startTurn() {
-        this.isYourTurn = true;
         //Check if animation is enabled
         if (!this.animationEnable) {
             return;
         }
 
-        //TODO enable JavaFx FXML
-        throw new UnsupportedOperationException();
+        setTurnAction();
+
+        notifySimpleAlert("Ha inizio il tuo turno");
     }
 
     @Override
@@ -330,6 +331,7 @@ public class JavaFXApp extends App {
             notifySimpleAlert("Non sei riuscito a piazzare il dado: " + errorString);
         }
 
+        setTurnAction();
     }
 
     @Override
@@ -338,6 +340,11 @@ public class JavaFXApp extends App {
         if (!this.animationEnable) {
             return;
         }
+
+        Platform.runLater(() -> {
+            GameController gameController = (GameController) JavaFXStageProducer.getController();
+            gameController.display();
+        });
 
         //Check if is my ID
         if (playerName.equals(this.ownerPlayerName)) {
@@ -349,9 +356,8 @@ public class JavaFXApp extends App {
         PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
         if (playerView != null) {
             //Print
-            DieViewCreator dieViewCreator = new FXDieViewCreator(100);
-            Platform.runLater(() -> AlertBox.display("Notifica", " ha posizionato il dado in posizione (" + height + "," + width + ").",
-                    ((FXDieViewCreator) dieViewCreator).makeDie(playerView.getPlayerGrid()[height][width])));
+            Platform.runLater(() -> AlertBox.notifyWithImageBox(" ha posizionato il dado in posizione (" + height + "," + width + ").",
+                    (new FXDieViewCreator(100)).makeDie(playerView.getPlayerGrid()[height][width])));
         }
     }
 
@@ -368,6 +374,8 @@ public class JavaFXApp extends App {
         } else {
             notifySimpleAlert("Non sei riuscito ad usare la carta: " + errorString);
         }
+
+        setTurnAction();
     }
 
     @Override
@@ -376,6 +384,11 @@ public class JavaFXApp extends App {
         if (!this.animationEnable) {
             return;
         }
+
+        Platform.runLater(() -> {
+            GameController gameController = (GameController) JavaFXStageProducer.getController();
+            gameController.display();
+        });
 
         //Check if is my ID
         if (playerName.equals(this.ownerPlayerName)) {
@@ -402,7 +415,6 @@ public class JavaFXApp extends App {
         //Print result
         if (result) {
             notifySimpleAlert("Turno passato con successo!");
-            this.isYourTurn = false;
         } else {
             notifySimpleAlert("Non sei riuscito a passare il turno");
         }
@@ -441,61 +453,89 @@ public class JavaFXApp extends App {
         //Print
         this.scoreViewCreator = new FXScoreViewCreator();
         Platform.runLater(() -> JavaFXStageProducer.getStage().setScene(new Scene((VBox) scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3))));
-        this.isYourTurn = false;
     }
 
     @Override
     public void abortMatch() {
         this.viewActions.askLobby();
-        this.isYourTurn = false;
     }
 
     @Override
     public void selectDieFromReserve() {
-        throw new UnsupportedOperationException();
+        safeDisableAdd();
 
+        Platform.runLater(() -> {
+            notifySimpleAlert("Cliccare sul dado della riserva da selezionare");
+            ((GameController) JavaFXStageProducer.getController()).selectDieFromReserve();
+        });
     }
 
     @Override
     public void selectNewValueForDie(int low, int high) {
-        throw new UnsupportedOperationException();
-
+        Platform.runLater(() -> {
+            int ret = NewValueDieBox.display(low, high);
+            this.getViewToolCardActions().selectedValueForDie(ret);
+        });
     }
 
     @Override
     public void updateReserve() {
-        throw new UnsupportedOperationException();
+        safeDisableAdd();
 
+        Platform.runLater(() -> {
+            ((GameController) JavaFXStageProducer.getController()).refreshReserve();
+            notifySimpleAlert("Riserva aggiornata");
+        });
     }
 
     @Override
     public void selectDieFromGrid() {
-        throw new UnsupportedOperationException();
+        safeDisableAdd();
 
+        Platform.runLater(() -> {
+            notifySimpleAlert("Cliccare sul dado della propria griglia da selezionare");
+            ((GameController) JavaFXStageProducer.getController()).selectDieFromGrid();
+        });
     }
 
     @Override
     public void setDieOnGrid(IntColorPair die) {
-        throw new UnsupportedOperationException();
+        safeDisableAdd();
 
+        Platform.runLater(() -> {
+            AlertBox.notifyWithImageBox("Clicca sulla cella per posizionare il dado sulla tua griglia",
+                    (new FXDieViewCreator(100)).makeDie(die));
+
+            ((GameController) JavaFXStageProducer.getController()).setDieOnGrid();
+        });
     }
 
     @Override
     public void selectDieFromRoundTracker() {
-        throw new UnsupportedOperationException();
+        safeDisableAdd();
 
+        Platform.runLater(() -> {
+            notifySimpleAlert("Cliccare sul dado del RoundTracker da selezionare");
+            ((GameController) JavaFXStageProducer.getController()).selectDieFromRoundTracker();
+        });
     }
 
     @Override
     public void selectFace(IntColorPair die) {
-        throw new UnsupportedOperationException();
-
+        Platform.runLater(() -> {
+            AlertBox.notifyWithImageBox("Seleziona il nuovo valore per la faccia di questo dado",
+                    (new FXDieViewCreator(100)).makeDie(die));
+            int ret = NewFaceDieBox.display();
+            this.getViewToolCardActions().selectedFace(ret);
+        });
     }
 
     @Override
     public void selectDieFromGridByColor(ColorModel color) {
-        throw new UnsupportedOperationException();
-
+        Platform.runLater(() -> {
+            notifySimpleAlert("Cliccare sul dado della propria griglia da selezionare con restrizione di colore: " + color.toString());
+            ((GameController) JavaFXStageProducer.getController()).selectDieFromGridByColor();
+        });
     }
 
     /**
@@ -546,5 +586,31 @@ public class JavaFXApp extends App {
     public static void logFxmlLoadError(String error) {
         String message = "Non sono riuscito a caricare FXML: " + error;
         Logger.getGlobal().log(Level.WARNING, message);
+    }
+
+    /**
+     * Using controller sets action for local player
+     */
+    private void setTurnAction() {
+        //Search PlayerView
+        PlayerState me = this.searchPlayerViewByName(this.players, this.ownerPlayerName);
+
+        Platform.runLater(() -> {
+            GameController gameController = (GameController) JavaFXStageProducer.getController();
+            gameController.display();
+            if (me.isPlacementRights()) {
+                gameController.enablePlacement();
+            }
+            if (me.isCardRights()) {
+                gameController.enableToolCardsUse();
+            }
+        });
+    }
+
+    /**
+     * Disable Placement while tool card action is playing
+     */
+    private void safeDisableAdd() {
+        Platform.runLater(((GameController) JavaFXStageProducer.getController())::disablePlacement);
     }
 }

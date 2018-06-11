@@ -6,10 +6,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<VBox id="container" stylesheets="/it/polimi/se2018/view/app/fxmlFiles/cssFiles/standardCSS.css" alignment="CENTER"
-      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="645.0"
-      prefWidth="1125.0" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.polimi.se2018.view.tools.fx.controller.ShowCardsController">
+<VBox id="container" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="645.0" prefWidth="1125.0" spacing="10.0"
+      stylesheets="/it/polimi/se2018/view/app/fxmlFiles/cssFiles/standardCSS.css" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.tools.fx.controller.ShowCardsController">
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
@@ -26,7 +26,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
         </padding>
         <VBox alignment="CENTER" prefHeight="145.0" prefWidth="162.0" spacing="10.0"
-              style="-fx-border-color: BLACK;">
+              style="-fx-border-color: WHITE;">
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </padding>
@@ -39,7 +39,7 @@
                        preserveRatio="true"/>
         </VBox>
         <VBox alignment="CENTER" layoutX="145.0" layoutY="10.0" prefHeight="145.0" prefWidth="162.0"
-              spacing="10.0" style="-fx-border-color: BLACK;">
+              spacing="10.0" style="-fx-border-color: WHITE;">
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </padding>
@@ -49,16 +49,16 @@
                 </font>
             </Label>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-                <ImageView fx:id="publicObjectiveCard0" fitHeight="400.0" fitWidth="250.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="publicObjectiveCard1" fitHeight="400.0" fitWidth="250.0"
-                           layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="publicObjectiveCard2" fitHeight="400.0" fitWidth="250.0"
-                           layoutX="140.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="publicObjectiveCard0" fitHeight="400.0" fitWidth="250.0" pickOnBounds="true"
+                           preserveRatio="true"/>
+                <ImageView fx:id="publicObjectiveCard1" fitHeight="400.0" fitWidth="250.0" layoutX="10.0"
+                           layoutY="10.0" pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="publicObjectiveCard2" fitHeight="400.0" fitWidth="250.0" layoutX="140.0"
+                           layoutY="10.0" pickOnBounds="true" preserveRatio="true"/>
             </HBox>
         </VBox>
     </HBox>
     <HBox alignment="CENTER" layoutX="10.0" layoutY="115.0">
-        <Button defaultButton="true" mnemonicParsing="false" onAction="#next" text="Alla Selezione Pattern"/>
+        <Button defaultButton="true" mnemonicParsing="false" onAction="#next" text="Alla selezione pattern"/>
     </HBox>
 </VBox>
