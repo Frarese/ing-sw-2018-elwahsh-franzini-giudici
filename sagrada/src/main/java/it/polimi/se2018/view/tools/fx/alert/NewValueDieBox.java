@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 /**
  * Class to create a box to show to user new value die choice
@@ -17,7 +15,7 @@ import javafx.stage.Stage;
  * @author Mathyas Giudici
  */
 
-public class NewValueDieBox {
+public class NewValueDieBox extends GeneralBox {
 
     private static int returnValue;
 
@@ -25,19 +23,14 @@ public class NewValueDieBox {
      * Class constructor
      */
     private NewValueDieBox() {
-        throw new IllegalStateException("Utility JavaFX class");
+        super();
     }
 
 
     public static int display(int low, int high) {
-        Stage window = new Stage();
-
-        //Locks event in this window
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setAlwaysOnTop(true);
-
         String title = "Scelta valore dado";
-        window.setTitle(title);
+
+        initStage(title, false, null);
 
         Label labelTitle = new Label(title);
         labelTitle.setText(title);

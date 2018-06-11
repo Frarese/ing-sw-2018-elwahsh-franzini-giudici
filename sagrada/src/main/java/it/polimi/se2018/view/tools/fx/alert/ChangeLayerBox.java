@@ -1,64 +1,24 @@
 package it.polimi.se2018.view.tools.fx.alert;
 
-import it.polimi.se2018.view.app.JavaFXApp;
-import it.polimi.se2018.view.app.JavaFXStageProducer;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
 /**
  * Class to create change layer box to show to user
  *
  * @author Mathyas Giudici
  */
 
-public class ChangeLayerBox {
+public class ChangeLayerBox extends GeneralBox {
 
     /**
      * Class constructor
      */
     private ChangeLayerBox() {
-        throw new IllegalStateException("Utility JavaFX class");
+        super();
     }
-
-    private static Stage window;
 
     /**
      * Show a new window to manage change layer request
      */
     public static void display() {
-        window = new Stage();
-
-        //Locks event in this window
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setAlwaysOnTop(true);
-
-        window.setTitle("Cambio Connessione");
-
-        FXMLLoader loader;
-        Pane root;
-        //Trying to load FXML
-        try {
-            loader = new FXMLLoader(JavaFXStageProducer.class.getResource("fxmlFiles/layerChange.fxml"));
-            root = loader.load();
-
-            window.centerOnScreen();
-            window.setScene(new Scene(root));
-            //Current window must be close to come back to the caller
-            window.showAndWait();
-        } catch (Exception e) {
-            JavaFXApp.logFxmlLoadError(e.getMessage());
-        }
-    }
-
-    /**
-     * Closes the window
-     */
-    public static void close() {
-        if (window != null) {
-            window.close();
-        }
+        initStage("Cambio Connessione", true, "fxmlFiles/layerChange.fxml");
     }
 }

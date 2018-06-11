@@ -7,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 /**
  * Class to create confirm box to manage user choice (yes or no question)
@@ -16,7 +14,7 @@ import javafx.stage.Stage;
  * @author Mathyas Giudici
  */
 
-public class ConfirmBox {
+public class ConfirmBox extends GeneralBox {
 
     private static boolean approve;
 
@@ -24,7 +22,7 @@ public class ConfirmBox {
      * Class constructor
      */
     private ConfirmBox() {
-        throw new IllegalStateException("Utility JavaFX class");
+        super();
     }
 
     /**
@@ -35,13 +33,8 @@ public class ConfirmBox {
      * @return contains the user's choice
      */
     public static boolean display(String title, String message) {
-        Stage window = new Stage();
 
-        //Locks event in this window
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setAlwaysOnTop(true);
-
-        window.setTitle(title);
+        initStage(title, false, null);
 
         Label labelTitle = new Label();
         labelTitle.setText(title);

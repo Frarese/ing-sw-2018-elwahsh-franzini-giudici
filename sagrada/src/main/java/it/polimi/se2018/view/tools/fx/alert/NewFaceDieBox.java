@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 /**
  * Class to create a box to show to user new face die choice
@@ -17,7 +15,7 @@ import javafx.stage.Stage;
  * @author Mathyas Giudici
  */
 
-public class NewFaceDieBox {
+public class NewFaceDieBox extends GeneralBox {
 
     private static int returnValue;
 
@@ -25,19 +23,15 @@ public class NewFaceDieBox {
      * Class constructor
      */
     private NewFaceDieBox() {
-        throw new IllegalStateException("Utility JavaFX class");
+        super();
     }
 
 
     public static int display() {
-        Stage window = new Stage();
-
-        //Locks event in this window
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setAlwaysOnTop(true);
 
         String title = "Scelta faccia dado";
-        window.setTitle(title);
+
+        initStage(title, false, null);
 
         Label labelTitle = new Label(title);
         labelTitle.setText(title);

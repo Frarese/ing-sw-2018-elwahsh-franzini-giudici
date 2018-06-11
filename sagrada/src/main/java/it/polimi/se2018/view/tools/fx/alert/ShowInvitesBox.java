@@ -1,15 +1,11 @@
 package it.polimi.se2018.view.tools.fx.alert;
 
+import it.polimi.se2018.view.app.JavaFXApp;
 import it.polimi.se2018.view.app.JavaFXStageProducer;
 import it.polimi.se2018.view.tools.fx.controller.ShowInvitesController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Class to create invites box to show to user
@@ -17,53 +13,36 @@ import java.util.logging.Logger;
  * @author Mathyas Giudici
  */
 
-public class ShowInvitesBox {
-
-    private static Stage window;
+public class ShowInvitesBox extends GeneralBox {
 
     /**
      * Class constructor
      */
     private ShowInvitesBox() {
-        throw new IllegalStateException("Utility JavaFX class");
+        super();
     }
 
     /**
      * Shows invites in a table in a new window
      */
     public static void display() {
-        window = new Stage();
-
-        //Locks event in this window
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setAlwaysOnTop(true);
-
-        window.setTitle("Inviti");
+        initStage("Inviti", false, null);
 
         FXMLLoader loader;
         Pane root;
+        //Trying to load FXML
         try {
             loader = new FXMLLoader(JavaFXStageProducer.class.getResource("fxmlFiles/showInvites.fxml"));
             root = loader.load();
-            ShowInvitesController showInvitesController = loader.getController();
-            showInvitesController.setTable();
+            ShowInvitesController controller = loader.getController();
+            controller.setTable();
 
             window.centerOnScreen();
             window.setScene(new Scene(root));
-
             //Current window must be close to come back to the caller
             window.showAndWait();
         } catch (Exception e) {
-            Logger.getGlobal().log(Level.WARNING, "Non sono riuscito a caricare FXML");
-        }
-    }
-
-    /**
-     * Closes invite's window
-     */
-    public static void close() {
-        if (window != null) {
-            window.close();
+            JavaFXApp.logFxmlLoadError(e.getMessage());
         }
     }
 }

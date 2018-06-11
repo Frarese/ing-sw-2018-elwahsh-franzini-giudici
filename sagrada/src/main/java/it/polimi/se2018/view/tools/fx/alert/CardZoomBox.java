@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 
 /**
@@ -13,16 +13,14 @@ import javafx.stage.StageStyle;
  * @author Mathyas Giudici
  */
 
-public class CardZoomBox {
+public class CardZoomBox extends GeneralBox {
 
     /**
      * Class constructor
      */
     private CardZoomBox() {
-        throw new IllegalStateException("Utility JavaFX class");
+        super();
     }
-
-    private static Stage window;
 
     /**
      * Shows an image in the center of the screen (without window's box)
@@ -30,10 +28,10 @@ public class CardZoomBox {
      * @param image contains the image to show
      */
     public static void display(Image image) {
-        window = new Stage();
 
-        //Locks event in this window
-        window.centerOnScreen();
+        initStage("", false, null);
+
+        window.initModality(Modality.WINDOW_MODAL);
         window.initStyle(StageStyle.UNDECORATED);
 
         window.setMinHeight(300);
@@ -48,13 +46,5 @@ public class CardZoomBox {
         imageView.setPreserveRatio(true);
 
         window.show();
-    }
-
-    /**
-     * Closes the window
-     */
-    public static void close() {
-        window.close();
-
     }
 }

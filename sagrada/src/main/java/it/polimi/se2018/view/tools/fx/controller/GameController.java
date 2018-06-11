@@ -192,6 +192,7 @@ public class GameController implements FXController {
         String comMessage = "Sei sicuro di voler utilizzare la carta tool: ";
 
         toolCard0.setOnMouseClicked(e -> {
+            CardZoomBox.close();
             boolean answer = ConfirmBox.display(title, comMessage + new CardIdentifier().getCardInfo(((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(0)).cardID));
             if (answer) {
                 JavaFXStageProducer.getApp().getViewActions().useToolCard(((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(0)).cardID);
@@ -201,6 +202,7 @@ public class GameController implements FXController {
         });
 
         toolCard1.setOnMouseClicked(e -> {
+            CardZoomBox.close();
             boolean answer = ConfirmBox.display(title, comMessage + new CardIdentifier().getCardInfo(((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(1)).cardID));
             if (answer) {
                 JavaFXStageProducer.getApp().getViewActions().useToolCard(((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(1)).cardID);
@@ -210,6 +212,7 @@ public class GameController implements FXController {
         });
 
         toolCard2.setOnMouseClicked(e -> {
+            CardZoomBox.close();
             boolean answer = ConfirmBox.display(title, comMessage + new CardIdentifier().getCardInfo(((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(2)).cardID));
             if (answer) {
                 JavaFXStageProducer.getApp().getViewActions().useToolCard(((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(2)).cardID);
