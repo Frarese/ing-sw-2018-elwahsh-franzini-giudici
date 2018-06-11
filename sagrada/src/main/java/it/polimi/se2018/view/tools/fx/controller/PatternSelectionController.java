@@ -3,6 +3,7 @@ package it.polimi.se2018.view.tools.fx.controller;
 
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.view.app.JavaFXStageProducer;
+import it.polimi.se2018.view.tools.fx.alert.AlertBox;
 import it.polimi.se2018.view.tools.fx.creators.FXGridViewCreator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -125,6 +126,8 @@ public class PatternSelectionController implements FXController {
             useButton.setDisable(true);
         else {
             appRecall();
+            useButton.setDisable(true);
+            AlertBox.notifyBox("Attesa inizio partita");
         }
     }
 

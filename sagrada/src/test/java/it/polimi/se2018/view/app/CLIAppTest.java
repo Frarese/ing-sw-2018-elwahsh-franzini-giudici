@@ -216,8 +216,6 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
         this.app.startLogin(true);
-
-        assertFalse(this.app.useRMI());
     }
 
     @Test
@@ -227,8 +225,6 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction2(null));
         this.app.startLogin(false);
-
-        assertTrue(this.app.useRMI());
     }
 
     @Test
@@ -819,7 +815,7 @@ public class CLIAppTest {
 
         testSetApp(new FakeViewAction(null));
 
-        IntColorPair[][] fakeRoundt = new IntColorPair[1][1];
+        IntColorPair[][] fakeRoundt = new IntColorPair[9][10];
         fakeRoundt[0][0] = new IntColorPair(1, ColorModel.RED);
 
         this.app.roundTrackerViewCreator = new CLIRoundTrackerViewCreator(2, fakeRoundt);

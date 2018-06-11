@@ -26,7 +26,6 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     boolean animationEnable;
     String ownerPlayerName;
-    protected boolean useRMI;
 
     /**
      * Game variables
@@ -234,14 +233,5 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     public String getOwnerPlayerName() {
         return ownerPlayerName;
-    }
-
-    /**
-     * Getter method for boolean value that represents current type of connection
-     *
-     * @return boolean value that represents if user is using RMI connection
-     */
-    public boolean useRMI() {
-        return useRMI;
     }
 }

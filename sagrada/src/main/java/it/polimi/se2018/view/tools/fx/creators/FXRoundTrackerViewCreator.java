@@ -56,19 +56,18 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
         FXConstants.createEmptyGrid(container, "transparent", 2, 5,
                 FXConstants.ROUNDT_INSETS_SPACING, FXConstants.ROUNDT_ROW_SPACING, FXConstants.ROUNDT_CELL_DIM_VALUE);
 
-        for (int i = 0; i < roundTracker.length; i++) {
-            //Create round tracker elements
-            Label label = new Label("Round: " + i);
+
+        for (int i = 0; i < 10; i++) {
+            Label label = new Label("Round: " + (i + 1));
             ComboBox<ImageView> comboBox = new ComboBox<>();
 
             //Set comboBox properties
             comboBox.setPrefSize(FXConstants.ROUNDT_CELL_DIM_VALUE, FXConstants.ROUNDT_CELL_DIM_VALUE);
 
-            //Create die in comboBox
-            if (i < round && roundTracker[i] != null) {
-                for (int j = 0; j < roundTracker[i].length; j++) {
-                    if (roundTracker[i][j] != null) {
-                        this.makeCellDie(roundTracker[i][j], comboBox, hasClickProp, i, j);
+            if (i < round && roundTracker[0][i] != null) {
+                for (int j = 0; j < 9; j++) {
+                    if (roundTracker[j][i] != null) {
+                        this.makeCellDie(roundTracker[j][i], comboBox, hasClickProp, i, j);
                     }
                 }
             } else {

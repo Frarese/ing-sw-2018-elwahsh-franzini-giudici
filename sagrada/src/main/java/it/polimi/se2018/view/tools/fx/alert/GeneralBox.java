@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public abstract class GeneralBox {
 
-    protected static Stage window;
+    static Stage window;
 
     /**
      * Class constructor

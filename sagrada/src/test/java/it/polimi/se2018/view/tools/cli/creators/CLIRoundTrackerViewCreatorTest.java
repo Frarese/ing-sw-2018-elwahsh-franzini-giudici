@@ -27,9 +27,9 @@ public class CLIRoundTrackerViewCreatorTest {
     @Before
     public void testInit() {
         round = 1;
-        roundTracker = new IntColorPair[2][2];
+        roundTracker = new IntColorPair[9][10];
         roundTracker[0][0] = new IntColorPair(1, ColorModel.RED);
-        roundTracker[0][1] = new IntColorPair(2, ColorModel.RED);
+        roundTracker[1][0] = new IntColorPair(2, ColorModel.RED);
         cliRoundTrackerViewCreator = new CLIRoundTrackerViewCreator(round, roundTracker);
     }
 

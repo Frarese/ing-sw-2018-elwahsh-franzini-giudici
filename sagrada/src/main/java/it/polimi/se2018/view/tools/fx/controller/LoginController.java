@@ -66,7 +66,7 @@ public class LoginController implements FXController {
      */
     private void loginCall() {
         //Save information in JavaFXApp
-        JavaFXStageProducer.getApp().tryLogin(name.getText(), rmiRadio.isSelected());
+        JavaFXStageProducer.getApp().tryLogin(name.getText());
 
         String loginResult;
         //Call View Actions

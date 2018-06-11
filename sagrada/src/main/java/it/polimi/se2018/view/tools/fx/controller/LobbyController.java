@@ -78,6 +78,7 @@ public class LobbyController implements FXController {
      */
     public void refresh() {
         JavaFXStageProducer.getApp().getViewActions().askLobby();
+        JavaFXStageProducer.getApp().createLobby();
     }
 
     /**
@@ -115,7 +116,9 @@ public class LobbyController implements FXController {
 
         ObservableList<ScoreEntry> observableList = FXCollections.observableArrayList();
         for (ScoreEntry scoreEntry : JavaFXStageProducer.getApp().getConnectedUsers()) {
-            observableList.add(new ScoreEntry(scoreEntry.usn, scoreEntry.tot, scoreEntry.tot));
+            if (!JavaFXStageProducer.getApp().getOwnerPlayerName().equals(scoreEntry.usn)) {
+                observableList.add(new ScoreEntry(scoreEntry.usn, scoreEntry.tot, scoreEntry.tot));
+            }
         }
 
         connectedUserTable.setItems(observableList);

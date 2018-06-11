@@ -35,9 +35,9 @@
                 </GridPane.margin>
                 <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="100.0" prefHeight="100.0"
                       prefWidth="200.0" VBox.vgrow="ALWAYS">
-                    <Button contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false"
-                            onAction="#passTurn" prefHeight="132.0" prefWidth="1000.0" text="PASSA TURNO"
-                            HBox.hgrow="ALWAYS">
+                    <Button fx:id="passTurnButton" contentDisplay="CENTER" defaultButton="true"
+                            mnemonicParsing="false" onAction="#passTurn" prefHeight="132.0"
+                            prefWidth="1000.0" text="PASSA TURNO" HBox.hgrow="ALWAYS">
                         <font>
                             <Font name="System Bold" size="13.0"/>
                         </font>

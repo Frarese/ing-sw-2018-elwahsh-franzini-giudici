@@ -45,6 +45,7 @@ public class CLIApp extends App {
     private final ArrayList<CLICommand> gameCommands;
     private final Logger logger;
     private Thread readingThread;
+
     /**
      * Class constructor that creates CLICreators' objects and CLIui' objects
      *
@@ -57,7 +58,6 @@ public class CLIApp extends App {
 
         //Initializes Player Information
         this.ownerPlayerName = null;
-        this.useRMI = false;
         this.isYourTurn = false;
 
         //Initializes CLI ui
@@ -73,7 +73,7 @@ public class CLIApp extends App {
         this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
         this.reserveViewCreator = new CLIReserveViewCreator();
         this.gridViewCreator = new CLIGridViewCreator(printer);
-        logger=Logger.getGlobal();
+        logger = Logger.getGlobal();
     }
 
     @Override
@@ -122,7 +122,6 @@ public class CLIApp extends App {
 
             //Save player name
             this.ownerPlayerName = name;
-            this.useRMI = isRMI;
 
             //Controller call
             String loginResult = this.viewActions.login(name, password, newUser, server, isRMI, objectPort, requestPort);
@@ -131,8 +130,8 @@ public class CLIApp extends App {
             } else {
                 this.loginResult(false, loginResult);
             }
-        }catch (IOException e){
-            logger.log(Level.WARNING,"Error reading login "+e.getMessage());
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Error reading login " + e.getMessage());
         }
     }
 
@@ -151,7 +150,7 @@ public class CLIApp extends App {
             this.commands.add(0, new CommandChangeLayer(this));
 
             this.viewActions.askLobby();
-            readingThread=new Thread(this::createLobby);
+            readingThread = new Thread(this::createLobby);
             readingThread.start();
         } else {
             printer.print("Login NON riuscito! Riprova.");
@@ -169,10 +168,8 @@ public class CLIApp extends App {
 
         if (successRMI) {
             printer.print("L'attuale layer è RMI.");
-            useRMI = true;
         } else {
             printer.print("L'attuale layer è Socket.");
-            useRMI = false;
         }
 
         //Call menu method
@@ -279,16 +276,16 @@ public class CLIApp extends App {
 
         //Ask pattern
         reader.interrupt();
-        readingThread=new Thread(()->choosePattern(pattern1,pattern2,pattern3,pattern4));
+        readingThread = new Thread(() -> choosePattern(pattern1, pattern2, pattern3, pattern4));
         readingThread.start();
     }
 
-    private void choosePattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4){
+    private void choosePattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4) {
         int pattern;
         try {
             pattern = reader.chooseInRange(1, 4);
         } catch (IOException e) {
-            logger.log(Level.WARNING,"Error reading pattern option "+e.getMessage());
+            logger.log(Level.WARNING, "Error reading pattern option " + e.getMessage());
             return;
         }
         switch (pattern) {
@@ -307,8 +304,9 @@ public class CLIApp extends App {
             default:
                 Logger.getGlobal().log(Level.WARNING, "Qualcosa è andato storto nella selezione del pattern.");
         }
-        printer.print("Waiting for match start");
+        printer.print("Attesa inizio partita...");
     }
+
     @Override
     public void initGame(List<PlayerView> players, ReserveView reserveView, RoundTrackerView roundTrackerView) {
 
@@ -546,8 +544,8 @@ public class CLIApp extends App {
     public void abortMatch() {
         this.isYourTurn = false;
         this.viewActions.askLobby();
-        if(readingThread!=null)readingThread.interrupt();
-        readingThread=new Thread(this::createLobby);
+        if (readingThread != null) readingThread.interrupt();
+        readingThread = new Thread(this::createLobby);
         readingThread.start();
     }
 
@@ -560,7 +558,7 @@ public class CLIApp extends App {
         try {
             reserveIndex = reader.chooseInRange(0, this.reserveViewCreator.getReserve().length - 1);
         } catch (IOException e) {
-            logger.log(Level.WARNING,"Error selecting die from reserve "+e.getMessage());
+            logger.log(Level.WARNING, "Error selecting die from reserve " + e.getMessage());
             return;
         }
 
@@ -576,7 +574,7 @@ public class CLIApp extends App {
         try {
             choice = reader.chooseBetweenTwo(low, high);
         } catch (IOException e) {
-            logger.log(Level.WARNING,"Error selecting new value for a die login "+e.getMessage());
+            logger.log(Level.WARNING, "Error selecting new value for a die login " + e.getMessage());
             return;
         }
 
@@ -632,7 +630,7 @@ public class CLIApp extends App {
             //Call ViewToolCardActions
             viewToolCardActions.selectedDieFromRoundTracker(roundIndex, dieIndex);
         } catch (IOException e) {
-            logger.log(Level.WARNING,"Error selecting die from round tracker "+e.getMessage());
+            logger.log(Level.WARNING, "Error selecting die from round tracker " + e.getMessage());
         }
     }
 
@@ -649,8 +647,8 @@ public class CLIApp extends App {
 
             //Call ViewToolCardActions
             viewToolCardActions.selectedFace(value);
-        }catch (IOException e){
-            logger.log(Level.WARNING,"Error selecting face for a die "+e.getMessage());
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Error selecting face for a die " + e.getMessage());
         }
     }
 
@@ -667,6 +665,11 @@ public class CLIApp extends App {
         viewToolCardActions.selectedDieFromGridByColor(x, y);
     }
 
+    @Override
+    public void showError(String error) {
+        printer.print(error);
+    }
+
     /**
      * Asks to user the x coordinate on grid (enumeration from 0 to 4)
      *
@@ -677,7 +680,7 @@ public class CLIApp extends App {
         try {
             return reader.chooseInRange(0, 4);
         } catch (IOException e) {
-            logger.log(Level.WARNING,"Error fetching x coordinate "+e.getMessage());
+            logger.log(Level.WARNING, "Error fetching x coordinate " + e.getMessage());
             return -1;
         }
     }
@@ -692,7 +695,7 @@ public class CLIApp extends App {
         try {
             return reader.chooseInRange(0, 3);
         } catch (IOException e) {
-            logger.log(Level.WARNING,"Error fetching y coordinate "+e.getMessage());
+            logger.log(Level.WARNING, "Error fetching y coordinate " + e.getMessage());
             return -1;
         }
     }
@@ -767,13 +770,13 @@ public class CLIApp extends App {
         try {
             actionID = reader.chooseInRange(0, printArray.size() - 1);
         } catch (IOException e) {
-            logger.log(Level.FINE,"Error reading option "+e.getMessage());
+            logger.log(Level.FINE, "Error reading option " + e.getMessage());
             return;
         }
         try {
             printArray.get(actionID).doAction();
         } catch (IOException e) {
-            logger.log(Level.WARNING,"Error executing turn action "+e.getMessage());
+            logger.log(Level.WARNING, "Error executing turn action " + e.getMessage());
         }
     }
 
@@ -800,13 +803,13 @@ public class CLIApp extends App {
         try {
             actionID = reader.chooseInRange(0, this.commands.size() - 1);
         } catch (IOException e) {
-            logger.log(Level.FINE,"Error reading option "+e.getMessage());
+            logger.log(Level.FINE, "Error reading option " + e.getMessage());
             return;
         }
         try {
             this.commands.get(actionID).doAction();
         } catch (IOException e) {
-            logger.log(Level.WARNING,"Error executing menu option "+e.getMessage());
+            logger.log(Level.WARNING, "Error executing menu option " + e.getMessage());
         }
     }
 

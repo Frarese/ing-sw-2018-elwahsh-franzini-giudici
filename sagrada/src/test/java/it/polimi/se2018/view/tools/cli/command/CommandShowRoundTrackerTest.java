@@ -64,7 +64,7 @@ public class CommandShowRoundTrackerTest extends AbsCommandTest {
         app = new FakeApp();
         app.startLogin(false);
 
-        IntColorPair[][] fakeRoundt = new IntColorPair[1][1];
+        IntColorPair[][] fakeRoundt = new IntColorPair[9][10];
         fakeRoundt[0][0] = new IntColorPair(1, ColorModel.RED);
 
         app.getRoundTrackerViewCreator().setRound(1);

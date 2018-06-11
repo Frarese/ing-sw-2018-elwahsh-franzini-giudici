@@ -57,7 +57,6 @@ public class JavaFXApp extends App {
 
         //Initializes Player Information
         this.ownerPlayerName = null;
-        this.useRMI = false;
 
         this.cardViewCreator = new FXCardViewCreator();
         this.roundTrackerViewCreator = new FXRoundTrackerViewCreator();
@@ -103,9 +102,8 @@ public class JavaFXApp extends App {
         }
     }
 
-    public void tryLogin(String name, boolean useRMI) {
+    public void tryLogin(String name) {
         this.ownerPlayerName = name;
-        this.useRMI = useRMI;
     }
 
     @Override
@@ -118,6 +116,7 @@ public class JavaFXApp extends App {
         if (success) {
             notifySimpleAlert("Login riuscito con successo");
             this.viewActions.askLobby();
+            this.createLobby();
         } else {
             notifySimpleAlert("Login NON riuscito");
         }
@@ -134,11 +133,9 @@ public class JavaFXApp extends App {
         if (successRMI) {
             message = "Layer attuale: RMI";
             ChangeLayerBox.close();
-            useRMI = true;
         } else {
             message = "Layer attuale: Socket";
             ChangeLayerBox.close();
-            useRMI = false;
         }
 
         notifySimpleAlert(message);
@@ -276,6 +273,7 @@ public class JavaFXApp extends App {
         Platform.runLater(() -> {
             GameController gameController = (GameController) JavaFXStageProducer.getController();
             gameController.display();
+            gameController.disablePassButton();
         });
 
         this.viewActions.endInitGame();
@@ -415,6 +413,12 @@ public class JavaFXApp extends App {
         //Print result
         if (result) {
             notifySimpleAlert("Turno passato con successo!");
+            Platform.runLater(() -> {
+                GameController gameController = (GameController) JavaFXStageProducer.getController();
+                gameController.disablePlacement();
+                gameController.disableToolCardsUse();
+                gameController.disablePassButton();
+            });
         } else {
             notifySimpleAlert("Non sei riuscito a passare il turno");
         }
@@ -538,6 +542,11 @@ public class JavaFXApp extends App {
         });
     }
 
+    @Override
+    public void showError(String error) {
+        AlertBox.attentionBox(error);
+    }
+
     /**
      * Launches FX Application
      */
@@ -604,6 +613,8 @@ public class JavaFXApp extends App {
             if (me.isCardRights()) {
                 gameController.enableToolCardsUse();
             }
+
+            gameController.enablePassButton();
         });
     }
 

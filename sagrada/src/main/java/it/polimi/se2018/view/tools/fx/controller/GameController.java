@@ -13,6 +13,7 @@ import it.polimi.se2018.view.tools.fx.creators.FXReserveViewCreator;
 import it.polimi.se2018.view.tools.fx.creators.FXRoundTrackerViewCreator;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -68,6 +69,9 @@ public class GameController implements FXController {
     VBox secondOtherPlayer;
     @FXML
     VBox thirdOtherPlayer;
+
+    @FXML
+    Button passTurnButton;
 
 
     public void display() {
@@ -222,6 +226,12 @@ public class GameController implements FXController {
         });
     }
 
+    public void disableToolCardsUse() {
+        toolCard0.setOnMouseClicked(Event::consume);
+        toolCard1.setOnMouseClicked(Event::consume);
+        toolCard2.setOnMouseClicked(Event::consume);
+    }
+
     public void passTurn() {
         boolean answer = ConfirmBox.display("Passaggio turno", "Sicuro di voler passare il turno?");
         if (answer) {
@@ -262,13 +272,6 @@ public class GameController implements FXController {
         }
     }
 
-    private void disableToolCardsUse() {
-        toolCard0.setOnMouseClicked(Event::consume);
-        toolCard1.setOnMouseClicked(Event::consume);
-        toolCard2.setOnMouseClicked(Event::consume);
-    }
-
-
     public void selectDieFromReserve() {
         //Sets reserve click
         reserveContainer.getChildren().clear();
@@ -308,5 +311,13 @@ public class GameController implements FXController {
         myGridContainer.getChildren().clear();
         FXGridViewCreator gridViewCreator = (FXGridViewCreator) JavaFXStageProducer.getApp().getGridViewCreator();
         myGridContainer.getChildren().add(gridViewCreator.displayWithClick(true, true));
+    }
+
+    public void enablePassButton() {
+        passTurnButton.setDisable(false);
+    }
+
+    public void disablePassButton() {
+        passTurnButton.setDisable(true);
     }
 }

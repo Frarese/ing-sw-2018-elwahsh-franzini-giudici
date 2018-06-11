@@ -60,4 +60,9 @@ public interface ControllerToolCardActionsInterface {
      * @param color contains the color restriction
      */
     void selectDieFromGridByColor(ColorModel color);
+
+    /**
+     * Show error's message while tool card is playing
+     */
+    void showError(String error);
 }
