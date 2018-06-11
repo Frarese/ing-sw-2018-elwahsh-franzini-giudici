@@ -43,7 +43,7 @@ public class RMIServerTest {
         uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
         response=uut.login("test","pw",true,false);
         assertEquals(LoginResponsesEnum.USER_NOT_LOGGED,response.getLoginOutput());
-
+        assertEquals(response.hashCode(),response.hashCode());
         uut.login("test","pw",false,false);
         response=uut.login("test","pw",true,false);
         assertEquals(LoginResponsesEnum.USER_ALREADY_LOGGED,response.getLoginOutput());

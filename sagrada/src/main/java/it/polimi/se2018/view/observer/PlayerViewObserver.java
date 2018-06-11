@@ -34,7 +34,7 @@ public class PlayerViewObserver extends ModelObserver implements Observer {
 
         if (playerView.getPlayerName().equals(app.getOwnerPlayerName())) {
             app.getGridViewCreator().setGridPattern(playerView.getPlayerTemplate());
-            app.getGridViewCreator().setGridPattern(playerView.getPlayerGrid());
+            app.getGridViewCreator().setGrid(playerView.getPlayerGrid());
         }
     }
 }

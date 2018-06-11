@@ -1,6 +1,5 @@
 package it.polimi.se2018.view.tools.cli.command;
 
-import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
@@ -20,8 +19,8 @@ import static org.junit.Assert.*;
 public class CommandChangeLayerTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
-        private FakeViewAction(ActionSender actionSender) {
-            super(actionSender);
+        private FakeViewAction() {
+            super(null);
         }
 
         @Override
@@ -50,8 +49,8 @@ public class CommandChangeLayerTest extends AbsCommandTest {
     }
 
     private class FakeViewAction2 extends ViewActions {
-        private FakeViewAction2(ActionSender actionSender) {
-            super(actionSender);
+        private FakeViewAction2() {
+            super(null);
         }
 
         @Override
@@ -81,7 +80,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
 
     private class FakeApp extends CLIApp {
         private FakeApp() {
-            super(new FakeViewAction(null), new ViewToolCardActions(null), new ViewMessage(null));
+            super(new FakeViewAction(), new ViewToolCardActions(null), new ViewMessage(null));
         }
 
         @Override
@@ -92,7 +91,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
 
     private class FakeApp2 extends CLIApp {
         private FakeApp2() {
-            super(new FakeViewAction2(null), new ViewToolCardActions(null), new ViewMessage(null));
+            super(new FakeViewAction2(), new ViewToolCardActions(null), new ViewMessage(null));
         }
         
         @Override
@@ -103,7 +102,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
 
     @Test
     public void testDoActionToSocket() throws Exception{
-        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "y" + enter + "80" + enter + "y" + enter + "72" + enter + "5" + enter;
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "y" + enter + "80" + enter + "y" + enter +"n"+enter+ "72" + enter + "5" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         app = new FakeApp2();
@@ -116,7 +115,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
 
     @Test
     public void testDoActionToRMI() throws Exception{
-        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "90" + enter + "y" + enter + "72" + enter;
+        String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "90" + enter + "y" + enter +"y"+enter+ "72" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
         app = new FakeApp();

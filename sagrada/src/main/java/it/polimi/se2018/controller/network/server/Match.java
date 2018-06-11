@@ -147,7 +147,11 @@ public class Match implements MatchNetworkInterface{
     @Override
     public void sendReq(Serializable req,String dst) {
         Client c=clientMap.get(matchId.findPos(dst));
-        if(c!=null && !dc.contains(c.usn)){
+        if(c==null){
+            Logger.getGlobal().log(Level.WARNING,"Unknown match player {0}",dst);
+            return;
+        }
+        if(!dc.contains(c.usn)){
             c.pushOutReq(new ClientRequest(req));
         }
     }

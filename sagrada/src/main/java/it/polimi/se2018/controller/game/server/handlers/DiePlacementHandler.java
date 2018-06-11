@@ -43,9 +43,9 @@ public class DiePlacementHandler implements Runnable {
      */
     private void notifySuccess()
     {
-        network.sendReq(new ConfirmMove(move,true),player.getName());
         network.sendObj(new PlayerStatus(player,firstTurn));
         network.sendObj(new ReserveStatus(reserve));
+        network.sendReq(new ConfirmMove(move,true),player.getName());
     }
 
     /**

@@ -20,18 +20,18 @@ public class CommandChangeLayer extends CLICommand {
     public void doAction() throws IOException {
         this.app.getPrinter().print("Sei sicuro di voler cambiare tipo di connessione?");
         if (this.app.getReader().chooseYes()) {
-            if (this.app.useRMI()) {
+            this.app.getPrinter().print("Vuoi passare ad RMI(Y) o socket(N)?");
+            if (this.app.getReader().chooseYes()) {
+                this.app.getPrinter().print("Inserire request port: ");
+                int requestPort = this.app.getReader().readInt();
+                this.app.getViewActions().changeLayer(true, -1, requestPort);
+            } else {
                 this.app.getPrinter().print("Inserire object port: ");
                 int objectPort = this.app.getReader().readInt();
                 this.app.getPrinter().print("Inserire request port: ");
                 int requestPort = this.app.getReader().readInt();
                 this.app.getViewActions().changeLayer(false, objectPort, requestPort);
-            } else {
-                this.app.getPrinter().print("Inserire request port: ");
-                int requestPort = this.app.getReader().readInt();
-                this.app.getViewActions().changeLayer(true, -1, requestPort);
             }
-        } else {
             this.app.menu();
         }
     }
