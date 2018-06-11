@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class FluxRemoverTest {
 
-    private FluxRemover test = new FluxRemover();
+    private final FluxRemover test = new FluxRemover();
 
     @Test
     public void testIsUsable()

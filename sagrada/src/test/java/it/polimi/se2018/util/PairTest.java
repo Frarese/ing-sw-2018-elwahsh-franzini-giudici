@@ -25,7 +25,7 @@ public class PairTest {
         assertEquals(test,test);
         assertEquals(test2,test);
         assertNotEquals(test3,test);
-        assertFalse(test.equals(test4));
+        assertNotEquals(test, test4);
     }
 
     @Test

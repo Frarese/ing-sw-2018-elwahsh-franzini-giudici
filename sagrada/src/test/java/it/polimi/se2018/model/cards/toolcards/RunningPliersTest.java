@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class RunningPliersTest {
 
-    private RunningPliers test = new RunningPliers();
+    private final RunningPliers test = new RunningPliers();
 
     @Test
     public void testIsUsable()

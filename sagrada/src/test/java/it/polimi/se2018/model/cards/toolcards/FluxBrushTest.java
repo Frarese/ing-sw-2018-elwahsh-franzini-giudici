@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class FluxBrushTest {
 
-    private FluxBrush test = new FluxBrush();
+    private final FluxBrush test = new FluxBrush();
 
     @Test
     public void testIsUsable()

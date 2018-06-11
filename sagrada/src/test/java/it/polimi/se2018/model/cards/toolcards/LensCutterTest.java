@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class LensCutterTest {
 
-    private LensCutter test = new LensCutter();
+    private final LensCutter test = new LensCutter();
 
     @Test
     public void testIsUsable()

@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ToolCardTest {
-    private ToolTest test = new ToolTest();
+    private final ToolTest test = new ToolTest();
 
     private class ToolTest extends ToolCard
     {

@@ -42,6 +42,8 @@ public class RoundTrackerTest {
         test.addAll(dice);
         assertEquals(1,test.lastFilledRound());
         assertEquals(dice.get(0),test.getDie(0,0));
+        test.addDie(dice.get(1),0);
+        assertEquals(dice.get(1),test.getDie(0,1));
         /*Filling all the rounds*/
         for(int i =0; i< RoundTracker.ROUNDS +1;i++) /*Can't break maximum size*/
         {

@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 class SafeSocketACK implements Serializable {
 
-    int id;
+    final int id;
 
     /**
      * Initializes the id to be stored

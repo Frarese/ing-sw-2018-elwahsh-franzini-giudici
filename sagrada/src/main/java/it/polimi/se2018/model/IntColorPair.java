@@ -5,7 +5,7 @@ import it.polimi.se2018.util.Pair;
 import java.io.Serializable;
 
 public class IntColorPair implements Serializable {
-    private Pair<Integer,ColorModel> pair;
+    private final Pair<Integer,ColorModel> pair;
 
     public IntColorPair(Integer first,ColorModel second){
         this.pair=new Pair<>(first,second);

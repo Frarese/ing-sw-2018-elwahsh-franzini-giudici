@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class BagTest {
 
-    private Bag test = new Bag();
+    private final Bag test = new Bag();
 
 
     /**

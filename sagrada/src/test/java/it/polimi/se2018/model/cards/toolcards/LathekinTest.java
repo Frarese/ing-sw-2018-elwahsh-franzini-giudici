@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class LathekinTest {
 
-    private Lathekin test = new Lathekin();
+    private final Lathekin test = new Lathekin();
 
     @Test
     public void testIsUsable()

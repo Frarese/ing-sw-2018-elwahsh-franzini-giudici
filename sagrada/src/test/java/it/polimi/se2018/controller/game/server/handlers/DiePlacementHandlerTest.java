@@ -13,8 +13,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.Serializable;
 
-import static org.junit.Assert.*;
-
 public class DiePlacementHandlerTest {
 
     private Player player;

@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class CopperFoilBurnisherTest {
 
-    private CopperFoilBurnisher test = new CopperFoilBurnisher();
+    private final CopperFoilBurnisher test = new CopperFoilBurnisher();
 
     @Test
     public void testIsUsable()

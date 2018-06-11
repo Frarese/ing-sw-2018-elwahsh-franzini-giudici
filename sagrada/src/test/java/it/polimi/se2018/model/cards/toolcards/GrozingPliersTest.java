@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class GrozingPliersTest {
 
-    private GrozingPliers test = new GrozingPliers();
+    private final GrozingPliers test = new GrozingPliers();
 
     @Test
     public void testIsUsable()

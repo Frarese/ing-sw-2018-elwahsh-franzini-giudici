@@ -8,7 +8,7 @@ import static it.polimi.se2018.model.ColorModel.RED;
 import static org.junit.Assert.assertEquals;
 
 public class MediumShadesTest {
-    private MediumShades test = new MediumShades();
+    private final MediumShades test = new MediumShades();
     private Player player;
 
     @Test

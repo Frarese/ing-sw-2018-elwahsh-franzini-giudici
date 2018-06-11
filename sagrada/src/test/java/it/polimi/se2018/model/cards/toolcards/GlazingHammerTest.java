@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class GlazingHammerTest {
 
-    private GlazingHammer test = new GlazingHammer();
+    private final GlazingHammer test = new GlazingHammer();
 
     @Test
     public void testIsUsable()

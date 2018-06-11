@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class EglomiseBrushTest {
 
-    private EglomiseBrush test = new EglomiseBrush();
+    private final EglomiseBrush test = new EglomiseBrush();
 
     @Test
     public void testIsUsable()

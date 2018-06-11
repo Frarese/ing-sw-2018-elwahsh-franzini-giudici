@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class ReserveTest {
 
-    private Reserve test = new Reserve();
+    private final Reserve test = new Reserve();
     private ArrayList<Die> dice;
 
     /**

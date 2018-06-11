@@ -10,8 +10,8 @@ import static org.junit.Assert.assertEquals;
 
 public class PrivateObjectiveCardTest {
 
-    private PrivateObjectiveCard test = new PrivateObjectiveCard(ColorModel.RED);
-    private PrivateObjectiveCard test2 = new PrivateObjectiveCard(ColorModel.BLUE);
+    private final PrivateObjectiveCard test = new PrivateObjectiveCard(ColorModel.RED);
+    private final PrivateObjectiveCard test2 = new PrivateObjectiveCard(ColorModel.BLUE);
     private Player player;
 
     @Before

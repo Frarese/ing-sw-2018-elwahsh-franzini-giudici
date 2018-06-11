@@ -49,7 +49,7 @@ public class CommandAddDieTest extends AbsCommandTest {
         fakeReserve[0] = new IntColorPair(1, ColorModel.RED);
         app.getReserveViewCreator().setReserve(fakeReserve);
 
-        IntColorPair[][] fakePattern = new IntColorPair[1][2];
+        IntColorPair[][] fakePattern;
         IntColorPair[][] fakeGrid = new IntColorPair[1][2];
         fakePattern = new IntColorPair[1][2];
         fakePattern[0][0] = new IntColorPair(1, ColorModel.RED);

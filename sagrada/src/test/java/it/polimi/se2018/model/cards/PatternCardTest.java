@@ -9,7 +9,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class PatternCardTest {
 
-    private PatternCard test = new PatternCard("resources" + File.separator +"patterncard01.xml");
+    private final PatternCard test = new PatternCard("resources" + File.separator +"patterncard01.xml");
 
     @Test
     public void testParser()

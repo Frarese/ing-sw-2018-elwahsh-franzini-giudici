@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ColumnShadeVarietyTest {
 
-    private ColumnShadeVariety test = new ColumnShadeVariety();
+    private final ColumnShadeVariety test = new ColumnShadeVariety();
     private Player player;
 
 

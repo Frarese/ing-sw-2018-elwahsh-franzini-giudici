@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class DiePlacementMoveTest
 {
-    private DiePlacementMove test = new DiePlacementMove(0,0,0,"",true,true,true);
+    private final DiePlacementMove test = new DiePlacementMove(0,0,0,"",true,true,true);
 
     @Test
     public void testGetters()

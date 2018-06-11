@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class RowShadeVarietyTest {
-    private RowShadeVariety test = new RowShadeVariety();
+    private final RowShadeVariety test = new RowShadeVariety();
     private Player player;
 
 

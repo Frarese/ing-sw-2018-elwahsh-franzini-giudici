@@ -21,7 +21,7 @@ public class CommandUseTool extends CLICommand {
     public void doAction() throws IOException {
         for (int i = 0; i < this.app.getCardViewCreator().getToolCards().size(); i++) {
             SingleCardView el = (SingleCardView) this.app.getCardViewCreator().getToolCards().get(i);
-            this.app.getPrinter().print(i + ") " + this.app.getCardViewCreator().makeCard(el.cardID) + " prezzo: " + this.app.getCardViewCreator().makeCard(el.cardCost));
+            this.app.getPrinter().print(i + ") " + this.app.getCardViewCreator().makeCard(el.cardID) + " prezzo: " + el.cardCost);
         }
         this.app.getPrinter().print("Seleziona il numero della carta");
         int card = this.app.getReader().readInt();

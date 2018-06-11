@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 public class DiePlacementLogicTest {
 
 
-    private Pattern p = (new PatternCard("resources" + File.separator +"patterncard10.xml").getBackSide());
+    private final Pattern p = (new PatternCard("resources" + File.separator +"patterncard10.xml").getBackSide());
     private Player player;
 
 

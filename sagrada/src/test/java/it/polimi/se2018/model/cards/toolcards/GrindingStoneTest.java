@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class GrindingStoneTest {
 
-    private GrindingStone test = new GrindingStone();
+    private final GrindingStone test = new GrindingStone();
 
     @Test
     public void testIsUsable()

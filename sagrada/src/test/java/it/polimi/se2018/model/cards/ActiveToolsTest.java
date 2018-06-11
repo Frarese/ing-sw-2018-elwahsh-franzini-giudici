@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class ActiveToolsTest {
-    private ActiveTools test = new ActiveTools();
+    private final ActiveTools test = new ActiveTools();
 
     @Test
     public void testGetTools()

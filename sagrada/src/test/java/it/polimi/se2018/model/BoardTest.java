@@ -7,7 +7,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class BoardTest {
 
-    private Board test = new Board();
+    private final Board test = new Board();
 
     @Test
     public void testGetters()
@@ -16,6 +16,9 @@ public class BoardTest {
         assertNotNull(test.getTool(0));
         assertNotNull(test.getReserve());
         assertNotNull(test.getRoundTrack());
+        assertNotNull(test.getObjectives());
+        assertNotNull(test.getTools());
+        assertNotNull(test.getBag());
     }
 
     @Test

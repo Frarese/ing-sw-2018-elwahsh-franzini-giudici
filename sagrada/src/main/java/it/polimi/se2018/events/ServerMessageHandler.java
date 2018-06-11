@@ -3,6 +3,9 @@ package it.polimi.se2018.events;
 
 import it.polimi.se2018.events.messages.*;
 
+/**Interface used to implement the visitor pattern on messages coming from the server
+ * @author Francesco Franzini
+ */
 public interface ServerMessageHandler {
 
     void handle(CardInfo move);

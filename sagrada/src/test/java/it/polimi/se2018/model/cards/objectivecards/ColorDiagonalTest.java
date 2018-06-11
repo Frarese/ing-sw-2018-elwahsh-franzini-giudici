@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ColorDiagonalTest {
 
-    private ColorDiagonal test = new ColorDiagonal();
+    private final ColorDiagonal test = new ColorDiagonal();
     private Player player;
 
 

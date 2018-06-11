@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class TapWheelTest {
 
-    private TapWheel test = new TapWheel();
+    private final TapWheel test = new TapWheel();
 
     @Test
     public void testIsUsable()

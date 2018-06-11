@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class DeepShadesTest {
 
-    private DeepShades test = new DeepShades();
+    private final DeepShades test = new DeepShades();
     private Player player;
 
     @Test

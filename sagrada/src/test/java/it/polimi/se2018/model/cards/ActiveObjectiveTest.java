@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ActiveObjectiveTest {
-    private ActiveObjectives test = new ActiveObjectives();
+    private final ActiveObjectives test = new ActiveObjectives();
 
     @Test
     public void testGetObjective()

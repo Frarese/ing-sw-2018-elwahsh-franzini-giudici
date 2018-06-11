@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 
 public class CorkBackedStraightedgeTest {
 
-    private CorkBackedStraightedge test = new CorkBackedStraightedge();
+    private final CorkBackedStraightedge test = new CorkBackedStraightedge();
 
     @Test
     public void testIsUsable()
