@@ -37,6 +37,10 @@ public class Player {
         this.name = name;
         this.id = id;
         this.grid = new Grid();
+        this.firstTurnCard = true;
+        this.secondTurnCard = true;
+        this.firstTurnPlacement = true;
+        this.secondTurnPlacement = true;
     }
 
     /**

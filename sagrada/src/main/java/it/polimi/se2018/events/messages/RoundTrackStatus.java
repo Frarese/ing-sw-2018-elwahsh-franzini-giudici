@@ -31,7 +31,7 @@ public class RoundTrackStatus extends ServerMessage {
             {
                 if(t.getDie(i,j) != null)
                 {
-                    dice[i][j] =new IntColorPair(t.getDie(i,j).getValue(),t.getDie(i,j).getColor());
+                    dice[j][i] =new IntColorPair(t.getDie(i,j).getValue(),t.getDie(i,j).getColor());
                     j++;
                 }
                 else

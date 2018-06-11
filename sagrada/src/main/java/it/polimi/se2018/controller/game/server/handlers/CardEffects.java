@@ -12,7 +12,7 @@ import it.polimi.se2018.model.dice.RoundTracker;
  */
 public interface CardEffects {
 
-    String INVALID_VALUE = "Invalid value";
+
     /**
      * Changes the value of a single die
      * @param d die
@@ -22,6 +22,7 @@ public interface CardEffects {
      */
      static String changeValue(Die d, boolean invert, int newValue)
      {
+         String invalidValue = "Valore invalido";
          if(invert)
          {
              d.setFace(Math.abs(d.getValue()-7));
@@ -30,15 +31,15 @@ public interface CardEffects {
          else
          {
              if(d.getValue() == 1 && newValue != 2)
-                 return INVALID_VALUE;
+                 return invalidValue;
              else if(d.getValue() == 6 && newValue != 5)
-                 return INVALID_VALUE;
+                 return invalidValue;
              else if(newValue == d.getValue()-1 || newValue == d.getValue()+1) {
                  d.setFace(newValue);
                  return null;
              }
          }
-         return INVALID_VALUE;
+         return invalidValue;
      }
 
     /**
