@@ -66,6 +66,12 @@ public class ServerController implements MatchController, Runnable {
 
         this.board = new Board();
         this.round = new Round(this.players);
+        for (Player p : players) {
+            p.setPlacementRights(true, true);
+            p.setPlacementRights(false, true);
+            p.setCardRights(true, true);
+            p.setCardRights(false, true);
+        }
         this.inBus = new EventBus();
         new Thread(inBus, "eventBus" + mId.hashCode()).start();
         t=new Thread(this);
@@ -112,7 +118,6 @@ public class ServerController implements MatchController, Runnable {
 
     @Override
     public void handleRequest(String sender, Serializable req) {
-
         for(Player p: players)
         {
             if(!offlinePlayers.contains(p) && p.getName().equals(sender))

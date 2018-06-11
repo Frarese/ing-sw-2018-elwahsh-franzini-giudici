@@ -57,27 +57,25 @@ public class DiePlacementHandler implements Runnable {
 
     @Override
     public void run() {
-        if(!player.canPlaceOnThisTurn(firstTurn))
-        {
+        if(!player.canPlaceOnThisTurn(firstTurn)) {
             notifyFailure("Hai già piazzato un dado");
+            return;
         }
-            String result =
-                    DiePlacementLogic.insertDie(
-                            player,move.getHeight(),
-                            move.getWidth(),
-                            reserve.get(move.getDiePosition()),
-                            move.isColorRestriction(),
-                            move.isValueRestriction(),
-                            move.isAdjacentRestriction());
-            if(result == null)
-            {
-                player.getGrid().setDie(move.getHeight(),move.getWidth(),reserve.popDie(move.getDiePosition()));
-                player.setPlacementRights(firstTurn,false);
-                notifySuccess();
-            }
-            else
-            {
-                notifyFailure(result);
-            }
+        String result =
+                DiePlacementLogic.insertDie(
+                        player,move.getHeight(),
+                        move.getWidth(),
+                        reserve.get(move.getDiePosition()),
+                        move.isColorRestriction(),
+                        move.isValueRestriction(),
+                        move.isAdjacentRestriction());
+        if(result == null) {
+            player.getGrid().setDie(move.getHeight(),move.getWidth(),reserve.popDie(move.getDiePosition()));
+            player.setPlacementRights(firstTurn,false);
+            notifySuccess();
+        }
+        else{
+            notifyFailure(result);
+        }
     }
 }

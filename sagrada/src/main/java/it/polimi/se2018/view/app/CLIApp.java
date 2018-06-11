@@ -44,7 +44,7 @@ public class CLIApp extends App {
     private final ArrayList<CLICommand> commands;
     private final ArrayList<CLICommand> gameCommands;
     private final Logger logger;
-
+    private Thread readingThread;
     /**
      * Class constructor that creates CLICreators' objects and CLIui' objects
      *
@@ -151,7 +151,8 @@ public class CLIApp extends App {
             this.commands.add(0, new CommandChangeLayer(this));
 
             this.viewActions.askLobby();
-            new Thread(this::createLobby).start();
+            readingThread=new Thread(this::createLobby);
+            readingThread.start();
         } else {
             printer.print("Login NON riuscito! Riprova.");
             printer.print(error);
@@ -278,6 +279,11 @@ public class CLIApp extends App {
 
         //Ask pattern
         reader.interrupt();
+        readingThread=new Thread(()->choosePattern(pattern1,pattern2,pattern3,pattern4));
+        readingThread.start();
+    }
+
+    private void choosePattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4){
         int pattern = 0;
         try {
             pattern = reader.chooseInRange(1, 4);
@@ -303,7 +309,6 @@ public class CLIApp extends App {
         }
         printer.print("Waiting for match start");
     }
-
     @Override
     public void initGame(List<PlayerView> players, ReserveView reserveView, RoundTrackerView roundTrackerView) {
 
@@ -536,7 +541,9 @@ public class CLIApp extends App {
     public void abortMatch() {
         this.isYourTurn = false;
         this.viewActions.askLobby();
-        new Thread(this::createLobby).start();
+        if(readingThread!=null)readingThread.interrupt();
+        readingThread=new Thread(this::createLobby);
+        readingThread.start();
     }
 
     @Override

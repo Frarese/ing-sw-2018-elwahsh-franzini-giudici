@@ -77,7 +77,7 @@ public class Match implements MatchNetworkInterface{
      * @param username the player's username
      * @param hasDc true if this was a disconnection and a return may be possible
      */
-    public synchronized void playerLeft(String username,boolean hasDc) {
+    synchronized void playerLeft(String username,boolean hasDc) {
         if(matchId.findPos(username)==-1 || dc.contains(username))return;
         dc.add(username);
         if(matchId.playerCount-dc.size()<2){

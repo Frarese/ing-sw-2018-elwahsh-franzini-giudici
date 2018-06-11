@@ -53,6 +53,7 @@ public class ClientController implements CommUtilizer {
 
     @Override
     public void abortMatch() {
+        Logger.getGlobal().log(Level.WARNING,"Aborting match as requested from server");
         app.abortMatch();
     }
 
@@ -150,7 +151,7 @@ public class ClientController implements CommUtilizer {
         {
             patternsReceived.add(pattern);
             if(patternsReceived.size() == 4)
-                new Thread(()->app.askPattern(patternsReceived.get(0),patternsReceived.get(1),patternsReceived.get(2),patternsReceived.get(3),cards)).start();
+                app.askPattern(patternsReceived.get(0),patternsReceived.get(1),patternsReceived.get(2),patternsReceived.get(3),cards);
         }
     }
 

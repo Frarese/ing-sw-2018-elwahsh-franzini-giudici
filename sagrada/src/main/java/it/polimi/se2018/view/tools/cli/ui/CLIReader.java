@@ -46,7 +46,7 @@ public class CLIReader {
             }
             interrupt.set(false);
             while(!scanner.ready()){
-                if(interrupt.get()){
+                if(interrupt.get() ||Thread.currentThread().isInterrupted()){
                     lock.release();
                     throw new IOException("Error reading, interrupted");
                 }
