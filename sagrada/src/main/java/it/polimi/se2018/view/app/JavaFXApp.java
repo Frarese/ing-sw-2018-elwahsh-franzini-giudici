@@ -461,7 +461,9 @@ public class JavaFXApp extends App {
 
     @Override
     public void abortMatch() {
+        AlertBox.attentionBox("Match chiuso dal server");
         this.viewActions.askLobby();
+        this.createLobby();
     }
 
     @Override

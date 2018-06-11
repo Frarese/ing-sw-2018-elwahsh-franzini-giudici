@@ -543,6 +543,7 @@ public class CLIApp extends App {
     @Override
     public void abortMatch() {
         this.isYourTurn = false;
+        printer.print("Match chiuso dal server");
         this.viewActions.askLobby();
         if (readingThread != null) readingThread.interrupt();
         readingThread = new Thread(this::createLobby);
