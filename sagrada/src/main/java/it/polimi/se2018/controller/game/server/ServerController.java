@@ -89,8 +89,8 @@ public class ServerController implements MatchController, Runnable {
         for(Player p: players)
             sendMatchStatus(p);
 
-        network.sendObj(new TurnStart(null,round.getCurrentPlayer().getName()));
         network.sendObj(new MatchStart());
+        network.sendObj(new TurnStart(null,round.getCurrentPlayer().getName()));
         timer = new Timer();
         timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
     }
@@ -124,7 +124,7 @@ public class ServerController implements MatchController, Runnable {
                 try {
                     managePlayerMove((PlayerMove) req);
                 }catch (Exception ex){
-                    Logger.getGlobal().log(Level.SEVERE,"Client {0} sent illegal request",sender);
+                    Logger.getGlobal().log(Level.SEVERE,"Client sent illegal request {0}",sender+" "+ex.getMessage());
                 }
         }
     }

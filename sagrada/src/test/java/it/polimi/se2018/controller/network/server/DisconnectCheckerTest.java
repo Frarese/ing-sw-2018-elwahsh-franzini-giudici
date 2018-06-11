@@ -7,19 +7,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.*;
 
 public class DisconnectCheckerTest {
-    private volatile DisconnectChecker uut;
-    private volatile AtomicBoolean warned;
-    private volatile AtomicBoolean zombied;
-    private volatile AtomicBoolean purge;
-    private volatile AtomicBoolean fail;
+    private DisconnectChecker uut;
+    private AtomicBoolean warned;
+    private AtomicBoolean zombied;
+    private AtomicBoolean purge;
+    private AtomicBoolean fail;
+    private boolean old;
     private Field continuaF;
     private Field warnedF;
+    private Method runTask;
 
     @Before
     public void setUp() throws Exception{
@@ -33,6 +36,10 @@ public class DisconnectCheckerTest {
 
         warnedF=DisconnectChecker.class.getDeclaredField("warned");
         warnedF.setAccessible(true);
+
+        runTask=DisconnectChecker.class.getDeclaredMethod("runTask");
+        runTask.setAccessible(true);
+        old=false;
     }
 
     @Test
@@ -60,27 +67,36 @@ public class DisconnectCheckerTest {
         assertFalse(((AtomicBoolean)warnedF.get(uut)).get());
     }
 
-    @Test(timeout = 1000)
-    public void testSchedule(){
+    @Test
+    public void testSchedule() throws Exception{
         uut=new DisconnectChecker(2,2,2,new ClientTest());
-        uut.reschedule();
-        while(!warned.get());
+        continuaF.set(uut,true);
+        old=true;
+        runTask.invoke(uut);
+        assertTrue(warned.get());
     }
 
-    @Test(timeout = 1000)
-    public void testNetworkFailure(){
+    @Test
+    public void testNetworkFailure() throws Exception{
         uut=new DisconnectChecker(2,2,2,new ClientTest());
-        uut.reschedule();
-        while(!purge.get());
-
+        continuaF.set(uut,true);
+        old=true;
+        runTask.invoke(uut);
+        runTask.invoke(uut);
+        runTask.invoke(uut);
+        assertTrue(purge.get());
     }
 
-    @Test(timeout = 1000)
-    public void testSilentFailure(){
+    @Test
+    public void testSilentFailure() throws Exception{
         fail.set(true);
         uut=new DisconnectChecker(2,2,2,new ClientTest());
-        uut.reschedule();
-        while(!purge.get());
+        continuaF.set(uut,true);
+        old=true;
+        runTask.invoke(uut);
+        runTask.invoke(uut);
+        runTask.invoke(uut);
+        assertTrue(purge.get());
     }
 
     private class ClientTest extends Client{
@@ -92,7 +108,7 @@ public class DisconnectCheckerTest {
 
         @Override
         public Instant lastSeen(){
-            return i;
+            return (old)?Instant.EPOCH:i;
         }
 
         @Override
