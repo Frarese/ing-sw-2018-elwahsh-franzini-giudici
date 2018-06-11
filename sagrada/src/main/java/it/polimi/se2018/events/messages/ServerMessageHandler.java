@@ -25,12 +25,10 @@ public interface ServerMessageHandler {
                     if(p.getPlayerName().equals(playerStatus.getName()))
                     {
                         p.setPlayerGrid(playerStatus.getGrid());
-                        p.setFirstCardRights(playerStatus.isFirstTurnCard());
-                        p.setFirstPlacementRights(playerStatus.isFirstTurnPlacement());
-                        p.setSecondCardRights(playerStatus.isSecondTurnCard());
-                        p.setSecondPlacementRights(playerStatus.isSecondTurnPlacement());
+                        p.setCardRights(playerStatus.isCardRights());
+                        p.setPlacementRights(playerStatus.isPlacementRights());
                         p.setPlayerFavours(playerStatus.getFavourPoints());
-                        if(playerStatus.getPattern()!= null)
+                        if(playerStatus.getPattern()!= null && p.getPlayerTemplate() != null)
                             p.setPlayerTemplate(playerStatus.getPattern());
                         p.uniqueNotify();
                     }

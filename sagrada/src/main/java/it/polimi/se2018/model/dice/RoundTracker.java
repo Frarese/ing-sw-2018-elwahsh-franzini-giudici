@@ -57,6 +57,15 @@ public class RoundTracker {
     }
 
     /**
+     * Adds die to a specific round
+     * @param d die to be added
+     * @param round round to be filled
+     */
+    public void addDie(Die d, int round)
+    {
+        dice.get(round).add(d);
+    }
+    /**
      * Popper of a die in the RoundTracker (Used by a couple of cards)
      * @param round round in which the die was placed
      * @param diePosition position of the die in the round

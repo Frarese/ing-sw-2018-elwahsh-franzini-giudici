@@ -6,7 +6,15 @@ package it.polimi.se2018.events.actions;
  */
 public class UseToolCardMove extends PlayerMove {
 
-    private int cardID;
+    private final int cardID;
+    private int reserveIndex;
+    private int newValue;
+    private int originalX;
+    private int originalY;
+    private int height;
+    private int width;
+    private int round;
+    private int diePosition;
 
     /**
      * UseToolCardMove's constructor
@@ -27,5 +35,69 @@ public class UseToolCardMove extends PlayerMove {
      */
     public int getCardID() {
         return cardID;
+    }
+
+    public int getReserveIndex() {
+        return reserveIndex;
+    }
+
+    public int getNewValue() {
+        return newValue;
+    }
+
+    public int getOriginalX() {
+        return originalX;
+    }
+
+    public int getOriginalY() {
+        return originalY;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public int getDiePosition() {
+        return diePosition;
+    }
+
+    public void setReserveIndex(int reserveIndex) {
+        this.reserveIndex = reserveIndex;
+    }
+
+    public void setNewValue(int newValue) {
+        this.newValue = newValue;
+    }
+
+    public void setOriginalX(int originalX) {
+        this.originalX = originalX;
+    }
+
+    public void setOriginalY(int originalY) {
+        this.originalY = originalY;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public void setDiePosition(int diePosition) {
+        this.diePosition = diePosition;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 }

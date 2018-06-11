@@ -1,6 +1,5 @@
 package it.polimi.se2018.observable;
 
-import it.polimi.se2018.events.messages.PlayerStatus;
 import it.polimi.se2018.model.Pattern;
 import it.polimi.se2018.model.IntColorPair;
 
@@ -23,10 +22,9 @@ public class PlayerView extends Observable {
     private int playerFavours;
     private IntColorPair[][]  playerTemplate;
     private IntColorPair[][]  playerGrid;
-    private boolean firstPlacementRights;
-    private boolean firstCardRights;
-    private boolean secondPlacementRights;
-    private boolean secondCardRights;
+    private boolean placementRights;
+    private boolean cardRights;
+
 
 
     public PlayerView(String playerName, int playerID) {
@@ -35,26 +33,12 @@ public class PlayerView extends Observable {
         this.playerFavours = 0;
         this.playerTemplate = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
         this.playerGrid = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
-        this.firstPlacementRights = true;
-        this.firstCardRights = true;
-        this.secondPlacementRights = true;
-        this.secondCardRights = true;
+        this.placementRights = true;
+        this.cardRights = true;
         this.uniqueNotify();
     }
 
 
-    public PlayerView(PlayerStatus playerStatus)
-    {
-        this.playerName = playerStatus.getName();
-        this.playerID = playerStatus.getId();
-        this.playerFavours = playerStatus.getFavourPoints();
-        this.playerGrid = playerStatus.getGrid();
-        this.firstCardRights = playerStatus.isFirstTurnCard();
-        this.firstPlacementRights = playerStatus.isFirstTurnPlacement();
-        this.secondCardRights = playerStatus.isSecondTurnCard();
-        this.secondPlacementRights = playerStatus.isSecondTurnPlacement();
-
-    }
 
 
     public String getPlayerName() {
@@ -102,37 +86,22 @@ public class PlayerView extends Observable {
 
     }
 
-    public boolean isFirstPlacementRights() {
-        return firstPlacementRights;
+    public boolean isPlacementRights() {
+        return placementRights;
     }
 
-    public void setFirstPlacementRights(boolean firstPlacementRights) {
-        this.firstPlacementRights = firstPlacementRights;
+    public void setPlacementRights(boolean placementRights) {
+        this.placementRights = placementRights;
     }
 
-    public boolean isFirstCardRights() {
-        return firstCardRights;
+    public boolean isCardRights() {
+        return cardRights;
     }
 
-    public void setFirstCardRights(boolean firstCardRights) {
-        this.firstCardRights = firstCardRights;
+    public void setCardRights(boolean cardRights) {
+        this.cardRights = cardRights;
     }
 
-    public boolean isSecondCardRights() {
-        return secondCardRights;
-    }
-
-    public boolean isSecondPlacementRights() {
-        return secondPlacementRights;
-    }
-
-    public void setSecondCardRights(boolean secondCardRights) {
-        this.secondCardRights = secondCardRights;
-    }
-
-    public void setSecondPlacementRights(boolean secondPlacementRights) {
-        this.secondPlacementRights = secondPlacementRights;
-    }
 
     public synchronized void uniqueNotify() {
         setChanged();

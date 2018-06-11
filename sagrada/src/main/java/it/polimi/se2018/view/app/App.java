@@ -210,7 +210,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     PlayerState setState(PlayerView playerView) {
         return new PlayerState(playerView.getPlayerName(), playerView.getPlayerID(),
                 playerView.getPlayerFavours(), playerView.getPlayerTemplate(), playerView.getPlayerGrid(),
-                playerView.isFirstPlacementRights(), playerView.isFirstCardRights());
+                playerView.isPlacementRights(), playerView.isCardRights());
     }
 
     /**

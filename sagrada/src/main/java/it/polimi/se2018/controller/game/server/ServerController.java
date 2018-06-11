@@ -205,6 +205,11 @@ public class ServerController implements MatchController, Runnable {
             manageNewRound(temp);
         else{
             network.sendObj(new TurnStart(temp,round.getCurrentPlayer().getName()));
+            if(round.getCurrentPlayer().toString().equals(temp) && !round.getFirstTurn())
+            {
+                for(Player p: players)
+                    network.sendObj(new PlayerStatus(p,false));
+            }
             timer = new Timer();
             timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
         }
@@ -266,7 +271,7 @@ public class ServerController implements MatchController, Runnable {
     private void sendMatchStatus(Player player)
     {
         for(Player p: players)
-            network.sendReq(new PlayerStatus(p),player.getName());
+            network.sendReq(new PlayerStatus(p,round.getFirstTurn()),player.getName());
 
 
         network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
@@ -326,7 +331,7 @@ public class ServerController implements MatchController, Runnable {
     public void run() {
 
         for(Player p: players)
-            network.sendObj(new PlayerStatus(p));
+            network.sendObj(new PlayerStatus(p,round.getFirstTurn()));
         network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
         sendPrivateObjectives();
 

@@ -8,6 +8,7 @@ import it.polimi.se2018.model.cards.ToolCard;
 
 /**
  * Generic card handler to be extended by specific ones
+ *
  */
 public abstract class AbstractCardHandler implements Runnable {
 
@@ -27,6 +28,7 @@ public abstract class AbstractCardHandler implements Runnable {
      * @param firstTurn true if first turn, false otherwise
      * @param network network layer reference
      */
+
     public AbstractCardHandler(Player player, UseToolCardMove move, Board board, boolean firstTurn, MatchNetworkInterface network)
     {
         this.board = board;

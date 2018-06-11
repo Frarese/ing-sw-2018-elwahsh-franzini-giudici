@@ -124,4 +124,11 @@ public class Board {
         bag.add(d);
     }
 
+    /**
+     * Gets the bag
+     * @return bag
+     */
+    public Bag getBag() {
+        return bag;
+    }
 }

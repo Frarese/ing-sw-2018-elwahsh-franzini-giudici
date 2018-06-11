@@ -14,11 +14,11 @@ import it.polimi.se2018.model.dice.Reserve;
  */
 public class DiePlacementHandler implements Runnable {
 
-    private DiePlacementMove move;
-    private Player player;
-    private Reserve reserve;
-    private boolean firstTurn;
-    private MatchNetworkInterface network;
+    private final DiePlacementMove move;
+    private final Player player;
+    private final Reserve reserve;
+    private final boolean firstTurn;
+    private final MatchNetworkInterface network;
 
     /**
      * DiePlacementHandler's constructor
@@ -42,7 +42,7 @@ public class DiePlacementHandler implements Runnable {
      */
     private void notifySuccess()
     {
-        network.sendObj(new PlayerStatus(player));
+        network.sendObj(new PlayerStatus(player,firstTurn));
         network.sendObj(new ReserveStatus(reserve));
     }
 

@@ -19,16 +19,14 @@ public class PlayerStatus extends Event {
 
     private final IntColorPair[][] grid = new IntColorPair[Grid.HEIGHT][Grid.WIDTH];
     private final IntColorPair[][] pattern = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
-    private final boolean firstTurnPlacement;
-    private final boolean secondTurnPlacement;
-    private final boolean firstTurnCard;
-    private final boolean secondTurnCard;
+    private final boolean placementRights;
+    private final boolean cardRights;
 
     /**
      * Constructor
      * @param player player information
      */
-    public PlayerStatus(Player player)
+    public PlayerStatus(Player player, boolean firstTurn)
     {
         this.name = player.getName();
         this.id = player.getId();
@@ -43,10 +41,9 @@ public class PlayerStatus extends Event {
                     pattern[i][j] = new IntColorPair(player.getPattern().getValue(i,j),player.getPattern().getColor(i,j));
         }
 
-        this.firstTurnPlacement = player.canPlaceOnThisTurn(true);
-        this.secondTurnPlacement = player.canPlaceOnThisTurn(false);
-        this.firstTurnCard = player.canUseCardOnThisTurn(true);
-        this.secondTurnCard = player.canUseCardOnThisTurn(false);
+        this.placementRights = player.canPlaceOnThisTurn(firstTurn);
+        this.cardRights = player.canUseCardOnThisTurn(firstTurn);
+
 
         this.description = "Player";
     }
@@ -95,31 +92,17 @@ public class PlayerStatus extends Event {
      * Returns player's first turn card rights
      * @return card rights
      */
-    public boolean isFirstTurnCard() {
-        return firstTurnCard;
+    public boolean isCardRights() {
+        return cardRights;
     }
 
     /**
      * Returns player's first turn placement rights
      * @return placement rights
      */
-    public boolean isFirstTurnPlacement() {
-        return firstTurnPlacement;
+    public boolean isPlacementRights() {
+        return placementRights;
     }
 
-    /**
-     * Returns player's second turn card rights
-     * @return card rights
-     */
-    public boolean isSecondTurnCard() {
-        return secondTurnCard;
-    }
 
-    /**
-     * Returns player's second turn placement rights
-     * @return placement rights
-     */
-    public boolean isSecondTurnPlacement() {
-        return secondTurnPlacement;
-    }
 }

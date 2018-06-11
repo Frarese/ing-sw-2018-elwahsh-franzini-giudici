@@ -19,7 +19,7 @@ public class PlayerStatusTest {
         p.setPattern(pat);
         p.setFavourPoints(5);
         p.getGrid().setDie(0,0,new Die(ColorModel.RED));
-        PlayerStatus uut=new PlayerStatus(p);
+        PlayerStatus uut=new PlayerStatus(p,true);
 
         assertNotEquals(p.getGrid(),uut.getGrid());
         assertNotEquals(array,uut.getPattern());
@@ -27,10 +27,9 @@ public class PlayerStatusTest {
         assertEquals(0,uut.getId());
         assertEquals("test",uut.getName());
 
-        assertFalse(uut.isFirstTurnCard());
-        assertFalse(uut.isSecondTurnCard());
-        assertFalse(uut.isFirstTurnPlacement());
-        assertFalse(uut.isSecondTurnPlacement());
+        assertFalse(uut.isCardRights());
+        assertFalse(uut.isPlacementRights());
+
     }
 
 }

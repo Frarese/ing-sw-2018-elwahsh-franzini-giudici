@@ -28,8 +28,8 @@ public class PlayerViewTest {
                 assertEquals(playerFavours, ((PlayerView) arg).getPlayerFavours());
                 assertArrayEquals(playerTemplate, ((PlayerView) arg).getPlayerTemplate());
                 assertArrayEquals(playerGrid, ((PlayerView) arg).getPlayerGrid());
-                assertEquals(placementRights, ((PlayerView) arg).isFirstPlacementRights());
-                assertEquals(cardRights, ((PlayerView) arg).isFirstCardRights());
+                assertEquals(placementRights, ((PlayerView) arg).isPlacementRights());
+                assertEquals(cardRights, ((PlayerView) arg).isCardRights());
             }
         }
     }
@@ -121,23 +121,23 @@ public class PlayerViewTest {
 
     @Test
     public void testIsPlacementRights() {
-        assertEquals(placementRights, playerView.isFirstPlacementRights());
+        assertEquals(placementRights, playerView.isPlacementRights());
     }
 
     @Test
     public void testSetPlacementRights() {
         placementRights = false;
-        playerView.setFirstPlacementRights(placementRights);
+        playerView.setPlacementRights(placementRights);
     }
 
     @Test
     public void testIsCardRights() {
-        assertEquals(cardRights, playerView.isFirstCardRights());
+        assertEquals(cardRights, playerView.isCardRights());
     }
 
     @Test
     public void testSetCardRights() {
         cardRights = true;
-        playerView.setFirstCardRights(cardRights);
+        playerView.setCardRights(cardRights);
     }
 }
