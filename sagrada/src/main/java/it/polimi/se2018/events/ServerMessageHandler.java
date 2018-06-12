@@ -19,6 +19,13 @@ public interface ServerMessageHandler {
     void handle(ReserveStatus move);
     void handle(RoundTrackStatus move);
     void handle(TurnStart move);
-
+    void handle(AskDieFromReserve move);
+    void handle(AskNewValue move);
+    void handle(SetDie move);
+    void handle(AskDieFromGrid move);
+    void handle(AskDieFromRoundTrack move);
+    void handle(AskDieByColor move);
+    void handle(AskNewFace move);
+    void handle(CardExecutionError move);
     void handle(ReadyView move);
 }

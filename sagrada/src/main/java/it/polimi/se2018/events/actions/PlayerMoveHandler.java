@@ -3,7 +3,7 @@ package it.polimi.se2018.events.actions;
 import it.polimi.se2018.controller.game.server.Round;
 import it.polimi.se2018.controller.game.server.ServerController;
 import it.polimi.se2018.controller.game.server.handlers.DiePlacementHandler;
-import it.polimi.se2018.controller.game.server.handlers.ToolCardHandlerFactory;
+import it.polimi.se2018.controller.game.server.handlers.ToolCardsHandler;
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Player;
@@ -27,12 +27,14 @@ public interface PlayerMoveHandler {
                  break;
             case "UseCard":
 
-                new Thread(new ToolCardHandlerFactory()
-                        .getCardHandler(controller.getInBus(),round.getCurrentPlayer(),
-                                (UseToolCardMove)move,
-                                board,
-                                round.getFirstTurn(),
-                                networkInterface), "CardHandler" + round.getCurrentPlayer().hashCode()).start();
+                ToolCardsHandler t =new ToolCardsHandler(
+                        (UseToolCardMove)move,
+                        currentPlayer,
+                        board,
+                        round.getFirstTurn(),
+                        networkInterface);
+                controller.getInBus().addObserver(t);
+                new Thread(t).start();
 
                 break;
             case "PassTurn":

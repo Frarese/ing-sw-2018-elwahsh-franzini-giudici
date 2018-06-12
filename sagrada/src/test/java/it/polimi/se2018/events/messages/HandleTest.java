@@ -100,6 +100,46 @@ public class HandleTest {
         }
 
         @Override
+        public void handle(AskDieFromReserve move) {
+            mov = move;
+        }
+
+        @Override
+        public void handle(AskNewValue move) {
+            mov = move;
+        }
+
+        @Override
+        public void handle(SetDie move) {
+            mov = move;
+        }
+
+        @Override
+        public void handle(AskDieFromGrid move) {
+            mov = move;
+        }
+
+        @Override
+        public void handle(AskDieFromRoundTrack move) {
+            mov = move;
+        }
+
+        @Override
+        public void handle(AskDieByColor move) {
+            mov = move;
+        }
+
+        @Override
+        public void handle(AskNewFace move) {
+            mov = move;
+        }
+
+        @Override
+        public void handle(CardExecutionError move) {
+            mov = move;
+        }
+
+        @Override
         public void handle(ConfirmMove move) {mov = move;}
         @Override
         public void handle(PatternSelect move) {

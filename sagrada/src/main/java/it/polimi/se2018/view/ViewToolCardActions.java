@@ -31,7 +31,7 @@ public class ViewToolCardActions extends Observable {
      * @param index contains the die's ID
      */
     public void selectedDieFromReserve(int index) {
-        throw new UnsupportedOperationException();
+        actionSender.selectedDieFromReserve(index);
 
     }
 
@@ -41,7 +41,7 @@ public class ViewToolCardActions extends Observable {
      * @param value contains the die's value
      */
     public void selectedValueForDie(int value) {
-        throw new UnsupportedOperationException();
+        actionSender.selectedNewValueForDie(value);
 
     }
 
@@ -52,8 +52,7 @@ public class ViewToolCardActions extends Observable {
      * @param height contains the y coordinate
      */
     public void selectedDieFromGrid(int width, int height) {
-        throw new UnsupportedOperationException();
-
+        actionSender.selectedDieFromGrid(height,width);
     }
 
     /**
@@ -63,7 +62,7 @@ public class ViewToolCardActions extends Observable {
      * @param height contains the y coordinate
      */
     public void selectedDieToGrid(int width, int height) {
-        throw new UnsupportedOperationException();
+        actionSender.selectedDieToGrid(height,width);
 
     }
 
@@ -74,7 +73,7 @@ public class ViewToolCardActions extends Observable {
      * @param dieIndex   contains the dieIndex in roundTracker[roundIndex]
      */
     public void selectedDieFromRoundTracker(int roundIndex, int dieIndex) {
-        throw new UnsupportedOperationException();
+        actionSender.selectedDieFromRoundTrack(roundIndex,dieIndex);
 
     }
 
@@ -84,7 +83,7 @@ public class ViewToolCardActions extends Observable {
      * @param value contains the die's value
      */
     public void selectedFace(int value) {
-        throw new UnsupportedOperationException();
+        actionSender.selectedNewValueForDie(value);
 
     }
 
@@ -95,7 +94,7 @@ public class ViewToolCardActions extends Observable {
      * @param height contains the y coordinate
      */
     public void selectedDieFromGridByColor(int width, int height) {
-        throw new UnsupportedOperationException();
+        actionSender.selectedDieFromGrid(height,width);
 
     }
 

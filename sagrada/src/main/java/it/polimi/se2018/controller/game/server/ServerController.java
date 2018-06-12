@@ -335,10 +335,11 @@ public class ServerController implements MatchController, Runnable {
     @Override
     public void run() {
 
-        for(Player p: players)
-            network.sendObj(new PlayerStatus(p,round.getFirstTurn()));
         network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
         sendPrivateObjectives();
+        for(Player p: players)
+            network.sendObj(new PlayerStatus(p,round.getFirstTurn()));
+
 
         try {
             sendPatternCards();

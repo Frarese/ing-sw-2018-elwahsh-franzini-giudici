@@ -165,4 +165,47 @@ public class ActionSender {
     public void setController(ClientController controller) {
         this.controller = controller;
     }
+
+    /**
+     * Sends a selected die from the reserve position
+     * @param index position of the die
+     */
+    public void selectedDieFromReserve(int index)
+    {
+        network.sendObj(new DieFromReserve(username,index));
+    }
+
+    /**
+     * Sends the new value asked for the selected die
+     * @param newVal die's new value
+     */
+    public void selectedNewValueForDie(int newVal)
+    {
+        network.sendObj(new NewValue(username,newVal));
+    }
+
+    /**
+     * Sends a die selected from the grid
+     * @param h height on the grid
+     * @param w width on the grid
+     */
+    public void selectedDieFromGrid(int h, int w)
+    {
+        network.sendObj(new DieFromGrid(username,h,w));
+    }
+
+    public void selectedDieToGrid(int h, int w)
+    {
+        network.sendObj(new DieSet(username,h,w));
+    }
+
+    /**
+     * Sends a die selected from the round track
+     * @param round round position
+     * @param diePosition die position
+     */
+    public void selectedDieFromRoundTrack(int round,int diePosition)
+    {
+        network.sendObj(new DieFromRoundTrack(username,round,diePosition));
+    }
 }

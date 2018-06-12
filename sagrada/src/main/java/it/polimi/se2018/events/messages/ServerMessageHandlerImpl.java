@@ -2,6 +2,7 @@ package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.controller.game.client.ClientController;
 import it.polimi.se2018.events.ServerMessageHandler;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.observable.ReserveView;
@@ -89,6 +90,42 @@ public class ServerMessageHandlerImpl implements ServerMessageHandler {
     }
 
     @Override
+    public void handle(CardExecutionError move) {
+        app.showError(move.toString());
+    }
+
+    @Override
+    public void handle(SetDie move) {
+        IntColorPair die = reserve.getReserve()[move.getIndex()];
+        app.setDieOnGrid(die);
+    }
+
+    @Override
+    public void handle(AskDieByColor move) {
+        app.selectDieFromGridByColor(move.getColorModel());
+    }
+
+    @Override
+    public void handle(AskNewFace move) {
+        app.selectFace(reserve.getReserve()[move.getIndex()]);
+    }
+
+    @Override
+    public void handle(AskDieFromRoundTrack move) {
+        app.selectDieFromRoundTracker();
+    }
+
+    @Override
+    public void handle(AskDieFromGrid move) {
+        app.selectDieFromGrid();
+    }
+
+    @Override
+    public void handle(AskNewValue move) {
+        app.selectNewValueForDie(move.getVal1(),move.getVal2());
+    }
+
+    @Override
     public void handle(ReserveStatus move) {
         reserve.setReserve(move.getDice());
         reserve.uniqueNotify();
@@ -99,6 +136,11 @@ public class ServerMessageHandlerImpl implements ServerMessageHandler {
         roundTrack.setRound(move.round());
         roundTrack.setRoundTracker(move.getDice());
         roundTrack.uniqueNotify();
+    }
+
+    @Override
+    public void handle(AskDieFromReserve move) {
+        app.selectDieFromReserve();
     }
 
     @Override
