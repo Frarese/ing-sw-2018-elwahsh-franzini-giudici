@@ -65,6 +65,7 @@ public class ClientController implements CommUtilizer {
     @Override
     public void abortMatch() {
         Logger.getGlobal().log(Level.WARNING,"Aborting match as requested from server");
+        cleanUp();
         app.abortMatch();
     }
 

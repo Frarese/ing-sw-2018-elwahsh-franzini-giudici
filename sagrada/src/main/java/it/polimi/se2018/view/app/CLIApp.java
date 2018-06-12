@@ -535,18 +535,24 @@ public class CLIApp extends App {
         this.scoreViewCreator = new CLIScoreViewCreator();
         printer.printArray(scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3));
 
-        //Call menu method
-        this.isYourTurn = false;
-        this.menu();
+        cleanMatch();
     }
 
     @Override
     public void abortMatch() {
-        this.isYourTurn = false;
         printer.print("Match chiuso dal server");
-        this.viewActions.askLobby();
+        cleanMatch();
     }
 
+    private void cleanMatch(){
+        this.cardViewCreator = new CLICardViewCreator();
+        this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
+        this.reserveViewCreator = new CLIReserveViewCreator();
+        this.gridViewCreator = new CLIGridViewCreator(printer);
+        this.isYourTurn = false;
+        this.viewActions.askLobby();
+        this.createLobby();
+    }
     @Override
     public void selectDieFromReserve() {
         //Print and read operations
