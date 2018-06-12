@@ -58,6 +58,29 @@ public abstract class DiePlacementLogic {
         return temp;
     }
 
+
+    /**
+     * Checks if one of the adjacent dice has the same value of d
+     * @param g1 grid
+     * @param h height inside the grid
+     * @param w width inside the grid
+     * @param d the die to be placed
+     * @return true if there are adjacent dice, false otherwise
+     */
+    private static boolean adjacentSameValue(Grid g1, int h, int w, Die d)
+    {
+        boolean temp = false;
+        if(g1.getDie(h-1,w)!=null)
+            temp = (g1.getDie(h-1,w).getValue() == d.getValue());
+        if(g1.getDie(h+1,w)!= null)
+            temp = temp ||(g1.getDie(h+1,w).getValue() == d.getValue());
+        if(g1.getDie(h,w-1)!= null)
+            temp = temp ||(g1.getDie(h,w-1).getValue() == d.getValue());
+        if(g1.getDie(h,w+1)!= null)
+            temp = temp ||(g1.getDie(h,w+1).getValue() == d.getValue());
+        return temp;
+    }
+
     /**
      * Checks if the desired spot is free
      * @param g1 grid
@@ -131,7 +154,11 @@ public abstract class DiePlacementLogic {
         if (!emptySpot(player.getGrid(), h, w))
             return "Posizione occupata";
         if (adjacentSameColor(player.getGrid(), h, w, d)) {
-            return "I dadi adiacenti non devo avere lo stesso colore";
+            return "I dadi adiacenti non devono avere lo stesso colore";
+        }
+        if(adjacentSameValue(player.getGrid(),h,w,d))
+        {
+            return "I dadi adiacenti non devono avere lo stesso valore";
         }
         if (colorRestriction && !rightColor(player.getPattern(),h,w,d))
         {
