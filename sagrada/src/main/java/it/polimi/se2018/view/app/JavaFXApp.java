@@ -339,16 +339,16 @@ public class JavaFXApp extends App {
             return;
         }
 
-        Platform.runLater(() -> {
-            GameController gameController = (GameController) JavaFXStageProducer.getController();
-            gameController.display();
-        });
-
         //Check if is my ID
         if (playerName.equals(this.ownerPlayerName)) {
             this.setDieResult(true, null);
             return;
         }
+
+        Platform.runLater(() -> {
+            GameController gameController = (GameController) JavaFXStageProducer.getController();
+            gameController.display();
+        });
 
         //Search information
         PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
@@ -383,16 +383,17 @@ public class JavaFXApp extends App {
             return;
         }
 
-        Platform.runLater(() -> {
-            GameController gameController = (GameController) JavaFXStageProducer.getController();
-            gameController.display();
-        });
-
         //Check if is my ID
         if (playerName.equals(this.ownerPlayerName)) {
             this.useToolCardResult(true, null);
             return;
         }
+
+        Platform.runLater(() -> {
+            GameController gameController = (GameController) JavaFXStageProducer.getController();
+            gameController.display();
+        });
+
 
         //Search information
         PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
@@ -415,8 +416,7 @@ public class JavaFXApp extends App {
             notifySimpleAlert("Turno passato con successo!");
             Platform.runLater(() -> {
                 GameController gameController = (GameController) JavaFXStageProducer.getController();
-                gameController.disablePlacement();
-                gameController.disableToolCardsUse();
+                gameController.display();
                 gameController.disablePassButton();
             });
         } else {
@@ -437,6 +437,11 @@ public class JavaFXApp extends App {
             this.passTurnResult(true);
             return;
         }
+
+        Platform.runLater(() -> {
+            GameController gameController = (GameController) JavaFXStageProducer.getController();
+            gameController.display();
+        });
 
         //Search information
         PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
@@ -461,7 +466,7 @@ public class JavaFXApp extends App {
 
     @Override
     public void abortMatch() {
-        AlertBox.attentionBox("Match chiuso dal server");
+        Platform.runLater(() -> AlertBox.attentionBox("Match chiuso dal server"));
         this.viewActions.askLobby();
         this.createLobby();
     }
@@ -604,11 +609,11 @@ public class JavaFXApp extends App {
      */
     private void setTurnAction() {
         //Search PlayerView
-        PlayerState me = this.searchPlayerViewByName(this.players, this.ownerPlayerName);
-
         Platform.runLater(() -> {
             GameController gameController = (GameController) JavaFXStageProducer.getController();
             gameController.display();
+
+            PlayerState me = this.searchPlayerViewByName(this.players, this.ownerPlayerName);
             if (me.isPlacementRights()) {
                 gameController.enablePlacement();
             }

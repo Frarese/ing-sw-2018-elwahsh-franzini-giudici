@@ -31,7 +31,7 @@ public class CardZoomBox extends GeneralBox {
 
         initStage("", false, null);
 
-        window.initModality(Modality.WINDOW_MODAL);
+        window.initModality(Modality.NONE);
         window.initStyle(StageStyle.UNDECORATED);
 
         window.setMinHeight(300);
