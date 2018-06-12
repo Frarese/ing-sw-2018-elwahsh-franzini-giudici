@@ -462,13 +462,15 @@ public class JavaFXApp extends App {
         //Print
         this.scoreViewCreator = new FXScoreViewCreator();
         Platform.runLater(() -> JavaFXStageProducer.getStage().setScene(new Scene((VBox) scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3))));
+
+        cleanMatch();
     }
 
     @Override
     public void abortMatch() {
         Platform.runLater(() -> AlertBox.attentionBox("Match chiuso dal server"));
-        this.viewActions.askLobby();
-        this.createLobby();
+
+        cleanMatch();
     }
 
     @Override
@@ -630,5 +632,20 @@ public class JavaFXApp extends App {
      */
     private void safeDisableAdd() {
         Platform.runLater(((GameController) JavaFXStageProducer.getController())::disablePlacement);
+    }
+
+    /**
+     * Cleans View structure before lobby
+     */
+    private void cleanMatch() {
+        //Cleans structures
+        this.cardViewCreator = new FXCardViewCreator();
+        this.roundTrackerViewCreator = new FXRoundTrackerViewCreator();
+        this.reserveViewCreator = new FXReserveViewCreator();
+        this.gridViewCreator = new FXGridViewCreator(ColorModel.RED.toJavaFXColor());
+
+        //Creates new Lobby
+        this.viewActions.askLobby();
+        this.createLobby();
     }
 }

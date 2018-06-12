@@ -544,15 +544,6 @@ public class CLIApp extends App {
         cleanMatch();
     }
 
-    private void cleanMatch(){
-        this.cardViewCreator = new CLICardViewCreator();
-        this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
-        this.reserveViewCreator = new CLIReserveViewCreator();
-        this.gridViewCreator = new CLIGridViewCreator(printer);
-        this.isYourTurn = false;
-        this.viewActions.askLobby();
-        this.createLobby();
-    }
     @Override
     public void selectDieFromReserve() {
         //Print and read operations
@@ -823,11 +814,26 @@ public class CLIApp extends App {
     public void menu() {
         reader.interrupt();
         if (this.isYourTurn) {
-
             readingThread = new Thread(this::menuTurnControl);
         } else {
             readingThread = new Thread(this::menuControl);
         }
         readingThread.start();
+    }
+
+    /**
+     * Cleans View structure before a new match
+     */
+    private void cleanMatch(){
+        //Cleans structures
+        this.cardViewCreator = new CLICardViewCreator();
+        this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
+        this.reserveViewCreator = new CLIReserveViewCreator();
+        this.gridViewCreator = new CLIGridViewCreator(printer);
+        this.isYourTurn = false;
+
+        //Creates new Lobby
+        this.viewActions.askLobby();
+        this.createLobby();
     }
 }
