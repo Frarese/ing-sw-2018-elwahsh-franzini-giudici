@@ -27,8 +27,8 @@ public class PlayerStatusTest {
         assertEquals(0,uut.getId());
         assertEquals("test",uut.getName());
 
-        assertFalse(uut.isCardRights());
-        assertFalse(uut.isPlacementRights());
+        assertTrue(uut.isCardRights());
+        assertTrue(uut.isPlacementRights());
 
     }
 

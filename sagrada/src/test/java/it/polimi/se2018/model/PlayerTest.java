@@ -43,10 +43,10 @@ public class PlayerTest {
     @Test
     public void testRights()
     {
-        assertFalse(test.canPlaceOnThisTurn(true));
-        assertFalse(test.canPlaceOnThisTurn(false));
-        assertFalse(test.canUseCardOnThisTurn(false));
-        assertFalse(test.canUseCardOnThisTurn(true));
+        assertTrue(test.canPlaceOnThisTurn(true));
+        assertTrue(test.canPlaceOnThisTurn(false));
+        assertTrue(test.canUseCardOnThisTurn(false));
+        assertTrue(test.canUseCardOnThisTurn(true));
         test.setCardRights(true,true);
         test.setCardRights(false,true);
         test.setPlacementRights(true,true);

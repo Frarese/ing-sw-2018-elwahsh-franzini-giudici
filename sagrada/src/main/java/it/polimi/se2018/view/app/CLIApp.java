@@ -545,9 +545,6 @@ public class CLIApp extends App {
         this.isYourTurn = false;
         printer.print("Match chiuso dal server");
         this.viewActions.askLobby();
-        if (readingThread != null) readingThread.interrupt();
-        readingThread = new Thread(this::createLobby);
-        readingThread.start();
     }
 
     @Override
@@ -555,7 +552,7 @@ public class CLIApp extends App {
         //Print and read operations
         printer.print("Seleziona un dado dalla riserva: ");
         printer.print(this.reserveViewCreator.display());
-        int reserveIndex = 0;
+        int reserveIndex;
         try {
             reserveIndex = reader.chooseInRange(0, this.reserveViewCreator.getReserve().length - 1);
         } catch (IOException e) {
@@ -767,7 +764,7 @@ public class CLIApp extends App {
             printer.print(i + "-" + printArray.get(i).display());
         }
         printer.print("Seleziona un comando: ");
-        int actionID = 0;
+        int actionID;
         try {
             actionID = reader.chooseInRange(0, printArray.size() - 1);
         } catch (IOException e) {
@@ -800,7 +797,7 @@ public class CLIApp extends App {
 
         //Asks command to execute
         printer.print("Seleziona un comando: ");
-        int actionID = 0;
+        int actionID;
         try {
             actionID = reader.chooseInRange(0, this.commands.size() - 1);
         } catch (IOException e) {
@@ -818,10 +815,13 @@ public class CLIApp extends App {
      * Selects the right menu to show
      */
     public void menu() {
+        reader.interrupt();
         if (this.isYourTurn) {
-            this.menuTurnControl();
+
+            readingThread = new Thread(this::menuTurnControl);
         } else {
-            this.menuControl();
+            readingThread = new Thread(this::menuControl);
         }
+        readingThread.start();
     }
 }

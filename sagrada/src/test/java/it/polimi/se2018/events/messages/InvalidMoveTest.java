@@ -16,5 +16,6 @@ public class InvalidMoveTest {
         InvalidMove test = new InvalidMove(move, "test",true);
         assertEquals(move,test.getMove());
         assertEquals("test",test.toString());
+        assertTrue(test.isPlacement());
     }
 }

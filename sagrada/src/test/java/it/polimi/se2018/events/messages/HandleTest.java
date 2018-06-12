@@ -14,7 +14,9 @@ import it.polimi.se2018.model.dice.RoundTracker;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class HandleTest {
     private ServerMessageHandler hand;
@@ -70,6 +72,12 @@ public class HandleTest {
         assertEquals(s,mov);
 
         s=new ReadyView("a");
+        s.visit(hand);
+        assertEquals(s,mov);
+
+        s=new ConfirmMove(new UseToolCardMove("a",0),true);
+        assertNotNull(((ConfirmMove) s).getMove());
+        assertTrue(((ConfirmMove) s).isPlacement());
         s.visit(hand);
         assertEquals(s,mov);
 }

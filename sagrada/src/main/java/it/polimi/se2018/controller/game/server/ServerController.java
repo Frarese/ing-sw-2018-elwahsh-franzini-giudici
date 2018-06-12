@@ -209,12 +209,12 @@ public class ServerController implements MatchController, Runnable {
         if(round.getCurrentPlayer() == null)
             manageNewRound(temp);
         else{
-            network.sendObj(new TurnStart(temp,round.getCurrentPlayer().getName()));
-            if(round.getCurrentPlayer().toString().equals(temp) && !round.getFirstTurn())
+            if(!round.getFirstTurn())
             {
                 for(Player p: players)
                     network.sendObj(new PlayerStatus(p,false));
             }
+            network.sendObj(new TurnStart(temp,round.getCurrentPlayer().getName()));
             timer = new Timer();
             timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
         }
