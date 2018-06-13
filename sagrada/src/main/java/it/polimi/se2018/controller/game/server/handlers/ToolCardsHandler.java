@@ -5,6 +5,7 @@ import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
 import it.polimi.se2018.events.actions.*;
 import it.polimi.se2018.events.messages.*;
 import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.cards.toolcards.*;
 import it.polimi.se2018.model.dice.Die;
@@ -89,8 +90,6 @@ public class ToolCardsHandler implements Runnable,Observer  {
         if(player.getFavourPoints()>=2 || !board.getTool(cardPosition).isUsed() && player.getFavourPoints()>=1)
             canPlay = true;
 
-
-
         if(isInGame && canPlay) {
             switch (move.getCardID()) {
                 case 20:
@@ -105,13 +104,14 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 case 23:
                     lathekin();
                     break;
+                case 24:
+                    lensCutter();
+                    break;
                 case 26:
                     glazinHammer();
                     break;
                 default:
                     notifyFailure("Carta inesistente");
-
-
             }
         }
         else
@@ -271,6 +271,46 @@ public class ToolCardsHandler implements Runnable,Observer  {
     }
 
     /**
+     * Lens Cutter card effect
+     */
+    private void lensCutter()
+    {
+        int round;
+        int diePosition;
+        int reserveIndex;
+        Pair<Integer,Integer> die;
+        if(new LensCutter().isUsable(player,firsTurn) && board.getRoundTrack().lastFilledRound()>0)
+        {
+            notifySuccess();
+            reserveIndex =askDieFromReserve();
+            if(reserveIndex >-1)
+            {
+                die = askDieFromRoundTrack();
+                if(die != null)
+                {
+                    round = die.getFirst();
+                    diePosition = die.getSecond();
+                    String result = setDieFromRoundTrackAndsSwap(round,diePosition,reserveIndex);
+                    if(result == null)
+                    {
+                        player.setCardRights(firsTurn,false);
+                        player.setPlacementRights(firsTurn,false);
+                        useCard(player);
+                        updateGameState();
+
+                    }
+                    else
+                        network.sendReq(new CardExecutionError(result),player.getName());
+                }
+            }
+        }
+        else
+            notifyFailure(NO_PERMISSION);
+    }
+
+
+
+    /**
      * Glazing Hammer card effect
      */
     private void glazinHammer()
@@ -319,6 +359,22 @@ public class ToolCardsHandler implements Runnable,Observer  {
     }
 
     /**
+     * Asks and wait for a die from the round track
+     * @return die's position inside the round track
+     */
+    private Pair<Integer,Integer> askDieFromRoundTrack() {
+        latch = new CountDownLatch(1);
+        network.sendReq(new AskDieFromRoundTrack(), player.getName());
+        if (waitUpdate() && response.toString().equals("DieFromRoundTrack")) {
+            DieFromRoundTrack dieFromRoundTrack = (DieFromRoundTrack) response;
+            return new Pair<>(dieFromRoundTrack.getRound(),dieFromRoundTrack.getDiePosition());
+        }
+        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
+        return null;
+    }
+
+
+    /**
      * Asks and wait for a new value for a die
      * @param index die's position inside the reserve
      * @return die' new value
@@ -338,7 +394,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
     }
 
     /**
-     * Asks for a die to be set
+     * Asks for a die to be set and sets it if everything is respected
      * @param index die's position inside the reserve
      * @return Error message or null if no error occurred
      */
@@ -361,7 +417,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
 
     /**
-     * Asks for a die to be set
+     * Asks for a die to be set from inside the grid and sets it if everything is respected
      * @param h height inside the grid
      * @param w width inside the grid
      * @param color restriction enabled
@@ -372,7 +428,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
     {
         latch = new CountDownLatch(1);
         Die die = player.getGrid().getDie(h,w);
-        network.sendReq(new SetDieFromGrid(new Pair<>(die.getValue(),die.getColor())), player.getName());
+        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
             String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),die,color,value,true);
@@ -387,7 +443,33 @@ public class ToolCardsHandler implements Runnable,Observer  {
     }
 
     /**
-     * Akks and wait for a double die placement
+     * Asks for a die to be set from roundTrack and it swap the die with one from the reserve
+     * @param round round inside round track
+     * @param diePosition die's position inside the round
+     * @param index die position inside the round track
+     * @return Error message or null if no error occurred
+     */
+    private String setDieFromRoundTrackAndsSwap(int round, int diePosition, int index)
+    {
+        latch = new CountDownLatch(1);
+        Die die = board.getRoundTrack().getDie(round,diePosition);
+        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
+        if (waitUpdate() && response.toString().equals(DIESET)) {
+            DieSet dieSet = (DieSet) response;
+            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),die,true,true,true);
+            if(result == null)
+            {
+                CardEffects.reserveRoundTrackSwap(index,round,diePosition,board.getReserve(),board.getRoundTrack());
+                player.getGrid().setDie(dieSet.getH(),dieSet.getW(), board.getReserve().popDie(board.getReserve().size()-1));
+            }
+            return result;
+        }
+        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
+        return OH_NO ;
+    }
+
+    /**
+     * Asks and wait for a double die placement
      * @param h height of the first die
      * @param w width of the first die
      * @param h2 height of the second die
@@ -400,7 +482,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         int newW;
         latch = new CountDownLatch(1);
         Die die = player.getGrid().getDie(h,w);
-        network.sendReq(new SetDieFromGrid(new Pair<>(die.getValue(),die.getColor())), player.getName());
+        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
             String result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die, true,true,true);
@@ -410,7 +492,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 newW = dieSet.getW();
                 latch = new CountDownLatch(1);
                 die = player.getGrid().getDie(h2,w2);
-                network.sendReq(new SetDieFromGrid(new Pair<>(die.getValue(),die.getColor())), player.getName());
+                network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
                 if (waitUpdate() && response.toString().equals(DIESET)) {
                      dieSet = (DieSet) response;
                      result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die, true, true, true);

@@ -1,22 +1,21 @@
 package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.ServerMessageHandler;
-import it.polimi.se2018.model.ColorModel;
-import it.polimi.se2018.util.Pair;
+import it.polimi.se2018.model.IntColorPair;
 
 /**
  * Request fro a die to be set from the grid
  * @author Alì El wahsh
  */
-public class SetDieFromGrid extends ServerMessage {
+public class SetThisDie extends ServerMessage {
 
-    private final Pair<Integer,ColorModel> die;
+    private final IntColorPair die;
 
     /**
      * Constructor
      * @param die die's infos
      */
-    public SetDieFromGrid(Pair<Integer,ColorModel> die) {
+    public SetThisDie(IntColorPair die) {
         this.die = die;
     }
 
@@ -29,7 +28,7 @@ public class SetDieFromGrid extends ServerMessage {
      * Getter for die
      * @return die
      */
-    public Pair<Integer, ColorModel> getDie() {
+    public IntColorPair getDie() {
         return die;
     }
 }

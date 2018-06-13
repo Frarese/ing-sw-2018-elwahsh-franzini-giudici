@@ -90,7 +90,7 @@ public class HandleTest {
         }
 
         @Override
-        public void handle(SetDieFromGrid move) {
+        public void handle(SetThisDie move) {
             mov = move;
         }
 

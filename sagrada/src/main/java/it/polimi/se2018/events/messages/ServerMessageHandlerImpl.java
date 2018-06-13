@@ -49,9 +49,8 @@ public class ServerMessageHandlerImpl implements ServerMessageHandler {
     }
 
     @Override
-    public void handle(SetDieFromGrid move) {
-        IntColorPair temp = new IntColorPair(move.getDie().getFirst(),move.getDie().getSecond());
-        app.setDieOnGrid(temp);
+    public void handle(SetThisDie move) {
+        app.setDieOnGrid(move.getDie());
     }
 
     @Override
