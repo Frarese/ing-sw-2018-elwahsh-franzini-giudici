@@ -350,6 +350,11 @@ public class CLIApp extends App {
         this.commands.add(0, new CommandWaitYourTurn(this));
 
         this.isYourTurn = false;
+        this.viewActions.endInitGame();
+
+        if (!this.animationEnable) {
+            return;
+        }
 
         printer.print("Carte utensili: ");
         for (int i = 0; i < this.cardViewCreator.getToolCards().size(); i++) {
@@ -359,7 +364,6 @@ public class CLIApp extends App {
         //Print Grid
         printer.print("La tua griglia:");
         printer.printArray(gridViewCreator.display());
-        this.viewActions.endInitGame();
     }
 
     @Override
@@ -824,7 +828,7 @@ public class CLIApp extends App {
     /**
      * Cleans View structure before a new match
      */
-    private void cleanMatch(){
+    private void cleanMatch() {
         //Cleans structures
         this.cardViewCreator = new CLICardViewCreator();
         this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
