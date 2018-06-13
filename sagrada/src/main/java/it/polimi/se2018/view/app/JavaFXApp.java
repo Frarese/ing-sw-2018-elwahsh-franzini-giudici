@@ -461,9 +461,10 @@ public class JavaFXApp extends App {
 
         //Print
         this.scoreViewCreator = new FXScoreViewCreator();
-        Platform.runLater(() -> JavaFXStageProducer.getStage().setScene(new Scene((VBox) scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3))));
-
-        cleanMatch();
+        Platform.runLater(() -> {
+            JavaFXStageProducer.getStage().setScene(new Scene((VBox) scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3)));
+            JavaFXStageProducer.getStage().centerOnScreen();
+        });
     }
 
     @Override
@@ -637,7 +638,7 @@ public class JavaFXApp extends App {
     /**
      * Cleans View structure before lobby
      */
-    private void cleanMatch() {
+    public void cleanMatch() {
         //Cleans structures
         this.cardViewCreator = new FXCardViewCreator();
         this.roundTrackerViewCreator = new FXRoundTrackerViewCreator();
