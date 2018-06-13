@@ -34,6 +34,8 @@ public class SafeSocketTest {
     public void testACKDgram() {
         SafeSocketDatagram d=new SafeSocketDatagram("test");
         assertEquals(SafeSocket.hashObj("test"),d.id);
+        assertEquals(SafeSocket.hashObj("test").longValue(),
+        new SafeSocketACK(SafeSocket.hashObj("test")).id);
         assertEquals("test",d.payload);
     }
 

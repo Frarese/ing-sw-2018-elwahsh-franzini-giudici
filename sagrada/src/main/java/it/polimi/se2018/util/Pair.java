@@ -75,8 +75,4 @@ public class Pair<E extends Serializable, T extends Serializable> implements Ser
     public int hashCode() {
         return first.hashCode() ^ second.hashCode();
     }
-
-    public String getClasses(){
-        return first.getClass()+" "+second.getClass();
-    }
 }

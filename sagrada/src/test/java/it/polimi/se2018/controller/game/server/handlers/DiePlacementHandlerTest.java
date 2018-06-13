@@ -13,13 +13,40 @@ import org.junit.Test;
 import java.io.File;
 import java.io.Serializable;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class DiePlacementHandlerTest {
 
     private Player player;
-    private DiePlacementHandler test;
-    private DiePlacementMove move;
     private Reserve reserve;
-    private String result;
+    private boolean result;
+
+    @Before
+    public void testInit()
+    {
+        player = new Player("Gigino",0);
+        player.setPattern(new PatternCard("resources" + File.separator + "patterncard10.xml").getBackSide());
+        reserve = new Reserve();
+        result=false;
+    }
+
+
+    @Test
+    public void testRun()
+    {
+        DiePlacementMove move = new DiePlacementMove(0, 0, 0, "Gigino", true, true, true);
+        reserve.add(new Die(ColorModel.RED));
+        DiePlacementHandler uut = new DiePlacementHandler(player, move, reserve, true, new TestNetwork());
+        uut.run();
+        assertTrue(result);
+        result=false;
+        uut.run();
+        assertFalse(result);
+        player.setPlacementRights(true,true);
+        uut.run();
+        assertFalse(result);
+    }
 
     private class TestNetwork implements MatchNetworkInterface
     {
@@ -30,13 +57,11 @@ public class DiePlacementHandlerTest {
 
         @Override
         public void sendReq(Serializable req, String dst) {
-            result = "Fail";
         }
 
         @Override
         public void sendObj(Serializable obj) {
-
-            result = "Success";
+            result = true;
         }
 
         @Override
@@ -44,33 +69,4 @@ public class DiePlacementHandlerTest {
 
         }
     }
-
-    @Before
-    public void testInit()
-    {
-        player = new Player("Gigino",0);
-        player.setPattern(new PatternCard("resources" + File.separator + "patterncard10.xml").getBackSide());
-        reserve = new Reserve();
-    }
-
-
-    @Test
-    public void testRunFail()
-    {
-        move = new DiePlacementMove(0,0,0,"Gigino",true,true,true);
-        reserve.add(new Die(ColorModel.RED));
-        new Thread(new DiePlacementHandler(player,move,reserve,true,new TestNetwork())).start();
-
-    }
-
-    @Test
-    public void testRunSuccess()
-    {
-        move = new DiePlacementMove(0,0,0,"Gigino",true,true,true);
-        reserve.add(new Die(ColorModel.RED));
-        player.setPlacementRights(true,true);
-        new Thread(new DiePlacementHandler(player,move,reserve,true,new TestNetwork())).start();
-
-    }
-
 }

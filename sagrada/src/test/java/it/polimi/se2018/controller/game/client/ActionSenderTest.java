@@ -90,6 +90,26 @@ public class ActionSenderTest {
         sent=false;
         uut.setDie(0,0,0);
         assertTrue(sent);
+
+        sent=false;
+        uut.selectedDieFromRoundTrack(0,0);
+        assertTrue(sent);
+
+        sent=false;
+        uut.selectedDieToGrid(0,0);
+        assertTrue(sent);
+
+        sent=false;
+        uut.selectedDieFromGrid(0,0);
+        assertTrue(sent);
+
+        sent=false;
+        uut.selectedNewValueForDie(0);
+        assertTrue(sent);
+
+        sent=false;
+        uut.selectedDieFromReserve(0);
+        assertTrue(sent);
     }
 
     private class CommMock extends CommFE{

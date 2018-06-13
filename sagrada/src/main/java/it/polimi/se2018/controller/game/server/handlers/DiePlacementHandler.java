@@ -71,6 +71,7 @@ public class DiePlacementHandler implements Runnable {
                         move.isColorRestriction(),
                         move.isValueRestriction(),
                         move.isAdjacentRestriction());
+        System.out.println(result);
         if(result == null) {
             player.getGrid().setDie(move.getHeight(),move.getWidth(),reserve.popDie(move.getDiePosition()));
             player.setPlacementRights(firstTurn,false);

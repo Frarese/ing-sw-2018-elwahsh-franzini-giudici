@@ -80,6 +80,43 @@ public class HandleTest {
         assertTrue(((ConfirmMove) s).isPlacement());
         s.visit(hand);
         assertEquals(s,mov);
+
+        s=new AskDieByColor(ColorModel.RED);
+        assertEquals(ColorModel.RED,((AskDieByColor) s).getColorModel());
+        s.visit(hand);
+        assertEquals(s,mov);
+
+        s=new AskDieFromGrid();
+        s.visit(hand);
+        assertEquals(s,mov);
+
+        s=new AskDieFromReserve();
+        s.visit(hand);
+        assertEquals(s,mov);
+
+        s=new AskDieFromRoundTrack();
+        s.visit(hand);
+        assertEquals(s,mov);
+
+        s=new AskNewFace(0);
+        assertEquals(0,((AskNewFace) s).getIndex());
+        s.visit(hand);
+        assertEquals(s,mov);
+
+        s=new AskNewValue(0,1);
+        assertEquals(0,((AskNewValue) s).getVal1());
+        assertEquals(1,((AskNewValue) s).getVal2());
+        s.visit(hand);
+        assertEquals(s,mov);
+
+        s=new CardExecutionError("test");
+        s.visit(hand);
+        assertEquals(s,mov);
+
+        s=new SetDie(0);
+        assertEquals(0,((SetDie) s).getIndex());
+        s.visit(hand);
+        assertEquals(s,mov);
 }
 
     private class ServerMessageHandlerMock implements ServerMessageHandler{

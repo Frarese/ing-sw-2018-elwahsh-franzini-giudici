@@ -1,5 +1,8 @@
 package it.polimi.se2018.observable;
 
+import it.polimi.se2018.events.messages.CardInfo;
+import it.polimi.se2018.model.cards.ActiveObjectives;
+import it.polimi.se2018.model.cards.ActiveTools;
 import it.polimi.se2018.util.SingleCardView;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +14,7 @@ import java.util.Observer;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Tests for CardView class
@@ -93,5 +97,14 @@ public class CardViewTest {
         toolCards.add(new SingleCardView(30, 1));
 
         cardView.setToolCards(toolCards);
+    }
+
+    @Test
+    public void testSetCardView() {
+        List<SingleCardView> tools=cardView.getToolCards();
+        ActiveTools aT=new ActiveTools();
+        ActiveObjectives aO=new ActiveObjectives();
+        cardView.setCardView(new CardInfo(aT,aO));
+        assertNotEquals(tools,cardView.getToolCards());
     }
 }
