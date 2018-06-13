@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
  * @author Mathyas Giudici
  */
 
-public class FXReserveViewCreator extends ReserveViewCreator<VBox, Image> {
+public class FXReserveViewCreator extends ReserveViewCreator<VBox> {
 
     /**
      * Basic Class constructor that initializes elements at default value
@@ -33,7 +33,7 @@ public class FXReserveViewCreator extends ReserveViewCreator<VBox, Image> {
      *
      * @param reserve contains the reserve
      */
-    public FXReserveViewCreator(IntColorPair[] reserve) {
+    FXReserveViewCreator(IntColorPair[] reserve) {
         super(reserve);
         this.dieViewCreator = new FXDieViewCreator(FXConstants.GRID_CELL_DIM_VALUE);
     }
@@ -134,11 +134,6 @@ public class FXReserveViewCreator extends ReserveViewCreator<VBox, Image> {
 
         //Return
         return container;
-    }
-
-    @Override
-    public Image pickDie(int index) {
-        return (Image) dieViewCreator.makeDie(reserve[index]);
     }
 
     /**

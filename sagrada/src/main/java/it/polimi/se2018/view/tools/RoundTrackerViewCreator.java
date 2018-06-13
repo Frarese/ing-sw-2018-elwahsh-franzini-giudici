@@ -10,6 +10,8 @@ import it.polimi.se2018.model.IntColorPair;
 
 public abstract class RoundTrackerViewCreator<E> {
 
+    protected static final int MAX_DIE_IN_ROUNDS = 9;
+
     protected DieViewCreator dieViewCreator;
 
     protected int round;

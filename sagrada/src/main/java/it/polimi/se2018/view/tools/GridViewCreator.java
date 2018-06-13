@@ -8,7 +8,7 @@ import it.polimi.se2018.model.IntColorPair;
  * @author Mathyas Giudici
  */
 
-public abstract class GridViewCreator<E, V> {
+public abstract class GridViewCreator<E> {
 
     protected DieViewCreator dieViewCreator;
 
@@ -41,24 +41,6 @@ public abstract class GridViewCreator<E, V> {
      * @return grid
      */
     public abstract E display();
-
-    /**
-     * Use to add a die in the grid
-     *
-     * @param die    contains the die to add
-     * @param height contains the height position on the grid
-     * @param width  contains the width position on the grid
-     */
-    public abstract void addADie(V die, int height, int width);
-
-    /**
-     * Use to pick a die from the grid
-     *
-     * @param height contains the height position in the grid
-     * @param width  contains the width position in the grid
-     * @return die
-     */
-    public abstract V pickDie(int height, int width);
 
     /**
      * Getter for Grid

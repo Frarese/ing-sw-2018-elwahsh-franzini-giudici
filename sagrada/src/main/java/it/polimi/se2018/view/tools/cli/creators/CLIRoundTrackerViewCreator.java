@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.tools.cli.creators;
 
 import it.polimi.se2018.model.IntColorPair;
+import it.polimi.se2018.model.dice.RoundTracker;
 import it.polimi.se2018.view.tools.RoundTrackerViewCreator;
 
 import java.util.ArrayList;
@@ -41,12 +42,12 @@ public class CLIRoundTrackerViewCreator extends RoundTrackerViewCreator<List<Str
         strings.add("Siamo al turno: " + this.round);
 
         //Visit round tracker
-        for (int i = 0; i < round && i < 10; i++) {
+        for (int i = 0; i < round && i < RoundTracker.ROUNDS; i++) {
             if (this.roundTracker[0][i] != null) {
                 strings.add("Turno " + (i + 1) + " : ");
-                for (int j = 0; j < 9; j++) {
-                        if(this.roundTracker[j][i] != null)
-                            strings.add(j + ") " + this.dieViewCreator.makeDie(this.roundTracker[j][i]));
+                for (int j = 0; j < MAX_DIE_IN_ROUNDS; j++) {
+                    if (this.roundTracker[j][i] != null)
+                        strings.add(j + ") " + this.dieViewCreator.makeDie(this.roundTracker[j][i]));
                 }
             }
         }

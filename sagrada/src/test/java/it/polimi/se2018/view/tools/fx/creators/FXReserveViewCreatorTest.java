@@ -8,7 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -55,22 +57,6 @@ public class FXReserveViewCreatorTest {
             assertEquals(hitList.get(i),pairList.get(i));
         }
     }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testPickDie() throws Exception{
-        IntColorPair[] reserve = new IntColorPair[1];
-        reserve[0] = new IntColorPair(1, ColorModel.RED);
-
-        FXReserveViewCreator reserveViewCreator = new FXReserveViewCreator(reserve);
-
-        dieCreatorF.set(reserveViewCreator,new ReserveViewCreatorMock());
-
-        reserveViewCreator.pickDie(0);
-        assertEquals(hitList.get(0),reserve[0]);
-
-    }
-
 
     private class ReserveViewCreatorMock implements DieViewCreator {
 

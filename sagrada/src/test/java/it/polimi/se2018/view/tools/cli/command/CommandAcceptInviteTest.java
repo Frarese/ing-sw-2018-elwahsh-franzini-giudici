@@ -1,6 +1,5 @@
 package it.polimi.se2018.view.tools.cli.command;
 
-import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.app.CLIApp;
@@ -19,8 +18,8 @@ import static org.junit.Assert.assertEquals;
 public class CommandAcceptInviteTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
-        private FakeViewAction(ActionSender actionSender) {
-            super(actionSender);
+        private FakeViewAction() {
+            super(null);
         }
 
         @Override
@@ -34,7 +33,7 @@ public class CommandAcceptInviteTest extends AbsCommandTest {
 
     private class FakeApp extends CLIApp {
         private FakeApp() {
-            super(new FakeViewAction(null), null, null);
+            super(new FakeViewAction(), null, null);
         }
     }
 

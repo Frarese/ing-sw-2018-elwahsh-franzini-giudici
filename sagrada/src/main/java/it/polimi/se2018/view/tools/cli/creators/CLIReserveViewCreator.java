@@ -9,7 +9,7 @@ import it.polimi.se2018.view.tools.ReserveViewCreator;
  * @author Mathyas Giudici
  */
 
-public class CLIReserveViewCreator extends ReserveViewCreator<String, String> {
+public class CLIReserveViewCreator extends ReserveViewCreator<String> {
 
 
     /**
@@ -37,7 +37,7 @@ public class CLIReserveViewCreator extends ReserveViewCreator<String, String> {
 
         //Iterate on reserve
         for (int i = 0; i < this.reserve.length; i++) {
-            if(this.reserve[i]!= null) {
+            if (this.reserve[i] != null) {
                 stringBuilder.append(i).append(") ").append(this.dieViewCreator.makeDie(this.reserve[i]));
                 stringBuilder.append("\n");
             }
@@ -45,11 +45,5 @@ public class CLIReserveViewCreator extends ReserveViewCreator<String, String> {
 
         //Return
         return stringBuilder.toString();
-    }
-
-    @Override
-    public String pickDie(int index) {
-        //Return die
-        return (String) this.dieViewCreator.makeDie(this.reserve[index]);
     }
 }

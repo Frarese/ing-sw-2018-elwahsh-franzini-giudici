@@ -30,7 +30,7 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
      * @param publicObjectiveCards contains the public objectives
      * @param toolCards            contains the tool cards
      */
-    public FXCardViewCreator(SingleCardView privateObjectiveCard, List<SingleCardView> publicObjectiveCards, List<SingleCardView> toolCards) {
+    FXCardViewCreator(SingleCardView privateObjectiveCard, List<SingleCardView> publicObjectiveCards, List<SingleCardView> toolCards) {
         super(privateObjectiveCard, publicObjectiveCards, toolCards);
     }
 

@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.model.IntColorPair;
+import it.polimi.se2018.model.dice.RoundTracker;
 import it.polimi.se2018.view.app.JavaFXStageProducer;
 import it.polimi.se2018.view.tools.RoundTrackerViewCreator;
 import it.polimi.se2018.view.tools.fx.alert.ConfirmBox;
@@ -57,7 +58,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
                 FXConstants.ROUNDT_INSETS_SPACING, FXConstants.ROUNDT_ROW_SPACING, FXConstants.ROUNDT_CELL_DIM_VALUE);
 
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < RoundTracker.ROUNDS; i++) {
             Label label = new Label("Round: " + (i + 1));
             ComboBox<ImageView> comboBox = new ComboBox<>();
 
@@ -65,7 +66,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
             comboBox.setPrefSize(FXConstants.ROUNDT_CELL_DIM_VALUE, FXConstants.ROUNDT_CELL_DIM_VALUE);
 
             if (i < round && roundTracker[0][i] != null) {
-                for (int j = 0; j < 9; j++) {
+                for (int j = 0; j < MAX_DIE_IN_ROUNDS; j++) {
                     if (roundTracker[j][i] != null) {
                         this.makeCellDie(roundTracker[j][i], comboBox, hasClickProp, i, j);
                     }

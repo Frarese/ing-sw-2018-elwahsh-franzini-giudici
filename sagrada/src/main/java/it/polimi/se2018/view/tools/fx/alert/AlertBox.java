@@ -33,7 +33,7 @@ public class AlertBox {
      * @param message contains the message to show
      * @param image   @Nullable contains the image to show, if it's null AlertBox doesn't show image
      */
-    public static void display(String title, String message, Image image) {
+    private static void display(String title, String message, Image image) {
         Stage window = new Stage();
 
         //Locks event in this window

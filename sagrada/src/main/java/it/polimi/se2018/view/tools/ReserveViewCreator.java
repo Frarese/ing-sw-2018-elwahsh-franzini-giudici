@@ -8,7 +8,7 @@ import it.polimi.se2018.model.IntColorPair;
  * @author Mathyas Giudici
  */
 
-public abstract class ReserveViewCreator<V, E> {
+public abstract class ReserveViewCreator<E> {
 
     protected DieViewCreator dieViewCreator;
 
@@ -35,15 +35,7 @@ public abstract class ReserveViewCreator<V, E> {
      *
      * @return grid
      */
-    public abstract V display();
-
-    /**
-     * Use to pick a die from the grid
-     *
-     * @param index contains the index position in the reserve
-     * @return die
-     */
-    public abstract E pickDie(int index);
+    public abstract E display();
 
     /**
      * Getter for reserve

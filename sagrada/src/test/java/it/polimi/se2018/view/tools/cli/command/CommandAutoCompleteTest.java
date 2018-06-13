@@ -1,6 +1,5 @@
 package it.polimi.se2018.view.tools.cli.command;
 
-import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.view.ViewActions;
 import it.polimi.se2018.view.app.CLIApp;
 import org.junit.Test;
@@ -8,8 +7,8 @@ import org.junit.Test;
 public class CommandAutoCompleteTest extends AbsCommandTest {
 
     private class FakeViewAction extends ViewActions {
-        private FakeViewAction(ActionSender actionSender) {
-            super(actionSender);
+        private FakeViewAction() {
+            super(null);
         }
 
         @Override
@@ -20,7 +19,7 @@ public class CommandAutoCompleteTest extends AbsCommandTest {
 
     private class FakeApp extends CLIApp {
         private FakeApp() {
-            super(new FakeViewAction(null), null, null);
+            super(new FakeViewAction(), null, null);
         }
     }
 

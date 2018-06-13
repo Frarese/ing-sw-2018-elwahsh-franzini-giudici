@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.tools.fx.alert;
 
+import it.polimi.se2018.view.app.JavaFXStageProducer;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,6 +34,8 @@ public class CardZoomBox extends GeneralBox {
 
         window.initModality(Modality.NONE);
         window.initStyle(StageStyle.UNDECORATED);
+        window.setX(JavaFXStageProducer.getStage().getX());
+        window.setY(JavaFXStageProducer.getStage().getY());
 
         window.setMinHeight(300);
 

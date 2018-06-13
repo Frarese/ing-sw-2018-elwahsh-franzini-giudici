@@ -1,7 +1,6 @@
 package it.polimi.se2018.view;
 
 import it.polimi.se2018.controller.game.client.ActionSender;
-import it.polimi.se2018.controller.game.client.ClientController;
 import it.polimi.se2018.util.MatchIdentifier;
 import org.junit.After;
 import org.junit.Before;
@@ -16,12 +15,6 @@ import static org.junit.Assert.*;
  */
 
 public class ViewActionsTest {
-
-    private abstract class FakeActionSender extends ActionSender {
-        FakeActionSender(ClientController controller) {
-
-        }
-    }
 
     private boolean assertion;
 
@@ -41,7 +34,7 @@ public class ViewActionsTest {
 
     @Test
     public void testLogin() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public String login(String host, int requestPort, int objectPort, String username, String password, boolean newUser, boolean useRMI) {
                 assertEquals("TestHost", host);
@@ -62,7 +55,7 @@ public class ViewActionsTest {
 
     @Test
     public void testChangeLayer() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void changeLayer(boolean toRMI, int requestPort, int objectPort) {
                 assertTrue(toRMI);
@@ -78,7 +71,7 @@ public class ViewActionsTest {
 
     @Test
     public void testLeaveMatch() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void leaveMatch() {
                 assertion = true;
@@ -91,7 +84,7 @@ public class ViewActionsTest {
 
     @Test
     public void testLogout() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void logout() {
                 assertion = true;
@@ -104,7 +97,7 @@ public class ViewActionsTest {
 
     @Test
     public void testAskLobby() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void askLobby() {
                 assertion = true;
@@ -119,7 +112,7 @@ public class ViewActionsTest {
     public void testPushInvite() {
         MatchIdentifier matchIdentifier = new MatchIdentifier("A", "B", null, null);
 
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void pushInvite(MatchIdentifier invite) {
                 assertEquals(matchIdentifier, invite);
@@ -133,7 +126,7 @@ public class ViewActionsTest {
 
     @Test
     public void testJoinMatchMaking() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void joinMatchMaking() {
                 assertion = true;
@@ -146,7 +139,7 @@ public class ViewActionsTest {
 
     @Test
     public void testLeaveMatchMaking() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void leaveMatchMaking() {
                 assertion = true;
@@ -161,7 +154,7 @@ public class ViewActionsTest {
     public void testAcceptInvite() {
         MatchIdentifier matchIdentifier = new MatchIdentifier("A", "B", null, null);
 
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void acceptInvite(MatchIdentifier invite) {
                 assertEquals(matchIdentifier, invite);
@@ -175,7 +168,7 @@ public class ViewActionsTest {
 
     @Test
     public void testSelectedPattern() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void selectedPattern(String pattern) {
                 assertEquals("TestPattern", pattern);
@@ -189,7 +182,7 @@ public class ViewActionsTest {
 
     @Test
     public void testEndInitGame() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void endInitGame() {
                 assertion = true;
@@ -202,7 +195,7 @@ public class ViewActionsTest {
 
     @Test
     public void testSetDie() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void setDie(int reserveIndex, int height, int width) {
                 assertEquals(0, reserveIndex);
@@ -218,7 +211,7 @@ public class ViewActionsTest {
 
     @Test
     public void testUseToolCard() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void userToolCard(int id) {
                 assertEquals(10, id);
@@ -232,7 +225,7 @@ public class ViewActionsTest {
 
     @Test
     public void testPassTurn() {
-        actionSender = new FakeActionSender(new ClientController(null)) {
+        actionSender = new FakeActionSender() {
             @Override
             public void passTurn() {
                 assertion = true;
@@ -241,5 +234,12 @@ public class ViewActionsTest {
 
         viewActions = new ViewActions(actionSender);
         viewActions.passTurn();
+    }
+
+
+    private abstract class FakeActionSender extends ActionSender {
+        FakeActionSender() {
+
+        }
     }
 }

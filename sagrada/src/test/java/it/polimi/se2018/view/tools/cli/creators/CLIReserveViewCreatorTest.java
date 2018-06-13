@@ -17,9 +17,6 @@ import static org.junit.Assert.assertEquals;
 
 public class CLIReserveViewCreatorTest {
 
-    private final String regexControl = "\\p{Cntrl}";
-    private final String emptyString = "";
-
 
     private IntColorPair[] reserve;
 
@@ -35,12 +32,7 @@ public class CLIReserveViewCreatorTest {
 
     @Test
     public void testDisplay() {
-        assertEquals("0) 1-RED" + "1) 2-RED", this.cliReserveViewCreator.display().replaceAll(regexControl,emptyString));
-    }
-
-    @Test
-    public void testPickDie() {
-        assertEquals("1-RED", this.cliReserveViewCreator.pickDie(0));
+        assertEquals("0) 1-RED" + "1) 2-RED", this.cliReserveViewCreator.display().replaceAll("\\p{Cntrl}", ""));
     }
 
     @Test

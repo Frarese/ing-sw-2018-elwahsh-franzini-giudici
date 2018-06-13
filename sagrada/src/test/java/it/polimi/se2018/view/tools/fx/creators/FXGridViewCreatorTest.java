@@ -52,26 +52,6 @@ public class FXGridViewCreatorTest {
 
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testAddADie() {
-        FXGridViewCreator gridViewCreator = new FXGridViewCreator(null,null,"BLACK");
-        gridViewCreator.addADie(null,1,1);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testPickDie() throws Exception{
-        IntColorPair[][] grid = new IntColorPair[2][3];
-        grid[1][0] = new IntColorPair(1, ColorModel.BLUE);
-
-        FXGridViewCreator gridViewCreator = new FXGridViewCreator(grid,null,"BLACK");
-        dieCreatorF.set(gridViewCreator,new DieViewCreatorMock());
-
-        gridViewCreator.pickDie(1,0);
-        assertEquals(grid[1][0],hitList.get(0));
-
-    }
-
     private class DieViewCreatorMock implements DieViewCreator {
 
 

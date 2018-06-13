@@ -4,10 +4,8 @@ import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.app.JavaFXStageProducer;
 import it.polimi.se2018.view.tools.GridViewCreator;
-import it.polimi.se2018.view.tools.fx.alert.AlertBox;
 import it.polimi.se2018.view.tools.fx.alert.ConfirmBox;
 import it.polimi.se2018.view.tools.fx.controller.GameController;
-import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TransferMode;
@@ -22,7 +20,7 @@ import java.text.MessageFormat;
  * @author Mathyas Giudici
  */
 
-public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
+public class FXGridViewCreator extends GridViewCreator<VBox> {
 
     private final String gridColor;
 
@@ -130,19 +128,6 @@ public class FXGridViewCreator extends GridViewCreator<VBox, Image> {
 
         //Return
         return container;
-    }
-
-    @Override
-    public void addADie(Image die, int height, int width) {
-        String message = "Aggiunto alla posizione " + height + "," + width + ".";
-        Platform.runLater(() ->
-                AlertBox.display("Mossa", message, die)
-        );
-    }
-
-    @Override
-    public Image pickDie(int height, int width) {
-        return (Image) dieViewCreator.makeDie(grid[height][width]);
     }
 
     /**

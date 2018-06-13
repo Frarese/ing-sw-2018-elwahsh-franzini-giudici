@@ -40,8 +40,6 @@ public class AppFactoryTest {
 
     @Test
     public void testFXGetApp() {
-        String[] arg = new String[1];
-        arg[0] = "gui";
         AppFactory appFactory = new AppFactory(true, null, null, null);
 
         JavaFXApp instance = new JavaFXApp(null, null, null);

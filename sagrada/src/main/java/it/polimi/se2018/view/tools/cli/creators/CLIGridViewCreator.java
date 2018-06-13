@@ -3,7 +3,6 @@ package it.polimi.se2018.view.tools.cli.creators;
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.IntColorPair;
 import it.polimi.se2018.view.tools.GridViewCreator;
-import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,32 +13,26 @@ import java.util.List;
  * @author Mathyas Giudici
  */
 
-public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
+public class CLIGridViewCreator extends GridViewCreator<List<String>> {
 
-    private final CLIPrinter printer;
 
     /**
      * Basic Class constructor that initializes elements at default value
      *
-     * @param printer contains the CLIui printer
      */
-    public CLIGridViewCreator(CLIPrinter printer) {
+    public CLIGridViewCreator() {
         super();
         this.dieViewCreator = new CLIDieViewCreator();
-        this.printer = printer;
     }
 
     /**
      * Class constructor
-     *
-     * @param grid        contains user grid
+     *  @param grid        contains user grid
      * @param gridPattern contains user pattern
-     * @param printer     contains user CLIui printer
      */
-    public CLIGridViewCreator(IntColorPair[][] grid, IntColorPair[][] gridPattern, CLIPrinter printer) {
+    public CLIGridViewCreator(IntColorPair[][] grid, IntColorPair[][] gridPattern) {
         super(grid, gridPattern);
         this.dieViewCreator = new CLIDieViewCreator();
-        this.printer = printer;
     }
 
     @Override
@@ -56,16 +49,6 @@ public class CLIGridViewCreator extends GridViewCreator<List<String>, String> {
         }
 
         return strings;
-    }
-
-    @Override
-    public void addADie(String die, int height, int width) {
-        printer.print("Aggiunto dado " + die + " in posizione (" + height + "," + width + ")");
-    }
-
-    @Override
-    public String pickDie(int height, int width) {
-        return (String) dieViewCreator.makeDie(this.grid[height][width]);
     }
 
     /**

@@ -30,7 +30,7 @@ public class CommandShowGrid extends CLICommand {
             int player = this.app.getReader().chooseInRange(0, this.app.getPlayers().size() - 1);
             CLIGridViewCreator cliGridViewCreator = new CLIGridViewCreator(
                     this.app.getPlayers().get(player).getPlayerGrid(),
-                    this.app.getPlayers().get(player).getPlayerTemplate(), this.app.getPrinter());
+                    this.app.getPlayers().get(player).getPlayerTemplate());
             this.app.getPrinter().printArray(cliGridViewCreator.display());
         }
 

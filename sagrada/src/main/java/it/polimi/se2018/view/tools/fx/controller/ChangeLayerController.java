@@ -72,6 +72,8 @@ public class ChangeLayerController {
         } else {
             JavaFXStageProducer.getApp().getViewActions().changeLayer(false, Integer.parseInt(objectPort.getText()), Integer.parseInt(requestPort.getText()));
         }
+
+        close();
     }
 
     /**

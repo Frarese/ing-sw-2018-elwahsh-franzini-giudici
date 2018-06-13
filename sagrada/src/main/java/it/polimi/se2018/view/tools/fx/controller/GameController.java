@@ -226,7 +226,7 @@ public class GameController implements FXController {
         });
     }
 
-    public void disableToolCardsUse() {
+    private void disableToolCardsUse() {
         toolCard0.setOnMouseClicked(Event::consume);
         toolCard1.setOnMouseClicked(Event::consume);
         toolCard2.setOnMouseClicked(Event::consume);

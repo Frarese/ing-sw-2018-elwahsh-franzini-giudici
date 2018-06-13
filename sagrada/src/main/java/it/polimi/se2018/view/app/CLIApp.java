@@ -72,7 +72,7 @@ public class CLIApp extends App {
         this.cardViewCreator = new CLICardViewCreator();
         this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
         this.reserveViewCreator = new CLIReserveViewCreator();
-        this.gridViewCreator = new CLIGridViewCreator(printer);
+        this.gridViewCreator = new CLIGridViewCreator();
         logger = Logger.getGlobal();
     }
 
@@ -829,7 +829,7 @@ public class CLIApp extends App {
         this.cardViewCreator = new CLICardViewCreator();
         this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
         this.reserveViewCreator = new CLIReserveViewCreator();
-        this.gridViewCreator = new CLIGridViewCreator(printer);
+        this.gridViewCreator = new CLIGridViewCreator();
         this.isYourTurn = false;
 
         //Creates new Lobby
