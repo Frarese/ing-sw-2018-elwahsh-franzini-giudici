@@ -27,5 +27,6 @@ public interface ServerMessageHandler {
     void handle(AskDieByColor move);
     void handle(AskNewFace move);
     void handle(CardExecutionError move);
+    void handle(SetDieFromGrid move);
     void handle(ReadyView move);
 }

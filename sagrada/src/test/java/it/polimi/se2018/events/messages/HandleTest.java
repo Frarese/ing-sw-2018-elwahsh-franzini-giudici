@@ -90,6 +90,11 @@ public class HandleTest {
         }
 
         @Override
+        public void handle(SetDieFromGrid move) {
+            mov = move;
+        }
+
+        @Override
         public void handle(InvalidMove move) {
             mov=move;
         }
@@ -113,6 +118,7 @@ public class HandleTest {
         public void handle(SetDie move) {
             mov = move;
         }
+
 
         @Override
         public void handle(AskDieFromGrid move) {

@@ -6,7 +6,9 @@ import it.polimi.se2018.events.actions.*;
 import it.polimi.se2018.events.messages.*;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Player;
-import it.polimi.se2018.model.cards.toolcards.GrozingPliers;
+import it.polimi.se2018.model.cards.toolcards.*;
+import it.polimi.se2018.model.dice.Die;
+import it.polimi.se2018.util.Pair;
 
 
 import java.util.Observable;
@@ -29,6 +31,8 @@ public class ToolCardsHandler implements Runnable,Observer  {
     private final MatchNetworkInterface network;
     private static final String NO_PERMISSION = "Non hai i permessi per usare questa carta";
     private static final String TOO_SLOW = "Troppo lento";
+    private static final String OH_NO = "Qualcosa è andato storto";
+    private static final String DIESET = "DieSet";
     private PlayerMove response;
     private CountDownLatch latch;
     private int cardPosition;
@@ -72,6 +76,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
     private void checksEffect()
     {
         boolean isInGame = false;
+        boolean canPlay = false;
         for(int i = 0; i<3; i++)
         {
             if(board.getTool(i).getId() == move.getCardID())
@@ -81,18 +86,36 @@ public class ToolCardsHandler implements Runnable,Observer  {
             }
         }
 
-        if(isInGame)
-            switch (move.getCardID())
-            {
+        if(player.getFavourPoints()>=2 || !board.getTool(cardPosition).isUsed() && player.getFavourPoints()>=1)
+            canPlay = true;
+
+
+
+        if(isInGame && canPlay) {
+            switch (move.getCardID()) {
                 case 20:
                     grozingPliers();
                     break;
+                case 21:
+                    eglomiseBrush();
+                    break;
+                case 22:
+                    copperFoilBurnisher();
+                    break;
+                case 23:
+                    lathekin();
+                    break;
+                case 26:
+                    glazinHammer();
+                    break;
                 default:
-                notifyFailure("Carta inesistente");
-
+                    notifyFailure("Carta inesistente");
 
 
             }
+        }
+        else
+            notifyFailure("Non puoi giocare questa carta");
     }
 
     @Override
@@ -109,16 +132,18 @@ public class ToolCardsHandler implements Runnable,Observer  {
     }
 
     /**
-     * Grzoing Pliers Crad effect
+     * Grozing Pliers Card effect
      */
     private void grozingPliers() {
         int index;
         int newValue;
+        int oldValue;
         if (new GrozingPliers().isUsable(player, firsTurn)) {
             notifySuccess();
             index = askDieFromReserve();
             if(index >-1)
             {
+                oldValue = board.getReserve().get(index).getValue();
                 newValue = askNewValue(index);
                 String result = CardEffects.changeValue(board.getReserve().get(index),false,newValue);
                 network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
@@ -128,11 +153,14 @@ public class ToolCardsHandler implements Runnable,Observer  {
                         if (result == null) {
                             player.setCardRights(firsTurn, false);
                             player.setPlacementRights(firsTurn, false);
-                            board.getTool(cardPosition).burnFavourPoints(player);
-                            board.getTool(cardPosition).updateUsed();
+                            useCard(player);
                             updateGameState();
                         } else
-                            network.sendReq(new CardExecutionError(result), player.getName());
+                        {
+                            board.getReserve().get(index).setFace(oldValue);
+                            network.sendReq(new CardExecutionError(result),player.getName());
+                            updateGameState();
+                        }
                 }
                 else
                     network.sendReq(new CardExecutionError(result),player.getName());
@@ -143,7 +171,124 @@ public class ToolCardsHandler implements Runnable,Observer  {
         }
 
     /**
-     * Asks and wait for adie from the reserve
+     * Eglomise Brush card effect
+     */
+    private void eglomiseBrush()
+        {
+            int h;
+            int w;
+            Pair<Integer,Integer> coor;
+            if(new EglomiseBrush().isUsable(player,firsTurn))
+            {
+                notifySuccess();
+                coor =askDieFromGrid();
+                if(coor != null)
+                {
+                     h = coor.getFirst();
+                     w = coor.getSecond();
+                     String result = setDieFromGrid(h,w,false,true);
+                     if(result == null)
+                     {
+                         player.setCardRights(firsTurn, false);
+                         useCard(player);
+                         updateGameState();
+                     }
+                     else
+                     {
+                         network.sendReq(new CardExecutionError(result),player.getName());
+                     }
+                }
+            }
+
+        }
+
+    /**
+     * Copper Foil Burnisher card effect
+     */
+    private void copperFoilBurnisher()
+    {
+        int h;
+        int w;
+        Pair<Integer,Integer> coor;
+        if(new CopperFoilBurnisher().isUsable(player,firsTurn))
+        {
+            notifySuccess();
+            coor =askDieFromGrid();
+            if(coor != null)
+            {
+                h = coor.getFirst();
+                w = coor.getSecond();
+                String result = setDieFromGrid(h,w,true,false);
+                if(result == null)
+                {
+                    player.setCardRights(firsTurn, false);
+                    useCard(player);
+                    updateGameState();
+                }
+                else
+                {
+                    network.sendReq(new CardExecutionError(result),player.getName());
+                }
+            }
+        }
+    }
+
+    /**
+     * Lathekin card effect
+     */
+    private void lathekin()
+    {
+        int h;
+        int w;
+        Pair<Integer,Integer> coor;
+        int h2;
+        int w2;
+        Pair<Integer,Integer> coor2;
+
+        if(new Lathekin().isUsable(player,firsTurn))
+        {
+            notifySuccess();
+            coor = askDieFromGrid();
+            coor2 = askDieFromGrid();
+            if(coor != null && coor2 != null )
+            {
+                h = coor.getFirst();
+                w = coor.getSecond();
+                h2 = coor2.getFirst();
+                w2 = coor2.getSecond();
+                String result = setDoubleDieFromGrid(h,w,h2,w2);
+                if(result == null)
+                {
+                    player.setCardRights(firsTurn,false);
+                    useCard(player);
+                    updateGameState();
+                }
+                else
+                    network.sendReq(new CardExecutionError(result),player.getName());
+            }
+        }
+        else notifyFailure(NO_PERMISSION);
+    }
+
+    /**
+     * Glazing Hammer card effect
+     */
+    private void glazinHammer()
+    {
+        if(new GlazingHammer().isUsable(player,firsTurn))
+        {
+            notifySuccess();
+            CardEffects.reRoll(true,board.getReserve(),null);
+            player.setCardRights(firsTurn,false);
+            useCard(player);
+            updateGameState();
+        }
+        else notifyFailure(NO_PERMISSION);
+    }
+
+
+    /**
+     * Asks and wait for a die from the reserve
      * @return die's position inside the reserve
      */
     private int askDieFromReserve() {
@@ -155,6 +300,22 @@ public class ToolCardsHandler implements Runnable,Observer  {
         }
         network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
         return -1;
+    }
+
+
+    /**
+     * Asks and wait for a die from the grid
+     * @return die's position inside the grid
+     */
+    private Pair<Integer,Integer> askDieFromGrid() {
+        latch = new CountDownLatch(1);
+        network.sendReq(new AskDieFromGrid(), player.getName());
+        if (waitUpdate() && response.toString().equals("DieFromGrid")) {
+            DieFromGrid dieFromGrid = (DieFromGrid) response;
+            return new Pair<>(dieFromGrid.getH(),dieFromGrid.getW());
+        }
+        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
+        return null;
     }
 
     /**
@@ -185,7 +346,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
     {
         latch = new CountDownLatch(1);
         network.sendReq(new SetDie(index), player.getName());
-        if (waitUpdate() && response.toString().equals("DieSet")) {
+        if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
             String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),board.getReserve().get(index),true,true,true);
             if(result == null)
@@ -195,9 +356,75 @@ public class ToolCardsHandler implements Runnable,Observer  {
             return result;
         }
         network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
-        return "Qualcosa è andato storto" ;
+        return OH_NO ;
     }
 
+
+    /**
+     * Asks for a die to be set
+     * @param h height inside the grid
+     * @param w width inside the grid
+     * @param color restriction enabled
+     * @param value value restriction enabled
+     * @return Error message or null if no error occurred
+     */
+    private String setDieFromGrid(int h, int w, boolean color, boolean value)
+    {
+        latch = new CountDownLatch(1);
+        Die die = player.getGrid().getDie(h,w);
+        network.sendReq(new SetDieFromGrid(new Pair<>(die.getValue(),die.getColor())), player.getName());
+        if (waitUpdate() && response.toString().equals(DIESET)) {
+            DieSet dieSet = (DieSet) response;
+            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),die,color,value,true);
+            if(result == null)
+            {
+                player.getGrid().setDie(dieSet.getH(),dieSet.getW(),player.getGrid().setDie(h,w,null));
+            }
+            return result;
+        }
+        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
+        return OH_NO;
+    }
+
+    /**
+     * Akks and wait for a double die placement
+     * @param h height of the first die
+     * @param w width of the first die
+     * @param h2 height of the second die
+     * @param w2 width of the second die
+     * @return error message or null in case of no error
+     */
+    private String setDoubleDieFromGrid(int h, int w, int h2, int w2)
+    {
+        int newH;
+        int newW;
+        latch = new CountDownLatch(1);
+        Die die = player.getGrid().getDie(h,w);
+        network.sendReq(new SetDieFromGrid(new Pair<>(die.getValue(),die.getColor())), player.getName());
+        if (waitUpdate() && response.toString().equals(DIESET)) {
+            DieSet dieSet = (DieSet) response;
+            String result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die, true,true,true);
+            if(result == null)
+            {
+                newH = dieSet.getH();
+                newW = dieSet.getW();
+                latch = new CountDownLatch(1);
+                die = player.getGrid().getDie(h2,w2);
+                network.sendReq(new SetDieFromGrid(new Pair<>(die.getValue(),die.getColor())), player.getName());
+                if (waitUpdate() && response.toString().equals(DIESET)) {
+                     dieSet = (DieSet) response;
+                     result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die, true, true, true);
+                     if(result == null)
+                     {
+                         player.getGrid().setDie(dieSet.getH(),dieSet.getW(),player.getGrid().setDie(h2,w2,null));
+                         player.getGrid().setDie(newH,newW,player.getGrid().setDie(h,w,null));
+                     }
+                }
+            }
+            return result;
+        }
+        return OH_NO;
+    }
 
     /**
      * Waits for the requested response
@@ -214,6 +441,17 @@ public class ToolCardsHandler implements Runnable,Observer  {
         }
 
         return false;
+    }
+
+
+    /**
+     * Sets all parameters after using a card
+     * @param player player affected
+     */
+    private void useCard(Player player)
+    {
+        board.getTool(cardPosition).burnFavourPoints(player);
+        board.getTool(cardPosition).updateUsed();
     }
 
 
