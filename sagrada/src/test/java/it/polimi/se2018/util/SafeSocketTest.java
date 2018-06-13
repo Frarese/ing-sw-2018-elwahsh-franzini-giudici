@@ -1,134 +1,85 @@
 package it.polimi.se2018.util;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
+import java.util.Queue;
 
 import static org.junit.Assert.*;
 
 public class SafeSocketTest {
-    private SafeSocket clientSS;
-    private SafeSocket serverSS;
-    private ServerSocket servSocket;
-    private static final int port = 9999;
-    private static final long timeout = 2000;
+    private SafeSocket uut;
+    private Field sF;
+    private Field queueF;
+    private boolean connected;
 
     @Before
-    public void setUp() throws Exception {
-        servSocket = new ServerSocket(port);
-        clientSS = new SafeSocket(timeout);
+    public void testSetUp() throws Exception {
+        sF=SafeSocket.class.getDeclaredField("s");
+        sF.setAccessible(true);
+        connected=true;
 
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        servSocket.close();
-        servSocket = null;
-        clientSS.close(false);
-        clientSS = null;
-        if(serverSS!=null){
-            serverSS.close(true);
-            serverSS =null;
-        }
-
-    }
-
-    @Test(timeout=10000)
-    public void testConnection() throws Exception {
-        Thread t=makeTestThread(5);
-        t.start();
-        Socket s=servSocket.accept();
-        serverSS=new SafeSocket(s,timeout);
-        for(int j=0;j<5;j++){
-            Integer toSend=j;
-            assertTrue(serverSS.send(toSend));
-            assertEquals(toSend, serverSS.receive());
-        }
-        t.join();
+        queueF=SafeSocket.class.getDeclaredField("inQueue");
+        queueF.setAccessible(true);
     }
 
     @Test
-    public void testSetters() {
-        clientSS.setTimeout(timeout);
-        assertEquals(timeout,clientSS.getTimeout());
-    }
-
-    @Test
-    public void testFailConnection() {
-        assertFalse(clientSS.connect("localhost",9998));
+    public void testACKDgram() {
+        SafeSocketDatagram d=new SafeSocketDatagram("test");
+        assertEquals(SafeSocket.hashObj("test"),d.id);
+        assertEquals("test",d.payload);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testClosed() throws Exception {
-        Thread t=makeTestThread(0);
-
-        t.start();
-        Socket s=servSocket.accept();
-        s.getInputStream().close();
-        serverSS=new SafeSocket(s,timeout);
-        serverSS.send(5);
-
-        t.join();
+    public void testIllegalArg() throws Exception{
+        Socket s=new Socket();
+        s.close();
+        uut=new SafeSocket(s,10000);
     }
 
     @Test
-    public void testSendClosed() throws Exception {
-        Thread t=makeTestThread(0);
-        t.start();
-        Socket s=servSocket.accept();
-
-        serverSS=new SafeSocket(s,timeout);
-        s.getInputStream().close();
-        assertFalse(serverSS.send(5));
-
-        Field continua=SafeSocket.class.getDeclaredField("continua");
-        continua.setAccessible(true);
-        continua.set(serverSS,false);
-        assertFalse(serverSS.send(5));
-
-        t.join();
+    public void testEmptyInit()throws Exception{
+        uut=new SafeSocket(10000);
+        uut.setTimeout(10);
+        uut.close(true);
+        assertEquals(10,uut.getTimeout());
+        assertNull(uut.getLocalSocketAddress());
     }
 
     @Test(expected = IOException.class)
-    public void testFailStreams() throws Exception {
-        Thread t=makeTestThread(0);
-
-        t.start();
-        Socket s=servSocket.accept();
-        TestSocket wrapper=new TestSocket(s);
-        serverSS=new SafeSocket(wrapper,timeout);
-
-        t.join();
+    public void testFailInit()throws Exception{
+        Socket s=new SocketMock();
+        uut=new SafeSocket(s,10000);
     }
 
-    //Helper methods and classes
-    private Thread makeTestThread(int tries){
-        return new Thread(() -> {
-            clientSS.connect("localhost",port);
-
-            for(int i=0;i<tries;i++){
-                try {
-                    Integer toCSend= i;
-                    assertTrue(clientSS.send(toCSend));
-                    assertEquals(toCSend, clientSS.receive());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    @Test
+    public void testConnect() throws Exception{
+        Socket s=new SocketMock();
+        uut=new SafeSocket(10000);
+        sF.set(uut,s);
+        connected=false;
+        assertFalse(uut.connect("localhost",20));
     }
-    private class TestSocket extends Socket{
-        private final Socket s;
 
-        TestSocket(Socket s) {
-            this.s=s;
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReceive() throws Exception{
+        uut=new SafeSocket(10000);
+        Queue<Serializable> q=(Queue<Serializable>)queueF.get(uut);
+        q.add("test");
+        assertEquals("test",uut.receive());
+    }
+
+    private class SocketMock extends Socket{
+
+        SocketMock() {
         }
 
         @Override
@@ -150,12 +101,17 @@ public class SafeSocketTest {
 
         @Override
         public boolean isClosed() {
-            return s.isClosed();
+            return false;
         }
 
         @Override
         public boolean isConnected() {
-            return s.isConnected();
+            return connected;
+        }
+
+        @Override
+        public void connect(SocketAddress endpoint,int timeout) {
+
         }
     }
 }

@@ -29,7 +29,7 @@ public class MatchEndedRequest extends AbsMatchReq {
         this.playerScore1=playerScore1;
         this.playerScore2=playerScore2;
         this.playerScore3=playerScore3;
-        if(!checkValid())throw new IllegalArgumentException("Invalid parameters");
+        if(!checkValid())throw new IllegalArgumentException("Invalid parameters "+matchId+" "+playerScore0+" "+playerScore1+" "+playerScore2+" "+playerScore3);
     }
 
     @Override

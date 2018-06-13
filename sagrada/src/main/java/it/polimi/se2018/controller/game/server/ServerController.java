@@ -124,7 +124,7 @@ public class ServerController implements MatchController, Runnable {
                 try {
                     managePlayerMove((PlayerMove) req);
                 }catch (Exception ex){
-                    Logger.getGlobal().log(Level.SEVERE,"Client sent illegal request {0}",sender+" "+ex.getMessage());
+                    Logger.getGlobal().log(Level.WARNING,"Client sent illegal request "+sender+" "+ex.getMessage(),ex);
                 }
         }
     }
@@ -322,8 +322,10 @@ public class ServerController implements MatchController, Runnable {
         Deck<PrivateObjectiveCard> deck = new Deck<>(temp);
         deck.shuffle();
 
-        for(int i =0; i<players.size();i++)
+        for(int i =0; i<players.size();i++) {
             privateObjectiveSent.add(deck.draw(1).get(0));
+            players.get(i).setPrivateObjective(privateObjectiveSent.get(i));
+        }
 
         for(Player p: players)
         {
@@ -373,6 +375,8 @@ public class ServerController implements MatchController, Runnable {
 
         //20- number of placed dice= number of unplaced dice
         out+=-20+player.getGrid().getPlacedDice();
+
+        if(out<0)out=0;
         return out;
     }
 }

@@ -55,7 +55,7 @@ public class DiePlacementLogicTest {
         player.getGrid().setDie(1,0, new Die(ColorModel.RED));
         player.getGrid().setDie(1,2, new Die(ColorModel.VIOLET));
         player.getGrid().setDie(2,1, new Die(ColorModel.BLUE));
-        assertNull(DiePlacementLogic.insertDie(player,
+        assertNotNull(DiePlacementLogic.insertDie(player,
                 1,
                 1,
                 new Die(ColorModel.YELLOW),
