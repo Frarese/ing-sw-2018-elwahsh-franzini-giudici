@@ -172,7 +172,7 @@ public class ActionSender {
      */
     public void selectedDieFromReserve(int index)
     {
-        network.sendObj(new DieFromReserve(username,index));
+        network.sendReq(new DieFromReserve(username,index));
     }
 
     /**
@@ -181,7 +181,7 @@ public class ActionSender {
      */
     public void selectedNewValueForDie(int newVal)
     {
-        network.sendObj(new NewValue(username,newVal));
+        network.sendReq(new NewValue(username,newVal));
     }
 
     /**
@@ -191,12 +191,12 @@ public class ActionSender {
      */
     public void selectedDieFromGrid(int h, int w)
     {
-        network.sendObj(new DieFromGrid(username,h,w));
+        network.sendReq(new DieFromGrid(username,h,w));
     }
 
     public void selectedDieToGrid(int h, int w)
     {
-        network.sendObj(new DieSet(username,h,w));
+        network.sendReq(new DieSet(username,h,w));
     }
 
     /**
@@ -206,6 +206,6 @@ public class ActionSender {
      */
     public void selectedDieFromRoundTrack(int round,int diePosition)
     {
-        network.sendObj(new DieFromRoundTrack(username,round,diePosition));
+        network.sendReq(new DieFromRoundTrack(username,round,diePosition));
     }
 }

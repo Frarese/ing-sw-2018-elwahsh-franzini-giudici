@@ -27,7 +27,7 @@ public interface PlayerMoveHandler {
                  break;
             case "UseCard":
 
-                ToolCardsHandler t =new ToolCardsHandler(
+                ToolCardsHandler t = new ToolCardsHandler(
                         (UseToolCardMove)move,
                         currentPlayer,
                         board,

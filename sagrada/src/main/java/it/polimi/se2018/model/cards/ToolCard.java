@@ -12,7 +12,7 @@ public abstract class ToolCard extends CardModel {
     /**
      * When a card is used the used flag must be set on true
      */
-    protected void updateUsed()
+    public void updateUsed()
     {
         used = true;
     }
@@ -29,7 +29,7 @@ public abstract class ToolCard extends CardModel {
      * To use a Tool card a player must spend its favour points
      * @param player the player to use
      */
-    protected void burnFavourPoints(Player player)
+    public void burnFavourPoints(Player player)
     {
         if(used)
             player.setFavourPoints(player.getFavourPoints() -2);

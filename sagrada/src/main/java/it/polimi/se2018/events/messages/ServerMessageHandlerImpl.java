@@ -34,6 +34,7 @@ public class ServerMessageHandlerImpl implements ServerMessageHandler {
     @Override
     public void handle(CardInfo move) {
         cards.setCardView(move);
+        cards.uniqueNotify();
     }
 
     @Override
