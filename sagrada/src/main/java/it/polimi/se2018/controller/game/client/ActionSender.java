@@ -194,6 +194,11 @@ public class ActionSender {
         network.sendReq(new DieFromGrid(username,h,w));
     }
 
+    /**
+     * Tries to set a die from the gird to the grid
+     * @param h height of die
+     * @param w width of die
+     */
     public void selectedDieToGrid(int h, int w)
     {
         network.sendReq(new DieSet(username,h,w));

@@ -110,6 +110,12 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 case 26:
                     glazinHammer();
                     break;
+                case 28:
+                    corkBackedStraightedge();
+                    break;
+                case 29:
+                    grindingStone();
+                    break;
                 default:
                     notifyFailure("Carta inesistente");
             }
@@ -149,7 +155,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
                 if(result == null)
                 {
-                        result = setDie(index);
+                        result = setDie(index,true);
                         if (result == null) {
                             player.setCardRights(firsTurn, false);
                             player.setPlacementRights(firsTurn, false);
@@ -326,6 +332,67 @@ public class ToolCardsHandler implements Runnable,Observer  {
         else notifyFailure(NO_PERMISSION);
     }
 
+    private void corkBackedStraightedge()
+    {
+        int index;
+        if(new CorkBackedStraightedge().isUsable(player,firsTurn))
+        {
+            notifySuccess();
+            index = askDieFromReserve();
+            if(index >-1)
+            {
+                String result = setDie(index,false);
+                if(result == null)
+                {
+                    player.setCardRights(firsTurn,false);
+                    player.setPlacementRights(firsTurn,false);
+                    useCard(player);
+                    updateGameState();
+                }
+                else
+                    network.sendReq(new CardExecutionError(result),player.getName());
+            }
+        }
+        else
+            notifyFailure(NO_PERMISSION);
+    }
+
+
+
+    /**
+     * Grinding stone card effect
+     */
+    private void grindingStone()
+    {
+        int index;
+        if(new GrindingStone().isUsable(player,firsTurn))
+        {
+            notifySuccess();
+            index = askDieFromReserve();
+            if(index >-1)
+            {
+                CardEffects.changeValue(board.getReserve().get(index),true,0);
+                network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
+                String result = setDie(index,true);
+                if(result == null)
+                {
+                    player.setPlacementRights(firsTurn,false);
+                    player.setCardRights(firsTurn,false);
+                    useCard(player);
+                    updateGameState();
+
+                }
+                else
+                {
+                    network.sendReq(new CardExecutionError(result),player.getName());
+                    CardEffects.changeValue(board.getReserve().get(index),true,0);
+                    updateGameState();
+                }
+            }
+        }
+        else
+            notifyFailure(NO_PERMISSION);
+    }
 
     /**
      * Asks and wait for a die from the reserve
@@ -398,13 +465,13 @@ public class ToolCardsHandler implements Runnable,Observer  {
      * @param index die's position inside the reserve
      * @return Error message or null if no error occurred
      */
-    private String setDie(int index)
+    private String setDie(int index, boolean adjacency)
     {
         latch = new CountDownLatch(1);
         network.sendReq(new SetDie(index), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
-            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),board.getReserve().get(index),true,true,true);
+            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),board.getReserve().get(index),true,true,adjacency);
             if(result == null)
             {
                 player.getGrid().setDie(dieSet.getH(),dieSet.getW(),board.getReserve().popDie(index));
