@@ -37,6 +37,9 @@ public class KeepAliveRequest implements AbsReqServerComm {
         return bounced;
     }
 
+    /**
+     * Sets the bounced flag to true
+     */
     public void setBounced(){
         bounced=true;
     }

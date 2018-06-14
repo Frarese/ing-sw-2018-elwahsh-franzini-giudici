@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import static org.junit.Assert.*;
@@ -19,13 +20,14 @@ public class SafeSocketTest {
     private Field sF;
     private Field queueF;
     private boolean connected;
+    private boolean failStream;
 
     @Before
     public void testSetUp() throws Exception {
         sF=SafeSocket.class.getDeclaredField("s");
         sF.setAccessible(true);
         connected=true;
-
+        failStream=true;
         queueF=SafeSocket.class.getDeclaredField("inQueue");
         queueF.setAccessible(true);
     }
@@ -79,19 +81,58 @@ public class SafeSocketTest {
         assertEquals("test",uut.receive());
     }
 
-    private class SocketMock extends Socket{
+    @Test
+    public void testStart()throws Exception{
+        failStream=false;
+        uut=new SafeSocket(new SocketMock(),100);
 
+        assertFalse(uut.send("test"));
+    }
+
+
+    private class SocketMock extends Socket{
+        InputStream in;
+        OutputStream out;
+        Queue<Integer> queue;
         SocketMock() {
+            queue=new LinkedList<>();
+            out=new OutputStream() {
+                @Override
+                public void write(int b) {
+                    queue.add(b);
+                }
+            };
+
+            in=new InputStream() {
+                @Override
+                public int read() {
+                    Integer out;
+                    while(true){
+                        if((out=queue.poll())!=null){
+                            break;
+                        }
+                    }
+                    return out;
+                }
+            };
         }
 
         @Override
         public InputStream getInputStream() throws IOException {
-            throw new IOException("Failed as requested");
+
+            if(failStream){
+                throw new IOException("Failed as requested");
+            }
+            return in;
+
         }
 
         @Override
         public OutputStream getOutputStream() throws IOException {
-            throw new IOException("Failed as requested");
+            if(failStream){
+                throw new IOException("Failed as requested");
+            }
+            return out;
         }
 
 
