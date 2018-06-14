@@ -114,7 +114,6 @@ public class JavaFXApp extends App {
         }
 
         if (success) {
-            notifySimpleAlert("Login riuscito con successo");
             this.viewActions.askLobby();
             this.createLobby();
         } else {
@@ -442,14 +441,6 @@ public class JavaFXApp extends App {
             GameController gameController = (GameController) JavaFXStageProducer.getController();
             gameController.display();
         });
-
-        //Search information
-        PlayerState playerView = this.searchPlayerViewByName(this.players, playerName);
-        if (playerView != null) {
-            String player = playerView.getPlayerName();
-            //Print
-            notifySimpleAlert(player + " ha passato il suo turno!");
-        }
     }
 
     @Override

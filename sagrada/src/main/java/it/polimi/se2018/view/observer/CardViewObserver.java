@@ -4,7 +4,6 @@ import it.polimi.se2018.observable.CardView;
 import it.polimi.se2018.view.app.App;
 
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * CardView observable class
@@ -12,7 +11,7 @@ import java.util.Observer;
  * @author Mathyas Giudici
  */
 
-public class CardViewObserver extends ModelObserver implements Observer {
+public class CardViewObserver extends ModelObserver {
 
     public CardViewObserver(App app) {
         super(app);

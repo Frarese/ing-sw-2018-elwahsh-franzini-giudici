@@ -178,6 +178,15 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     }
 
     /**
+     * Getter method for connectedPlayer's list
+     *
+     * @return the connected players' list
+     */
+    public List<ScoreEntry> getConnectedUsers() {
+        return connectedUsers;
+    }
+
+    /**
      * Getter method for leaderBoard's list
      *
      * @return the leader board
@@ -204,15 +213,6 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     public void pullInvitate(MatchIdentifier invite) {
         //Add invite add list
         this.invites.add(invite);
-    }
-
-    /**
-     * Getter method for connectedPlayer's list
-     *
-     * @return the connected players' list
-     */
-    public List<ScoreEntry> getConnectedUsers() {
-        return connectedUsers;
     }
 
     /**

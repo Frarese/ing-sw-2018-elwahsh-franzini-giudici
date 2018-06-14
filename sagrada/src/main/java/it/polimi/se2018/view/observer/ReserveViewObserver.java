@@ -4,7 +4,6 @@ import it.polimi.se2018.observable.ReserveView;
 import it.polimi.se2018.view.app.App;
 
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * ReserveView observable class
@@ -12,7 +11,7 @@ import java.util.Observer;
  * @author Mathyas Giudici
  */
 
-public class ReserveViewObserver extends ModelObserver implements Observer {
+public class ReserveViewObserver extends ModelObserver {
 
     public ReserveViewObserver(App app) {
         super(app);

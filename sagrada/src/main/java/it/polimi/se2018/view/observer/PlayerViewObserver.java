@@ -4,7 +4,6 @@ import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.view.app.App;
 
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * PlayerView observable class
@@ -12,7 +11,7 @@ import java.util.Observer;
  * @author Mathyas Giudici
  */
 
-public class PlayerViewObserver extends ModelObserver implements Observer {
+public class PlayerViewObserver extends ModelObserver {
 
     public PlayerViewObserver(App app) {
         super(app);

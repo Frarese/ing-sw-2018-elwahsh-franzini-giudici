@@ -4,7 +4,6 @@ import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.view.app.App;
 
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * RoundTrackerView observable class
@@ -12,7 +11,7 @@ import java.util.Observer;
  * @author Mathyas Giudici
  */
 
-public class RoundTrackerViewObserver extends ModelObserver implements Observer {
+public class RoundTrackerViewObserver extends ModelObserver {
 
     public RoundTrackerViewObserver(App app) {
         super(app);

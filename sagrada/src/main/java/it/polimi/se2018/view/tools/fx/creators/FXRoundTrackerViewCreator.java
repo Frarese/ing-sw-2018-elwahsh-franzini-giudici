@@ -34,7 +34,7 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
      * @param round        contains the round
      * @param roundTracker contains the round tracker
      */
-    public FXRoundTrackerViewCreator(int round, IntColorPair[][] roundTracker) {
+    FXRoundTrackerViewCreator(int round, IntColorPair[][] roundTracker) {
         super(round, roundTracker);
         this.dieViewCreator = new FXDieViewCreator(FXConstants.ROUNDT_IMG_DIM_VALUE);
     }

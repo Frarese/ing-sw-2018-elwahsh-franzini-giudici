@@ -29,7 +29,7 @@ public class CLICardViewCreator extends CardViewCreator<String> {
      * @param publicObjectiveCards contains the public objectives
      * @param toolCards            contains the tool cards
      */
-    public CLICardViewCreator(SingleCardView privateObjectiveCard, List<SingleCardView> publicObjectiveCards, List<SingleCardView> toolCards) {
+    CLICardViewCreator(SingleCardView privateObjectiveCard, List<SingleCardView> publicObjectiveCards, List<SingleCardView> toolCards) {
         super(privateObjectiveCard, publicObjectiveCards, toolCards);
     }
 
