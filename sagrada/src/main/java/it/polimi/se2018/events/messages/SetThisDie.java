@@ -4,7 +4,7 @@ import it.polimi.se2018.events.ServerMessageHandler;
 import it.polimi.se2018.model.IntColorPair;
 
 /**
- * Request fro a die to be set from the grid
+ * Request for a die to be set from the grid
  * @author Alì El wahsh
  */
 public class SetThisDie extends ServerMessage {

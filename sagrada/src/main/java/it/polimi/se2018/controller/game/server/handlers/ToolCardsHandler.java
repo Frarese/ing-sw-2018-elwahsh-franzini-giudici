@@ -205,6 +205,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
                      }
                 }
             }
+            else notifyFailure(NO_PERMISSION);
 
         }
 
@@ -237,6 +238,8 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 }
             }
         }
+        else
+            notifyFailure(NO_PERMISSION);
     }
 
     /**
@@ -602,7 +605,6 @@ public class ToolCardsHandler implements Runnable,Observer  {
         board.getTool(cardPosition).burnFavourPoints(player);
         board.getTool(cardPosition).updateUsed();
     }
-
 
     /**
      * Updates game stets on all clients
