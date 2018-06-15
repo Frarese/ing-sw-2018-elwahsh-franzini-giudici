@@ -3,6 +3,7 @@ package it.polimi.se2018.events.actions;
 import it.polimi.se2018.controller.game.server.Round;
 import it.polimi.se2018.controller.game.server.ServerController;
 import it.polimi.se2018.controller.game.server.handlers.DiePlacementHandler;
+import it.polimi.se2018.controller.game.server.handlers.RandomDice;
 import it.polimi.se2018.controller.game.server.handlers.ToolCardsHandler;
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
 import it.polimi.se2018.model.Board;
@@ -17,7 +18,7 @@ public interface PlayerMoveHandler {
     /**
      * Handles this move
      */
-     static void handle(ServerController controller,PlayerMove move, Player currentPlayer, Board board, Round round, MatchNetworkInterface networkInterface){
+     static void handle(ServerController controller, PlayerMove move, Player currentPlayer, Board board, Round round, MatchNetworkInterface networkInterface, RandomDice randomDice){
 
         switch (move.toString()){
              case "Placement":
@@ -32,7 +33,7 @@ public interface PlayerMoveHandler {
                         currentPlayer,
                         board,
                         round.getFirstTurn(),
-                        networkInterface);
+                        networkInterface,randomDice);
                 controller.getInBus().addObserver(t);
                 new Thread(t).start();
 

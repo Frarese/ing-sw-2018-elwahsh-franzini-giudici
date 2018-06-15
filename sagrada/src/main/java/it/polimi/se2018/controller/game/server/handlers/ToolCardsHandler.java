@@ -37,6 +37,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
     private PlayerMove response;
     private CountDownLatch latch;
     private int cardPosition;
+    private final RandomDice randomDice;
     /**
      * Constructor
      * @param move card move
@@ -45,13 +46,14 @@ public class ToolCardsHandler implements Runnable,Observer  {
      * @param firstTurn true if first turn, false otherwise
      * @param networkInterface network interface
      */
-    public ToolCardsHandler(UseToolCardMove move, Player player, Board board, boolean firstTurn, MatchNetworkInterface networkInterface)
+    public ToolCardsHandler(UseToolCardMove move, Player player, Board board, boolean firstTurn, MatchNetworkInterface networkInterface, RandomDice randomDice)
     {
         this.move = move;
         this.player = player;
         this.board = board;
         this.firsTurn = firstTurn;
         this.network = networkInterface;
+        this.randomDice = randomDice;
     }
 
     /**
@@ -107,8 +109,14 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 case 24:
                     lensCutter();
                     break;
+                case 25:
+                    fluxBrush();
+                    break;
                 case 26:
                     glazinHammer();
+                    break;
+                case 27:
+                    runningPliers();
                     break;
                 case 28:
                     corkBackedStraightedge();
@@ -291,7 +299,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         if(new LensCutter().isUsable(player,firsTurn) && board.getRoundTrack().lastFilledRound()>0)
         {
             notifySuccess();
-            reserveIndex =askDieFromReserve();
+            reserveIndex = askDieFromReserve();
             if(reserveIndex >-1)
             {
                 die = askDieFromRoundTrack();
@@ -317,7 +325,70 @@ public class ToolCardsHandler implements Runnable,Observer  {
             notifyFailure(NO_PERMISSION);
     }
 
+    /**
+     * Flux Brush card effect
+     */
+    private void fluxBrush()
+    {
+        int index;
+        int oldValue;
+        if(new FluxBrush().isUsable(player,firsTurn))
+        {
+            notifySuccess();
+            if(randomDice.getRollDieIndex()<0) {
+                index = askDieFromReserve();
+                if (index >-1)
+                {
+                   oldValue = board.getReserve().get(index).getValue();
+                   board.getReserve().get(index).roll();
+                   String result = setDie(index,true);
+                   if(result == null)
+                   {
+                       player.setCardRights(firsTurn,false);
+                       player.setPlacementRights(firsTurn,false);
+                       useCard(player);
+                       updateGameState();
+                   }
+                   else
+                   {
+                       randomDice.setRollDieIndex(index);
+                       randomDice.setRollDie(board.getReserve().get(index));
+                       board.getReserve().get(index).setFace(oldValue);
+                       network.sendReq(new CardExecutionError(result),player.getName());
+                   }
+                }
+            }
+            else
+            {
+               noCheatFluxBrush();
+            }
+        }
+        else
+            notifyFailure(NO_PERMISSION);
+    }
 
+    /**
+     * Does not permit player to call the card again with a new value
+     */
+    private void noCheatFluxBrush()
+    {
+        int index = randomDice.getRollDieIndex();
+        int oldValue = board.getReserve().get(index).getValue();
+        board.getReserve().get(index).setFace(randomDice.getRollDie().getValue());
+        String result = setDie(index,true);
+        if(result == null)
+        {
+            player.setCardRights(firsTurn,false);
+            player.setPlacementRights(firsTurn,false);
+            useCard(player);
+            updateGameState();
+        }
+        else
+        {
+            board.getReserve().get(index).setFace(oldValue);
+            network.sendReq(new CardExecutionError(result),player.getName());
+        }
+    }
 
     /**
      * Glazing Hammer card effect
@@ -335,6 +406,10 @@ public class ToolCardsHandler implements Runnable,Observer  {
         else notifyFailure(NO_PERMISSION);
     }
 
+
+    /**
+     * Cork Backed Straightedge card effect
+     */
     private void corkBackedStraightedge()
     {
         int index;
@@ -349,6 +424,36 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 {
                     player.setCardRights(firsTurn,false);
                     player.setPlacementRights(firsTurn,false);
+                    useCard(player);
+                    updateGameState();
+                }
+                else
+                    network.sendReq(new CardExecutionError(result),player.getName());
+            }
+        }
+        else
+            notifyFailure(NO_PERMISSION);
+    }
+
+
+    /**
+     * Running Pliers card effect
+     */
+    private void runningPliers()
+    {
+        int reserveIndex;
+        if(new RunningPliers().isUsable(player,firsTurn))
+        {
+            notifySuccess();
+            reserveIndex = askDieFromReserve();
+            if(reserveIndex >-1)
+            {
+                String result = setDie(reserveIndex,true);
+                if(result == null)
+                {
+                    player.setPlacementRights(false,false);
+                    player.setCardRights(false,false);
+                    player.setCardRights(true,false);
                     useCard(player);
                     updateGameState();
                 }
@@ -383,7 +488,6 @@ public class ToolCardsHandler implements Runnable,Observer  {
                     player.setCardRights(firsTurn,false);
                     useCard(player);
                     updateGameState();
-
                 }
                 else
                 {
@@ -497,18 +601,25 @@ public class ToolCardsHandler implements Runnable,Observer  {
     private String setDieFromGrid(int h, int w, boolean color, boolean value)
     {
         latch = new CountDownLatch(1);
-        Die die = player.getGrid().getDie(h,w);
+        Die die = player.getGrid().setDie(h,w,null);
         network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
             String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),die,color,value,true);
             if(result == null)
             {
-                player.getGrid().setDie(dieSet.getH(),dieSet.getW(),player.getGrid().setDie(h,w,null));
+                player.getGrid().setDie(dieSet.getH(),dieSet.getW(),die);
+            }
+            else
+            {
+               player.getGrid().setDie(h,w,die);
             }
             return result;
         }
-        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
+        else {
+            player.getGrid().setDie(h,w,die);
+            network.sendReq(new CardExecutionError(TOO_SLOW), player.getName());
+        }
         return OH_NO;
     }
 

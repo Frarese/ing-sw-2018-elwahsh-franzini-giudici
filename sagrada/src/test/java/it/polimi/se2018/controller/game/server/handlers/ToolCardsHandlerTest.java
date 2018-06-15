@@ -47,14 +47,14 @@ public class ToolCardsHandlerTest {
     public void testDefault() {
         b.setId(-1);
         UseToolCardMove move=new UseToolCardMove("test",b.getTool(-1).getId());
-        uut=new ToolCardsHandler(move,p,b,false,new MatchNetworkMock());
+        uut=new ToolCardsHandler(move,p,b,false,new MatchNetworkMock(), new RandomDice());
         uut.run();
         assertTrue(notifiedFailure);
     }
 
     @Test
     public void testUpdate() throws Exception{
-        uut=new ToolCardsHandler(null,p,b,false,new MatchNetworkMock());
+        uut=new ToolCardsHandler(null,p,b,false,new MatchNetworkMock(), new RandomDice());
         Method m=ToolCardsHandler.class.getDeclaredMethod("updateGameState");
         m.setAccessible(true);
 
@@ -123,13 +123,6 @@ public class ToolCardsHandlerTest {
             d2.roll();
         }
 
-         void setD1(Die d1) {
-            this.d1 = d1;
-        }
-
-         void setD2(Die d2) {
-            this.d2 = d2;
-        }
     }
 
     private class BoardMock extends Board{
@@ -176,7 +169,7 @@ public class ToolCardsHandlerTest {
     public void testGrozingPliers()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",20),p,b,true,networkMock);
+        uut = new ToolCardsHandler(new UseToolCardMove("test",20),p,b,true,networkMock, new RandomDice());
         b.setId(20);
         bus.addObserver(uut);
         uut.run();
@@ -187,7 +180,7 @@ public class ToolCardsHandlerTest {
     public void testEglomiseBrush()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",21),p,b,true,networkMock);
+        uut = new ToolCardsHandler(new UseToolCardMove("test",21),p,b,true,networkMock, new RandomDice());
         b.setId(21);
         bus.addObserver(uut);
         uut.run();
@@ -198,7 +191,7 @@ public class ToolCardsHandlerTest {
     public void testCopperFoilBurnisher()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",22),p,b,true,networkMock);
+        uut = new ToolCardsHandler(new UseToolCardMove("test",22),p,b,true,networkMock, new RandomDice());
         b.setId(22);
         bus.addObserver(uut);
         uut.run();
@@ -209,7 +202,7 @@ public class ToolCardsHandlerTest {
     public void testLathekin()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",23),p,b,true,networkMock);
+        uut = new ToolCardsHandler(new UseToolCardMove("test",23),p,b,true,networkMock, new RandomDice());
         b.setId(23);
         bus.addObserver(uut);
         uut.run();
@@ -220,7 +213,7 @@ public class ToolCardsHandlerTest {
     public void testLensCutter()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",24),p,b,true,networkMock);
+        uut = new ToolCardsHandler(new UseToolCardMove("test",24),p,b,true,networkMock, new RandomDice());
         b.setId(24);
         bus.addObserver(uut);
         uut.run();
@@ -231,7 +224,7 @@ public class ToolCardsHandlerTest {
     public void testGlazingHammer()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",26),p,b,true,networkMock);
+        uut = new ToolCardsHandler(new UseToolCardMove("test",26),p,b,true,networkMock, new RandomDice());
         b.setId(26);
         bus.addObserver(uut);
         uut.run();
@@ -242,7 +235,7 @@ public class ToolCardsHandlerTest {
     public void testCorkBackedStraightedge()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",28),p,b,true,networkMock);
+        uut = new ToolCardsHandler(new UseToolCardMove("test",28),p,b,true,networkMock, new RandomDice());
         b.setId(28);
         bus.addObserver(uut);
         uut.run();
@@ -253,7 +246,7 @@ public class ToolCardsHandlerTest {
     public void testGrindingStone()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",29),p,b,true,networkMock);
+        uut = new ToolCardsHandler(new UseToolCardMove("test",29),p,b,true,networkMock, new RandomDice());
         b.setId(29);
         bus.addObserver(uut);
         uut.run();

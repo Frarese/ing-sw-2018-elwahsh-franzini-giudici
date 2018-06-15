@@ -26,6 +26,6 @@ public class RunningPliers extends ToolCard {
      */
     @Override
     public boolean isUsable(Player player, boolean firstTurn) {
-        return firstTurn && player.canPlaceOnThisTurn(true) && player.canUseCardOnThisTurn(true);
+        return firstTurn && !player.canPlaceOnThisTurn(true) && player.canUseCardOnThisTurn(true);
     }
 }

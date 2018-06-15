@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.game.server;
 
 import it.polimi.se2018.controller.game.EventBus;
+import it.polimi.se2018.controller.game.server.handlers.RandomDice;
 import it.polimi.se2018.controller.network.server.MatchController;
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
 import it.polimi.se2018.events.actions.*;
@@ -45,6 +46,7 @@ public class ServerController implements MatchController, Runnable {
     private int playersReady = 0;
     private final Thread t;
     private final ArrayList<PrivateObjectiveCard> privateObjectiveSent = new ArrayList<>();
+    private RandomDice randomDice;
 
 
     /**
@@ -93,6 +95,7 @@ public class ServerController implements MatchController, Runnable {
         network.sendObj(new TurnStart(null,round.getCurrentPlayer().getName()));
         timer = new Timer();
         timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
+        randomDice = new RandomDice();
     }
 
     /**
@@ -155,6 +158,8 @@ public class ServerController implements MatchController, Runnable {
                 if(!offlinePlayers.contains(p) && p.getName().equals(username))
                     offlinePlayers.add(p);
             }
+            if(username.equals(round.getCurrentPlayer().getName()))
+                round.nextTurn();
     }
 
 
@@ -206,6 +211,7 @@ public class ServerController implements MatchController, Runnable {
         String temp = round.getCurrentPlayer().getName();
         timer.cancel();
         round.nextTurn();
+        randomDice = new RandomDice();
         if(round.getCurrentPlayer() == null)
             manageNewRound(temp);
         else{
@@ -239,7 +245,7 @@ public class ServerController implements MatchController, Runnable {
         }
 
         else if(move.getPlayerName().equals(round.getCurrentPlayer().getName())) {
-            PlayerMoveHandler.handle(this,move,round.getCurrentPlayer(),board,round,network);
+            PlayerMoveHandler.handle(this,move,round.getCurrentPlayer(),board,round,network,randomDice);
         }
     }
 

@@ -95,6 +95,7 @@ public class Grid {
     public Die setDie(int h, int w, Die d)
     {
         try {
+
             if (diceGrid[h][w] == null) {
                 diceGrid[h][w] = d;
                 placedDice++;
@@ -102,6 +103,8 @@ public class Grid {
             } else {
                 Die temp = diceGrid[h][w];
                 diceGrid[h][w] = d;
+                if(d == null)
+                    placedDice--;
                 return temp;
             }
         }catch (IndexOutOfBoundsException e)

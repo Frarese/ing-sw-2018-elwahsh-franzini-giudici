@@ -13,6 +13,7 @@ public class RunningPliersTest {
     public void testIsUsable()
     {
         Player player = new Player("Commissar", 0);
+        player.setPlacementRights(true,false);
         assertTrue(test.isUsable(player,true));
     }
 
