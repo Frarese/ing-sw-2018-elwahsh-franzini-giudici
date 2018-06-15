@@ -119,6 +119,9 @@ public class ServerMainTest {
         ConcurrentHashMap<String, PendingApprovalMatch> pendingMatchesMap = (ConcurrentHashMap) f.get(uut);
         assertTrue(pendingMatchesMap.containsKey(mId.toString()));
         assertTrue(c1.hasAcceptedInvite());
+
+        c2.acceptInvite();
+        uut.addPendingMatch(new MatchIdentifier("test1","test2",null,null),c2);
     }
 
     @Test

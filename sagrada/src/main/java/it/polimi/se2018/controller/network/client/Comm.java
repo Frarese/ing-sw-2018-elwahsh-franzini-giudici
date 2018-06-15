@@ -300,7 +300,9 @@ public class Comm {
     public void logoutRequestReceived() {
         this.purgeComm();
         this.stop();
-        utilizer.notifyCommDropped();
+        if(utilizer!=null){
+            utilizer.notifyCommDropped();
+        }
     }
 
     /**

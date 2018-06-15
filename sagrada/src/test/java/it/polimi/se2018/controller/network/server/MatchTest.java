@@ -115,6 +115,8 @@ public class MatchTest {
 
         uut.sendReq("test","us1");
         assertTrue(c1.cReq);
+
+        uut.sendReq("test","notAUser");
     }
 
     @Test

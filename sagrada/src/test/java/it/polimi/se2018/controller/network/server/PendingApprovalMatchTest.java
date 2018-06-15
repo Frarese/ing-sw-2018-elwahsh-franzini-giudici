@@ -33,9 +33,11 @@ public class PendingApprovalMatchTest {
 
     @Test
     public void testAccept(){
-        uut=new PendingApprovalMatch(1000,mId,null,c1);
+        uut=new PendingApprovalMatch(1000,mId,s,c1);
         assertTrue(uut.clientAccepted(c2));
         assertFalse(uut.clientAccepted(new Client("a",null)));
+        c3.acceptInvite();
+        assertFalse(uut.clientAccepted(c3));
     }
 
     @Test

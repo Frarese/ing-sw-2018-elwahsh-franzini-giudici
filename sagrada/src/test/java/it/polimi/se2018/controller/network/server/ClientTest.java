@@ -129,6 +129,12 @@ public class ClientTest {
 
     @Test
     public void testInitRMI() throws Exception{
+        List<Client> list=new ArrayList<>();
+        list.add(uut);
+        list.add(new Client("test2",s));
+        Field matchF=Client.class.getDeclaredField("match");
+        matchF.setAccessible(true);
+        matchF.set(uut,new Match(new MatchIdentifier("usn","test2",null,null),list,s));
         assertTrue(uut.createRMIComm(new RMISessionImpl(LoginResponsesEnum.LOGIN_OK)));
         assertFalse(uut.createRMIComm(new RMISessionImpl(LoginResponsesEnum.LOGIN_OK)));
         assertFalse(uut.createSocketComm(new SafeSocket(100),new SafeSocket(100)));

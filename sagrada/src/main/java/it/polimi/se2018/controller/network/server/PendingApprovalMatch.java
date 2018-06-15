@@ -54,7 +54,7 @@ public class PendingApprovalMatch {
      * @param client the client that has accepted
      * @return true if no errors were raised
      */
-    public synchronized boolean clientAccepted(Client client) {
+    synchronized boolean clientAccepted(Client client) {
         logger.log(Level.FINEST,"User {0} accepted match",client.usn);
         int pos;
         if((pos=matchId.findPos(client.usn))!=-1 && !clients.containsKey(pos)){

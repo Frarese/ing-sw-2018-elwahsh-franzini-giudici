@@ -1,6 +1,8 @@
 package it.polimi.se2018.controller.game.server;
 
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
+import it.polimi.se2018.events.actions.PatternChoice;
+import it.polimi.se2018.model.cards.PatternCard;
 import it.polimi.se2018.util.MatchIdentifier;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +10,7 @@ import org.junit.Test;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -51,6 +54,7 @@ public class ServerControllerTest {
         for(int i=0;i<8;i++){
             r.prepareNextRound();
         }
+        uut.run();
         startM.invoke(uut,"test");
         assertTrue(ended);
     }
@@ -64,6 +68,28 @@ public class ServerControllerTest {
         sentObj=false;
         uut.newTurn();
         assertTrue(sentObj);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testHandlePattern() throws Exception{
+        Field pSentF=ServerController.class.getDeclaredField("patternSent");
+        pSentF.setAccessible(true);
+
+        ArrayList<PatternCard> list=(ArrayList)pSentF.get(uut);
+        list.add(new PatternCard("resources/patterncard01.xml"));
+        list.add(new PatternCard("resources/patterncard02.xml"));
+
+        PatternChoice pC=new PatternChoice("test1","Virtus");
+        uut.handleRequest("test1",pC);
+
+        uut=new ServerController(new MatchIdentifier("test1", "test2", "test3", "test4"),new MatchNetMock());
+        list=(ArrayList)pSentF.get(uut);
+        list.add(new PatternCard("resources/patterncard01.xml"));
+        list.add(new PatternCard("resources/patterncard02.xml"));
+
+        pC=new PatternChoice("test1","Kaleidoscopic Dream");
+        uut.handleRequest("test1",pC);
     }
 
     private class MatchNetMock implements MatchNetworkInterface {

@@ -97,25 +97,24 @@ public class ChangeLayerController {
         if (!rmiRadio.isSelected() && !socketRadio.isSelected()) {
             stringBuilder.append("Deve essere selezionato il tipo di connessione\n");
         } else {
-            checkRequestPort(requestPort, stringBuilder);
+            checkRequestPort(requestPort.getText(), stringBuilder);
             if (socketRadio.isSelected()) {
-                checkObjectPort(objectPort, stringBuilder);
+                checkObjectPort(objectPort.getText(), stringBuilder);
             }
         }
     }
 
     /**
-     * Checks request port field isn't empty and contains a number
-     *
-     * @param requestPort   contains the field to check
-     * @param stringBuilder contains the errors' string builder
+     * Checks if the given request port is valid
+     * @param req request port
+     * @param stringBuilder string builder to use
      */
-    private static void checkRequestPort(TextField requestPort, StringBuilder stringBuilder) {
-        if (requestPort.getText() == null || requestPort.getText().equals("")) {
+    private static void checkRequestPort(String req,StringBuilder stringBuilder){
+        if (req == null || req.equals("")) {
             stringBuilder.append("Porta Richieste non può essere vuota\n");
         } else {
             try {
-                int intRequestPort = Integer.parseInt(requestPort.getText());
+                int intRequestPort = Integer.parseInt(req);
                 if (intRequestPort < 0) {
                     stringBuilder.append("Porta Richieste deve contenere un numero positivo\n");
                 }
@@ -126,17 +125,16 @@ public class ChangeLayerController {
     }
 
     /**
-     * Checks object port field isn't empty and contains a number
-     *
-     * @param objectPort    contains the field to check
-     * @param stringBuilder contains the errors' string builder
+     * Checks if the given request port is valid
+     * @param obj request port
+     * @param stringBuilder string builder to use
      */
-    private static void checkObjectPort(TextField objectPort, StringBuilder stringBuilder) {
-        if (objectPort.getText() == null || objectPort.getText().equals("")) {
+    private static void checkObjectPort(String obj,StringBuilder stringBuilder){
+        if (obj == null || obj.equals("")) {
             stringBuilder.append("Porta Oggetti non può essere vuota\n");
         } else {
             try {
-                int intObjectPort = Integer.parseInt(objectPort.getText());
+                int intObjectPort = Integer.parseInt(obj);
                 if (intObjectPort < 0) {
                     stringBuilder.append("Porta Oggetti deve contenere un numero positivo\n");
                 }

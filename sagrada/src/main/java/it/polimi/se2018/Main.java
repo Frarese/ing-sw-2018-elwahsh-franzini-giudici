@@ -32,13 +32,13 @@ public class Main {
             ConsoleHandler handler=new ConsoleHandler();
             logger.addHandler(handler);
             logger.setLevel(Level.ALL);
-            //handler.setLevel(Level.ALL);
-            if(args.length<2)throw new IllegalArgumentException("Not enough parameters");
-            Boolean useGui=Boolean.parseBoolean(args[1]);
+            //handler setLevel Level.ALL
             ActionSender actionSender = new ActionSender();
             ViewActions viewActions = new ViewActions(actionSender);
             ViewToolCardActions viewToolCardActions = new ViewToolCardActions(actionSender);
             ViewMessage viewMessage = new ViewMessage(actionSender);
+            if(args.length<2)throw new IllegalArgumentException("Not enough parameters");
+            Boolean useGui=Boolean.parseBoolean(args[1]);
             App app = new AppFactory(useGui,viewActions,viewToolCardActions,viewMessage).getApp();
             ClientController controller = new ClientController(app);
             actionSender.setController(controller);
@@ -51,7 +51,7 @@ public class Main {
             Integer rmiPort=Integer.parseInt(args[2]);
             Integer requestPort=Integer.parseInt(args[3]);
             Integer objectPort=Integer.parseInt(args[4]);
-            new ServerCLI(objectPort,requestPort,rmiPort,serverAddress);
+            ServerCLI.buildCLI(objectPort,requestPort,rmiPort,serverAddress);
         }
     }
 }

@@ -56,7 +56,7 @@ public class Match implements MatchNetworkInterface{
      * @param obj the serializable object to handle
      * @param source the client that has sent the object
      */
-    public synchronized void handleObj(Serializable obj, Client source) {
+    synchronized void handleObj(Serializable obj, Client source) {
         clientMap.forEach((i,c)->{
             if(!dc.contains(c.usn) && (source!=c)){
                 c.pushOutObj(obj);
@@ -68,7 +68,7 @@ public class Match implements MatchNetworkInterface{
      * Builds a list of the players
      * @return a List of {@link it.polimi.se2018.controller.network.server.Client}
      */
-    public List<Client> getClients() {
+    List<Client> getClients() {
         return new ArrayList<>(clientMap.values());
     }
 
@@ -124,7 +124,7 @@ public class Match implements MatchNetworkInterface{
      * @param usn sender username
      * @param serializedReq the serialized request
      */
-    public void handleReq(String usn, Serializable serializedReq) {
+    void handleReq(String usn, Serializable serializedReq) {
         this.control.handleRequest(usn,serializedReq);
     }
 

@@ -142,9 +142,11 @@ public class Client {
      * @return last seen timestamp
      */
     public Instant lastSeen() {
+        Instant out;
         synchronized (tSLock){
-            return lastSeenTs;
+            out=lastSeenTs;
         }
+        return out;
     }
 
     /**
@@ -220,8 +222,12 @@ public class Client {
      */
     public void zombiefy(boolean notifyMatchPlayers, ChangeCLayerRequest cReq) {
         logger.log(Level.FINE,"Zombiefying {0}", usn);
-        outQueueEmpReq.stop();
-        outQueueEmpObj.stop();
+        if(outQueueEmpReq!=null){
+            outQueueEmpReq.stop();
+        }
+        if(outQueueEmpObj!=null){
+            outQueueEmpObj.stop();
+        }
         if(cReq!=null)this.sendReq(cReq);
         if(this.cComm==null)return;
         this.cComm.terminate();

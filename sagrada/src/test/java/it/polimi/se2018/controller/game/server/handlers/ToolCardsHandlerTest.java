@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.Observable;
 
 
@@ -29,6 +30,7 @@ public class ToolCardsHandlerTest {
     private boolean notifiedFailure;
     private final BusMock bus = new BusMock();
     private final MatchNetworkMock networkMock = new MatchNetworkMock();
+    private boolean sentObj;
 
     @Before
     public void testSetUp() {
@@ -38,6 +40,7 @@ public class ToolCardsHandlerTest {
         p.initFavourPoints();
         p.setFavourPoints(2);
         notifiedFailure=false;
+        sentObj=false;
     }
 
     @Test
@@ -49,6 +52,15 @@ public class ToolCardsHandlerTest {
         assertTrue(notifiedFailure);
     }
 
+    @Test
+    public void testUpdate() throws Exception{
+        uut=new ToolCardsHandler(null,p,b,false,new MatchNetworkMock());
+        Method m=ToolCardsHandler.class.getDeclaredMethod("updateGameState");
+        m.setAccessible(true);
+
+        m.invoke(uut);
+        assertTrue(sentObj);
+    }
 
     private class MatchNetworkMock implements MatchNetworkInterface{
 
@@ -66,7 +78,7 @@ public class ToolCardsHandlerTest {
 
         @Override
         public void sendObj(Serializable obj) {
-
+            sentObj=true;
         }
 
         @Override

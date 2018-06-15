@@ -47,6 +47,9 @@ public class ChatMessageRequestTest {
 
         uut=new ChatMessageRequest("test","test2","test",MessageTypes.MATCH);
         uut.serverVisit(new Client("test",s).getServerVisitor());
+
+        uut=new ChatMessageRequest("test","test2","test",MessageTypes.MATCH);
+        uut.serverVisit(new Client("testInvalid",s).getServerVisitor());
     }
 
     private class TestUtilizer implements CommUtilizer{

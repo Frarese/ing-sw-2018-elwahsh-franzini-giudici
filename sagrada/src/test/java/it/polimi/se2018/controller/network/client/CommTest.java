@@ -22,12 +22,13 @@ public class CommTest {
     private boolean sentReq;
     private boolean closed;
     private boolean failLogin;
+    private boolean fail;
 
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception{
         uut=new Comm();
-
+        fail=false;
         Field f=Comm.class.getDeclaredField("outObjQueue");
         f.setAccessible(true);
         outObjQueue=(Queue)f.get(uut);
@@ -116,6 +117,20 @@ public class CommTest {
         sentReq=false;
         uut.sendOutObj();
         assertTrue(sentReq);
+
+        uut.pushOutObj("test");
+        fail=true;
+
+        sentReq=false;
+        uut.sendOutObj();
+        assertTrue(sentReq);
+
+        uut=new Comm();
+        sentReq=false;
+        commLayerF.set(uut,new TestCommLayer(uut));
+        uut.pushOutReq(req);
+        uut.sendOutReq();
+        assertTrue(sentReq);
     }
 
     @Test
@@ -127,6 +142,11 @@ public class CommTest {
         sentReq=false;
         uut.changeLayer(false,1,2);
         assertFalse(sentReq);
+
+        fail=true;
+        commLayerF.set(uut,new TestCommLayer(uut));
+        uut.changeLayer(true,1,2);
+        assertTrue(sentReq);
     }
 
     @Test
@@ -179,6 +199,12 @@ public class CommTest {
     }
 
     @Test
+    public void testLogoutReq() throws Exception{
+        commLayerF.set(uut,new TestCommLayer(uut));
+        uut.logoutRequestReceived();
+    }
+
+    @Test
     public void testDCRoutines() throws Exception{
         Field f=Comm.class.getDeclaredField("reconnectW");
         f.setAccessible(true);
@@ -208,13 +234,13 @@ public class CommTest {
         @Override
         boolean sendOutObj(Serializable obj) {
             sentReq=true;
-            return true;
+            return !fail;
         }
 
         @Override
         boolean sendOutReq(AbsReq req) {
             sentReq=true;
-            return true;
+            return !fail;
         }
 
         @Override
