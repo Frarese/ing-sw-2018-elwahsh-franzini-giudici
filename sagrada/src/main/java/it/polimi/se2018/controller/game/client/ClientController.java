@@ -80,7 +80,8 @@ public class ClientController implements CommUtilizer {
     }
 
     @Override
-    public void notifyMatchStart() {
+    public void notifyMatchStart(MatchIdentifier mId) {
+        this.mId=mId;
         cleanUp();
         players.add(new PlayerView(mId.player0,0));
         players.add(new PlayerView(mId.player1,1));

@@ -62,7 +62,7 @@ public class LeaveMatchRequestTest {
         }
 
         @Override
-        public void notifyMatchStart() {
+        public void notifyMatchStart(MatchIdentifier mId) {
 
         }
 

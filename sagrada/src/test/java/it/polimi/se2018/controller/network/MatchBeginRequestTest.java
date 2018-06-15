@@ -68,7 +68,7 @@ public class MatchBeginRequestTest {
         }
 
         @Override
-        public void notifyMatchStart() {
+        public void notifyMatchStart(MatchIdentifier mId) {
             notified=true;
         }
 

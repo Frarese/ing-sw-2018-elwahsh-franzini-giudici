@@ -84,7 +84,7 @@ public class MatchInviteRequestTest {
         }
 
         @Override
-        public void notifyMatchStart() {
+        public void notifyMatchStart(MatchIdentifier mId) {
 
         }
 

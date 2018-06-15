@@ -69,7 +69,7 @@ public class ClientRequestTest {
         }
 
         @Override
-        public void notifyMatchStart() {
+        public void notifyMatchStart(MatchIdentifier mId) {
 
         }
 

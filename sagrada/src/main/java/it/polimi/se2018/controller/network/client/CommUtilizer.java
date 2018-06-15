@@ -47,8 +47,9 @@ public interface CommUtilizer
 
     /**
      * Notifies that the accepted match is starting
+     * @param mId match identifier of the match
      */
-    void notifyMatchStart( );
+    void notifyMatchStart(MatchIdentifier mId );
 
 
     /**

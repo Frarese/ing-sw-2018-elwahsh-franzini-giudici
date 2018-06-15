@@ -38,7 +38,7 @@ public class ClientControllerTest {
     public void testStart() {
         MatchIdentifier mId=new MatchIdentifier("user","user2","user3","user4");
         uut.setMId(mId);
-        uut.notifyMatchStart();
+        uut.notifyMatchStart(mId);
         uut.notifyReconnect();
         uut.setLocalPlayer("player");
         assertEquals("player",uut.getLocalPlayer());

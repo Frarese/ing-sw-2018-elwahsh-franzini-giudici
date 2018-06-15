@@ -61,7 +61,7 @@ public class UserReconnectedRequestTest {
         }
 
         @Override
-        public void notifyMatchStart() {
+        public void notifyMatchStart(MatchIdentifier mId) {
 
         }
 

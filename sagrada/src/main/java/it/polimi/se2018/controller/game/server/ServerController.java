@@ -147,6 +147,9 @@ public class ServerController implements MatchController, Runnable {
                 network.sendReq(new CardInfo(board.getTools(),board.getObjectives()),p.getName());
                 network.sendReq(new PrivateObjectiveStatus(privateObjectiveSent.get(mId.findPos(p.getName()))),p.getName());
                 sendMatchStatus(p);
+
+                network.sendReq(new MatchStart(),username);
+                network.sendReq(new TurnStart(null,round.getCurrentPlayer().getName()),username);
             }
         }
     }

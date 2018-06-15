@@ -101,6 +101,7 @@ public class Match implements MatchNetworkInterface{
         if(!dc.contains(username))return;
         clientMap.values().stream().filter(c->!c.usn.equals(username))
                 .forEach(c->c.pushOutReq(new UserReconnectedRequest(username)));
+        serverMain.getClient(username).pushOutReq(new MatchBeginRequest(matchId));
         dc.remove(username);
         control.userReconnected(username);
     }

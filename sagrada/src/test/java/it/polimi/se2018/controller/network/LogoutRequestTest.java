@@ -55,7 +55,7 @@ public class LogoutRequestTest {
         }
 
         @Override
-        public void notifyMatchStart() {
+        public void notifyMatchStart(MatchIdentifier mId) {
 
         }
 

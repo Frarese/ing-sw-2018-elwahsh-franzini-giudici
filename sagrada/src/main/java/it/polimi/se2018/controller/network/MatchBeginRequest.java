@@ -30,7 +30,7 @@ public class MatchBeginRequest extends AbsMatchReq {
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
         checkValid();
         clientComm.setMatchInfo(this.matchId);
-        commUtilizer.notifyMatchStart();
+        commUtilizer.notifyMatchStart(matchId);
     }
 
     @Override

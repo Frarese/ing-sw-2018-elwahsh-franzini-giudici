@@ -94,6 +94,7 @@ public class MatchTest {
 
     @Test
     public void testReconnection() {
+        s.addClient(c1);
         uut.playerLeft("us1",true);
         uut.playerReconnected("us1");
         assertFalse(c1.rec);
