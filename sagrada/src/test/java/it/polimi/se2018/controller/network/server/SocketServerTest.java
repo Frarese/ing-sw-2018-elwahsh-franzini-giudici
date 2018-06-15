@@ -66,7 +66,6 @@ public class SocketServerTest {
         assertTrue(sM.closed);
 
         s.logCheckResult=false;
-        sM.recovery=false;
         loginM.invoke(uut,sM);
         assertTrue(sM.closed);
     }
@@ -127,7 +126,6 @@ public class SocketServerTest {
         boolean invalidArgs=false;
         boolean retNull=false;
         boolean closed=false;
-        boolean recovery=true;
         SocketMock() throws IOException {
             super(10);
         }
@@ -135,12 +133,12 @@ public class SocketServerTest {
         @Override
         public Serializable receive() {
             if(retNull)return null;
-            SocketLoginRequest sL=new SocketLoginRequest("test","test",recovery,false);
+            SocketLoginRequest sL=new SocketLoginRequest("test","test",false);
 
             try {
-                Field f = SocketLoginRequest.class.getDeclaredField("isNewUser");
+                Field f = SocketLoginRequest.class.getDeclaredField("password");
                 f.setAccessible(true);
-                if(invalidArgs)f.set(sL,true);
+                if(invalidArgs)f.set(sL,null);
             } catch (Exception e) {
                 return null;
             }

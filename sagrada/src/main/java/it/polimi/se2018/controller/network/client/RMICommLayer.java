@@ -101,7 +101,7 @@ class RMICommLayer extends CommLayer {
     }
 
     @Override
-    synchronized String establishCon(String host, int reqPort, int objPort, boolean isRecovery, String usn, String pw, boolean newUser) {
+    synchronized String establishCon(String host, int reqPort, int objPort, String usn, String pw, boolean newUser) {
         if(sessionObj!=null || serverLoginObj!=null){
             logger.log(Level.WARNING,"Attempted to create rmi connection on already logged comm");
             return "Already logged";
@@ -110,7 +110,7 @@ class RMICommLayer extends CommLayer {
             logger.log(Level.INFO,"Attempting login through rmi at {0}",host+":"+reqPort);
             Registry registry = LocateRegistry.getRegistry(host, reqPort);
             RMIServerInt loginObj = (RMIServerInt) registry.lookup(LoginResponsesEnum.RESOURCE_NAME.msg);
-            RMISession session=loginObj.login(usn,pw,isRecovery,newUser);
+            RMISession session=loginObj.login(usn,pw,newUser);
             if(session==null)return "Login failed";
             if(session.getLoginOutput() == LoginResponsesEnum.LOGIN_OK){
                 logger.log(Level.INFO,"Login was successful");

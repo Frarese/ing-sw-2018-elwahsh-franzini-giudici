@@ -36,7 +36,7 @@ public class CommFE {
      * @return {@code null} if no errors were raised, a textual representation of the error otherwise
      */
     public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
-        return comm.login(host,requestPort,objectPort,isRecovery,usn,pw,newUser,useRMI,utilizer);
+        return comm.login(host,requestPort,objectPort,usn,pw,newUser,useRMI,utilizer);
     }
 
     /**

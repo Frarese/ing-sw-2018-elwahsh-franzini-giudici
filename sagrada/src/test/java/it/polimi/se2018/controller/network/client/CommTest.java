@@ -190,11 +190,11 @@ public class CommTest {
         uut2.noMockLogin=true;
         failLogin=true;
 
-        String result=uut2.login("host",1,2,true,"usn","pw",true,false,null);
+        String result=uut2.login("host",1,2,"usn","pw",true,false,null);
         assertNotNull(result);
 
         failLogin=false;
-        result=uut2.login("host",1,2,true,"usn","pw",true,false,null);
+        result=uut2.login("host",1,2,"usn","pw",true,false,null);
         assertNull(result);
     }
 
@@ -221,7 +221,7 @@ public class CommTest {
         }
 
         @Override
-        String establishCon(String host, int reqPort, int objPort, boolean isRecovery, String usn, String pw, boolean newUser) {
+        String establishCon(String host, int reqPort, int objPort, String usn, String pw, boolean newUser) {
             if(failLogin)return "Login failed as requested";
             return null;
         }
@@ -259,8 +259,8 @@ public class CommTest {
             purged=false;
         }
         @Override
-        public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
-            if(noMockLogin)return super.login(host,requestPort,objectPort,isRecovery,usn,pw,newUser,useRMI,utilizer);
+        public String login(String host, int requestPort, int objectPort, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
+            if(noMockLogin)return super.login(host,requestPort,objectPort,usn,pw,newUser,useRMI,utilizer);
             return (fail)?"Failed":null;
         }
 

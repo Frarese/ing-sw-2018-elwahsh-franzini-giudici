@@ -66,7 +66,7 @@ public class ChangeCLayerRequestTest {
 
     private class CommMock extends Comm {
         @Override
-        public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
+        public String login(String host, int requestPort, int objectPort, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
             called=true;
             return null;
         }

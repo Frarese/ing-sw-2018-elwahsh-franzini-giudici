@@ -33,14 +33,14 @@ abstract class ServerComm {
      * Checks if the given info are eligible for a login attempt(does not lock any username)
      * @param usn username
      * @param pw password
-     * @param isRecover flag to indicate that this is a connection recovery
      * @param register flag to indicate that this is a new user(if success registration is done)
      * @return the {@link it.polimi.se2018.controller.network.server.LoginResponsesEnum} that represents the result
      */
-    LoginResponsesEnum tryLogin(String usn,String pw,boolean isRecover,boolean register){
-        if(isRecover){
-            if(!handler.isUserLogged(usn)){
-                return LoginResponsesEnum.USER_NOT_LOGGED;
+    LoginResponsesEnum tryLogin(String usn,String pw,boolean register){
+        //If already logged
+        if(handler.getClient(usn)!=null){
+            if(!handler.getClient(usn).isZombie()){
+                return LoginResponsesEnum.USER_ALREADY_LOGGED;
             }else if(handler.isPwCorrect(usn,pw)){
                 return LoginResponsesEnum.LOGIN_OK;
             }else{

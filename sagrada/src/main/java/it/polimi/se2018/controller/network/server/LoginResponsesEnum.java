@@ -13,7 +13,6 @@ public enum LoginResponsesEnum implements Serializable {
     USER_NOT_EXISTING("User does not exist"),
     LOGIN_OK("Login ok"),
     USER_ALREADY_LOGGED("User was already logged"),
-    USER_NOT_LOGGED("User was not logged, cannot recover"),
     MALFORMED_REQUEST("The request was malformed");
 
     public final String msg;

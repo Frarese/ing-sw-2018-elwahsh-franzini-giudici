@@ -191,17 +191,16 @@ class SocketServer extends ServerComm {
         logger.log(Level.FINEST,"Attempted socket login from {0}",ss.getLocalSocketAddress());
         SocketLoginRequest logReq=checkAndWrap(ss);
         if(logReq==null)return;
-        LoginResponsesEnum response=SocketServer.super.tryLogin(logReq.username,logReq.password,logReq.isRecovery,logReq.isNewUser);
+        LoginResponsesEnum response=SocketServer.super.tryLogin(logReq.username,logReq.password,logReq.isNewUser);
         if(response == LoginResponsesEnum.LOGIN_OK){
-            Client c;
             boolean createResult=true;
-            if(!logReq.isRecovery){
-                c=new Client(logReq.username,handler);
+            if(!handler.isUserLogged(logReq.username)){
+                Client c=new Client(logReq.username,handler);
                 createResult=SocketServer.this.handler.addClient(c);
             }
             if(createResult){
                 waitingObjConnClients.put(logReq.username,
-                        new WaitingObjSocketClient(ss,logReq.password,logReq.isRecovery));
+                        new WaitingObjSocketClient(ss,logReq.password));
                 ss.send(LoginResponsesEnum.LOGIN_OK);
                 logger.log(Level.FINEST,"Added {0} to waitingObj map",logReq.username);
             }else{
@@ -211,6 +210,7 @@ class SocketServer extends ServerComm {
             }
 
         }else{
+            logger.log(Level.FINEST,"Request discarded {0}",response.msg);
             ss.send(response);
             ss.close(true);
         }
@@ -229,7 +229,6 @@ class SocketServer extends ServerComm {
 
         String username=cReq.username;
         String password=cReq.password;
-        boolean isRecovery=cReq.isRecovery;
         WaitingObjSocketClient wObj=waitingObjConnClients.get(username);
         if(wObj==null){
             logger.log(Level.FINEST,"A client is trying to complete before initiating login");
@@ -237,7 +236,7 @@ class SocketServer extends ServerComm {
             ss.close(true);
             return;
         }
-        if(wObj.psw.equals(password) && wObj.isRecovery==isRecovery){
+        if(wObj.psw.equals(password)){
             waitingObjConnClients.remove(username);
             Client c=SocketServer.this.handler.getClient(username);
             if(!c.createSocketComm(wObj.reqS,ss)){

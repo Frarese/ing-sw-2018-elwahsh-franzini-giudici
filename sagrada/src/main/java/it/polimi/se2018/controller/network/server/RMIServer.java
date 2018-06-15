@@ -58,26 +58,24 @@ class RMIServer extends ServerComm {
      * Attempts a login with the given parameters
      * @param usn username
      * @param pw password
-     * @param isRecover flag to indicate that this is a connection recovery
      * @param register flag to indicate that this is a new user
      * @return an Object describing the result
      */
-    RMISession login(String usn, String pw, boolean isRecover, boolean register) {
+    RMISession login(String usn, String pw, boolean register) {
         RMISessionImpl rmiS=null;
         try {
-            String toLog="Attempted login from "+usn+" rec:"+isRecover+" reg:"+register;
+            String toLog="Attempted login from "+usn+" "+"reg:"+register;
             logger.log(Level.FINER,toLog);
-            LoginResponsesEnum result=super.tryLogin(usn,pw,isRecover,register);
+            LoginResponsesEnum result=super.tryLogin(usn,pw,register);
 
             if (result == LoginResponsesEnum.LOGIN_OK) {
                 Client c;
                 boolean createResult=true;
-                if(isRecover){
-                    c=handler.getClient(usn);
-                }else{
-                    c=new Client(usn,this.handler);
-                    createResult=this.handler.addClient(c);
+                if((c=handler.getClient(usn))==null) {
+                    c = new Client(usn, this.handler);
+                    createResult = this.handler.addClient(c);
                 }
+
                 if(createResult){
                     rmiS = new RMISessionImpl(result);
                     createResult=c.createRMIComm(rmiS);
@@ -93,7 +91,7 @@ class RMIServer extends ServerComm {
             logger.log(Level.SEVERE,"Error creating session object "+e);
             return null;
         }catch (Exception e){
-            logger.log(Level.SEVERE,"Exception trying to login "+usn+" on RMI "+e.getMessage());
+            logger.log(Level.SEVERE,"Exception trying to login "+usn+" on RMI ",e);
         }
         return rmiS;
     }

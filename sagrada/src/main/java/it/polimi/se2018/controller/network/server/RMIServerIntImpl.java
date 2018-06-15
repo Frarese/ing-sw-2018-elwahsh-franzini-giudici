@@ -17,8 +17,8 @@ class RMIServerIntImpl extends UnicastRemoteObject implements RMIServerInt {
     }
 
     @Override
-    public RMISession login(String usn, String pw, boolean isRecover, boolean register) {
-        return server.login(usn, pw, isRecover, register);
+    public RMISession login(String usn, String pw, boolean register) {
+        return server.login(usn, pw, register);
     }
 
     @Override

@@ -24,13 +24,12 @@ abstract class CommLayer {
      * @param host hostname to connect to
      * @param reqPort port to use for the request socket or RMI port
      * @param objPort port to use for the object socket, unused if RMI
-     * @param isRecovery flag to indicate that this is a connection recovery attempt
      * @param usn username
      * @param pw password
      * @param newUser flag to indicate that this is a registration attempt
      * @return {@code null} if no errors were raised, a textual representation of the error otherwise
      */
-    abstract String establishCon(String host, int reqPort, int objPort, boolean isRecovery, String usn, String pw, boolean newUser);
+    abstract String establishCon(String host, int reqPort, int objPort, String usn, String pw, boolean newUser);
 
     /**
      * Attempts to end the current connection

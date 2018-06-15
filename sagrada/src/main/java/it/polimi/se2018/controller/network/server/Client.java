@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class Client {
     private static final long DEFAULT_DEATH_TIMEOUT = 3000;
     private static final long DEFAULT_WARNING_TIMEOUT = 2000;
-    private static final long DEFAULT_PURGE_TIMEOUT = 5000;
+    private static final long DEFAULT_PURGE_TIMEOUT = 60000;
 
     private final ServerMain serverMain;
     private final ServerVisitor serverVisitor;

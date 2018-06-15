@@ -114,7 +114,7 @@ public class CommFETest {
 
     private class CommMockup extends Comm{
         @Override
-        public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
+        public String login(String host, int requestPort, int objectPort, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
             return "test";
         }
 

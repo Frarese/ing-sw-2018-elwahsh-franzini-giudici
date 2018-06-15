@@ -222,7 +222,6 @@ public class Comm {
      * @param host hostname to connect to
      * @param requestPort port for the request socket or RMI connection
      * @param objectPort port for the object socket, unused if RMI
-     * @param isRecovery flag to indicate that this is a login recovery attempt
      * @param usn username
      * @param pw password
      * @param newUser flag to indicate that this is a registration attempt
@@ -230,9 +229,9 @@ public class Comm {
      * @param utilizer object that will handle the events
      * @return {@code null} if no errors were raised, a textual representation of the error otherwise
      */
-    public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
+    public String login(String host, int requestPort, int objectPort, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
         if(!this.createComm(useRMI))return "Already connected";
-        String outcome=commLayer.establishCon(host,requestPort,objectPort,isRecovery,usn,pw,newUser);
+        String outcome=commLayer.establishCon(host,requestPort,objectPort,usn,pw,newUser);
         if(outcome!=null){
             logger.log(Level.FINE,"Login output {0}",outcome);
             commLayer=null;
@@ -312,7 +311,7 @@ public class Comm {
      */
     boolean tryRecover(boolean purgeOnFail) {
         logger.log(Level.WARNING,"Attempting to reconnect to {0}",host);
-        String result=login(host,reqPort,objPort,true,username,password,false,(objPort==0),utilizer);
+        String result=login(host,reqPort,objPort,username,password,false,(objPort==0),utilizer);
         if(result==null){
             logger.log(Level.INFO,"Successfully reconnected");
             return true;

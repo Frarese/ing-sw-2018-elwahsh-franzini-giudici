@@ -24,7 +24,7 @@ public class RMIServerIntImplTest {
 
         assertNotEquals(uut1.hashCode(),uut2.hashCode());
 
-        assertNull(uut1.login("test","pw",false,false));
+        assertNull(uut1.login("test","pw",false));
     }
 
     private class RMIServerMock extends RMIServer{
@@ -35,7 +35,7 @@ public class RMIServerIntImplTest {
         }
 
         @Override
-        RMISession login(String usn, String pw, boolean isRecover, boolean register) {
+        RMISession login(String usn, String pw, boolean register) {
             return null;
         }
     }

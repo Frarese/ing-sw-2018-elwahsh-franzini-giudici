@@ -74,7 +74,7 @@ public class RMICommLayerTest {
 
     @Test
     public void testDoubleCon(){
-        assertEquals("Already logged",uut.establishCon(null,0,0,false,null,null,false));
+        assertEquals("Already logged",uut.establishCon(null,0,0,null,null,false));
     }
 
     private class RMISessionTest implements RMISession{

@@ -30,41 +30,49 @@ public class RMIServerTest {
     @Test
     public void testRegister() throws Exception{
         uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
-        response=uut.login("test","pw",false,true);
+        response=uut.login("test","pw",true);
         assertEquals(LoginResponsesEnum.USER_ALREADY_EXISTS,response.getLoginOutput());
 
-        response=uut.login("test2","pw",false,true);
+        response=uut.login("test2","pw",true);
         assertEquals(LoginResponsesEnum.LOGIN_OK,response.getLoginOutput());
 
     }
 
     @Test
     public void testRecover() throws Exception{
+
         uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
-        response=uut.login("test","pw",true,false);
-        assertEquals(LoginResponsesEnum.USER_NOT_LOGGED,response.getLoginOutput());
+        response=uut.login("test","pw",false);
+        assertEquals(LoginResponsesEnum.LOGIN_OK,response.getLoginOutput());
+
         assertEquals(response.hashCode(),response.hashCode());
-        uut.login("test","pw",false,false);
-        response=uut.login("test","pw",true,false);
+
+        uut.login("test","pw",false);
+        response=uut.login("test","pw",false);
         assertEquals(LoginResponsesEnum.USER_ALREADY_LOGGED,response.getLoginOutput());
 
-        response=uut.login("test","pw2",true,false);
+        s.getClient("test").zombiefy(false,null);
+
+        response=uut.login("test","pw2",false);
         assertEquals(LoginResponsesEnum.WRONG_CREDENTIALS,response.getLoginOutput());
+
+        response=uut.login("test","pw",false);
+        assertEquals(LoginResponsesEnum.LOGIN_OK,response.getLoginOutput());
     }
 
     @Test
     public void testNormal() throws Exception{
         uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
-        response=uut.login("test","pw2",false,false);
+        response=uut.login("test","pw2",false);
         assertEquals(LoginResponsesEnum.WRONG_CREDENTIALS,response.getLoginOutput());
 
-        response=uut.login("test","pw",false,false);
+        response=uut.login("test","pw",false);
         assertEquals(LoginResponsesEnum.LOGIN_OK,response.getLoginOutput());
 
-        response=uut.login("test","pw",false,false);
+        response=uut.login("test","pw",false);
         assertEquals(LoginResponsesEnum.USER_ALREADY_LOGGED,response.getLoginOutput());
 
-        response=uut.login("test2","pw2",false,false);
+        response=uut.login("test2","pw2",false);
         assertEquals(LoginResponsesEnum.USER_NOT_EXISTING,response.getLoginOutput());
     }
 

@@ -38,7 +38,7 @@ class SocketCommLayer extends CommLayer {
     }
 
     @Override
-    synchronized String establishCon(String host, int reqPort, int objPort, boolean isRecovery, String usn, String pw, boolean newUser) {
+    synchronized String establishCon(String host, int reqPort, int objPort, String usn, String pw, boolean newUser) {
         logger.log(Level.INFO,"Attempting socket login to {0}",reqPort);
         if(reqSoc!=null || objSoc!=null){
             logger.log(Level.WARNING,"Attempted to create socket connection on already logged comm");
@@ -48,7 +48,7 @@ class SocketCommLayer extends CommLayer {
             this.host=host;
             this.reqPort=reqPort;
             this.objPort=objPort;
-            return connect(new SafeSocket(SafeSocket.DEFAULT_TIMEOUT), new SafeSocket(SafeSocket.DEFAULT_TIMEOUT),isRecovery,usn,pw,newUser);
+            return connect(new SafeSocket(SafeSocket.DEFAULT_TIMEOUT), new SafeSocket(SafeSocket.DEFAULT_TIMEOUT),usn,pw,newUser);
         } catch (IOException e) {
             logger.log(Level.SEVERE,"Error building safe socket"+e.getMessage());
             close();
@@ -101,14 +101,14 @@ class SocketCommLayer extends CommLayer {
         objPort=0;
     }
 
-    private String connect(SafeSocket reqSoc,SafeSocket objSoc, boolean isRecovery, String usn, String pw, boolean newUser){
+    private String connect(SafeSocket reqSoc,SafeSocket objSoc, String usn, String pw, boolean newUser){
         try {
             this.reqSoc=reqSoc;
             if(!reqSoc.connect(host,reqPort)){
                 return "Failed to connect to "+host+" "+reqPort;
             }
 
-            reqSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
+            reqSoc.send(new SocketLoginRequest(usn,pw,newUser));
             LoginResponsesEnum answer= (LoginResponsesEnum) reqSoc.receive();
 
             if(answer == LoginResponsesEnum.LOGIN_OK){
@@ -116,7 +116,7 @@ class SocketCommLayer extends CommLayer {
                 this.objSoc=objSoc;
                 objSoc.connect(host,objPort);
 
-                objSoc.send(new SocketLoginRequest(usn,pw,isRecovery,newUser));
+                objSoc.send(new SocketLoginRequest(usn,pw,newUser));
                 answer= (LoginResponsesEnum) objSoc.receive();
 
                 if(answer == LoginResponsesEnum.LOGIN_OK){

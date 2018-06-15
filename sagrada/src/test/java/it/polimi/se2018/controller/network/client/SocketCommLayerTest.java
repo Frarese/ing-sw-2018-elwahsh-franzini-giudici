@@ -37,7 +37,7 @@ public class SocketCommLayerTest {
         soc2.setAccessible(true);
         soc2.set(uut, s2);
 
-        connectM=SocketCommLayer.class.getDeclaredMethod("connect", SafeSocket.class, SafeSocket.class, boolean.class, String.class, String.class, boolean.class);
+        connectM=SocketCommLayer.class.getDeclaredMethod("connect", SafeSocket.class, SafeSocket.class, String.class, String.class, boolean.class);
         connectM.setAccessible(true);
     }
 
@@ -67,7 +67,7 @@ public class SocketCommLayerTest {
     public void testFailConnection(){
         uut=new SocketCommLayer(new Comm());
         fail=true;
-        String result=uut.establishCon("localhost",0,0,false," "," ",false);
+        String result=uut.establishCon("localhost",0,0," "," ",false);
         assertNotNull(result);
     }
 
@@ -75,21 +75,21 @@ public class SocketCommLayerTest {
     public void testOkConnection() throws Exception{
         uut=new SocketCommLayer(new Comm());
 
-        String result=(String)connectM.invoke(uut,new SocTest(false),new SocTest(false),false,"usn","pw",false);
+        String result=(String)connectM.invoke(uut,new SocTest(false),new SocTest(false),"usn","pw",false);
         assertNull(result);
     }
 
     @Test
     public void testFailRequestSocket() throws Exception{
         uut=new SocketCommLayer(new Comm());
-        String result=(String)connectM.invoke(uut,new SocTest(true),new SocTest(false),false,"usn","pw",false);
+        String result=(String)connectM.invoke(uut,new SocTest(true),new SocTest(false),"usn","pw",false);
         assertNotNull(result);
     }
 
     @Test
     public void testFailObjectSocket() throws Exception{
         uut=new SocketCommLayer(new Comm());
-        String result=(String)connectM.invoke(uut,new SocTest(false),new SocTest(true),false,"usn","pw",false);
+        String result=(String)connectM.invoke(uut,new SocTest(false),new SocTest(true),"usn","pw",false);
         assertNotNull(result);
     }
 
@@ -100,7 +100,7 @@ public class SocketCommLayerTest {
         Thread t= new Thread(() -> {
             String result= null;
             try {
-                result = (String)connectM.invoke(uut,new SocTest(false),new SocTest(false),false,"usn","pw",false);
+                result = (String)connectM.invoke(uut,new SocTest(false),new SocTest(false),"usn","pw",false);
             } catch (Exception e) {
                 fail();
             }
@@ -113,7 +113,7 @@ public class SocketCommLayerTest {
 
     @Test
     public void testDoubleCon(){
-        assertEquals("Already logged",uut.establishCon(null,0,0,false,null,null,false));
+        assertEquals("Already logged",uut.establishCon(null,0,0,null,null,false));
     }
 
     private class SocTest extends SafeSocket{
