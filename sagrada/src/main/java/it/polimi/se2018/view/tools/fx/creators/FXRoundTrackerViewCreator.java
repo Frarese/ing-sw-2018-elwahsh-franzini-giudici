@@ -5,12 +5,13 @@ import it.polimi.se2018.model.dice.RoundTracker;
 import it.polimi.se2018.view.app.JavaFXStageProducer;
 import it.polimi.se2018.view.tools.RoundTrackerViewCreator;
 import it.polimi.se2018.view.tools.fx.alert.ConfirmBox;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 
 /**
  * Class to create round tracker in GUI
@@ -45,10 +46,21 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
     }
 
 
+    /**
+     * Creates a FXRoundTracker with cells' click properties
+     *
+     * @return VBox objects that contains round tracker
+     */
     public VBox displayWithClick() {
         return roundTrackerCreator(true);
     }
 
+    /**
+     * Create a FXRoundTracker using MenuButton
+     *
+     * @param hasClickProp contains boolean value for cells' click properties
+     * @return VBox object that contains round tracker
+     */
     private VBox roundTrackerCreator(boolean hasClickProp) {
         //Initialize container
         VBox container = new VBox(0);
@@ -60,33 +72,31 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
 
         for (int i = 0; i < RoundTracker.ROUNDS; i++) {
             Label label = new Label("Round: " + (i + 1));
-            ComboBox<ImageView> comboBox = new ComboBox<>();
+            MenuButton menuButton = new MenuButton();
 
             //Set comboBox properties
-            comboBox.setPrefSize(FXConstants.ROUNDT_CELL_DIM_VALUE, FXConstants.ROUNDT_CELL_DIM_VALUE);
+            menuButton.setPrefSize(FXConstants.ROUNDT_CELL_DIM_VALUE, FXConstants.ROUNDT_CELL_DIM_VALUE);
 
             if (i < round && roundTracker[0][i] != null) {
                 for (int j = 0; j < MAX_DIE_IN_ROUNDS; j++) {
                     if (roundTracker[j][i] != null) {
-                        this.makeCellDie(roundTracker[j][i], comboBox, hasClickProp, i, j);
+                        this.makeMenuItem(roundTracker[j][i], menuButton, hasClickProp, i, j);
                     }
                 }
             } else {
-                comboBox.setDisable(true);
+                menuButton.setDisable(true);
             }
-
-            this.fixComboBoxNodes(comboBox);
 
             //Add elements in correct row
             if (i > 4) {
                 HBox row = (HBox) container.getChildren().get(1);
                 VBox cell = (VBox) row.getChildren().get(i - 5);
-                cell.getChildren().addAll(label, comboBox);
+                cell.getChildren().addAll(label, menuButton);
 
             } else {
                 HBox row = (HBox) container.getChildren().get(0);
                 VBox cell = (VBox) row.getChildren().get(i);
-                cell.getChildren().addAll(label, comboBox);
+                cell.getChildren().addAll(label, menuButton);
             }
         }
 
@@ -94,63 +104,47 @@ public class FXRoundTrackerViewCreator extends RoundTrackerViewCreator<VBox> {
         return container;
     }
 
-
     /**
-     * Inserting Nodes into the ComboBox items list and manage items disappearing
-     * https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/ComboBox.html
+     * Creates menu's item
      *
-     * @param comboBox contains the ComboBox's class reference that must be fixed
+     * @param die          contains the die to add in menu (roundTracker[dieIndex][roundIndex])
+     * @param menuButton   contains menu
+     * @param hasClickProp contains boolean value for item' click properties
+     * @param roundIndex   contains round index
+     * @param dieIndex     contains die index
      */
-    private void fixComboBoxNodes(ComboBox<ImageView> comboBox) {
-        comboBox.setCellFactory(new Callback<ListView<ImageView>, ListCell<ImageView>>() {
-            @Override
-            public ListCell<ImageView> call(ListView<ImageView> param) {
-                return new ListCell<ImageView>() {
-                    private ImageView imageView;
-
-                    void initialize() {
-                        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                        imageView = new ImageView();
-                    }
-
-                    @Override
-                    protected void updateItem(ImageView item, boolean empty) {
-                        initialize();
-                        super.updateItem(item, empty);
-
-                        if (item == null || empty) {
-                            setGraphic(null);
-                        } else {
-                            imageView.setImage(item.getImage());
-                            imageView.setFitHeight(FXConstants.ROUNDT_IMG_DIM_VALUE);
-                            imageView.setFitWidth(FXConstants.ROUNDT_IMG_DIM_VALUE);
-                            setGraphic(imageView);
-                        }
-                    }
-                };
-            }
-        });
-    }
-
-    private void makeCellDie(IntColorPair die, ComboBox<ImageView> comboBox, boolean hasClickProp, int roundIndex, int dieIndex) {
+    private void makeMenuItem(IntColorPair die, MenuButton menuButton, boolean hasClickProp, int roundIndex, int dieIndex) {
         if (die != null) {
             Image image = (Image) dieViewCreator.makeDie(die);
             ImageView imageView = new ImageView(image);
             imageView.setFitHeight(FXConstants.ROUNDT_IMG_DIM_VALUE);
             imageView.setFitWidth(FXConstants.ROUNDT_IMG_DIM_VALUE);
 
+            MenuItem item = new MenuItem();
+            item.setGraphic(imageView);
+
+            ImageView menuImageView = new ImageView(image);
+            menuImageView.setFitHeight(FXConstants.ROUNDT_IMG_DIM_VALUE);
+            menuImageView.setFitWidth(FXConstants.ROUNDT_IMG_DIM_VALUE);
+
             if (hasClickProp) {
-                imageView.setOnMouseClicked(clickEvent -> {
+                item.setOnAction(event -> {
+                    menuButton.setGraphic(menuImageView);
                     boolean answer = ConfirmBox.display("Selezione Dado", "Vuoi selezionare il dado cliccato?");
                     if (answer) {
                         JavaFXStageProducer.getApp().getViewToolCardActions().selectedDieFromRoundTracker(roundIndex, dieIndex);
                     }
-                    clickEvent.consume();
+                    event.consume();
+                });
+            } else {
+                item.setOnAction(event -> {
+                    menuButton.setGraphic(menuImageView);
+                    event.consume();
                 });
             }
 
-            comboBox.getItems().add(imageView);
-            comboBox.setValue(imageView);
+            menuButton.getItems().add(item);
+            menuButton.setGraphic(menuImageView);
         }
     }
 }

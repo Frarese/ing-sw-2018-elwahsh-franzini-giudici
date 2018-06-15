@@ -67,6 +67,12 @@ public class FXCardViewCreator extends CardViewCreator<Image> {
 
     }
 
+    /**
+     * Loads image
+     *
+     * @param url contain's image url
+     * @return Image object
+     */
     Image makeImage(String url) {
         return new Image(url);
     }

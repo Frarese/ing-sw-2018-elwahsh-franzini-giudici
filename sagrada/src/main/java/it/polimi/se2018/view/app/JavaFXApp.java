@@ -545,7 +545,7 @@ public class JavaFXApp extends App {
 
     @Override
     public void showError(String error) {
-        AlertBox.attentionBox(error);
+        Platform.runLater(() -> AlertBox.attentionBox(error));
     }
 
     /**

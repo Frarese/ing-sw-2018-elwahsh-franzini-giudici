@@ -86,6 +86,11 @@ public class FXReserveViewCreator extends ReserveViewCreator<VBox> {
         return container;
     }
 
+    /**
+     * Creates a FXReserve with cells' drag and drop properties
+     *
+     * @return VBox objects that contains reserve
+     */
     public VBox displayWithDeD() {
         //Initialize container
         VBox container = display();
@@ -112,6 +117,11 @@ public class FXReserveViewCreator extends ReserveViewCreator<VBox> {
         return container;
     }
 
+    /**
+     * Creates a FXReserve with cells' click properties
+     *
+     * @return VBox objects that contains reserve
+     */
     public VBox displayWithClick() {
         //Initialize container
         VBox container = display();

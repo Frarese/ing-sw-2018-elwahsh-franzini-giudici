@@ -80,6 +80,11 @@ public class FXGridViewCreator extends GridViewCreator<VBox> {
         return container;
     }
 
+    /**
+     * Creates a FXGrid with cells' drag and drop properties
+     *
+     * @return VBox objects that contains grid
+     */
     public VBox displayWithDeD() {
         //Initialize container
         VBox container = display();
@@ -111,6 +116,11 @@ public class FXGridViewCreator extends GridViewCreator<VBox> {
         return container;
     }
 
+    /**
+     * Creates a FXGrid with cells' click properties
+     *
+     * @return VBox objects that contains grid
+     */
     public VBox displayWithClick(boolean isDieSelection, boolean isColorSelection) {
         //Initialize container
         VBox container = display();

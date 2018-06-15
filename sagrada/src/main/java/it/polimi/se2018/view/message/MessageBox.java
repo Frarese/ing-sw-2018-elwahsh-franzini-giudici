@@ -3,6 +3,8 @@ package it.polimi.se2018.view.message;
 import it.polimi.se2018.util.MessageTypes;
 import it.polimi.se2018.view.ControllerMessage;
 import it.polimi.se2018.view.ViewMessage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,8 @@ public class MessageBox implements ControllerMessage {
 
     private final List<Message> messages;
 
+    private final ObservableList<Message> fxMessages;
+
 
     /**
      * Class constructor
@@ -40,11 +44,13 @@ public class MessageBox implements ControllerMessage {
     public MessageBox(ViewMessage viewMessage) {
         this.viewMessage = viewMessage;
         this.messages = new ArrayList<>();
+        this.fxMessages = FXCollections.observableArrayList();
     }
 
     @Override
     public void receiveMessage(String sender, MessageTypes type, String message) {
         messages.add(new Message(sender, type, message));
+        fxMessages.add(new Message(sender, type, message));
     }
 
     /**
@@ -56,6 +62,7 @@ public class MessageBox implements ControllerMessage {
      */
     public void sendMessage(String destination, MessageTypes type, String message) {
         viewMessage.sendMessage(destination, type, message);
+        fxMessages.add(new Message("You TO" + destination, type, message));
     }
 
     /**
@@ -65,5 +72,14 @@ public class MessageBox implements ControllerMessage {
      */
     public List<Message> getMessages() {
         return messages;
+    }
+
+    /**
+     * Gets fx observable list of messages
+     *
+     * @return the observable list
+     */
+    public ObservableList<Message> getFxMessages() {
+        return fxMessages;
     }
 }
