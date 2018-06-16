@@ -91,7 +91,7 @@ public class ServerController implements MatchController, Runnable {
         for(Player p: players)
             sendMatchStatus(p);
 
-        network.sendObj(new MatchStart());
+        network.sendObj(new MatchStart(false));
         network.sendObj(new TurnStart(null,round.getCurrentPlayer().getName()));
         timer = new Timer();
         timer.schedule(new TimeSUp(round.getCurrentPlayer().getName()),TIME);
@@ -148,7 +148,7 @@ public class ServerController implements MatchController, Runnable {
                 network.sendReq(new PrivateObjectiveStatus(privateObjectiveSent.get(mId.findPos(p.getName()))),p.getName());
                 sendMatchStatus(p);
 
-                network.sendReq(new MatchStart(),username);
+                network.sendReq(new MatchStart(true),username);
                 network.sendReq(new TurnStart(null,round.getCurrentPlayer().getName()),username);
             }
         }

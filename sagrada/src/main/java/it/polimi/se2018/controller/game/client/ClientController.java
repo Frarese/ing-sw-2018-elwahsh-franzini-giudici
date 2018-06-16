@@ -174,6 +174,7 @@ public class ClientController implements CommUtilizer {
      */
     private void cleanUp()
     {
+        Logger.getGlobal().log(Level.INFO,"Cleaned house");
         players = new ArrayList<>();
         reserve = new ReserveView(new IntColorPair[9]);
         roundTrack = new RoundTrackerView(0,new IntColorPair[9][10]);

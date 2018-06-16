@@ -7,8 +7,15 @@ import it.polimi.se2018.events.ServerMessageHandler;
  * @author Francesco Franzini
  */
 public class MatchStart extends ServerMessage {
-    public MatchStart() {
+    final boolean recover;
+
+    /**
+     * Initializes this Match start
+     * @param recover true if this is a recovery of a match
+     */
+    public MatchStart(boolean recover) {
         this.description="MatchStart";
+        this.recover=recover;
     }
 
     @Override

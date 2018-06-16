@@ -67,6 +67,12 @@ public class ServerMessageHandlerImpl implements ServerMessageHandler {
 
     @Override
     public void handle(MatchStart move) {
+        if(move.recover){
+            app.animation(false);
+            app.askPattern(null,null,null,null,cards);
+            app.animation(true);
+        }
+
         app.initGame(players,reserve,roundTrack);
     }
 

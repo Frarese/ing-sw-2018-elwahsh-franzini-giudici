@@ -189,8 +189,13 @@ public class JavaFXApp extends App {
 
 
         Platform.runLater(() -> {
-            LobbyController lobbyController = (LobbyController) JavaFXStageProducer.getController();
-            lobbyController.setTables();
+            try {
+                LobbyController lobbyController = (LobbyController) JavaFXStageProducer.getController();
+                lobbyController.setTables();
+            }catch (ClassCastException e){
+                //Nothing to do, we are not in lobby
+            }
+
         });
     }
 

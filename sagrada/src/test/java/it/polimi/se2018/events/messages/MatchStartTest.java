@@ -8,6 +8,6 @@ public class MatchStartTest {
 
     @Test
     public void testDesc(){
-        assertEquals("MatchStart",new MatchStart().toString());
+        assertEquals("MatchStart",new MatchStart(false).toString());
     }
 }

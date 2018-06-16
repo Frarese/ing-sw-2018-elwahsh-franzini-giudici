@@ -43,7 +43,7 @@ public class HandleTest {
         s.visit(hand);
         assertEquals(s,mov);
 
-        s=new MatchStart();
+        s=new MatchStart(false);
         s.visit(hand);
         assertEquals(s,mov);
 
