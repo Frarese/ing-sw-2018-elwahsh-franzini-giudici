@@ -139,16 +139,21 @@ class SocketServer extends ServerComm {
         @Override
         public void run(){
             while(!Thread.currentThread().isInterrupted()){
+                Socket s;
                 try {
-                    Socket s;
-                    if(isLogin){
-                        s=reqSSoc.accept();
-                    }else{
-                        s=objSSoc.accept();
+                    if (isLogin) {
+                        s = reqSSoc.accept();
+                    } else {
+                        s = objSSoc.accept();
                     }
-                    Thread t=new Thread(()->{
+                }catch (IOException e){
+                    logger.log(Level.SEVERE,"IO Error accepting client "+e.getMessage());
+                    break;
+                }
+                Thread t=new Thread(()->{
                         try {
-                            loopCall(s,isLogin);
+                            SafeSocket ss=new SafeSocket(s,SafeSocket.DEFAULT_TIMEOUT);
+                            loopCall(ss,isLogin);
                         } catch (IOException e) {
                             logger.log(Level.SEVERE,"IO Error accepting login "+e.getMessage());
                         } catch (InterruptedException e) {
@@ -157,24 +162,21 @@ class SocketServer extends ServerComm {
                         }
                     });
                     t.start();
-                } catch (IOException e) {
-                    logger.log(Level.SEVERE,"IO Error accepting client "+e.getMessage());
-                    Thread.currentThread().interrupt();
-                }
             }
         }
 
     }
 
+     void testInner(boolean isLogin){
+        new LoginSocketListener(isLogin).run();
+    }
     /**
      * Helper method to call in the listener loop
-     * @param s socket that has been accepted
+     * @param ss SafeSocket that has been accepted
      * @param isLogin boolean to choose behaviour(true for login, false for completion)
-     * @throws IOException if an IOException occurs
      * @throws InterruptedException if this thread is interrupted while waiting
      */
-    private void loopCall(Socket s,boolean isLogin) throws IOException, InterruptedException {
-        SafeSocket ss=new SafeSocket(s,SafeSocket.DEFAULT_TIMEOUT);
+    private void loopCall(SafeSocket ss,boolean isLogin) throws InterruptedException {
         if(isLogin){
             listenLogin(ss);
         }else{

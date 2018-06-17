@@ -17,6 +17,7 @@ public class InvalidMove extends ServerMessage {
      * InvalidMove's constructor
      * @param move invalid move
      * @param error error message
+     * @param placement true if this was a placement issue
      */
     public InvalidMove(PlayerMove move, String error,boolean placement)
     {

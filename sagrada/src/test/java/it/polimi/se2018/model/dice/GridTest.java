@@ -4,9 +4,7 @@ import it.polimi.se2018.model.ColorModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 
 public class GridTest {
@@ -53,6 +51,7 @@ public class GridTest {
         assertEquals(d,grid.setDie(0,0,d2));
         assertEquals(d2,grid.getDie(0,0));
         assertEquals(1,grid.getPlacedDice());
+        assertNotNull(grid.setDie(0,0,null));
 
         /*Incorrect placement*/
         assertEquals(d,grid.setDie(Grid.HEIGHT,Grid.WIDTH,d));

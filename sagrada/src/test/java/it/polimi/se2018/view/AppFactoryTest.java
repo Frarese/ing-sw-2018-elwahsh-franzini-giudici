@@ -1,8 +1,6 @@
 package it.polimi.se2018.view;
 
 import it.polimi.se2018.view.app.CLIApp;
-import it.polimi.se2018.view.app.JavaFXApp;
-import javafx.application.Platform;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -24,28 +22,6 @@ public class AppFactoryTest {
 
         CLIApp instance = new CLIApp(null, null, null);
         Class<?> genericApp = instance.getClass();
-
-        assertEquals(genericApp, appFactory.getApp().getClass());
-
-        Method methods[] = genericApp.getDeclaredMethods();
-        for (int i = 0; i < methods.length; i++) {
-            assertEquals(methods[i], appFactory.getApp().getClass().getDeclaredMethods()[i]);
-        }
-
-        Field fields[] = genericApp.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            assertEquals(fields[i], appFactory.getApp().getClass().getDeclaredFields()[i]);
-        }
-    }
-
-    @Test
-    public void testFXGetApp() {
-        AppFactory appFactory = new AppFactory(true, null, null, null);
-
-        JavaFXApp instance = new JavaFXApp(null, null, null);
-        Class<?> genericApp = instance.getClass();
-
-        Platform.exit();
 
         assertEquals(genericApp, appFactory.getApp().getClass());
 

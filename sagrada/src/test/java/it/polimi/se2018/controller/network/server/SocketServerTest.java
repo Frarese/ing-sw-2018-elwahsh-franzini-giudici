@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.ServerSocket;
 
 
 import static org.junit.Assert.*;
@@ -23,6 +24,7 @@ public class SocketServerTest {
         s=new ServerMock();
         sM=new SocketMock();
         failSocketCreation=false;
+        uut=new SocketServer(s,-1,-1);
 
     }
 
@@ -40,7 +42,6 @@ public class SocketServerTest {
 
     @Test
     public void testCheckAndWrap() throws Exception{
-        uut=new SocketServer(null,-1,-1);
         Method m=SocketServer.class.getDeclaredMethod("checkAndWrap", SafeSocket.class);
         m.setAccessible(true);
 
@@ -56,7 +57,6 @@ public class SocketServerTest {
 
     @Test
     public void testFailLogin() throws Exception{
-        uut=new SocketServer(s,-1,-1);
 
         Method loginM=SocketServer.class.getDeclaredMethod("listenLogin", SafeSocket.class);
         loginM.setAccessible(true);
@@ -72,7 +72,6 @@ public class SocketServerTest {
 
     @Test
     public void testOkLogin() throws Exception{
-        uut=new SocketServer(s,-1,-1);
 
         Method loginM=SocketServer.class.getDeclaredMethod("listenLogin", SafeSocket.class);
         loginM.setAccessible(true);
@@ -86,7 +85,6 @@ public class SocketServerTest {
 
     @Test
     public void testFailCompletion() throws Exception{
-        uut=new SocketServer(s,-1,-1);
 
         Method completionM=SocketServer.class.getDeclaredMethod("listenCompletion", SafeSocket.class);
         completionM.setAccessible(true);
@@ -121,6 +119,32 @@ public class SocketServerTest {
         SocClientComm socComm=new SocClientComm(null,new SocketMock(),null);
         assertTrue(socComm.sendObj("test"));
     }
+
+    @Test
+    public void testLoopCall() throws Exception{
+        Method loopM=SocketServer.class.getDeclaredMethod("loopCall", SafeSocket.class, boolean.class);
+        loopM.setAccessible(true);
+        sM.retNull=true;
+        loopM.invoke(uut,sM,false);
+        loopM.invoke(uut,sM,true);
+    }
+
+    @Test
+    public void testInner() throws Exception{
+        Field serverF=SocketServer.class.getDeclaredField("reqSSoc");
+        try {
+            uut.testInner(false);
+            fail();
+        }catch (NullPointerException e){
+            //ok
+        }
+        serverF.setAccessible(true);
+        ServerSocket serverSocket=new ServerSocket();
+        serverSocket.close();
+        serverF.set(uut,serverSocket);
+        uut.testInner(true);
+    }
+
     private class SocketMock extends SafeSocket{
         boolean invalidClass=true;
         boolean invalidArgs=false;

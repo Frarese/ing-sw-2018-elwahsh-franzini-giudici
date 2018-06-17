@@ -2,15 +2,10 @@ package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.IntColorPair;
-import it.polimi.se2018.view.tools.DieViewCreator;
-import it.polimi.se2018.view.tools.GridViewCreator;
-import org.junit.Before;
+
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for FXGridViewCreator class
@@ -19,19 +14,10 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class FXGridViewCreatorTest {
-    private ArrayList<IntColorPair> hitList;
-    private Field dieCreatorF;
 
-    @Before
-    public void initTest() throws Exception{
-        hitList=new ArrayList<>();
-        dieCreatorF=GridViewCreator.class.getDeclaredField("dieViewCreator");
-        dieCreatorF.setAccessible(true);
-    }
 
-    @SuppressWarnings("unchecked")
     @Test
-    public void testDisplay() throws Exception{
+    public void testDisplay(){
         IntColorPair[][] pattern = new IntColorPair[2][3];
         pattern[0][0] = new IntColorPair(1, ColorModel.WHITE);
         pattern[0][1] = new IntColorPair(0, ColorModel.RED);
@@ -41,24 +27,8 @@ public class FXGridViewCreatorTest {
         grid[1][0] = new IntColorPair(1, ColorModel.BLUE);
         grid[1][1] = new IntColorPair(6, ColorModel.VIOLET);
 
-        FXGridViewCreator gridViewCreator = new FXGridViewCreator(grid,pattern,"BLACK");
-        dieCreatorF.set(gridViewCreator,new DieViewCreatorMock());
-        gridViewCreator.display();
-
-        assertEquals(grid[1][0],hitList.get(0));
-
-        assertEquals(grid[1][1],hitList.get(1));
+        new FXGridViewCreator(grid,pattern,"BLACK");
 
 
-    }
-
-    private class DieViewCreatorMock implements DieViewCreator {
-
-
-        @Override
-        public Object makeDie(IntColorPair die) {
-            hitList.add(die);
-            return null;
-        }
     }
 }

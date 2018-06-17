@@ -2,17 +2,8 @@ package it.polimi.se2018.view.tools.fx.creators;
 
 import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.IntColorPair;
-import it.polimi.se2018.view.tools.DieViewCreator;
-import it.polimi.se2018.view.tools.ReserveViewCreator;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for FXReserveViewCreator class
@@ -21,19 +12,9 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class FXReserveViewCreatorTest {
-    private ArrayList<IntColorPair> hitList;
-    private Field dieCreatorF;
 
-    @Before
-    public void initTest() throws Exception{
-        hitList=new ArrayList<>();
-        dieCreatorF=ReserveViewCreator.class.getDeclaredField("dieViewCreator");
-        dieCreatorF.setAccessible(true);
-    }
-
-    @SuppressWarnings("unchecked")
     @Test
-    public void testDisplay() throws Exception{
+    public void testDisplay(){
         IntColorPair[] reserve = new IntColorPair[9];
         reserve[0] = new IntColorPair(1, ColorModel.RED);
         reserve[1] = new IntColorPair(2, ColorModel.RED);
@@ -44,27 +25,6 @@ public class FXReserveViewCreatorTest {
         reserve[6] = new IntColorPair(1, ColorModel.BLUE);
         reserve[7] = new IntColorPair(3, ColorModel.BLUE);
         reserve[8] = new IntColorPair(6, ColorModel.BLUE);
-
-        List<IntColorPair> pairList = Arrays.asList(reserve);
-
-        FXReserveViewCreator reserveViewCreator = new FXReserveViewCreator(reserve);
-
-        dieCreatorF.set(reserveViewCreator,new ReserveViewCreatorMock());
-
-        reserveViewCreator.display();
-
-        for(int i=0;i<9;i++){
-            assertEquals(hitList.get(i),pairList.get(i));
-        }
-    }
-
-    private class ReserveViewCreatorMock implements DieViewCreator {
-
-
-        @Override
-        public Object makeDie(IntColorPair die) {
-            hitList.add(die);
-            return null;
-        }
+        new FXReserveViewCreator(reserve);
     }
 }
