@@ -124,6 +124,12 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 case 29:
                     grindingStone();
                     break;
+                case 30:
+                    fluxRemover();
+                    break;
+                case 31:
+                    tapWheel();
+                    break;
                 default:
                     notifyFailure("Carta inesistente");
             }
@@ -307,7 +313,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 {
                     round = die.getFirst();
                     diePosition = die.getSecond();
-                    String result = setDieFromRoundTrackAndsSwap(round,diePosition,reserveIndex);
+                    String result = setDieFromRoundTrack(round,diePosition,reserveIndex);
                     if(result == null)
                     {
                         player.setCardRights(firsTurn,false);
@@ -465,8 +471,6 @@ public class ToolCardsHandler implements Runnable,Observer  {
             notifyFailure(NO_PERMISSION);
     }
 
-
-
     /**
      * Grinding stone card effect
      */
@@ -500,6 +504,105 @@ public class ToolCardsHandler implements Runnable,Observer  {
         else
             notifyFailure(NO_PERMISSION);
     }
+
+    /**
+     * Flux Remover Card effect
+     */
+    private void fluxRemover()
+    {
+        int index;
+        if(new FluxRemover().isUsable(player,firsTurn))
+        {
+            notifySuccess();
+            if(randomDice.getBagDie() == -1) {
+                index = askDieFromReserve();
+                if (index > -1) {
+                    String result = setDieFromBag(index);
+                    if (result == null) {
+                        player.setPlacementRights(firsTurn, false);
+                        player.setCardRights(firsTurn, false);
+                        useCard(player);
+                        updateGameState();
+                    } else {
+                        network.sendReq(new CardExecutionError(result), player.getName());
+                        randomDice.setBagDie(index);
+                    }
+                }
+            }
+            else
+            {
+                noCheatFluxRemover();
+            }
+        }
+        else
+            notifyFailure(NO_PERMISSION);
+    }
+
+    /**
+     * Avoids cheats from players calling more than one time the same card
+     */
+    private void noCheatFluxRemover()
+    {
+        String result = setDieFromBag(randomDice.getBagDie());
+        if (result == null) {
+            player.setPlacementRights(firsTurn, false);
+            player.setCardRights(firsTurn, false);
+            useCard(player);
+            updateGameState();
+        }
+        else
+            network.sendReq(new CardExecutionError(result), player.getName());
+    }
+
+
+    /**
+     * Tap Wheel Card Effect
+     */
+    private void tapWheel()
+    {
+        Pair<Integer,Integer> roundDie;
+        int round;
+        int diePosition;
+        int h;
+        int w;
+        Pair<Integer,Integer> coor;
+        int h2;
+        int w2;
+        Pair<Integer,Integer> coor2;
+
+        if(new TapWheel().isUsable(player,firsTurn))
+        {
+            notifySuccess();
+            roundDie =askDieFromRoundTrack();
+            coor = askDieFromGrid();
+            coor2 = askDieFromGrid();
+            if(coor != null && coor2 != null && roundDie != null)
+            {
+                round = roundDie.getFirst();
+                diePosition = roundDie.getSecond();
+                h = coor.getFirst();
+                w = coor.getSecond();
+                h2 = coor2.getFirst();
+                w2 = coor2.getSecond();
+                Die roundTrackDie = board.getRoundTrack().getDie(round,diePosition);
+                Die d1 = player.getGrid().getDie(h,w);
+                Die d2 = player.getGrid().getDie(h2,w2);
+                if( roundTrackDie.getColor() == d1.getColor() && roundTrackDie.getColor() == d2.getColor() ) {
+                    String result = setDoubleDieFromGrid(h, w, h2, w2);
+                    if (result == null) {
+                        player.setCardRights(firsTurn, false);
+                        useCard(player);
+                        updateGameState();
+                    } else
+                        network.sendReq(new CardExecutionError(result), player.getName());
+                }
+                else
+                    network.sendReq(new CardExecutionError("Colori non uguali"),player.getName());
+            }
+        }
+        else notifyFailure(NO_PERMISSION);
+    }
+
 
     /**
      * Asks and wait for a die from the reserve
@@ -623,6 +726,33 @@ public class ToolCardsHandler implements Runnable,Observer  {
         return OH_NO;
     }
 
+
+    /**
+     * Sets a die from the bag and puts a die from the reserve inside the bag
+     * @param diePosition position of the die inside the reserve
+     * @return null, or an error message
+     */
+    private String setDieFromBag(int diePosition)
+    {
+        latch = new CountDownLatch(1);
+        Die die = board.getBag().getDie(0);
+        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())),player.getName());
+        if(waitUpdate() && response.toString().equals(DIESET))
+        {
+            DieSet dieSet = (DieSet) response;
+            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),die,true,true,true);
+            if(result == null)
+            {
+                player.getGrid().setDie(dieSet.getH(),dieSet.getW(),board.getBag().popDice(1).get(0));
+                board.getBag().add(board.getReserve().popDie(diePosition));
+            }
+                return result;
+        }
+
+            return OH_NO;
+    }
+
+
     /**
      * Asks for a die to be set from roundTrack and it swap the die with one from the reserve
      * @param round round inside round track
@@ -630,7 +760,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
      * @param index die position inside the round track
      * @return Error message or null if no error occurred
      */
-    private String setDieFromRoundTrackAndsSwap(int round, int diePosition, int index)
+    private String setDieFromRoundTrack(int round, int diePosition, int index)
     {
         latch = new CountDownLatch(1);
         Die die = board.getRoundTrack().getDie(round,diePosition);
