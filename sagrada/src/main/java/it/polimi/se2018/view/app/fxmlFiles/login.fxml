@@ -21,7 +21,7 @@
             </padding>
             <VBox alignment="CENTER_LEFT" spacing="5.0">
                 <Label text="Nome utente"/>
-                <TextField fx:id="name"/>
+                <TextField fx:id="name" text="User"/>
                 <Label layoutX="10.0" layoutY="138.0" text="Password"/>
                 <PasswordField fx:id="password"/>
                 <CheckBox fx:id="newUser" mnemonicParsing="false" text="Nuovo utente"/>
@@ -31,24 +31,25 @@
                 <HBox alignment="BOTTOM_LEFT" prefHeight="60.0" prefWidth="291.0" spacing="10.0">
                     <VBox alignment="CENTER_LEFT" spacing="5.0">
                         <Label text="Server"/>
-                        <TextField fx:id="server" prefHeight="19.0" prefWidth="167.0"/>
+                        <TextField fx:id="server" prefHeight="19.0" prefWidth="167.0" text="localhost"/>
                     </VBox>
                     <VBox alignment="CENTER_LEFT" spacing="5.0">
                         <Label text="Connessione"/>
                         <RadioButton fx:id="socketRadio" mnemonicParsing="false"
                                      onAction="#selectedRadioSocket" text="Socket"/>
                         <RadioButton fx:id="rmiRadio" layoutX="10.0" layoutY="10.0"
-                                     mnemonicParsing="false" onAction="#selectedRadioRMI" text="RMI"/>
+                                     mnemonicParsing="false" onAction="#selectedRadioRMI" selected="true"
+                                     text="RMI"/>
                     </VBox>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                     <VBox alignment="CENTER_LEFT" spacing="5.0">
                         <Label layoutX="10.0" layoutY="10.0" text="Porta Richieste"/>
-                        <TextField fx:id="requestPort" layoutX="10.0" layoutY="27.0"/>
+                        <TextField fx:id="requestPort" layoutX="10.0" layoutY="27.0" text="10000"/>
                     </VBox>
                     <VBox alignment="CENTER_LEFT" spacing="5.0">
                         <Label text="Porta oggetti"/>
-                        <TextField fx:id="objectPort" layoutX="10.0" layoutY="27.0"/>
+                        <TextField fx:id="objectPort" disable="true" layoutX="10.0" layoutY="27.0"/>
                     </VBox>
                 </HBox>
             </VBox>

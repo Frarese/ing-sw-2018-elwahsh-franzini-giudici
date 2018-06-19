@@ -18,7 +18,7 @@ import it.polimi.se2018.view.tools.fx.alert.NewFaceDieBox;
 import it.polimi.se2018.view.tools.fx.alert.NewValueDieBox;
 import it.polimi.se2018.view.tools.fx.controller.GameController;
 import it.polimi.se2018.view.tools.fx.controller.LobbyController;
-import it.polimi.se2018.view.tools.fx.controller.ShowCardsController;
+import it.polimi.se2018.view.tools.fx.controller.PatternSelectionController;
 import it.polimi.se2018.view.tools.fx.creators.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -218,14 +218,14 @@ public class JavaFXApp extends App {
 
         //Trying to load FXML
         try {
-            loader = new FXMLLoader(getClass().getResource("fxmlFiles/showCards.fxml"));
+            loader = new FXMLLoader(JavaFXStageProducer.class.getResource("fxmlFiles/patternSelection.fxml"));
             root = loader.load();
 
             loadScene(true);
-            ShowCardsController showCardsController = loader.getController();
-            showCardsController.saveState(pattern1, pattern2, pattern3, pattern4);
-            showCardsController.display();
-
+            Platform.runLater(()->{
+                PatternSelectionController patternSelectionController = loader.getController();
+                patternSelectionController.showPattern(pattern1, pattern2, pattern3, pattern4);
+            });
         } catch (Exception e) {
             logFxmlLoadError(e.getMessage());
         }

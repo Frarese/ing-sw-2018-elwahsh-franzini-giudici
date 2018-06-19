@@ -8,6 +8,8 @@ import it.polimi.se2018.view.tools.fx.creators.FXGridViewCreator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 /**
@@ -17,6 +19,9 @@ import javafx.scene.layout.VBox;
  */
 
 public class PatternSelectionController implements FXController {
+
+    @FXML
+    ImageView privateObjectiveCard;
 
     @FXML
     RadioButton radioFirstPattern;
@@ -51,6 +56,7 @@ public class PatternSelectionController implements FXController {
 
 
     public void showPattern(PatternView pattern1, PatternView pattern2, PatternView pattern3, PatternView pattern4) {
+
         this.patternView1 = pattern1;
         this.patternView2 = pattern2;
         this.patternView3 = pattern3;
@@ -62,6 +68,8 @@ public class PatternSelectionController implements FXController {
         radioSecondPattern.setText(pattern2.patternName + favourLabel + pattern2.favours);
         radioThirdPattern.setText(pattern3.patternName + favourLabel + pattern3.favours);
         radioFourthPattern.setText(pattern4.patternName + favourLabel + pattern4.favours);
+
+        privateObjectiveCard.setImage((Image) JavaFXStageProducer.getApp().getCardViewCreator().makeCard(JavaFXStageProducer.getApp().getCardViewCreator().getPrivateObjectiveCard().cardID));
 
         boxFirstPattern.getChildren().add(new FXGridViewCreator(null, pattern1.template, bgColor).display());
         boxSecondPattern.getChildren().add(new FXGridViewCreator(null, pattern2.template, bgColor).display());

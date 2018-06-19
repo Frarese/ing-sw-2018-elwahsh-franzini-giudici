@@ -46,6 +46,7 @@ public class GameMenuController {
         boolean answer = ConfirmBox.displaySafeExit();
         if (answer) {
             JavaFXStageProducer.getApp().getViewActions().logout();
+            JavaFXStageProducer.getApp().startLogin(false);
             close();
         }
     }

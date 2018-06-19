@@ -35,13 +35,18 @@ public class CommandLogoutTest extends AbsCommandTest {
         }
 
         @Override
+        public void startLogin(boolean displayWelcome) {
+            assert true;
+        }
+
+        @Override
         public void menu() {
             assert true;
         }
     }
 
     @Test
-    public void testDoActionYes() throws Exception{
+    public void testDoActionYes() throws Exception {
         String message = "y" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
@@ -53,7 +58,7 @@ public class CommandLogoutTest extends AbsCommandTest {
     }
 
     @Test
-    public void testDoActionNo() throws Exception{
+    public void testDoActionNo() throws Exception {
         String message = "n" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
 
