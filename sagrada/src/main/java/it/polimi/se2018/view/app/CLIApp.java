@@ -835,7 +835,7 @@ public class CLIApp extends App {
         this.reserveViewCreator = new CLIReserveViewCreator();
         this.gridViewCreator = new CLIGridViewCreator();
         this.isYourTurn = false;
-
+        super.clean();
         //Creates new Lobby
         this.viewActions.askLobby();
         this.createLobby();
