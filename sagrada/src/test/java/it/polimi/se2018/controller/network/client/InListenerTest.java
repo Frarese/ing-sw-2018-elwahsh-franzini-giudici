@@ -12,14 +12,22 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the client inbound listener
+ * @author Francesco Franzini
+ */
 public class InListenerTest {
     private String receivedObj;
     private CommUtilizer testUt;
     private Comm testComm;
     private boolean dc;
     private boolean fail;
+
+    /**
+     * Initializes the flags and Objects used
+     */
     @Before
-    public void setUp() {
+    public void testSetUp() {
         testUt=new TestUtilizer();
         testComm=new TestCComm();
         receivedObj=null;
@@ -27,22 +35,32 @@ public class InListenerTest {
         fail=false;
     }
 
+    /**
+     * Tests if the handler correctly pushes an object
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testObjectHandle() throws Exception{
-
         InListener inL=new InListener(testComm,testUt,false);
         inL.methodToCall();
         assertEquals("Test",receivedObj);
     }
 
+    /**
+     * Tests if the handler correctly pushes a request
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testReqHandle() throws Exception{
-
         InListener inL=new InListener(testComm,testUt,true);
         inL.methodToCall();
         assertEquals("TestReq",receivedObj);
     }
 
+    /**
+     * Tests if the handler correctly handles an exception thrown from the utilizer
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testExceptionHandle() throws Exception{
         fail=true;
@@ -50,14 +68,19 @@ public class InListenerTest {
         inL.methodToCall();
     }
 
+    /**
+     * Tests if the handler correctly notifies a disconnection
+     */
     @Test
     public void testDCHandle() {
-
         InListener inL=new InListener(testComm,testUt,true);
         inL.notifyDisconnect();
         assertTrue(dc);
     }
 
+    /**
+     * Tests if the utilizer setter correctly updates the internal object
+     */
     @Test
     public void testSetter() throws Exception{
 
@@ -67,6 +90,9 @@ public class InListenerTest {
         assertEquals("TestReq",receivedObj);
     }
 
+    /**
+     * Mock utilizer used to catch method calls from the listener
+     */
     private class TestUtilizer implements CommUtilizer{
 
         @Override
@@ -135,6 +161,10 @@ public class InListenerTest {
 
         }
     }
+
+    /**
+     * Mock Comm used to catch method calls from the listener
+     */
     private class TestCComm extends Comm{
         @Override
         public Serializable popInPendingObj(){
@@ -146,6 +176,9 @@ public class InListenerTest {
         }
     }
 
+    /**
+     * Mock request used in this test
+     */
     private class TestAbsReq implements AbsReq{
         @Override
         public void serverVisit(ServerVisitor sV) {

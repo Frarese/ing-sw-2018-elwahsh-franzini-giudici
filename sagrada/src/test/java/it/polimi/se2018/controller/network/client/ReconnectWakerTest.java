@@ -7,21 +7,32 @@ import java.lang.reflect.Method;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the reconnect timer
+ * @author Francesco Franzini
+ */
 public class ReconnectWakerTest {
     private Method runM;
     private ReconnectWaker uut;
     private boolean fail;
     private boolean purged;
+
+    /**
+     * Initializes the flags used and the object to be tested
+     * @throws Exception if an error occurs
+     */
     @Before
-    public void setUp() throws Exception{
+    public void testSetUp() throws Exception{
         fail=false;
         purged=false;
         uut=new ReconnectWaker(new TestComm());
         runM=ReconnectWaker.class.getDeclaredMethod("runTask");
         runM.setAccessible(true);
-
     }
 
+    /**
+     * Tests if the {@code isRunning} method works correctly
+     */
     @Test
     public void testInit(){
         assertFalse(uut.isRunning());
@@ -29,6 +40,9 @@ public class ReconnectWakerTest {
         assertTrue(uut.isRunning());
     }
 
+    /**
+     * Tests if a successful reconnection interrupts the timer
+     */
     @Test
     public void testSuccess() throws Exception{
         uut.reschedule(1000,2);
@@ -37,6 +51,10 @@ public class ReconnectWakerTest {
         assertFalse(purged);
     }
 
+    /**
+     * Asserts if failed reconnection attempts lead to a correct purging of the Comm
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testFail() throws Exception{
         uut.reschedule(1000,2);
@@ -52,8 +70,9 @@ public class ReconnectWakerTest {
 
     }
 
-
-
+    /**
+     * Mock Comm used to intercept the call to {@code tryRecover}
+     */
     private class TestComm extends Comm{
         @Override
         public boolean tryRecover(boolean purgeOnFail){

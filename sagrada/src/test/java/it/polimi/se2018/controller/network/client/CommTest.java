@@ -14,6 +14,11 @@ import java.util.Queue;
 
 import static org.junit.Assert.*;
 
+
+/**
+ * Tester class for the client Comm
+ * @author Francesco Franzini
+ */
 public class CommTest {
     private Comm uut;
     private Queue<AbsReq> outReqQueue;
@@ -24,9 +29,13 @@ public class CommTest {
     private boolean failLogin;
     private boolean fail;
 
+    /**
+     * Prepares the flags to be used, instantiates the tested object
+     * and extracts the needed objects to check
+     */
     @SuppressWarnings("unchecked")
     @Before
-    public void setUp() throws Exception{
+    public void testSetUp() throws Exception{
         uut=new Comm();
         fail=false;
         Field f=Comm.class.getDeclaredField("outObjQueue");
@@ -45,6 +54,10 @@ public class CommTest {
         failLogin=false;
     }
 
+    /**
+     * Tests if the push and pop methods work and if they update the timestamp
+     * @throws Exception if something fails
+     */
     @Test(timeout = 1000)
     public void testPushPop() throws Exception{
         KeepAliveRequest req=new KeepAliveRequest();
@@ -65,6 +78,10 @@ public class CommTest {
         while(ts==uut.getLastSeen());
     }
 
+    /**
+     * Tests if the user parameters are correctly initialized to {@code null}
+     * and if changeLayer without a {@code CommLayer} initialized correctly does nothing
+     */
     @Test
     public void testInit(){
         assertNull(uut.getUsername());
@@ -73,9 +90,12 @@ public class CommTest {
         assertNull(uut.getMatchInfo());
 
         uut.changeLayer(true,0,0);
-
     }
 
+    /**
+     * Tests if the setters correctly alter the values of the user info
+     * @throws Exception if something fails
+     */
     @Test
     public void testSetters() throws Exception{
         Method setPw=Comm.class.getDeclaredMethod("setPassword", String.class);
@@ -93,6 +113,10 @@ public class CommTest {
         assertEquals(mId,uut.getMatchInfo());
     }
 
+    /**
+     * Tests if the {@code logout} method correctly closes the connection
+     * @throws Exception if something fails
+     */
     @Test
     public void testLogout() throws Exception{
         commLayerF.set(uut,new TestCommLayer(uut));
@@ -101,6 +125,10 @@ public class CommTest {
         assertTrue(closed);
     }
 
+    /**
+     * Tests if the send methods correctly push the objects to the queues
+     * @throws Exception if something fails
+     */
     @Test
     public void testSend() throws Exception{
         commLayerF.set(uut,new TestCommLayer(uut));
@@ -133,6 +161,10 @@ public class CommTest {
         assertTrue(sentReq);
     }
 
+    /**
+     * Tests if the {@code changeLayer} method correctly handles invalid or valid parameters
+     * @throws Exception if something fails
+     */
     @Test
     public void testChangeLayer() throws Exception{
         commLayerF.set(uut,new TestCommLayer(uut));
@@ -149,6 +181,10 @@ public class CommTest {
         assertTrue(sentReq);
     }
 
+    /**
+     * Tests if the incoming objects are correctly pushed in the inbound queues
+     * @throws Exception if something fails
+     */
     @Test
     public void testCommLayer() throws Exception{
         CommLayer cL=new TestCommLayer(uut);
@@ -161,6 +197,9 @@ public class CommTest {
         assertEquals("test",uut.popInPendingObj());
     }
 
+    /**
+     * Tests if the {@code tryRecover} method correctly behaves when reconnection fails
+     */
     @Test
     public void testReconnection(){
         CommMock uut2=new CommMock();
@@ -172,6 +211,10 @@ public class CommTest {
         assertTrue(uut2.purged);
     }
 
+    /**
+     * Tests if the {@code createComm} method correctly creates a CommLayer
+     * @throws Exception if something fails
+     */
     @Test
     public void testCreateComm() throws Exception{
         assertTrue(uut.createComm(true));
@@ -184,6 +227,9 @@ public class CommTest {
         assertEquals(SocketCommLayer.class,commLayerF.get(uut).getClass());
     }
 
+    /**
+     * Tests if the {@code login} method correctly handles login responses from the comm layer
+     */
     @Test
     public void testLogin(){
         CommMock uut2=new CommMock();
@@ -198,12 +244,21 @@ public class CommTest {
         assertNull(result);
     }
 
+    /**
+     * Tests if the {@code logoutRequestReceived} method correctly handles logout
+     * @throws Exception if something fails
+     */
     @Test
     public void testLogoutReq() throws Exception{
         commLayerF.set(uut,new TestCommLayer(uut));
         uut.logoutRequestReceived();
+        assertTrue(closed);
     }
 
+    /**
+     * Tests if Comm correctly initiates reconnect procedures
+     * @throws Exception if something fails
+     */
     @Test
     public void testDCRoutines() throws Exception{
         Field f=Comm.class.getDeclaredField("reconnectW");
@@ -214,6 +269,10 @@ public class CommTest {
         assertTrue(rW.isRunning());
 
     }
+
+    /**
+     * Mock class used to intercept calls to CommLayer
+     */
     private class TestCommLayer extends CommLayer{
 
         TestCommLayer(Comm comm) {
@@ -250,6 +309,9 @@ public class CommTest {
         }
     }
 
+    /**
+     * Mock class used to intercept calls to methods of Comm that would fail in a simulated environment
+     */
     private class CommMock extends Comm{
         boolean fail;
         boolean purged;

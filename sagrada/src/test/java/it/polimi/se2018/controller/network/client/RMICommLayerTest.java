@@ -4,7 +4,6 @@ import it.polimi.se2018.controller.network.AbsReq;
 import it.polimi.se2018.controller.network.KeepAliveRequest;
 import it.polimi.se2018.controller.network.server.LoginResponsesEnum;
 import it.polimi.se2018.controller.network.server.RMISession;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,12 +13,21 @@ import java.rmi.RemoteException;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the client RMI layer
+ * @author Francesco Franzini
+ */
 public class RMICommLayerTest {
     private RMICommLayer uut;
     private boolean called;
     private RMISessionTest c;
+
+    /**
+     * Initializes the flags used and the object to test
+     * @throws Exception if an error occurs
+     */
     @Before
-    public void setUp() throws Exception {
+    public void testSetUp() throws Exception {
         called=false;
         c=new RMISessionTest();
         uut=new RMICommLayer(new Comm());
@@ -28,11 +36,9 @@ public class RMICommLayerTest {
         f.set(uut,c);
     }
 
-    @After
-    public void tearDown() {
-        called=false;
-    }
-
+    /**
+     * Tests that the comm layer correctly checks if input is available
+     */
     @Test
     public void testGetters() {
         assertEquals(KeepAliveRequest.class,uut.getReq().getClass());
@@ -42,11 +48,17 @@ public class RMICommLayerTest {
         assertTrue(uut.hasReq());
     }
 
+    /**
+     * Tests that the comm layer correctly ends the connection
+     */
     @Test
     public void testEnd() {
         assertTrue(uut.endCon());
     }
 
+    /**
+     * Tests that the comm layer correctly sends out objects and requests
+     */
     @Test
     public void testSenders(){
         uut.sendOutObj("test");
@@ -56,6 +68,9 @@ public class RMICommLayerTest {
         assertTrue(called);
     }
 
+    /**
+     * Tests that the comm layer handles all remote exceptions internally
+     */
     @Test
     public void testRemoteEx(){
         c.fail=true;
@@ -69,14 +84,19 @@ public class RMICommLayerTest {
         called=false;
         uut.sendOutReq(new KeepAliveRequest());
         assertFalse(called);
-
     }
 
+    /**
+     * Tests that it is not possible to connect if the session object is not null
+     */
     @Test
     public void testDoubleCon(){
         assertEquals("Already logged",uut.establishCon(null,0,0,null,null,false));
     }
 
+    /**
+     * Mock class to intercept calls to the remote session object
+     */
     private class RMISessionTest implements RMISession{
         boolean fail=false;
         @Override

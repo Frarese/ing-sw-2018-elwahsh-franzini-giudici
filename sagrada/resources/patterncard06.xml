@@ -55,7 +55,7 @@
 	    </cell>
     </pattern>
 
-    <pattern name = "Symphony of Ligth" difficulty="6">
+    <pattern name = "Symphony of Light" difficulty="6">
         <cell height="0" width="0">
             <color>WHITE</color>
             <value>2</value>
