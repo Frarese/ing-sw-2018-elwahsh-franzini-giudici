@@ -70,6 +70,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
      */
     private void notifySuccess()
     {
+
         network.sendReq(new ConfirmMove(move,false),player.getName());
     }
 
@@ -147,7 +148,8 @@ public class ToolCardsHandler implements Runnable,Observer  {
     public void update(Observable o, Object arg) {
         if(arg!= null) {
             response = (PlayerMove) arg;
-            latch.countDown();
+            if(latch.getCount()>0)
+                latch.countDown();
         }
     }
 
@@ -159,7 +161,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         int newValue;
         int oldValue;
         if (new GrozingPliers().isUsable(player, firsTurn)) {
-            notifySuccess();
+
             index = askDieFromReserve();
             if(index >-1)
             {
@@ -175,15 +177,17 @@ public class ToolCardsHandler implements Runnable,Observer  {
                             player.setPlacementRights(firsTurn, false);
                             useCard(player);
                             updateGameState();
+                            notifySuccess();
                         } else
                         {
                             board.getReserve().get(index).setFace(oldValue);
-                            network.sendReq(new CardExecutionError(result),player.getName());
                             updateGameState();
+                            notifyFailure(result);
+
                         }
                 }
                 else
-                    network.sendReq(new CardExecutionError(result),player.getName());
+                    notifyFailure(result);
                 }
         }
         else
@@ -200,7 +204,6 @@ public class ToolCardsHandler implements Runnable,Observer  {
             Pair<Integer,Integer> coor;
             if(new EglomiseBrush().isUsable(player,firsTurn))
             {
-                notifySuccess();
                 coor =askDieFromGrid();
                 if(coor != null)
                 {
@@ -212,12 +215,15 @@ public class ToolCardsHandler implements Runnable,Observer  {
                          player.setCardRights(firsTurn, false);
                          useCard(player);
                          updateGameState();
+                         notifySuccess();
                      }
                      else
                      {
-                         network.sendReq(new CardExecutionError(result),player.getName());
+                         notifyFailure(result);
                      }
                 }
+                else
+                    notifyFailure(OH_NO);
             }
             else notifyFailure(NO_PERMISSION);
 
@@ -233,7 +239,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         Pair<Integer,Integer> coor;
         if(new CopperFoilBurnisher().isUsable(player,firsTurn))
         {
-            notifySuccess();
+
             coor =askDieFromGrid();
             if(coor != null)
             {
@@ -245,12 +251,15 @@ public class ToolCardsHandler implements Runnable,Observer  {
                     player.setCardRights(firsTurn, false);
                     useCard(player);
                     updateGameState();
+                    notifySuccess();
                 }
                 else
                 {
-                    network.sendReq(new CardExecutionError(result),player.getName());
+                    notifyFailure(result);
                 }
             }
+            else
+                notifyFailure(OH_NO);
         }
         else
             notifyFailure(NO_PERMISSION);
@@ -270,7 +279,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
         if(new Lathekin().isUsable(player,firsTurn))
         {
-            notifySuccess();
+
             coor = askDieFromGrid();
             coor2 = askDieFromGrid();
             if(coor != null && coor2 != null )
@@ -285,10 +294,13 @@ public class ToolCardsHandler implements Runnable,Observer  {
                     player.setCardRights(firsTurn,false);
                     useCard(player);
                     updateGameState();
+                    notifySuccess();
                 }
                 else
-                    network.sendReq(new CardExecutionError(result),player.getName());
+                    notifyFailure(result);
             }
+            else
+                notifyFailure(OH_NO);
         }
         else notifyFailure(NO_PERMISSION);
     }
@@ -304,7 +316,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         Pair<Integer,Integer> die;
         if(new LensCutter().isUsable(player,firsTurn) && board.getRoundTrack().lastFilledRound()>0)
         {
-            notifySuccess();
+
             reserveIndex = askDieFromReserve();
             if(reserveIndex >-1)
             {
@@ -320,12 +332,14 @@ public class ToolCardsHandler implements Runnable,Observer  {
                         player.setPlacementRights(firsTurn,false);
                         useCard(player);
                         updateGameState();
+                        notifySuccess();
 
                     }
                     else
-                        network.sendReq(new CardExecutionError(result),player.getName());
-                }
+                        notifyFailure(result);
+                } notifyFailure(OH_NO);
             }
+            else notifyFailure(OH_NO);
         }
         else
             notifyFailure(NO_PERMISSION);
@@ -340,7 +354,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         int oldValue;
         if(new FluxBrush().isUsable(player,firsTurn))
         {
-            notifySuccess();
+
             if(randomDice.getRollDieIndex()<0) {
                 index = askDieFromReserve();
                 if (index >-1)
@@ -354,15 +368,17 @@ public class ToolCardsHandler implements Runnable,Observer  {
                        player.setPlacementRights(firsTurn,false);
                        useCard(player);
                        updateGameState();
+                       notifySuccess();
                    }
                    else
                    {
                        randomDice.setRollDieIndex(index);
                        randomDice.setRollDie(board.getReserve().get(index));
                        board.getReserve().get(index).setFace(oldValue);
-                       network.sendReq(new CardExecutionError(result),player.getName());
+                       notifyFailure(result);
                    }
                 }
+                else notifyFailure(OH_NO);
             }
             else
             {
@@ -388,11 +404,12 @@ public class ToolCardsHandler implements Runnable,Observer  {
             player.setPlacementRights(firsTurn,false);
             useCard(player);
             updateGameState();
+            notifySuccess();
         }
         else
         {
             board.getReserve().get(index).setFace(oldValue);
-            network.sendReq(new CardExecutionError(result),player.getName());
+            notifyFailure(result);
         }
     }
 
@@ -403,11 +420,12 @@ public class ToolCardsHandler implements Runnable,Observer  {
     {
         if(new GlazingHammer().isUsable(player,firsTurn))
         {
-            notifySuccess();
+
             CardEffects.reRoll(true,board.getReserve(),null);
             player.setCardRights(firsTurn,false);
             useCard(player);
             updateGameState();
+            notifySuccess();
         }
         else notifyFailure(NO_PERMISSION);
     }
@@ -421,7 +439,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         int index;
         if(new CorkBackedStraightedge().isUsable(player,firsTurn))
         {
-            notifySuccess();
+
             index = askDieFromReserve();
             if(index >-1)
             {
@@ -432,10 +450,13 @@ public class ToolCardsHandler implements Runnable,Observer  {
                     player.setPlacementRights(firsTurn,false);
                     useCard(player);
                     updateGameState();
+                    notifySuccess();
                 }
                 else
-                    network.sendReq(new CardExecutionError(result),player.getName());
+                    notifyFailure(result);
             }
+            else
+                notifyFailure(OH_NO);
         }
         else
             notifyFailure(NO_PERMISSION);
@@ -450,7 +471,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         int reserveIndex;
         if(new RunningPliers().isUsable(player,firsTurn))
         {
-            notifySuccess();
+
             reserveIndex = askDieFromReserve();
             if(reserveIndex >-1)
             {
@@ -462,10 +483,13 @@ public class ToolCardsHandler implements Runnable,Observer  {
                     player.setCardRights(true,false);
                     useCard(player);
                     updateGameState();
+                    notifySuccess();
                 }
                 else
-                    network.sendReq(new CardExecutionError(result),player.getName());
+                    notifyFailure(result);
             }
+            else
+                notifyFailure(OH_NO);
         }
         else
             notifyFailure(NO_PERMISSION);
@@ -479,7 +503,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         int index;
         if(new GrindingStone().isUsable(player,firsTurn))
         {
-            notifySuccess();
+
             index = askDieFromReserve();
             if(index >-1)
             {
@@ -492,14 +516,17 @@ public class ToolCardsHandler implements Runnable,Observer  {
                     player.setCardRights(firsTurn,false);
                     useCard(player);
                     updateGameState();
+                    notifySuccess();
                 }
                 else
                 {
-                    network.sendReq(new CardExecutionError(result),player.getName());
                     CardEffects.changeValue(board.getReserve().get(index),true,0);
                     updateGameState();
+                    notifyFailure(result);
                 }
             }
+            else
+                notifyFailure(OH_NO);
         }
         else
             notifyFailure(NO_PERMISSION);
@@ -513,7 +540,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         int index;
         if(new FluxRemover().isUsable(player,firsTurn))
         {
-            notifySuccess();
+
             if(randomDice.getBagDie() == -1) {
                 index = askDieFromReserve();
                 if (index > -1) {
@@ -523,11 +550,14 @@ public class ToolCardsHandler implements Runnable,Observer  {
                         player.setCardRights(firsTurn, false);
                         useCard(player);
                         updateGameState();
+                        notifySuccess();
                     } else {
-                        network.sendReq(new CardExecutionError(result), player.getName());
+                       notifyFailure(result);
                         randomDice.setBagDie(index);
                     }
                 }
+                else
+                    notifyFailure(OH_NO);
             }
             else
             {
@@ -549,9 +579,10 @@ public class ToolCardsHandler implements Runnable,Observer  {
             player.setCardRights(firsTurn, false);
             useCard(player);
             updateGameState();
+            notifySuccess();
         }
         else
-            network.sendReq(new CardExecutionError(result), player.getName());
+            notifyFailure(result);
     }
 
 
@@ -572,7 +603,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
         if(new TapWheel().isUsable(player,firsTurn))
         {
-            notifySuccess();
+
             roundDie =askDieFromRoundTrack();
             coor = askDieFromGrid();
             coor2 = askDieFromGrid();
@@ -593,12 +624,15 @@ public class ToolCardsHandler implements Runnable,Observer  {
                         player.setCardRights(firsTurn, false);
                         useCard(player);
                         updateGameState();
+                        notifySuccess();
                     } else
-                        network.sendReq(new CardExecutionError(result), player.getName());
+                        notifyFailure(result);
                 }
                 else
-                    network.sendReq(new CardExecutionError("Colori non uguali"),player.getName());
+                    notifyFailure("Colori non uguali!");
             }
+            else
+                notifyFailure(OH_NO);
         }
         else notifyFailure(NO_PERMISSION);
     }
