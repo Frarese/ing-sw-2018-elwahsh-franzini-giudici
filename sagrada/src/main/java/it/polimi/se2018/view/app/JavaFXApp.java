@@ -461,6 +461,7 @@ public class JavaFXApp extends App {
             JavaFXStageProducer.getStage().setScene(new Scene((VBox) scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3)));
             JavaFXStageProducer.getStage().centerOnScreen();
         });
+
     }
 
     @Override
@@ -640,7 +641,7 @@ public class JavaFXApp extends App {
         this.roundTrackerViewCreator = new FXRoundTrackerViewCreator();
         this.reserveViewCreator = new FXReserveViewCreator();
         this.gridViewCreator = new FXGridViewCreator(ColorModel.RED.toJavaFXColor());
-
+        super.clean();
         //Creates new Lobby
         this.viewActions.askLobby();
         this.createLobby();

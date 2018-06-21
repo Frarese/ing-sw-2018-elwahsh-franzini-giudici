@@ -234,4 +234,14 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     public String getOwnerPlayerName() {
         return ownerPlayerName;
     }
+
+    void clean(){
+        this.animationEnable = true;
+        this.players.clear();
+        this.invites.clear();
+        this.connectedUsers.clear();
+        this.leaderBoard.clear();
+
+        this.playerViewObserverList.clear();
+    }
 }

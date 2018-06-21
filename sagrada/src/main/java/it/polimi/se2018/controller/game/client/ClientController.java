@@ -81,8 +81,8 @@ public class ClientController implements CommUtilizer {
 
     @Override
     public void notifyMatchStart(MatchIdentifier mId) {
-        this.mId=mId;
         cleanUp();
+        this.mId=mId;
         players.add(new PlayerView(mId.player0,0));
         players.add(new PlayerView(mId.player1,1));
         if(mId.playerCount >2)
@@ -180,6 +180,7 @@ public class ClientController implements CommUtilizer {
         roundTrack = new RoundTrackerView(0,new IntColorPair[9][10]);
         cards = new CardView(null,null,null);
         patternsReceived=new ArrayList<>();
+        mId=null;
     }
 
     /**
