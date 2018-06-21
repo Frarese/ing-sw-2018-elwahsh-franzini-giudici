@@ -28,6 +28,6 @@ public class CorkBackedStraightedge extends ToolCard {
     @Override
     public boolean isUsable(Player player, boolean firstTurn) {
 
-        return player.canUseCardOnThisTurn(firstTurn) && player.getGrid().getPlacedDice() >0;
+        return player.canPlaceOnThisTurn(firstTurn) && player.canUseCardOnThisTurn(firstTurn) && player.getGrid().getPlacedDice() >0;
     }
 }

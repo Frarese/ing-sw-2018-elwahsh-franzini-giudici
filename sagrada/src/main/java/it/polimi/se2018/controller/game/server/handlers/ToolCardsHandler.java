@@ -35,9 +35,10 @@ public class ToolCardsHandler implements Runnable,Observer  {
     private static final String OH_NO = "Qualcosa è andato storto";
     private static final String DIESET = "DieSet";
     private PlayerMove response;
-    private CountDownLatch latch;
+    private CountDownLatch latch = new CountDownLatch(0);
     private int cardPosition;
     private final RandomDice randomDice;
+    private boolean isDead = false;
     /**
      * Constructor
      * @param move card move
@@ -137,6 +138,8 @@ public class ToolCardsHandler implements Runnable,Observer  {
         }
         else
             notifyFailure("Non puoi giocare questa carta");
+
+        isDead = true;
     }
 
     @Override
@@ -146,11 +149,13 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(arg!= null) {
-            response = (PlayerMove) arg;
-            if(latch.getCount()>0)
-                latch.countDown();
-        }
+        if(!isDead) {
+            if (arg != null) {
+                response = (PlayerMove) arg;
+                if (latch.getCount() > 0)
+                    latch.countDown();
+            }
+        }else o.deleteObserver(this);
     }
 
     /**
@@ -204,7 +209,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
             Pair<Integer,Integer> coor;
             if(new EglomiseBrush().isUsable(player,firsTurn))
             {
-                coor =askDieFromGrid();
+                coor = askDieFromGrid();
                 if(coor != null)
                 {
                      h = coor.getFirst();
