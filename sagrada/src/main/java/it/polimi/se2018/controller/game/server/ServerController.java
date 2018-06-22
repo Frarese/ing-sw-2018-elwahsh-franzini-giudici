@@ -40,13 +40,14 @@ public class ServerController implements MatchController, Runnable {
     private final Round round;
     private final EventBus inBus;
     private final MatchNetworkInterface network;
-    private Timer timer;
+    private Timer timer = new Timer();
     private static final int TIME = 90000;
     private final ArrayList<PatternCard> patternSent = new ArrayList<>();
     private int playersReady = 0;
     private final Thread t;
     private final ArrayList<PrivateObjectiveCard> privateObjectiveSent = new ArrayList<>();
     private RandomDice randomDice;
+    private final ArrayList<Thread> handlers = new ArrayList<>();
 
 
     /**
@@ -137,6 +138,7 @@ public class ServerController implements MatchController, Runnable {
         inBus.stopListening();
         t.interrupt();
         timer.cancel();
+        clearToolCards();
     }
 
     @Override
@@ -212,6 +214,8 @@ public class ServerController implements MatchController, Runnable {
      */
     public synchronized void newTurn()
     {
+        inBus.deleteObservers();
+        clearToolCards();
         String temp = round.getCurrentPlayer().getName();
         timer.cancel();
         round.nextTurn();
@@ -362,6 +366,13 @@ public class ServerController implements MatchController, Runnable {
 
 
     }
+
+    private void clearToolCards()
+    {
+        handlers.forEach(Thread::interrupt);
+        handlers.clear();
+    }
+
 
     /**
      * Getter for InBus

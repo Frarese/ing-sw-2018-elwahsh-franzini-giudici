@@ -366,6 +366,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 {
                    oldValue = board.getReserve().get(index).getValue();
                    board.getReserve().get(index).roll();
+                   network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
                    String result = setDie(index,true);
                    if(result == null)
                    {
@@ -380,6 +381,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
                        randomDice.setRollDieIndex(index);
                        randomDice.setRollDie(board.getReserve().get(index));
                        board.getReserve().get(index).setFace(oldValue);
+                       updateGameState();
                        notifyFailure(result);
                    }
                 }
@@ -891,10 +893,10 @@ public class ToolCardsHandler implements Runnable,Observer  {
      */
     private void updateGameState()
     {
-        network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
-        network.sendObj(new PlayerStatus(player, firsTurn));
         network.sendObj(new ReserveStatus(board.getReserve()));
         network.sendObj(new RoundTrackStatus(board.getRoundTrack()));
+        network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
+        network.sendObj(new PlayerStatus(player, firsTurn));
     }
 
 }
