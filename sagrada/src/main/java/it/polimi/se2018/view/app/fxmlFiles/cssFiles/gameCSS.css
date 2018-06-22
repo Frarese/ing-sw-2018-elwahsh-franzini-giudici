@@ -1,4 +1,9 @@
 #grid {
-    -fx-background-image: url("/it/polimi/se2018/view/images/others/boardBackGroundToRepeat.jpg");
+    -fx-background-image: url("/it/polimi/se2018/view/images/others/board.jpg");
     -fx-background-position: center center;
+}
+
+.label {
+    -fx-font-weight: bolder;
+    -fx-text-fill: WHITE;
 }

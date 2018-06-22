@@ -124,7 +124,7 @@
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </padding>
                 <VBox alignment="CENTER">
-                    <VBox alignment="CENTER" spacing="5.0" style="-fx-border-color: BLACK;">
+                    <VBox alignment="CENTER" spacing="5.0">
                         <ImageView fx:id="toolCard0" fitHeight="200.0" fitWidth="140.0"
                                    pickOnBounds="true" preserveRatio="true">
                             <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
@@ -134,7 +134,7 @@
                 </VBox>
                 <VBox alignment="CENTER">
                     <VBox alignment="CENTER" layoutX="188.0" layoutY="15.0" prefHeight="200.0"
-                          prefWidth="100.0" spacing="5.0" style="-fx-border-color: BLACK;">
+                          prefWidth="100.0" spacing="5.0">
                         <ImageView fx:id="toolCard1" fitHeight="200.0" fitWidth="140.0"
                                    pickOnBounds="true" preserveRatio="true">
                             <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>
@@ -144,7 +144,7 @@
                 </VBox>
                 <VBox alignment="CENTER">
                     <VBox alignment="CENTER" layoutX="113.0" layoutY="15.0" prefHeight="200.0"
-                          prefWidth="100.0" spacing="5.0" style="-fx-border-color: BLACK;">
+                          prefWidth="100.0" spacing="5.0">
                         <ImageView fx:id="toolCard2" fitHeight="200.0" fitWidth="140.0"
                                    pickOnBounds="true" preserveRatio="true">
                             <Image url="@../../images/tool_cards/toolCardBACK.jpg"/>

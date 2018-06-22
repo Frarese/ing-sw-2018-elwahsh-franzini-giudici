@@ -64,7 +64,9 @@ abstract class FXConstants {
                                 int insetsSpacing, int rowSpacing, int cellDim) {
         //Container properties
         container.setPadding(new Insets(insetsSpacing, insetsSpacing, insetsSpacing, insetsSpacing));
-        container.setStyle(makeBgColorString(bgColor));
+        if (bgColor != null) {
+            container.setStyle(makeBgColorString(bgColor));
+        }
         container.setFillWidth(true);
         container.setAlignment(Pos.CENTER);
 

@@ -44,7 +44,7 @@ public class FXReserveViewCreator extends ReserveViewCreator<VBox> {
         VBox container = new VBox(0);
 
         //Initialize grid
-        FXConstants.createEmptyGrid(container, "GREY", 3, 3,
+        FXConstants.createEmptyGrid(container, null, 3, 3,
                 FXConstants.RESERVE_INSETS_SPACING, FXConstants.RESERVE_ROW_SPACING, FXConstants.GRID_CELL_DIM_VALUE);
 
 

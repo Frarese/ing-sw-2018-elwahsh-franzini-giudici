@@ -253,11 +253,6 @@ public class CLIApp extends App {
         //Print cards
         printer.print("Carta obiettivo privato: ");
         printer.print(this.cardViewCreator.makeCard(this.cardViewCreator.getPrivateObjectiveCard().cardID));
-        printer.print("Carte obiettivo pubblico: ");
-        for (int i = 0; i < this.cardViewCreator.getPublicObjectiveCards().size(); i++) {
-            SingleCardView el = (SingleCardView) this.cardViewCreator.getPublicObjectiveCards().get(i);
-            printer.print(this.cardViewCreator.makeCard(el.cardID));
-        }
 
         String favourString = " (Favori : ";
         //Show patterns
