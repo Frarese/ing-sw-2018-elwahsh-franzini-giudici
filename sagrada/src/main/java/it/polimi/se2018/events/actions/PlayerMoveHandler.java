@@ -39,6 +39,7 @@ public interface PlayerMoveHandler {
 
                 break;
             case "PassTurn":
+                controller.getInBus().deleteObservers();
                 controller.newTurn();
                 break;
 

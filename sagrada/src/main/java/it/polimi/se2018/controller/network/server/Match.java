@@ -170,5 +170,7 @@ public class Match implements MatchNetworkInterface{
         clientMap.forEach((pos,c)->{c.resetAccepted();c.removeMatchInstance();});
         serverMain.removeMatch(this);
         if(control!=null)control.kill();
+        clientMap.clear();
+        dc.clear();
     }
 }

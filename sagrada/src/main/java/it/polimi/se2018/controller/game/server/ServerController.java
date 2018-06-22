@@ -136,6 +136,7 @@ public class ServerController implements MatchController, Runnable {
     public void kill() {
         inBus.stopListening();
         t.interrupt();
+        timer.cancel();
     }
 
     @Override
