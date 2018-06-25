@@ -22,7 +22,7 @@ public class CardViewObserverTest {
 
     @Test
     public void testUpdate() {
-        App app = new CLIApp(null, null, null);
+        App app = new CLIApp(null, null);
 
         SingleCardView privateObj = new SingleCardView(1, 0);
         List<SingleCardView> publicObj = new ArrayList<>();

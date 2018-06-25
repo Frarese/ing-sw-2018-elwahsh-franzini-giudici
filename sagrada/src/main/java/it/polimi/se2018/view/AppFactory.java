@@ -17,14 +17,16 @@ public class AppFactory {
 
     /**
      * Constructor called to create an App
-     *  @param isGui contains boolean value to choose between cli or gui
      *
+     * @param isGui               contains boolean value to choose between cli or gui
+     * @param viewActions         contains ViewActions class for View->Controller communication
+     * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
      */
-    public AppFactory(boolean isGui, ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
+    public AppFactory(boolean isGui, ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
         if (isGui) {
-            this.app = new JavaFXApp(viewActions, viewToolCardActions, viewMessage);
+            this.app = new JavaFXApp(viewActions, viewToolCardActions);
         } else {
-            this.app = new CLIApp(viewActions, viewToolCardActions, viewMessage);
+            this.app = new CLIApp(viewActions, viewToolCardActions);
         }
     }
 

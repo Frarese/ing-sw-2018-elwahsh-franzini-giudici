@@ -3,7 +3,6 @@ package it.polimi.se2018.view.app;
 import it.polimi.se2018.controller.game.client.ActionSender;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.view.ViewActions;
-import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +26,7 @@ public class AppTest {
 
     @Before
     public void testInit() {
-        cliApp = new CLIApp(new ViewActions(new ActionSender()), new ViewToolCardActions(new ActionSender()), new ViewMessage(new ActionSender()));
+        cliApp = new CLIApp(new ViewActions(new ActionSender()), new ViewToolCardActions(new ActionSender()));
     }
 
     @Test

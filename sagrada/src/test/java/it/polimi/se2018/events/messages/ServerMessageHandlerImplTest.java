@@ -256,7 +256,7 @@ public class ServerMessageHandlerImplTest {
         String status=null;
 
         AppMock() {
-            super(null,null,null);
+            super(null,null);
         }
 
         @Override

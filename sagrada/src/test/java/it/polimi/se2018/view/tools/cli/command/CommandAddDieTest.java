@@ -33,7 +33,7 @@ public class CommandAddDieTest extends AbsCommandTest {
 
     private class FakeApp extends CLIApp {
         private FakeApp() {
-            super(new FakeViewAction(), null, null);
+            super(new FakeViewAction(), null);
         }
     }
 

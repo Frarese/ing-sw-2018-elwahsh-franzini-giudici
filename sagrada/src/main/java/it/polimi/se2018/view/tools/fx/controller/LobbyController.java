@@ -62,9 +62,10 @@ public class LobbyController implements FXController {
      * Exits from server (logout)
      */
     public void logout() {
-        if (ConfirmBox.displaySafeExit())
+        if (ConfirmBox.displaySafeExit()) {
             JavaFXStageProducer.getApp().getViewActions().logout();
             JavaFXStageProducer.getApp().startLogin(false);
+        }
     }
 
     /**

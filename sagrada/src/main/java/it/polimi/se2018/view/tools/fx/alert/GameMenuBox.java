@@ -19,7 +19,6 @@ public class GameMenuBox extends GeneralBox {
      * Shows the game's menu
      */
     public static void display() {
-
         initStage("Menu",true , "fxmlFiles/gameMenu.fxml" );
     }
 }

@@ -2,7 +2,6 @@ package it.polimi.se2018.view.tools.cli.command;
 
 import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.ViewActions;
-import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.app.CLIApp;
 import org.junit.Test;
@@ -47,7 +46,7 @@ public class CommandShowCardsTest extends AbsCommandTest {
 
     private class FakeApp extends CLIApp {
         private FakeApp() {
-            super(new FakeViewAction(), new ViewToolCardActions(null), new ViewMessage(null));
+            super(new FakeViewAction(), new ViewToolCardActions(null));
         }
 
         @Override

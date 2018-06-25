@@ -9,7 +9,6 @@ import it.polimi.se2018.observable.RoundTrackerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.view.ViewActions;
-import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.observer.*;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
@@ -50,10 +49,9 @@ public class JavaFXApp extends App {
      *
      * @param viewActions         contains ViewActions class for View->Controller communication
      * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
-     * @param viewMessage         contains ViewMessage class for View->Controller communication (chat)
      */
-    public JavaFXApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
-        super(viewActions, viewToolCardActions, viewMessage);
+    public JavaFXApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
+        super(viewActions, viewToolCardActions);
 
         //Initializes Player Information
         this.ownerPlayerName = null;
@@ -192,7 +190,7 @@ public class JavaFXApp extends App {
             try {
                 LobbyController lobbyController = (LobbyController) JavaFXStageProducer.getController();
                 lobbyController.setTables();
-            }catch (ClassCastException e){
+            } catch (ClassCastException e) {
                 //Nothing to do, we are not in lobby
             }
 
@@ -222,7 +220,7 @@ public class JavaFXApp extends App {
             root = loader.load();
 
             loadScene(true);
-            Platform.runLater(()->{
+            Platform.runLater(() -> {
                 PatternSelectionController patternSelectionController = loader.getController();
                 patternSelectionController.showPattern(pattern1, pattern2, pattern3, pattern4);
             });

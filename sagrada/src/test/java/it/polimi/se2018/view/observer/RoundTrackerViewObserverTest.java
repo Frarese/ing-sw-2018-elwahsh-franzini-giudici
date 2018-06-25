@@ -20,7 +20,7 @@ public class RoundTrackerViewObserverTest {
 
     @Test
     public void update() {
-        App app = new CLIApp(null, null, null);
+        App app = new CLIApp(null, null);
 
         IntColorPair[][] roundTracker = new IntColorPair[9][10];
         roundTracker[0][0] = new IntColorPair(1, ColorModel.RED);

@@ -3,8 +3,10 @@ package it.polimi.se2018.view.app;
 import it.polimi.se2018.observable.PlayerView;
 import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.ScoreEntry;
-import it.polimi.se2018.view.*;
-import it.polimi.se2018.view.message.MessageBox;
+import it.polimi.se2018.view.ControllerActionsInterface;
+import it.polimi.se2018.view.ControllerToolCardActionsInterface;
+import it.polimi.se2018.view.ViewActions;
+import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.observer.*;
 import it.polimi.se2018.view.tools.*;
 
@@ -45,8 +47,6 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
     final ViewToolCardActions viewToolCardActions;
 
-    final MessageBox messageBox;
-
     final List<PlayerViewObserver> playerViewObserverList;
 
     CardViewObserver cardViewObserver;
@@ -75,7 +75,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      * @param viewActions         contains ViewActions class for View->Controller communication
      * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
      */
-    protected App(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
+    protected App(ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
         this.animationEnable = true;
         this.players = new ArrayList<>();
 
@@ -85,7 +85,6 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
         this.viewActions = viewActions;
         this.viewToolCardActions = viewToolCardActions;
-        this.messageBox = new MessageBox(viewMessage);
         this.playerViewObserverList = new ArrayList<>();
     }
 

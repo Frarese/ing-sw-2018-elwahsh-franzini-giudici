@@ -31,6 +31,9 @@ import java.util.List;
 
 public class GameController implements FXController {
 
+    private static final String PRE_TOOL_FAVOURS = "FV: ";
+    private static final String USER_FAVOURS = " - FV: ";
+
     @FXML
     ImageView toolCard0;
     @FXML
@@ -63,12 +66,21 @@ public class GameController implements FXController {
 
     @FXML
     VBox myGridContainer;
+
     @FXML
-    VBox firstOtherPlayer;
+    Label firstOtherPlayerName;
     @FXML
-    VBox secondOtherPlayer;
+    VBox firstOtherPlayerGrid;
+
     @FXML
-    VBox thirdOtherPlayer;
+    Label secondOtherPlayerName;
+    @FXML
+    VBox secondOtherPlayerGrid;
+
+    @FXML
+    Label thirdOtherPlayerName;
+    @FXML
+    VBox thirdOtherPlayerGrid;
 
     @FXML
     Button passTurnButton;
@@ -117,8 +129,6 @@ public class GameController implements FXController {
             e.consume();
         });
 
-        String preToolFavours = "FV: ";
-
         toolCard0.setImage((Image) JavaFXStageProducer.getApp().getCardViewCreator().makeCard(((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(0)).cardID));
         toolCard0.setOnMouseEntered(e -> {
             CardZoomBox.display(toolCard0.getImage());
@@ -128,7 +138,7 @@ public class GameController implements FXController {
             CardZoomBox.close();
             e.consume();
         });
-        toolCardFV0.setText(preToolFavours + ((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(0)).cardCost);
+        toolCardFV0.setText(PRE_TOOL_FAVOURS + ((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(0)).cardCost);
 
 
         toolCard1.setImage((Image) JavaFXStageProducer.getApp().getCardViewCreator().makeCard(((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(1)).cardID));
@@ -140,7 +150,7 @@ public class GameController implements FXController {
             CardZoomBox.close();
             e.consume();
         });
-        toolCardFV1.setText(preToolFavours + ((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(1)).cardCost);
+        toolCardFV1.setText(PRE_TOOL_FAVOURS + ((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(1)).cardCost);
 
         toolCard2.setImage((Image) JavaFXStageProducer.getApp().getCardViewCreator().makeCard(((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(2)).cardID));
         toolCard2.setOnMouseEntered(e -> {
@@ -151,7 +161,7 @@ public class GameController implements FXController {
             CardZoomBox.close();
             e.consume();
         });
-        toolCardFV2.setText(preToolFavours + ((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(2)).cardCost);
+        toolCardFV2.setText(PRE_TOOL_FAVOURS + ((SingleCardView) JavaFXStageProducer.getApp().getCardViewCreator().getToolCards().get(2)).cardCost);
 
         //Sets current player favours points
         PlayerState me = JavaFXStageProducer.getApp().searchPlayerViewByName(JavaFXStageProducer.getApp().getPlayers(), JavaFXStageProducer.getApp().getOwnerPlayerName());
@@ -258,14 +268,17 @@ public class GameController implements FXController {
                 gridViewCreator.setGridPattern(playerState.getPlayerTemplate());
                 gridViewCreator.setGrid(playerState.getPlayerGrid());
                 if (listColor.size() == 3) {
-                    firstOtherPlayer.getChildren().clear();
-                    firstOtherPlayer.getChildren().add(gridViewCreator.display());
+                    firstOtherPlayerName.setText(playerState.getPlayerName() + USER_FAVOURS + playerState.getPlayerFavours());
+                    firstOtherPlayerGrid.getChildren().clear();
+                    firstOtherPlayerGrid.getChildren().add(gridViewCreator.display());
                 } else if (listColor.size() == 2) {
-                    secondOtherPlayer.getChildren().clear();
-                    secondOtherPlayer.getChildren().add(gridViewCreator.display());
+                    secondOtherPlayerName.setText(playerState.getPlayerName() + USER_FAVOURS + playerState.getPlayerFavours());
+                    secondOtherPlayerGrid.getChildren().clear();
+                    secondOtherPlayerGrid.getChildren().add(gridViewCreator.display());
                 } else {
-                    thirdOtherPlayer.getChildren().clear();
-                    thirdOtherPlayer.getChildren().add(gridViewCreator.display());
+                    thirdOtherPlayerName.setText(playerState.getPlayerName() + USER_FAVOURS + playerState.getPlayerFavours());
+                    thirdOtherPlayerGrid.getChildren().clear();
+                    thirdOtherPlayerGrid.getChildren().add(gridViewCreator.display());
                 }
                 listColor.remove(0);
             }

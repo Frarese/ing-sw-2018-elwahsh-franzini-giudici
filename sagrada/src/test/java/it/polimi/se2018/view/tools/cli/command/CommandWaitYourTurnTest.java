@@ -28,7 +28,7 @@ public class CommandWaitYourTurnTest {
         ByteArrayOutputStream savedStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(savedStream));
 
-        CLIApp cliApp = new CLIApp(null, null, null);
+        CLIApp cliApp = new CLIApp(null, null);
 
         CommandWaitYourTurn commandWaitYourTurn = new CommandWaitYourTurn(cliApp);
         commandWaitYourTurn.doAction();

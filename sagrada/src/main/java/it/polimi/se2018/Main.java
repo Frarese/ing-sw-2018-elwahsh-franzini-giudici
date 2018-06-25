@@ -5,7 +5,6 @@ import it.polimi.se2018.controller.game.client.ClientController;
 import it.polimi.se2018.controller.network.server.ServerCLI;
 import it.polimi.se2018.view.AppFactory;
 import it.polimi.se2018.view.ViewActions;
-import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.app.App;
 
@@ -36,10 +35,9 @@ public class Main {
             ActionSender actionSender = new ActionSender();
             ViewActions viewActions = new ViewActions(actionSender);
             ViewToolCardActions viewToolCardActions = new ViewToolCardActions(actionSender);
-            ViewMessage viewMessage = new ViewMessage(actionSender);
             if(args.length<2)throw new IllegalArgumentException("Not enough parameters");
             Boolean useGui=Boolean.parseBoolean(args[1]);
-            App app = new AppFactory(useGui,viewActions,viewToolCardActions,viewMessage).getApp();
+            App app = new AppFactory(useGui,viewActions,viewToolCardActions).getApp();
             ClientController controller = new ClientController(app);
             actionSender.setController(controller);
             app.startLogin(true);

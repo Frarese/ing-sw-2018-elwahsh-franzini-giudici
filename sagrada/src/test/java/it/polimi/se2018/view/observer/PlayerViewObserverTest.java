@@ -33,7 +33,7 @@ public class PlayerViewObserverTest {
         System.setIn(new ByteArrayInputStream(message.getBytes()));
         System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
-        App app = new CLIApp(new FakeViewActions(), null, null);
+        App app = new CLIApp(new FakeViewActions(), null);
         app.startLogin(true);
 
         IntColorPair[][] template = new IntColorPair[4][5];

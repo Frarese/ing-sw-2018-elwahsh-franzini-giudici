@@ -11,7 +11,6 @@ import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.ScoreEntry;
 import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.ViewActions;
-import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.observer.PlayerState;
 import it.polimi.se2018.view.tools.GridViewCreator;
@@ -55,7 +54,7 @@ public class CLIAppTest {
      */
 
     private void testSetApp(ViewActions fakeViewAction) {
-        this.app = new CLIAppMock(fakeViewAction, new FakeViewToolActions(), new ViewMessage(null));
+        this.app = new CLIAppMock(fakeViewAction, new FakeViewToolActions());
         this.app.animation(true);
     }
 
@@ -869,8 +868,8 @@ public class CLIAppTest {
 
     private class CLIAppMock extends CLIApp {
 
-        CLIAppMock(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
-            super(viewActions, viewToolCardActions, viewMessage);
+        CLIAppMock(ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
+            super(viewActions, viewToolCardActions);
         }
 
         @Override

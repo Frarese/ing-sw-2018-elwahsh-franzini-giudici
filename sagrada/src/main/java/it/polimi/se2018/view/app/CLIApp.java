@@ -10,7 +10,6 @@ import it.polimi.se2018.util.MatchIdentifier;
 import it.polimi.se2018.util.PatternView;
 import it.polimi.se2018.util.SingleCardView;
 import it.polimi.se2018.view.ViewActions;
-import it.polimi.se2018.view.ViewMessage;
 import it.polimi.se2018.view.ViewToolCardActions;
 import it.polimi.se2018.view.observer.*;
 import it.polimi.se2018.view.tools.DieViewCreator;
@@ -51,10 +50,9 @@ public class CLIApp extends App {
      *
      * @param viewActions         contains ViewActions class for View->Controller communication
      * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
-     * @param viewMessage         contains ViewMessage class for View->Controller communication (chat)
      */
-    public CLIApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions, ViewMessage viewMessage) {
-        super(viewActions, viewToolCardActions, viewMessage);
+    public CLIApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
+        super(viewActions, viewToolCardActions);
 
         //Initializes Player Information
         this.ownerPlayerName = null;

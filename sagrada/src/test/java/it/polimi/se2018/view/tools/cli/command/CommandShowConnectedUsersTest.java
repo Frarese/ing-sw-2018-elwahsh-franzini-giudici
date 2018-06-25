@@ -18,7 +18,7 @@ public class CommandShowConnectedUsersTest extends AbsCommandTest {
 
     private class FakeApp extends CLIApp {
         private FakeApp() {
-            super(null, null, null);
+            super(null, null);
         }
 
         @Override

@@ -19,7 +19,7 @@ public class ReserveViewObserverTest {
 
     @Test
     public void testUpdate() {
-        App app = new CLIApp(null, null, null);
+        App app = new CLIApp(null, null);
 
         IntColorPair[] reserve = new IntColorPair[3];
         reserve[0] = new IntColorPair(1, ColorModel.RED);

@@ -18,9 +18,9 @@ public class AppFactoryTest {
 
     @Test
     public void testCliGetApp() {
-        AppFactory appFactory = new AppFactory(false, null, null, null);
+        AppFactory appFactory = new AppFactory(false, null, null);
 
-        CLIApp instance = new CLIApp(null, null, null);
+        CLIApp instance = new CLIApp(null, null);
         Class<?> genericApp = instance.getClass();
 
         assertEquals(genericApp, appFactory.getApp().getClass());

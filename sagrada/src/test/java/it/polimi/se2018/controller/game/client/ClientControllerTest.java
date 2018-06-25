@@ -104,7 +104,7 @@ public class ClientControllerTest {
     private class AppMock extends App {
 
         AppMock() {
-            super(null,null,null);
+            super(null,null);
         }
 
         @Override
