@@ -372,7 +372,15 @@ public class ServerController implements MatchController, Runnable {
      */
     private void clearToolCards()
     {
-        handlers.forEach(Thread::interrupt);
+        try{
+            for(Thread hand:handlers){
+                hand.interrupt();
+                hand.join();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return;
+        }
         handlers.clear();
     }
 
