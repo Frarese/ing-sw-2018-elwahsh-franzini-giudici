@@ -35,7 +35,9 @@ public interface PlayerMoveHandler {
                         round.getFirstTurn(),
                         networkInterface,randomDice);
                 controller.getInBus().addObserver(t);
-                new Thread(t).start();
+                Thread handler=new Thread(t);
+                handler.start();
+                controller.registerHandler(handler);
 
                 break;
             case "PassTurn":

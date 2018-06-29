@@ -367,12 +367,22 @@ public class ServerController implements MatchController, Runnable {
 
     }
 
+    /**
+     * Interrupts all pending handlers and removes them from the list
+     */
     private void clearToolCards()
     {
         handlers.forEach(Thread::interrupt);
         handlers.clear();
     }
 
+    /**
+     * Registers a thread in the handler list
+     * @param handler the handler to register
+     */
+    public void registerHandler(Thread handler){
+        handlers.add(handler);
+    }
 
     /**
      * Getter for InBus

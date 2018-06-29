@@ -21,8 +21,6 @@
             <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
             <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
             <sonar.language>java</sonar.language>
-            <sonar.coverage.exclusions>**/fx/**/*,**/JavaFXApp.java,**/JavaFXStageProducer.java
-            </sonar.coverage.exclusions>
             <!--<sonar.login>admin</sonar.login>
             <sonar.password>adminuser</sonar.password>-->
     </properties>
