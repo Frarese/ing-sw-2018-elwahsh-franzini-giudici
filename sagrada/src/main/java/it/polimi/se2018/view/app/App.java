@@ -11,6 +11,7 @@ import it.polimi.se2018.view.observer.*;
 import it.polimi.se2018.view.tools.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,8 +78,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
      */
     protected App(ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
         this.animationEnable = true;
-        this.players = new ArrayList<>();
-
+        this.players = Collections.synchronizedList(new ArrayList<>());
         this.invites = new ArrayList<>();
         this.connectedUsers = new ArrayList<>();
         this.leaderBoard = new ArrayList<>();

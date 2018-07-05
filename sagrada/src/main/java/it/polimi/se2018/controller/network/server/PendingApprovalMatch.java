@@ -36,9 +36,12 @@ public class PendingApprovalMatch {
         this.serverMain=serverMain;
         clients=new HashMap<>(matchId.playerCount);
 
-        int pos=matchId.findPos(source.usn);
-        if(pos==-1)throw new IllegalArgumentException("Client is not in the matchID");
-        clients.put(pos,source);
+        if(source!=null){
+            int pos=matchId.findPos(source.usn);
+            if(pos==-1)throw new IllegalArgumentException("Client is not in the matchID");
+            clients.put(pos,source);
+        }
+        
         t=new Timer();
         TimerTask tS=new TimerTask() {
             @Override

@@ -191,7 +191,7 @@ public class ServerMain {
             pA.abort();
             return;
         }
-        if(!c.acceptInvite()){
+        if(c!=null && !c.acceptInvite()){
             return;
         }
         pendingMatchesMap.put(mId.toString(),pA);

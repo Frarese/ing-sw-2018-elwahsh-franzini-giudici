@@ -50,7 +50,7 @@ class MatchMakingQueue {
             Client c3=q.remove();
             Client c4=q.remove();
             MatchIdentifier mId=new MatchIdentifier(c1.usn,c2.usn,c3.usn,c4.usn);
-            serverMain.addPendingMatch(mId,c1);
+            serverMain.addPendingMatch(mId,null);
         }
     }
 
