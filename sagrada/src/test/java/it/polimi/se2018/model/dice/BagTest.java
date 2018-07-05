@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the Bag class
+ * @author Alì El wahsh
+ */
 public class BagTest {
 
     private final Bag test = new Bag();

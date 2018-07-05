@@ -12,6 +12,10 @@ import java.io.File;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for DiePlacementLogic
+ * @author Alì El wahsh
+ */
 public class DiePlacementLogicTest {
 
 
@@ -19,7 +23,9 @@ public class DiePlacementLogicTest {
     private Player player;
 
 
-
+    /**
+     * Test initialization
+     */
     @Before
     public void initTest()
     {
@@ -27,6 +33,9 @@ public class DiePlacementLogicTest {
         player.setPattern(p);
     }
 
+    /**
+     * Test for adjacency checks
+     */
     @Test
     public void testIsAdjacent()
     {
@@ -55,6 +64,9 @@ public class DiePlacementLogicTest {
                 true));
     }
 
+    /**
+     * Test for the color adjacency restrictions
+     */
     @Test
     public void testAdjacentSameColor()
     {
@@ -78,6 +90,9 @@ public class DiePlacementLogicTest {
                 true));
     }
 
+    /**
+     * Test for the empty spot checks
+     */
     @Test
     public void testEmptySpot()
     {
@@ -98,6 +113,9 @@ public class DiePlacementLogicTest {
                 false));
     }
 
+    /**
+     * Test for the border conditions
+     */
     @Test
     public void testIsBorder()
     {
@@ -117,6 +135,9 @@ public class DiePlacementLogicTest {
                 true));
     }
 
+    /**
+     * Test for the color restriction checks
+     */
     @Test
     public void testRightColor()
     {
@@ -137,6 +158,9 @@ public class DiePlacementLogicTest {
 
     }
 
+    /**
+     * Test for the value restriction checks
+     */
     @Test
     public void testRightValue()
     {
@@ -159,6 +183,11 @@ public class DiePlacementLogicTest {
                 true,
                 true));
     }
+
+
+    /**
+     * Mock for the die class
+     */
     private class DieMock extends Die{
 
         DieMock(ColorModel color) {

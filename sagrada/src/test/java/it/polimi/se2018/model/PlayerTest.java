@@ -9,16 +9,26 @@ import java.io.File;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the Player class
+ * @author Alì El Wahsh
+ */
 public class PlayerTest {
 
     private Player test;
 
+    /**
+     * Test initialization
+     */
     @Before
     public void initTest()
     {
         test = new Player("Gideon",40);
     }
 
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetters()
     {
@@ -27,6 +37,9 @@ public class PlayerTest {
       assertEquals(40,test.getId());
     }
 
+    /**
+     * Test for the class setters
+     */
     @Test
     public void testSetters()
     {
@@ -40,6 +53,9 @@ public class PlayerTest {
         assertEquals(0,test.getPrivateObjective().score(test));
     }
 
+    /**
+     * Tests player rights setters and getters
+     */
     @Test
     public void testRights()
     {

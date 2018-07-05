@@ -6,7 +6,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * Test for the Grid class
+ * @author Alì El wahsh
+ */
 public class GridTest {
     private Grid grid;
     private Die d ;

@@ -4,9 +4,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-
+/**
+ * Test for the Event class
+ * @author Alì El wahsh
+ */
 public class EventTest {
 
+    /**
+     * Event extension since it's abstract
+     */
     private class TestEvent extends Event
     {
         private TestEvent()
@@ -15,6 +21,9 @@ public class EventTest {
         }
     }
 
+    /**
+     * Test for toString() method
+     */
     @Test
     public void testDescription()
     {

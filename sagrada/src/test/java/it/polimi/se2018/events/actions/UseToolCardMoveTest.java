@@ -4,10 +4,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the class UseToolCardMove
+ * @author Alì El wahsh
+ */
 public class UseToolCardMoveTest {
 
     private final UseToolCardMove test = new UseToolCardMove("",13);
 
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetters()
     {

@@ -12,6 +12,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
+/**
+ * Test for the RoundTracker class
+ * @author Alì El wahsh
+ */
 public class RoundTrackerTest {
     private ArrayList<Die> dice;
     private final RoundTracker test = new RoundTracker();

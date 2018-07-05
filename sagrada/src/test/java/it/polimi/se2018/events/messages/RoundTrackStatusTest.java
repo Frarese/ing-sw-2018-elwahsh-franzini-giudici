@@ -10,9 +10,15 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the RoundTrackStatus class
+ * @author Alì El wahsh
+ */
 public class RoundTrackStatusTest {
 
-
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetters(){
 

@@ -4,10 +4,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the DieFromGrid class
+ * @author Alì El wahsh
+ */
 public class DieFromGridTest {
 
     private final DieFromGrid test = new DieFromGrid("test",0,0);
 
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetter()
     {

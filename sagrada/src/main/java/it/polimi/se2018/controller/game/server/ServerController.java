@@ -321,20 +321,24 @@ public class ServerController implements MatchController, Runnable {
         }
 
         try{
-        File node1 = new File("./custompattern");
+            String customDir = "custompattern";
+            File jarFile = new File(ServerController.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            String inputFilePath = jarFile.getParent() + File.separator + customDir;
+            File node1 = new File(inputFilePath);
         if(node1.isDirectory())
         {
             String[] subNote = node1.list();
             if(subNote==null)throw new IOException("Error accessing pattern cards");
             for (String filename : subNote) {
-                temp.add(new PatternCard("./custompattern" + File.separator + filename));
+                temp.add(new PatternCard(inputFilePath + File.separator + filename));
             }
         }
         } catch (Exception e)
         {
             Logger.getGlobal().log(Level.WARNING, e.toString());
         }
-        
+
+
         Deck<PatternCard> deck = new Deck<>(temp);
         deck.shuffle();
         patternSent.addAll(deck.draw(mId.playerCount*2));

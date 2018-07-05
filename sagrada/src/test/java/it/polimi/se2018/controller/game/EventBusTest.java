@@ -8,11 +8,16 @@ import org.junit.Test;
 import java.util.Observable;
 import java.util.Observer;
 
-
+/**
+ * Test for the EventBus class
+ * @author Alì El wahsh
+ */
 public class EventBusTest {
     private final EventBus test = new EventBus();
 
-
+    /**
+     * Observer used fot testing
+     */
     private class testObserver implements Observer
     {
         @Override
@@ -22,6 +27,9 @@ public class EventBusTest {
         }
     }
 
+    /**
+     * Tests observation
+     */
     @Before
     public void testInit()
     {
@@ -29,6 +37,9 @@ public class EventBusTest {
     }
 
 
+    /**
+     * Test asyncPush and take
+     */
     @Test
     public void testPushAndPop()
     {
@@ -37,6 +48,9 @@ public class EventBusTest {
 
     }
 
+    /**
+     * Test for interruption handling
+     */
     @Test
     public void testInterrupt(){
         Thread t=new Thread(test, "test");

@@ -6,10 +6,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the class SetThisDie
+ * @author Alì El wahsh
+ */
 public class SetThisDieTest {
 
     private final SetThisDie test = new SetThisDie(new IntColorPair(2, ColorModel.RED));
 
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetter()
     {

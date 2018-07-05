@@ -7,8 +7,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the ReserveStatus class
+ * @author Alì El wahsh
+ */
 public class ReserveStatusTest {
 
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetter(){
         Reserve r=new Reserve();

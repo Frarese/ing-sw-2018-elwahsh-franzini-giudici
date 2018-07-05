@@ -8,9 +8,16 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the Round class
+ * @author Alì El wahsh
+ */
 public class RoundTest {
     private Round test;
 
+    /**
+     * Test initialization
+     */
     @Before
     public void initTest()
     {
@@ -21,6 +28,9 @@ public class RoundTest {
         test = new Round(temp);
     }
 
+    /**
+     * Test for the class' getters
+     */
     @Test
     public void testGetters()
     {

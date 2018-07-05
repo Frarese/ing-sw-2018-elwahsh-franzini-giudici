@@ -11,6 +11,10 @@ import static it.polimi.se2018.model.ColorModel.WHITE;
 import static org.junit.Assert.*;
 
 
+/**
+ * Test for teh Reserve class
+ * @author Alì El wahsh
+ */
 public class ReserveTest {
 
     private final Reserve test = new Reserve();

@@ -1,15 +1,21 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.model.IntColorPair;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Test for the Pattern class
+ * @author Alì El wahsh
+ */
 public class PatternTest {
     private Pattern test;
 
+    /**
+     * Test initialization
+     */
     @Before
     public void testInit()
     {
@@ -18,7 +24,9 @@ public class PatternTest {
         test = new Pattern(temp,"test",3);
     }
 
-
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetters()
     {

@@ -5,10 +5,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the InvalidMove class
+ * @author Alì El wahsh
+ */
 public class InvalidMoveTest {
 
 
-
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetters()
     {

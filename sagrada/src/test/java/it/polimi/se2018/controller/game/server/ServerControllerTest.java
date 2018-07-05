@@ -14,10 +14,18 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test of the ServerController class
+ * @author Francesco Franzini
+ */
 public class ServerControllerTest {
     private ServerController uut;
     private boolean sentObj;
     private boolean ended;
+
+    /**
+     * Test initialization
+     */
     @Before
     public void testSetUp() {
         MatchIdentifier mId = new MatchIdentifier("test1", "test2", "test3", "test4");
@@ -26,6 +34,9 @@ public class ServerControllerTest {
         ended=false;
     }
 
+    /**
+     * Tests basic commands
+     */
     @Test
     public void testBasics() {
         uut.kill();
@@ -34,13 +45,19 @@ public class ServerControllerTest {
         uut.handleRequest("test2","test");
     }
 
+    /**
+     * Test for the player reconnection
+     */
     @Test(expected = IndexOutOfBoundsException.class)
     public void testReconnect(){
         uut.playerLeft("test2",false);
         uut.userReconnected("test2");
     }
 
-
+    /**
+     * Test for the round managing
+     * @throws Exception reflection errors
+     */
     @Test
     public void testNewRound() throws Exception{
         Method startM=ServerController.class.getDeclaredMethod("manageNewRound", String.class);
@@ -59,6 +76,10 @@ public class ServerControllerTest {
         assertTrue(ended);
     }
 
+    /**
+     * Test for the turn managing
+     * @throws Exception reflection error
+     */
     @Test
     public void testTurn() throws Exception{
         Method startM=ServerController.class.getDeclaredMethod("startMatch");
@@ -70,6 +91,10 @@ public class ServerControllerTest {
         assertTrue(sentObj);
     }
 
+    /**
+     * Test for the pattern cards handling
+     * @throws Exception reflection error
+     */
     @SuppressWarnings("unchecked")
     @Test
     public void testHandlePattern() throws Exception{
@@ -92,6 +117,9 @@ public class ServerControllerTest {
         uut.handleRequest("test1",pC);
     }
 
+    /**
+     * Network mock
+     */
     private class MatchNetMock implements MatchNetworkInterface {
 
         @Override

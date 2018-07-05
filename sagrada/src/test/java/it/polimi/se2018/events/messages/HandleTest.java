@@ -18,14 +18,25 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Test for the message handler
+ * @author Francesco Franzini
+ */
 public class HandleTest {
     private ServerMessageHandler hand;
     private ServerMessage mov;
+
+    /**
+     * Test initialization
+     */
     @Before
     public void setUp() {
         hand=new ServerMessageHandlerMock();
     }
 
+    /**
+     * Test for message handling
+     */
     @Test
     public void testCalls(){
         ActiveTools aT=new ActiveTools();
@@ -118,6 +129,9 @@ public class HandleTest {
         assertEquals(s,mov);
 }
 
+    /**
+     * ServerMessageHandler mock
+     */
     private class ServerMessageHandlerMock implements ServerMessageHandler{
 
         @Override

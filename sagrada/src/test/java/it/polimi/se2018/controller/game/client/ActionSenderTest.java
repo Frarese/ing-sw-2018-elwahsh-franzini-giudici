@@ -11,6 +11,10 @@ import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the ActionSender class
+ * @author Francesco Franzini
+ */
 public class ActionSenderTest {
     private ActionSender uut;
     private boolean fail;
@@ -21,6 +25,10 @@ public class ActionSenderTest {
     private boolean sent;
     private boolean joined;
 
+    /**
+     * Sets the environment for the test
+     * @throws Exception reflection errors
+     */
     @Before
     public void testSetUp() throws Exception{
         uut=new ActionSender();
@@ -37,6 +45,9 @@ public class ActionSenderTest {
         uut.setController(new ControllerMock());
     }
 
+    /**
+     * Tests class initialization
+     */
     @Test
     public void testInit() {
         assertNull(uut.login(null,0,0,null,null,false,false));
@@ -45,6 +56,9 @@ public class ActionSenderTest {
 
     }
 
+    /**
+     * Tests basic class operations
+     */
     @Test
     public void testBasics() {
         uut.logout();
@@ -112,6 +126,9 @@ public class ActionSenderTest {
         assertTrue(sent);
     }
 
+    /**
+     * CommFE's mock for test purposes
+     */
     private class CommMock extends CommFE{
         @Override
         public String login(String host, int requestPort, int objectPort, boolean isRecovery, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
@@ -175,6 +192,9 @@ public class ActionSenderTest {
         }
     }
 
+    /**
+     * Client controller mock
+     */
     private class ControllerMock extends ClientController{
 
         ControllerMock() {

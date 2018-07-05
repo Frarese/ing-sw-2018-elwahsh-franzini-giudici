@@ -9,8 +9,15 @@ import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the CardInfo class
+ * @author Alì El wahsh
+ */
 public class CardInfoTest {
 
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetters() throws Exception{
         ActiveTools aT=new ActiveTools();

@@ -29,6 +29,10 @@ import java.util.List;
 import static it.polimi.se2018.model.ColorModel.RED;
 import static org.junit.Assert.*;
 
+/**
+ * Test for ServerMessageHandlerImpl class
+ * @author Francesco Franzini
+ */
 public class ServerMessageHandlerImplTest {
     private ServerMessageHandlerImpl uut;
     private CardView cV;
@@ -43,6 +47,9 @@ public class ServerMessageHandlerImplTest {
     private String askResult;
     private String selectResult;
 
+    /**
+     * Test initialization
+     */
     @Before
     public void testSetUp() {
         move=new PassTurn("test");
@@ -59,6 +66,9 @@ public class ServerMessageHandlerImplTest {
         selectResult=null;
     }
 
+    /**
+     * Test for CardInfo handling
+     */
     @Test
     public void testCardInfo() {
         ActiveTools aT=new ActiveTools();
@@ -69,6 +79,9 @@ public class ServerMessageHandlerImplTest {
         assertNotNull(cV.getPublicObjectiveCards());
     }
 
+    /**
+     * Test for InvalidMove handling
+     */
     @Test
     public void testInvalidMove() {
         InvalidMove iM=new InvalidMove(new DieFromGrid(null,0,0),"error",false);
@@ -84,6 +97,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("die",setResult);
     }
 
+    /**
+     * Test for SetThisDie handling
+     */
     @Test
     public void testSetHisDie() {
         SetThisDie sD=new SetThisDie(new IntColorPair(1, RED));
@@ -91,6 +107,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("dieGrid",setResult);
     }
 
+    /**
+     * Test for ConfirmMove handling
+     */
     @Test
     public void testConfirmMove() {
         ConfirmMove cM=new ConfirmMove(new DieFromGrid(null,0,0),false);
@@ -106,6 +125,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("die",setResult);
     }
 
+    /**
+     * Test for MatchStart handling
+     */
     @Test
     public void testMatchStart() {
         MatchStart mS=new MatchStart(true);
@@ -115,6 +137,9 @@ public class ServerMessageHandlerImplTest {
         assertTrue(app.init);
     }
 
+    /**
+     * Test for PatternSelect handling
+     */
     @Test
     public void testPatternSelect() {
         IntColorPair[][] array=new IntColorPair[4][5];
@@ -125,6 +150,9 @@ public class ServerMessageHandlerImplTest {
         assertTrue(cC.addedP);
     }
 
+    /**
+     * Test for PlayerStatus handling
+     */
     @Test
     public void testPlayerStatus() {
         PlayerStatus pS=new PlayerStatus(new Player("test",0),true);
@@ -133,6 +161,9 @@ public class ServerMessageHandlerImplTest {
         assertNotNull(list.get(0).getPlayerGrid());
     }
 
+    /**
+     * Test for PrivateObjectiveStatus handling
+     */
     @Test
     public void testPrivateObjectiveStatus() {
         PrivateObjectiveStatus pO=new PrivateObjectiveStatus(new PrivateObjectiveCard(RED));
@@ -141,6 +172,9 @@ public class ServerMessageHandlerImplTest {
         assertNotNull(cV.getPrivateObjectiveCard());
     }
 
+    /**
+     * Test for CardExecutionError handling
+     */
     @Test
     public void testCardExecutionError() {
         CardExecutionError cE=new CardExecutionError("error");
@@ -148,6 +182,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("error",app.errorShown);
     }
 
+    /**
+     * Test for SetDie handling
+     */
     @Test
     public void testSetDie() {
         SetDie sD=new SetDie(0);
@@ -155,6 +192,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("dieGrid",setResult);
     }
 
+    /**
+     * Test for AskDieByColor handling
+     */
     @Test
     public void testAskDieByColor() {
         AskDieByColor aC=new AskDieByColor(RED);
@@ -162,6 +202,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("gridColor",selectResult);
     }
 
+    /**
+     * Test for AskNewFace handling
+     */
     @Test
     public void testAskFace() {
         AskNewFace aF=new AskNewFace(RED,2);
@@ -169,6 +212,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("face",selectResult);
     }
 
+    /**
+     * Test for AskDieFromRoundTrack handling
+     */
     @Test
     public void testAskRoundTrack() {
         AskDieFromRoundTrack aR=new AskDieFromRoundTrack();
@@ -176,6 +222,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("round",selectResult);
     }
 
+    /**
+     * Test for AskDieFromGrid handling
+     */
     @Test
     public void testAskDieGrid() {
         AskDieFromGrid aD=new AskDieFromGrid();
@@ -183,6 +232,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("dieGrid",selectResult);
     }
 
+    /**
+     * Test AskNewValue handling
+     */
     @Test
     public void testAskValue() {
         AskNewValue aV=new AskNewValue(1,2);
@@ -190,6 +242,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("value",selectResult);
     }
 
+    /**
+     * Test ReserveStatus handling
+     */
     @Test
     public void testReserveStatus(){
         ReserveStatus rS=new ReserveStatus(new Reserve());
@@ -198,6 +253,9 @@ public class ServerMessageHandlerImplTest {
         assertNotNull(rV.getReserve());
     }
 
+    /**
+     * Test for RoundTrackStatus handling
+     */
     @Test
     public void testRoundTrackStatus(){
         RoundTrackStatus rTS=new RoundTrackStatus(new RoundTracker());
@@ -206,6 +264,9 @@ public class ServerMessageHandlerImplTest {
         assertNotNull(rT.getRoundTracker());
     }
 
+    /**
+     * Test for AskDieFromReserve handling
+     */
     @Test
     public void testAskDieReserve() {
         AskDieFromReserve aR=new AskDieFromReserve();
@@ -213,6 +274,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("dieReserve",selectResult);
     }
 
+    /**
+     * Test for TurnStart handling
+     */
     @Test
     public void testTurnStart() {
         TurnStart tS=new TurnStart("old","test");
@@ -228,6 +292,9 @@ public class ServerMessageHandlerImplTest {
         assertEquals("updatedTurn",app.status);
     }
 
+    /**
+     * Mock of ClientController
+     */
     private class MockController extends ClientController{
         boolean addedP=false;
         MockController(App app) {
@@ -250,6 +317,9 @@ public class ServerMessageHandlerImplTest {
         }
     }
 
+    /**
+     * Mock of the class App
+     */
     private class AppMock extends App{
         private boolean animation=true;
         boolean init=false;

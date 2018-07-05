@@ -9,8 +9,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the PlayerStatus class
+ * @author Alì El wahsh
+ */
 public class PlayerStatusTest {
 
+
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetters(){
         IntColorPair[][] array=new IntColorPair[4][5];

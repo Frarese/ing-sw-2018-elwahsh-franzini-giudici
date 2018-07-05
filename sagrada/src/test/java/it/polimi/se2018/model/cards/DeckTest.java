@@ -8,10 +8,17 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for the Deck class
+ * @author Alì El wahsh
+ */
 public class DeckTest {
 
     private Deck<PrivateObjectiveCard> test;
 
+    /**
+     * Test initialization
+     */
     @Before
     public void initTest()
     {
@@ -26,7 +33,9 @@ public class DeckTest {
         test.shuffle();
     }
 
-
+    /**
+     * Tests draw
+     */
     @Test
     public void testDraw()
     {

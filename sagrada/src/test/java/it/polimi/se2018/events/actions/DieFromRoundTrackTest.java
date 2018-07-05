@@ -4,11 +4,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for DieFromRoundTrack class
+ * @author Alì El wahsh
+ */
 public class DieFromRoundTrackTest {
 
     private final DieFromRoundTrack test = new DieFromRoundTrack("test",1,2);
 
-
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetter()
     {

@@ -8,12 +8,19 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for teh PrivateObjectiveCard class
+ * @author Alì El wahsh
+ */
 public class PrivateObjectiveCardTest {
 
     private final PrivateObjectiveCard test = new PrivateObjectiveCard(ColorModel.RED);
     private final PrivateObjectiveCard test2 = new PrivateObjectiveCard(ColorModel.BLUE);
     private Player player;
 
+    /**
+     * TestInitialization
+     */
     @Before
     public void initTest()
     {
@@ -32,6 +39,9 @@ public class PrivateObjectiveCardTest {
         player.getGrid().setDie(0,3, d3);
     }
 
+    /**
+     * Test score calculation
+     */
     @Test
     public void testScore()
     {

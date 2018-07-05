@@ -7,10 +7,17 @@ import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Test for the PatternCard class
+ * @author Alì El wahsh
+ */
 public class PatternCardTest {
 
     private final PatternCard test = new PatternCard("resources" + File.separator +"patterncard01.xml");
 
+    /**
+     * Test for the Xml parser
+     */
     @Test
     public void testParser()
     {
@@ -23,6 +30,9 @@ public class PatternCardTest {
         assertNotNull(test.toString());
     }
 
+    /**
+     * Test for invalid file position
+     */
     @Test
     public void testException()
     {

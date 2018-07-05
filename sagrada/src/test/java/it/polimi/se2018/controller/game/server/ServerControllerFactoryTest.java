@@ -5,8 +5,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the ServerControllerFactory class
+ * @author Francesco Franzini
+ */
 public class ServerControllerFactoryTest {
 
+    /**
+     * Tests the buildMatch method
+     */
     @Test
     public void testMethod(){
         MatchIdentifier mId=new MatchIdentifier("a","b",null,null);

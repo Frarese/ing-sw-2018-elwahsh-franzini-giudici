@@ -22,10 +22,18 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * ClientController's test
+ * @author Francesco Franzini
+ */
 public class ClientControllerTest {
     private ClientController uut;
     private boolean aborted;
     private String notified;
+
+    /**
+     * Setup for the tests
+     */
     @Before
     public void testSetUp(){
         uut=new ClientController(new AppMock());
@@ -34,6 +42,9 @@ public class ClientControllerTest {
         uut.notifyCommDropped();//Calls cleanUp
     }
 
+    /**
+     * Tests the start of the client controller
+     */
     @Test
     public void testStart() {
         MatchIdentifier mId=new MatchIdentifier("user","user2","user3","user4");
@@ -52,12 +63,18 @@ public class ClientControllerTest {
         assertNotNull(uut.getLastAction());
     }
 
+    /**
+     * Tests the abort command
+     */
     @Test
     public void testAbort() {
         uut.abortMatch();
         assertTrue(aborted);
     }
 
+    /**
+     * Tests the notify commands
+     */
     @Test
     public void testNotifies() {
         uut.notifyInvite(null);
@@ -76,6 +93,9 @@ public class ClientControllerTest {
         assertEquals("join",notified);
     }
 
+    /**
+     * Test for Pattern selection
+     */
     @Test
     public void testPattern() {
         IntColorPair[][] array=new IntColorPair[4][5];
@@ -87,11 +107,17 @@ public class ClientControllerTest {
         assertEquals("asked",notified);
     }
 
+    /**
+     * Tests an expected exception from chat handler
+     */
     @Test(expected = UnsupportedOperationException.class)
     public void testPushChat() {
         uut.pushChatMessage("test",MessageTypes.MATCH,"test1");
     }
 
+    /**
+     * Test for the push commands
+     */
     @Test
     public void testPush() {
         uut.pushLeaderboard(null);
@@ -101,6 +127,9 @@ public class ClientControllerTest {
         assertEquals("pushedList",notified);
     }
 
+    /**
+     * Mock of the App class
+     */
     private class AppMock extends App {
 
         AppMock() {

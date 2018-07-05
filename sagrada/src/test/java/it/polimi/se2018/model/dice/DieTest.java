@@ -8,6 +8,10 @@ import static it.polimi.se2018.model.ColorModel.BLUE;
 import static it.polimi.se2018.model.ColorModel.YELLOW;
 import static org.junit.Assert.*;
 
+/**
+ * Test for the Die class
+ * @author Alì El wahsh
+ */
 public class DieTest {
 
     private Die d1, d2;

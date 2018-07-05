@@ -5,9 +5,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the ToolCard class
+ * @author Alì El wahsh
+ */
 public class ToolCardTest {
     private final ToolTest test = new ToolTest();
 
+    /**
+     * ToolCard's extension, since it's abstract
+     */
     private class ToolTest extends ToolCard
     {
 
@@ -23,6 +30,9 @@ public class ToolCardTest {
         }
     }
 
+    /**
+     * Test card usage
+     */
     @Test
     public void testUsing()
     {

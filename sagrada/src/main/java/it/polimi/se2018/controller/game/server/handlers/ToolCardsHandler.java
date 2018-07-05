@@ -842,7 +842,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
      */
     private String setDieFromBag(int diePosition)
     {
-        latch = new CountDownLatch(1);
+
         Die die = board.getBag().getDie(0);
         int newVal = askNewFace(die);
         if(newVal>0)
@@ -850,6 +850,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         else
             return OH_NO;
 
+        latch = new CountDownLatch(1);
         network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())),player.getName());
         if(waitUpdate() && response.toString().equals(DIESET))
         {

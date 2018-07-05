@@ -16,12 +16,19 @@ import java.io.Serializable;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test for the DiePlacementHandler class
+ * @author Alì El wahsh
+ */
 public class DiePlacementHandlerTest {
 
     private Player player;
     private Reserve reserve;
     private boolean result;
 
+    /**
+     * Test initialization
+     */
     @Before
     public void testInit()
     {
@@ -32,6 +39,9 @@ public class DiePlacementHandlerTest {
     }
 
 
+    /**
+     * Test fro a single execution of the handler
+     */
     @Test
     public void testRun()
     {
@@ -48,6 +58,9 @@ public class DiePlacementHandlerTest {
         assertFalse(result);
     }
 
+    /**
+     * Network mock for the test
+     */
     private class TestNetwork implements MatchNetworkInterface
     {
         @Override

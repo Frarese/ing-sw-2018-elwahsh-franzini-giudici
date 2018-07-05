@@ -24,6 +24,10 @@ import java.util.Observable;
 
 import static org.junit.Assert.*;
 
+/**
+ * ToolCardHandler's test
+ * @author Alì El wahsh
+ */
 public class ToolCardsHandlerTest {
     private ToolCardsHandler uut;
     private BoardMock b;
@@ -34,6 +38,9 @@ public class ToolCardsHandlerTest {
     private boolean sentObj;
     private PlayerMove response;
 
+    /**
+     * Test initialization
+     */
     @Before
     public void testSetUp() {
         b=new BoardMock();
@@ -45,6 +52,9 @@ public class ToolCardsHandlerTest {
         sentObj=false;
     }
 
+    /**
+     * Test for the default case inside the card switch
+     */
     @Test
     public void testDefault() {
         b.setId(-1);
@@ -54,6 +64,10 @@ public class ToolCardsHandlerTest {
         assertTrue(notifiedFailure);
     }
 
+    /**
+     * Test for the updateGameState method
+     * @throws Exception reflection errors
+     */
     @Test
     public void testUpdate() throws Exception{
         uut=new ToolCardsHandler(null,p,b,false,new MatchNetworkMock(), new RandomDice());
@@ -64,6 +78,9 @@ public class ToolCardsHandlerTest {
         assertTrue(sentObj);
     }
 
+    /**
+     * MatchNetwork mock
+     */
     private class MatchNetworkMock implements MatchNetworkInterface{
 
         @Override
@@ -89,11 +106,16 @@ public class ToolCardsHandlerTest {
         }
     }
 
+    /**
+     * Bus mock, needed for observation
+     */
     private class BusMock extends Observable
     {
-
     }
 
+    /**
+     * Reserve mock used inside the tests
+     */
     private class ReserveMock extends Reserve
     {
         private final Die d1 = new Die(ColorModel.RED);
@@ -123,7 +145,9 @@ public class ToolCardsHandlerTest {
 
     }
 
-
+    /**
+     * ToolCardHandler mock used to simplify testing
+     */
     private class HandlerMock extends ToolCardsHandler
     {
 
@@ -139,6 +163,9 @@ public class ToolCardsHandlerTest {
         }
     }
 
+    /**
+     * Board mock
+     */
     private class BoardMock extends Board{
         private int id;
         private final ReserveMock reserveMock = new ReserveMock();
@@ -159,6 +186,9 @@ public class ToolCardsHandlerTest {
         }
     }
 
+    /**
+     * Tool card mock
+     */
     private class ToolMock extends ToolCard{
         private final int id;
         ToolMock(int id) {
@@ -179,6 +209,9 @@ public class ToolCardsHandlerTest {
     }
 
 
+    /**
+     * Test for Grozing Pliers
+     */
     @Test
     public void testGrozingPliers()
     {
@@ -196,6 +229,9 @@ public class ToolCardsHandlerTest {
 
     }
 
+    /**
+     * Test for Eglomise Brush
+     */
     @Test
     public void testEglomiseBrush()
     {
@@ -213,6 +249,9 @@ public class ToolCardsHandlerTest {
         uut.run();
     }
 
+    /**
+     * Test for Copper Foil Burnisher
+     */
     @Test
     public void testCopperFoilBurnisher()
     {
@@ -230,6 +269,9 @@ public class ToolCardsHandlerTest {
         uut.run();
     }
 
+    /**
+     * Test for Lathekin
+     */
     @Test
     public void testLathekin()
     {
@@ -248,6 +290,9 @@ public class ToolCardsHandlerTest {
         uut.run();
     }
 
+    /**
+     * Test for LensCutter
+     */
     @Test
     public void testLensCutter()
     {
@@ -265,6 +310,9 @@ public class ToolCardsHandlerTest {
         uut.run();
     }
 
+    /**
+     * Test for Flux Brush
+     */
     @Test
     public void testFluxBrush()
     {
@@ -289,6 +337,9 @@ public class ToolCardsHandlerTest {
         uut.run();
     }
 
+    /**
+     * Test for Glazing Hammer
+     */
     @Test
     public void testGlazingHammer()
     {
@@ -304,6 +355,9 @@ public class ToolCardsHandlerTest {
         uut.run();
     }
 
+    /**
+     * Test for Cork Backed Straightedge
+     */
     @Test
     public void testCorkBackedStraightedge()
     {
@@ -322,6 +376,9 @@ public class ToolCardsHandlerTest {
 
     }
 
+    /**
+     * Test for Running Pliers
+     */
     @Test
     public void testRunningPliers()
     {
@@ -339,6 +396,10 @@ public class ToolCardsHandlerTest {
         uut.run();
 
     }
+
+    /**
+     * Test for Grinding Stone
+     */
     @Test
     public void testGrindingStone()
     {
@@ -356,6 +417,9 @@ public class ToolCardsHandlerTest {
 
     }
 
+    /**
+     * Test for Flux Remover
+     */
     @Test
     public void testFluxRemover()
     {
@@ -379,6 +443,9 @@ public class ToolCardsHandlerTest {
         uut.run();
     }
 
+    /**
+     * Test for Tap Wheel
+     */
     @Test
     public void testTapWheel()
     {

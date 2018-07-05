@@ -6,8 +6,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for the PrivateObjectiveStatus class
+ * @author Alì El wahsh
+ */
 public class PrivateObjectiveStatusTest {
 
+    /**
+     * Test for the class getters
+     */
     @Test
     public void testGetters(){
         PrivateObjectiveCard p=new PrivateObjectiveCard(ColorModel.RED);
