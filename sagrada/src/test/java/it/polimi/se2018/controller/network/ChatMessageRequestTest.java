@@ -14,9 +14,17 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the ChatMessageRequest
+ * @author Francesco Franzini
+ */
 public class ChatMessageRequestTest {
     private ChatMessageRequest uut;
     private boolean received;
+
+    /**
+     * Tests that the request fields are correctly initialized
+     */
     @Test
     public void testInit() {
         uut=new ChatMessageRequest("test","test2","test",MessageTypes.MATCH);
@@ -26,11 +34,17 @@ public class ChatMessageRequestTest {
         assertEquals(MessageTypes.MATCH,uut.type);
     }
 
+    /**
+     * Tests that illegal arguments are correctly detected
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testFailInit() {
         uut=new ChatMessageRequest("test","test","test",MessageTypes.MATCH);
     }
 
+    /**
+     * Tests that the client methods are correctly called
+     */
     @Test
     public void testClient(){
         received=false;
@@ -39,6 +53,10 @@ public class ChatMessageRequestTest {
         assertTrue(received);
     }
 
+    /**
+     * Tests that the calls in the various situations do not launch exceptions
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testServer() throws Exception{
         ServerMain s=new ServerMain(1,3,2,"test",InetAddress.getLocalHost(),null);
@@ -52,6 +70,9 @@ public class ChatMessageRequestTest {
         uut.serverVisit(new Client("testInvalid",s).getServerVisitor());
     }
 
+    /**
+     * Mock utilizer used to intercept calls
+     */
     private class TestUtilizer implements CommUtilizer{
 
         @Override

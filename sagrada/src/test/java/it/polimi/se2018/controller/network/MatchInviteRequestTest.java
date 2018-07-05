@@ -16,17 +16,28 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the MatchInviteRequest
+ * @author Francesco Franzini
+ */
 public class MatchInviteRequestTest {
     private ServerMainMock s;
     private MatchInviteRequest uut;
     private boolean invite;
 
+    /**
+     * Initializes the flags and objects to be used
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception{
         s=new ServerMainMock();
         invite=false;
     }
 
+    /**
+     * Tests the client and server methods
+     */
     @Test
     public void testHandle() {
         MatchIdentifier mId=new MatchIdentifier("us1","us2",null,null);
@@ -38,12 +49,17 @@ public class MatchInviteRequestTest {
         assertTrue(invite);
     }
 
+    /**
+     * Tests that illegal arguments are correctly detected
+     */
     @Test(expected = IllegalArgumentException.class)
     public void failInit() {
         uut=new MatchInviteRequest(null);
     }
 
-
+    /**
+     * Mock Server used to intercept method calls
+     */
     private class ServerMainMock extends ServerMain {
         boolean added=false;
         ServerMainMock() throws IOException {
@@ -56,6 +72,9 @@ public class MatchInviteRequestTest {
         }
     }
 
+    /**
+     * Mock utilizer used to intercept method calls
+     */
     private class CommUtilizerMock implements CommUtilizer{
 
         @Override

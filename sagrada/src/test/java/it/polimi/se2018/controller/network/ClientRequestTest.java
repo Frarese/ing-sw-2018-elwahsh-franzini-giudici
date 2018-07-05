@@ -13,12 +13,19 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the ClientRequest class
+ * @author Francesco Franzini
+ */
 public class ClientRequestTest {
 
     private ClientRequest uut;
     private Client c;
     private boolean received;
 
+    /**
+     * Prepares the flags to be used and the object to be tested
+     */
     @Before
     public void setUp() {
         c=new Client("test",null);
@@ -26,6 +33,9 @@ public class ClientRequestTest {
         received=false;
     }
 
+    /**
+     * Tests that the server method is correctly called
+     */
     @Test
     public void testServerHandle() {
         try {
@@ -35,12 +45,18 @@ public class ClientRequestTest {
         }
     }
 
+    /**
+     * Tests that the client method is correctly called
+     */
     @Test
     public void testClientHandle() {
         uut.clientHandle(null,new UtilizerMock());
         assertTrue(received);
     }
 
+    /**
+     * Mock utilizer used to intercept method calls
+     */
     private class UtilizerMock implements CommUtilizer{
 
         @Override

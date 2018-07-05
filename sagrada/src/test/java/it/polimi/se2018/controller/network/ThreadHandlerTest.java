@@ -1,6 +1,5 @@
 package it.polimi.se2018.controller.network;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,12 +8,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the ThreadHandler class
+ * @author Francesco Franzini
+ */
 public class ThreadHandlerTest {
     private boolean ok;
     private ThreadHandlerTestImpl uut;
     private boolean interrupt;
     private Field continuaF;
 
+    /**
+     * Prepares the flags and objects to be used
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception{
         uut =new ThreadHandlerTestImpl();
@@ -25,11 +32,9 @@ public class ThreadHandlerTest {
         continuaF.setAccessible(true);
     }
 
-    @After
-    public void tearDown() {
-        ok=true;
-    }
-
+    /**
+     * Tests that the handler starts correctly
+     */
     @Test
     public void testInit() {
         assertFalse(uut.isRunning());
@@ -37,6 +42,10 @@ public class ThreadHandlerTest {
         assertTrue(uut.isRunning());
     }
 
+    /**
+     * Tests that the handler stops correctly
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testStop() throws Exception{
         ok=false;
@@ -45,6 +54,10 @@ public class ThreadHandlerTest {
         assertEquals(Boolean.FALSE,continuaF.get(uut));
     }
 
+    /**
+     * Tests that the handler forces a stop correctly
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testForceStop() throws Exception{
         ok=false;
@@ -53,6 +66,9 @@ public class ThreadHandlerTest {
         assertEquals(Boolean.FALSE,continuaF.get(uut));
     }
 
+    /**
+     * Tests that the handler reinitializes correctly
+     */
     @Test
     public void testReinit() {
         assertFalse(uut.isRunning());
@@ -62,6 +78,9 @@ public class ThreadHandlerTest {
         assertTrue(uut.start());
     }
 
+    /**
+     * Tests that the handler does not allow multiple starts
+     */
     @Test
     public void testDoubleStart(){
         assertFalse(uut.isRunning());
@@ -70,6 +89,10 @@ public class ThreadHandlerTest {
         assertFalse(uut.start());
     }
 
+    /**
+     * Tests the handler reaction to an interruption
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testInterruptedEx() throws Exception{
         interrupt=true;
@@ -79,28 +102,25 @@ public class ThreadHandlerTest {
         t.join();
     }
 
-
+    /**
+     * Mock implementation of ThreadHandler used to intercept method calls
+     */
     private class ThreadHandlerTestImpl extends ThreadHandler{
-        private int count;
         final AtomicBoolean blocked;
         private final String a;
         ThreadHandlerTestImpl(){
             blocked=new AtomicBoolean(false);
-            count=0;
             a=" ";
         }
         @Override
         protected void methodToCall() throws InterruptedException {
             if(interrupt)throw new InterruptedException();
-            if(ok){
-                count++;
-            }else{
-                synchronized (a){
+            if(!ok) {
+                synchronized (a) {
                     blocked.set(true);
                     a.wait();
                     System.out.println("Hello");
                 }
-
             }
         }
     }

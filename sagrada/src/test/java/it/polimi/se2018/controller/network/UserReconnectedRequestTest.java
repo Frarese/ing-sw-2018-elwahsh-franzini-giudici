@@ -12,16 +12,26 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the UserReconnectedRequest
+ * @author Francesco Franzini
+ */
 public class UserReconnectedRequestTest {
     private UserReconnectedRequest uut;
     private String name;
     private boolean called;
 
+    /**
+     * Tests that illegal arguments are correctly detected
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalArgument() {
         uut=new UserReconnectedRequest(null);
     }
 
+    /**
+     * Tests the request
+     */
     @Test
     public void testInit() {
         uut=new UserReconnectedRequest("test");
@@ -33,6 +43,10 @@ public class UserReconnectedRequestTest {
         uut.serverVisit(new VisitorMock());
         assertTrue(called);
     }
+
+    /**
+     * Mock utilizer used to intercept method calls
+     */
     private class UtilizerMock implements CommUtilizer{
 
         @Override

@@ -12,11 +12,17 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the MatchEndedRequest
+ * @author Francesco Franzini
+ */
 public class MatchEndedRequestTest {
     private MatchEndedRequest uut;
     private boolean notified;
 
-
+    /**
+     * Tests that the object is correctly initialized
+     */
     @Test
     public void testOkInit() {
         uut=new MatchEndedRequest(new MatchIdentifier("a","b",null,null)
@@ -24,11 +30,17 @@ public class MatchEndedRequestTest {
         uut.serverVisit(new Client("test",null).getServerVisitor());
     }
 
+    /**
+     * Tests that illegal arguments are correctly detected
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testFailInit() {
         uut=new MatchEndedRequest(null,0,0,0,0);
     }
 
+    /**
+     * Tests the client method
+     */
     @Test
     public void testClientHandle() {
         uut=new MatchEndedRequest(new MatchIdentifier("a","b",null,null)
@@ -38,6 +50,9 @@ public class MatchEndedRequestTest {
         assertTrue(notified);
     }
 
+    /**
+     * Mock utilizer used to intercept method calls
+     */
     private class UtilizerMock implements CommUtilizer{
 
         @Override

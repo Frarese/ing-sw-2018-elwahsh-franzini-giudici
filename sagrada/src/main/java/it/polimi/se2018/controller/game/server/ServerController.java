@@ -350,11 +350,10 @@ public class ServerController implements MatchController, Runnable {
 
     @Override
     public void run() {
-
-        network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
+        sendReqToAll(new CardInfo(board.getTools(),board.getObjectives()));
         sendPrivateObjectives();
         for(Player p: players)
-            network.sendObj(new PlayerStatus(p,round.getFirstTurn()));
+            sendReqToAll(new PlayerStatus(p,round.getFirstTurn()));
 
 
         try {
@@ -365,6 +364,14 @@ public class ServerController implements MatchController, Runnable {
         }
 
 
+    }
+
+    /**
+     * Sends a request to all clients
+     * @param req the request to send
+     */
+    private void sendReqToAll(Serializable req){
+        players.forEach(c->network.sendReq(req,c.getName()));
     }
 
     /**

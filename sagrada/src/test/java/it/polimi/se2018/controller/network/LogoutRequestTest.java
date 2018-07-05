@@ -13,8 +13,15 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tester class for the LogoutRequest
+ * @author Francesco Franzini
+ */
 public class LogoutRequestTest {
 
+    /**
+     * Tests the request
+     */
     @Test
     public void testClient(){
         LogoutRequest uut=new LogoutRequest();
@@ -27,6 +34,9 @@ public class LogoutRequestTest {
         assertTrue(c.purged);
     }
 
+    /**
+     * Mock utilizer used to intercept method calls
+     */
     private class CommUtilizerMock implements CommUtilizer {
         boolean dropped=false;
         @Override
@@ -101,6 +111,9 @@ public class LogoutRequestTest {
         }
     }
 
+    /**
+     * Mock client used to intercept method calls
+     */
     private class ClientMock extends Client{
         boolean purged=false;
         ClientMock() {

@@ -16,12 +16,21 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the ListUsersRequest
+ * @author Francesco Franzini
+ */
 public class ListUsersRequestTest {
     private ListUsersRequest uut;
     private List<ScoreEntry> list;
     private ServerMain s;
     private Client c;
     private boolean pushed;
+
+    /**
+     * Prepares the flags and the object to be tested
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception{
         pushed=false;
@@ -31,12 +40,18 @@ public class ListUsersRequestTest {
         c=new ClientMock();
     }
 
+    /**
+     * Tests that the request is correctly initialized
+     */
     @Test
     public void testInit() {
         assertTrue(uut.checkValid());
         assertNull(uut.getList());
     }
 
+    /**
+     * Tests the setter method
+     */
     @Test
     public void testSet() {
         list=new ArrayList<>();
@@ -44,6 +59,9 @@ public class ListUsersRequestTest {
         assertEquals(list,uut.getList());
     }
 
+    /**
+     * Tests the client method
+     */
     @Test
     public void testClientHandle() {
         uut.setList(list);
@@ -51,6 +69,9 @@ public class ListUsersRequestTest {
         assertTrue(pushed);
     }
 
+    /**
+     * Tests the server method
+     */
     @Test
     public void serverClientHandle() {
         uut.setList(list);
@@ -58,6 +79,9 @@ public class ListUsersRequestTest {
         assertTrue(pushed);
     }
 
+    /**
+     * Mock client used to intercept method calls
+     */
     private class ClientMock extends Client{
 
         ClientMock() {
@@ -70,6 +94,9 @@ public class ListUsersRequestTest {
         }
     }
 
+    /**
+     * Mock utilizer used to intercept method calls
+     */
     private class UtilizerMock implements CommUtilizer{
 
         @Override

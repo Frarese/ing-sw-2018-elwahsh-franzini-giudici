@@ -12,9 +12,17 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the LeaveMatchRequest
+ * @author Francesco Franzini
+ */
 public class LeaveMatchRequestTest {
 
     private boolean notified;
+
+    /**
+     * Tests the request
+     */
     @Test
     public void testRequest() {
         LeaveMatchRequest uut;
@@ -33,7 +41,9 @@ public class LeaveMatchRequestTest {
         uut.serverVisit(new Client("usn",null).getServerVisitor());
     }
 
-
+    /**
+     * Mock utilizer used to intercept method calls
+     */
     private class CommUtilizerMock implements CommUtilizer{
 
         @Override

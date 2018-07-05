@@ -18,10 +18,18 @@ import java.util.Queue;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the GetLeaderBoardRequest
+ * @author Francesco Franzini
+ */
 public class GetLeaderBoardRequestTest {
     private GetLeaderBoardRequest uut;
     private Client c;
 
+    /**
+     * Prepares the object to be tested
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception{
         uut=new GetLeaderBoardRequest();
@@ -29,12 +37,19 @@ public class GetLeaderBoardRequestTest {
         c=new Client("test", s);
     }
 
+    /**
+     * Tests the {@code checkValid} method and that the server call does not cause exceptions
+     */
     @Test
     public void testInit() {
         assertTrue(uut.checkValid());
         uut.serverVisit(c.getServerVisitor());
     }
 
+    /**
+     * Tests the server call
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testServer() throws Exception{
         uut.serverVisit(c.getServerVisitor());
@@ -44,6 +59,10 @@ public class GetLeaderBoardRequestTest {
         assertNotNull(q.peek());
     }
 
+    /**
+     * Tests the client call
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testClient() throws Exception {
         uut.clientHandle(null,null);
@@ -59,6 +78,12 @@ public class GetLeaderBoardRequestTest {
 
     }
 
+    /**
+     * Checks if a given list is an ordered version of another list
+     * @param l the reference list
+     * @param oL the potentially ordered list
+     * @return true if {@code oL} is ordered and has only(and all) the objects in {@code l}
+     */
     @SuppressWarnings("unchecked")
     private boolean isOrderedVersion(List<ScoreEntry> l,List oL){
         if(!(l.containsAll(oL)&&oL.containsAll(l)))return false;
@@ -74,6 +99,9 @@ public class GetLeaderBoardRequestTest {
         return true;
     }
 
+    /**
+     * Mock utilizer used to intercept method calls
+     */
     private class UtilizerMock implements CommUtilizer{
 
         @Override

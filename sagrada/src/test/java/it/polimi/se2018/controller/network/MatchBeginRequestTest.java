@@ -13,23 +13,35 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the MatchBeginRequest
+ * @author Francesco Franzini
+ */
 public class MatchBeginRequestTest {
     private MatchBeginRequest uut;
     private boolean notified;
     private boolean set;
 
-
+    /**
+     * Tests that the object is correctly initialized
+     */
     @Test
     public void testOkInit() {
         uut=new MatchBeginRequest(new MatchIdentifier("a","b",null,null));
         uut.serverVisit(new Client("test",null).getServerVisitor());
     }
 
+    /**
+     * Tests that invalid arguments are correctly detected
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testFailInit() {
         uut=new MatchBeginRequest(null);
     }
 
+    /**
+     * Tests the client method
+     */
     @Test
     public void testClientHandle() {
         uut=new MatchBeginRequest(new MatchIdentifier("a","b",null,null));
@@ -40,6 +52,9 @@ public class MatchBeginRequestTest {
         assertTrue(set);
     }
 
+    /**
+     * Mock utilizer used to intercept method calls
+     */
     private class UtilizerMock implements CommUtilizer {
 
         @Override
@@ -108,6 +123,9 @@ public class MatchBeginRequestTest {
         }
     }
 
+    /**
+     * Mock comm used to intercept method calls
+     */
     private class CommMock extends Comm {
         @Override
         public void setMatchInfo(MatchIdentifier newInfo) {

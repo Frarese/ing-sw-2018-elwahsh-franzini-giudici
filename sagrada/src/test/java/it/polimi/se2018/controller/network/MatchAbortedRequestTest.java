@@ -12,85 +12,94 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the MatchAbortedRequest
+ * @author Francesco Franzini
+ */
 public class MatchAbortedRequestTest {
 
+    /**
+     * Tests the request
+     */
     @Test
     public void testRequest() {
         MatchAbortedRequest uut;
-        uut=new MatchAbortedRequest(new MatchIdentifier("a","b",null,null));
-        uut.serverVisit(new Client("test",null).getServerVisitor());
-        CommUtilizerMock mock=new CommUtilizerMock();
-        uut.clientHandle(null,mock);
+        uut = new MatchAbortedRequest(new MatchIdentifier("a", "b", null, null));
+        uut.serverVisit(new Client("test", null).getServerVisitor());
+        CommUtilizerMock mock = new CommUtilizerMock();
+        uut.clientHandle(null, mock);
         assertTrue(mock.aborted);
-
     }
 
-private class CommUtilizerMock implements CommUtilizer {
-    boolean aborted=false;
+    /**
+     * Mock utilizer used to intercept method calls
+     */
+    private class CommUtilizerMock implements CommUtilizer {
+        boolean aborted = false;
 
-    @Override
-    public void receiveObject(Serializable obj) {
+        @Override
+        public void receiveObject(Serializable obj) {
 
+        }
+
+        @Override
+        public void receiveRequest(Serializable req) {
+
+        }
+
+        @Override
+        public void abortMatch() {
+            aborted = true;
+        }
+
+        @Override
+        public void notifyInvite(MatchIdentifier match) {
+
+        }
+
+        @Override
+        public void notifyMatchEnd(int playerScore0, int playerScore1, int playerScore2, int playerScore3) {
+
+        }
+
+        @Override
+        public void notifyMatchStart(MatchIdentifier mId) {
+
+        }
+
+        @Override
+        public void notifyUserLeft(String usn) {
+
+        }
+
+        @Override
+        public void pushLeaderboard(List<ScoreEntry> list) {
+
+        }
+
+        @Override
+        public void pushUserList(List<ScoreEntry> list) {
+
+        }
+
+        @Override
+        public void notifyCommDropped() {
+
+        }
+
+        @Override
+        public void pushChatMessage(String msg, MessageTypes type, String source) {
+
+        }
+
+        @Override
+        public void notifyReconnect() {
+
+        }
+
+        @Override
+        public void notifyUserReconnected(String usn) {
+
+        }
     }
-
-    @Override
-    public void receiveRequest(Serializable req) {
-
-    }
-
-    @Override
-    public void abortMatch() {
-        aborted=true;
-    }
-
-    @Override
-    public void notifyInvite(MatchIdentifier match) {
-
-    }
-
-    @Override
-    public void notifyMatchEnd(int playerScore0, int playerScore1, int playerScore2, int playerScore3) {
-
-    }
-
-    @Override
-    public void notifyMatchStart(MatchIdentifier mId) {
-
-    }
-
-    @Override
-    public void notifyUserLeft(String usn) {
-
-    }
-
-    @Override
-    public void pushLeaderboard(List<ScoreEntry> list) {
-
-    }
-
-    @Override
-    public void pushUserList(List<ScoreEntry> list) {
-
-    }
-
-    @Override
-    public void notifyCommDropped() {
-
-    }
-
-    @Override
-    public void pushChatMessage(String msg, MessageTypes type, String source) {
-
-    }
-
-    @Override
-    public void notifyReconnect() {
-
-    }
-
-    @Override
-    public void notifyUserReconnected(String usn) {
-
-    }
-}
 }
