@@ -29,4 +29,5 @@ public interface ServerMessageHandler {
     void handle(CardExecutionError move);
     void handle(SetThisDie move);
     void handle(ReadyView move);
+    void handle(AskPlacements move);
 }

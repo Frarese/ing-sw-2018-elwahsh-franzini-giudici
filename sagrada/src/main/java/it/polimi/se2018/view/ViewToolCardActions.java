@@ -99,6 +99,6 @@ public class ViewToolCardActions extends Observable {
      * @param number contains the numbers of placement
      */
     public void selectedNumbersOfPlacement(int number) {
-        throw new UnsupportedOperationException();
+        actionSender.sendNumberOfPlacements(number);
     }
 }

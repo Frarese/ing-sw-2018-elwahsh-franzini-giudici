@@ -34,6 +34,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
     private static final String TOO_SLOW = "Troppo lento";
     private static final String OH_NO = "Qualcosa è andato storto";
     private static final String DIESET = "DieSet";
+    private static final String NEWVALUE = "NewValue";
     private PlayerMove response;
     private CountDownLatch latch = new CountDownLatch(0);
     private int cardPosition;
@@ -590,40 +591,81 @@ public class ToolCardsHandler implements Runnable,Observer  {
      */
     private void tapWheel()
     {
-        Pair<Integer,Integer> roundDie;
-        Pair<Integer,Integer> coor;
-        Pair<Integer,Integer> coor2;
-
+        int numberOfPlacements;
         if(new TapWheel().isUsable(player,firsTurn))
         {
-            roundDie = askDieFromRoundTrack();
-            coor = askDieFromGrid();
-            coor2 = askDieFromGrid();
-            if(coor != null && coor2 != null && roundDie != null)
+            numberOfPlacements = askNumberOfPlacement();
+            if(numberOfPlacements == 2)
             {
-                Die roundTrackDie = board.getRoundTrack().getDie(roundDie.getFirst(),roundDie.getSecond());
-                Die d1 = player.getGrid().getDie(coor.getFirst(),coor.getSecond());
-                Die d2 = player.getGrid().getDie(coor2.getFirst(),coor2.getSecond());
-
-                if( isSameColor(d1,d2,roundTrackDie) ) {
-                    String result = setDoubleDieFromGrid(coor.getFirst(), coor.getSecond(), coor2.getFirst(), coor2.getSecond());
-                    if (result == null) {
-                        player.setCardRights(firsTurn, false);
-                        useCard(player);
-                        updateGameState();
-                        notifySuccess();
-                    } else
-                        notifyFailure(result);
-                }
-                else
-                    notifyFailure("Colori non uguali!");
+                tapWheelTwoDice();
             }
-            else
-                notifyFailure(OH_NO);
+            else if(numberOfPlacements == 1)
+            {
+                tapWheelOneDie();
+            }
+            else notifyFailure(OH_NO);
         }
         else notifyFailure(NO_PERMISSION);
     }
 
+    /**
+     * Tap wheel with one placement
+     */
+    private void tapWheelOneDie()
+    {
+        Pair<Integer,Integer> roundDie = askDieFromRoundTrack();
+        Pair<Integer,Integer> coor = askDieFromGrid();
+        if(coor!=null && roundDie!=null)
+        {
+            Die roundTrackDie = board.getRoundTrack().getDie(roundDie.getFirst(),roundDie.getSecond());
+            Die d1 = player.getGrid().getDie(coor.getFirst(),coor.getSecond());
+            if( d1.getColor() == roundTrackDie.getColor() ) {
+                String result = setDieFromGrid(coor.getFirst(),coor.getSecond(),true,true);
+                if (result == null) {
+                    player.setCardRights(firsTurn, false);
+                    useCard(player);
+                    updateGameState();
+                    notifySuccess();
+                } else
+                    notifyFailure(result);
+            }
+            else
+                notifyFailure("Colori non uguali!");
+        }
+        else
+            notifyFailure(OH_NO);
+    }
+
+    /**
+     * Tap Wheel with two placements
+     */
+    private void tapWheelTwoDice()
+    {
+        Pair<Integer,Integer> roundDie = askDieFromRoundTrack();
+        Pair<Integer,Integer> coor = askDieFromGrid();
+        Pair<Integer,Integer> coor2 = askDieFromGrid();
+        if(coor != null && coor2 != null && roundDie != null)
+        {
+            Die roundTrackDie = board.getRoundTrack().getDie(roundDie.getFirst(),roundDie.getSecond());
+            Die d1 = player.getGrid().getDie(coor.getFirst(),coor.getSecond());
+            Die d2 = player.getGrid().getDie(coor2.getFirst(),coor2.getSecond());
+
+            if( isSameColor(d1,d2,roundTrackDie) ) {
+                String result = setDoubleDieFromGrid(coor.getFirst(), coor.getSecond(), coor2.getFirst(), coor2.getSecond());
+                if (result == null) {
+                    player.setCardRights(firsTurn, false);
+                    useCard(player);
+                    updateGameState();
+                    notifySuccess();
+                } else
+                    notifyFailure(result);
+            }
+            else
+                notifyFailure("Colori non uguali!");
+        }
+        else
+            notifyFailure(OH_NO);
+    }
 
     /**
      * Checks if dice are of the same color of the third one
@@ -640,6 +682,21 @@ public class ToolCardsHandler implements Runnable,Observer  {
     }
 
     /**
+     * Ask the number of placements for tap wheel
+     * @return number of placements
+     */
+    private int askNumberOfPlacement()
+    {
+        latch = new CountDownLatch(1);
+        network.sendReq(new AskPlacements(),player.getName());
+        if (waitUpdate() && response.toString().equals(NEWVALUE)) {
+            NewValue newValue = (NewValue) response;
+            return newValue.getNewValue();
+        }
+        return -1;
+    }
+
+    /**
      * Ask for a new face for a die
      * @param die die to be changed
      * @return new value for die
@@ -648,7 +705,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
     {
         latch = new CountDownLatch(1);
         network.sendReq(new AskNewFace(die.getColor(),die.getValue()),player.getName());
-        if (waitUpdate() && response.toString().equals("NewValue")) {
+        if (waitUpdate() && response.toString().equals(NEWVALUE)) {
             NewValue newValue = (NewValue) response;
             return newValue.getNewValue();
         }
@@ -713,7 +770,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         int val1 = board.getReserve().get(index).getValue() -1;
         int val2 = board.getReserve().get(index).getValue() +1;
         network.sendReq(new AskNewValue(val1,val2), player.getName());
-        if (waitUpdate() && response.toString().equals("NewValue")) {
+        if (waitUpdate() && response.toString().equals(NEWVALUE)) {
             NewValue newValue = (NewValue) response;
             return newValue.getNewValue();
         }

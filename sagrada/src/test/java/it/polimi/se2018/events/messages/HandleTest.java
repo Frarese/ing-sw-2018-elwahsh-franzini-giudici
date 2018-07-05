@@ -217,5 +217,8 @@ public class HandleTest {
         public void handle(ReadyView move) {
             mov=move;
         }
+
+        @Override
+        public void handle(AskPlacements move) {mov=move;}
     }
 }

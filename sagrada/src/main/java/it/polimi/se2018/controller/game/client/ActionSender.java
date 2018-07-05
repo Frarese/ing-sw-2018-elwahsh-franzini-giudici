@@ -214,5 +214,12 @@ public class ActionSender {
         network.sendReq(new DieFromRoundTrack(username,round,diePosition));
     }
 
-
+    /**
+     * Sends the number of placement required by the player
+     * @param number number of placement
+     */
+    public void sendNumberOfPlacements(int number)
+    {
+        network.sendReq(new NewValue(username,number));
+    }
 }

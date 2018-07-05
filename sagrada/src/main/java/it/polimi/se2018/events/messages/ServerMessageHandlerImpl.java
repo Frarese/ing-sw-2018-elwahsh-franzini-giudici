@@ -113,6 +113,11 @@ public class ServerMessageHandlerImpl implements ServerMessageHandler {
     }
 
     @Override
+    public void handle(AskPlacements move) {
+        app.askNumbersOfPlacement();
+    }
+
+    @Override
     public void handle(AskDieByColor move) {
         app.selectDieFromGridByColor(move.getColorModel());
     }
