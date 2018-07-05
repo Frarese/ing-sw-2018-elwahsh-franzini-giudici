@@ -466,7 +466,7 @@ public class JavaFXApp extends App {
     public void abortMatch() {
         Platform.runLater(() -> AlertBox.attentionBox("Match chiuso dal server"));
 
-        cleanMatch();
+        this.clean();
     }
 
     @Override
@@ -630,16 +630,14 @@ public class JavaFXApp extends App {
         Platform.runLater(((GameController) JavaFXStageProducer.getController())::disablePlacement);
     }
 
-    /**
-     * Cleans View structure before lobby
-     */
-    public void cleanMatch() {
+    @Override
+    public void clean() {
+        super.clean();
         //Cleans structures
         this.cardViewCreator = new FXCardViewCreator();
         this.roundTrackerViewCreator = new FXRoundTrackerViewCreator();
         this.reserveViewCreator = new FXReserveViewCreator();
         this.gridViewCreator = new FXGridViewCreator(ColorModel.RED.toJavaFXColor());
-        super.clean();
         //Creates new Lobby
         this.viewActions.askLobby();
         this.createLobby();

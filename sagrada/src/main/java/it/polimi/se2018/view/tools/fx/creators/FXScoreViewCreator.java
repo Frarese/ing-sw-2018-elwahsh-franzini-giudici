@@ -64,7 +64,7 @@ public class FXScoreViewCreator extends ScoreViewCreator<VBox> {
         Button returnButton = new Button("Torna alla lobby");
         returnButton.setDefaultButton(true);
 
-        returnButton.setOnAction(event -> JavaFXStageProducer.getApp().cleanMatch());
+        returnButton.setOnAction(event -> JavaFXStageProducer.getApp().clean());
 
         container.getChildren().add(returnButton);
 
