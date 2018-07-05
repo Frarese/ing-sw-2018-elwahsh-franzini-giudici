@@ -16,6 +16,9 @@ import static org.junit.Assert.assertEquals;
 
 public class AppFactoryTest {
 
+    /**
+     * Test AppFactory's creation of CLIApp
+     */
     @Test
     public void testCliGetApp() {
         AppFactory appFactory = new AppFactory(false, null, null);

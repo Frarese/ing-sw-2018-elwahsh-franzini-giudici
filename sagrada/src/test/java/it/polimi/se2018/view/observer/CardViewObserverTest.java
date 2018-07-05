@@ -20,6 +20,9 @@ import static org.junit.Assert.assertEquals;
 
 public class CardViewObserverTest {
 
+    /**
+     * Checks correct update of cards' state
+     */
     @Test
     public void testUpdate() {
         App app = new CLIApp(null, null);

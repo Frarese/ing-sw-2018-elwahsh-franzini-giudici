@@ -20,6 +20,9 @@ import static org.junit.Assert.*;
 
 public class CommandUseToolTest extends AbsCommandTest {
 
+    /**
+     * Mock class of ViewActions object
+     */
     private class FakeViewAction extends ViewActions {
 
         private FakeViewAction() {
@@ -40,7 +43,7 @@ public class CommandUseToolTest extends AbsCommandTest {
 
         @Override
         public void askLobby() {
-            assert true;
+            //Nothing
         }
 
         @Override
@@ -49,6 +52,9 @@ public class CommandUseToolTest extends AbsCommandTest {
         }
     }
 
+    /**
+     * Mock class of CLIApp object
+     */
     private class FakeApp extends CLIApp {
         private FakeApp() {
             super(new FakeViewAction(), new ViewToolCardActions(null));
@@ -56,10 +62,15 @@ public class CommandUseToolTest extends AbsCommandTest {
 
         @Override
         public void menu() {
-            assert true;
+            //Nothing
         }
     }
 
+    /**
+     * Checks command perform
+     *
+     * @throws Exception if an error occurs during reading
+     */
     @Test
     public void testDoAction() throws Exception{
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "1" + enter + "80" + enter + 0 + enter;

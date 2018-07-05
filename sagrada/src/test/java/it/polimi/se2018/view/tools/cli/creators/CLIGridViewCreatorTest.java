@@ -26,6 +26,9 @@ public class CLIGridViewCreatorTest {
 
     private CLIGridViewCreator cliGridViewCreator;
 
+    /**
+     * Creates pattern cards and new CLIGridViewCreator
+     */
     @Test
     public void testSimpleDisplay() {
         result = new ArrayList<>();
@@ -42,6 +45,9 @@ public class CLIGridViewCreatorTest {
         assertEquals(result.toString().replaceAll(regexControl, emptyString), cliGridViewCreator.display().toString().replaceAll(regexControl, emptyString));
     }
 
+    /**
+     * Checks correct CLI' empty grid object creation
+     */
     @Test
     public void testEmptyGridDisplay() {
         result = new ArrayList<>();
@@ -62,6 +68,9 @@ public class CLIGridViewCreatorTest {
         assertEquals(result.toString().replaceAll(regexControl, emptyString), cliGridViewCreator.display().toString().replaceAll(regexControl, emptyString));
     }
 
+    /**
+     * Checks correct CLI' full grid object creation
+     */
     @Test
     public void testFullGridDisplay() {
         result = new ArrayList<>();
@@ -84,6 +93,9 @@ public class CLIGridViewCreatorTest {
         assertEquals(result.toString().replaceAll(regexControl, emptyString), cliGridViewCreator.display().toString().replaceAll(regexControl, emptyString));
     }
 
+    /**
+     * Tests getter method of the pattern card
+     */
     @Test
     public void testGetGridPattern() {
         grid = new IntColorPair[1][2];
@@ -93,6 +105,9 @@ public class CLIGridViewCreatorTest {
         assertArrayEquals(grid, cliGridViewCreator.getGridPattern());
     }
 
+    /**
+     * Tests getter method of the grid
+     */
     @Test
     public void testGetGrid() {
         grid = new IntColorPair[1][2];
@@ -102,6 +117,9 @@ public class CLIGridViewCreatorTest {
         assertArrayEquals(grid, cliGridViewCreator.getGrid());
     }
 
+    /**
+     * Tests setter method of the grid
+     */
     @Test
     public void testSetGrid() {
         grid = new IntColorPair[1][1];

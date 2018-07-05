@@ -24,6 +24,9 @@ public class CLIRoundTrackerViewCreatorTest {
 
     private CLIRoundTrackerViewCreator cliRoundTrackerViewCreator;
 
+    /**
+     * Creates RoundTracker and new CLIRoundTrackerViewCreator
+     */
     @Before
     public void testInit() {
         round = 1;
@@ -33,6 +36,9 @@ public class CLIRoundTrackerViewCreatorTest {
         cliRoundTrackerViewCreator = new CLIRoundTrackerViewCreator(round, roundTracker);
     }
 
+    /**
+     * Checks correct CLI' RoundTracker object creation
+     */
     @Test
     public void testDisplay() {
         ArrayList<String> strings = new ArrayList<>();
@@ -43,28 +49,39 @@ public class CLIRoundTrackerViewCreatorTest {
         assertEquals(strings, cliRoundTrackerViewCreator.display());
     }
 
+    /**
+     * Tests getter method of the round
+     */
     @Test
     public void testGetRound() {
-        assertEquals(round,cliRoundTrackerViewCreator.getRound());
+        assertEquals(round, cliRoundTrackerViewCreator.getRound());
     }
 
+    /**
+     * Tests setter method of the round
+     */
     @Test
     public void testSetRound() {
         this.round = 2;
         this.cliRoundTrackerViewCreator.setRound(round);
-        assertEquals(round,cliRoundTrackerViewCreator.getRound());
+        assertEquals(round, cliRoundTrackerViewCreator.getRound());
     }
 
-
+    /**
+     * Tests getter method of the RoundTracker
+     */
     @Test
     public void testGetRoundTracker() {
-        assertArrayEquals(roundTracker,cliRoundTrackerViewCreator.getRoundTracker());
+        assertArrayEquals(roundTracker, cliRoundTrackerViewCreator.getRoundTracker());
     }
 
+    /**
+     * Tests setter method of the RoundTracker
+     */
     @Test
-    public void testSetRoundTracker(){
+    public void testSetRoundTracker() {
         this.roundTracker = new IntColorPair[1][1];
         cliRoundTrackerViewCreator.setRoundTracker(roundTracker);
-        assertArrayEquals(roundTracker,cliRoundTrackerViewCreator.getRoundTracker());
+        assertArrayEquals(roundTracker, cliRoundTrackerViewCreator.getRoundTracker());
     }
 }

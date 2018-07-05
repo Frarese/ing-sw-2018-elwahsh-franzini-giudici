@@ -19,6 +19,9 @@ import static org.junit.Assert.*;
 
 public class CommandShowFavoursTest extends AbsCommandTest {
 
+    /**
+     * Mock class of ViewActions object
+     */
     private class FakeViewAction extends ViewActions {
 
         private FakeViewAction() {
@@ -39,10 +42,13 @@ public class CommandShowFavoursTest extends AbsCommandTest {
 
         @Override
         public void askLobby() {
-            assert true;
+            //Nothing
         }
     }
 
+    /**
+     * Mock class of CLIApp object
+     */
     private class FakeApp extends CLIApp {
         private FakeApp() {
             super(new FakeViewAction(), new ViewToolCardActions(null));
@@ -50,10 +56,15 @@ public class CommandShowFavoursTest extends AbsCommandTest {
 
         @Override
         public void menu() {
-            assert true;
+            //Nothing
         }
     }
 
+    /**
+     * Checks command perform that shows my favour points
+     *
+     * @throws Exception if an error occurs during reading
+     */
     @Test
     public void testDoActionYourFavours() throws Exception {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "10" + enter + "80" + enter + "y" + enter;
@@ -71,6 +82,11 @@ public class CommandShowFavoursTest extends AbsCommandTest {
         commandShowFavours.doAction();
     }
 
+    /**
+     * Checks command perform that shows other player's favour points
+     *
+     * @throws Exception if an error occurs during reading
+     */
     @Test
     public void testDoActionOtherFavours() throws Exception {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "10" + enter + "80" + enter + "n" + enter + "0" + enter;

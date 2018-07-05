@@ -16,6 +16,9 @@ import static org.junit.Assert.assertEquals;
 
 public class CommandShowLeaderBoardTest extends AbsCommandTest {
 
+    /**
+     * Mock class of CLIApp object
+     */
     private class FakeApp extends CLIApp {
         private FakeApp() {
             super(null, null);
@@ -23,10 +26,13 @@ public class CommandShowLeaderBoardTest extends AbsCommandTest {
 
         @Override
         public void menu() {
-            assert true;
+            //Nothing
         }
     }
 
+    /**
+     * Checks command perform with leader board not empty
+     */
     @Test
     public void testDoAction() {
         ArrayList<ScoreEntry> arrayList = new ArrayList<>();
@@ -45,6 +51,9 @@ public class CommandShowLeaderBoardTest extends AbsCommandTest {
         assertEquals(returnString, savedStream.toString().replaceAll(regexControl, emptyString));
     }
 
+    /**
+     * Checks command perform with leader board empty
+     */
     @Test
     public void testDoActionNothing() {
         app = new FakeApp();

@@ -12,14 +12,16 @@ import org.junit.Test;
 
 public class FXRoundTrackerViewCreatorTest {
 
+    /**
+     * Tests correct FX's RoundTracker creation
+     */
     @Test
     public void testDisplay() {
         IntColorPair[][] roundT = new IntColorPair[9][10];
-        roundT[0][0] = new IntColorPair(1,ColorModel.RED);
-        roundT[0][1] = new IntColorPair(1,ColorModel.BLUE);
-        roundT[1][0] = new IntColorPair(5,ColorModel.RED);
+        roundT[0][0] = new IntColorPair(1, ColorModel.RED);
+        roundT[0][1] = new IntColorPair(1, ColorModel.BLUE);
+        roundT[1][0] = new IntColorPair(5, ColorModel.RED);
 
-         new FXRoundTrackerViewCreator(3,roundT);
-
+        new FXRoundTrackerViewCreator(3, roundT);
     }
 }

@@ -18,6 +18,9 @@ import static org.junit.Assert.assertEquals;
 
 public class CommandAddDieTest extends AbsCommandTest {
 
+    /**
+     * Mock class of ViewActions object
+     */
     private class FakeViewAction extends ViewActions {
         private FakeViewAction() {
             super(null);
@@ -31,6 +34,9 @@ public class CommandAddDieTest extends AbsCommandTest {
         }
     }
 
+    /**
+     * Mock class of CLIApp object
+     */
     private class FakeApp extends CLIApp {
         private FakeApp() {
             super(new FakeViewAction(), null);
@@ -38,8 +44,13 @@ public class CommandAddDieTest extends AbsCommandTest {
     }
 
 
+    /**
+     * Checks command perform
+     *
+     * @throws Exception if an error occurs during reading
+     */
     @Test
-    public void testDoAction() throws Exception{
+    public void testDoAction() throws Exception {
         String input = "0" + enter + "2" + enter + "3" + enter;
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         app = new FakeApp();
@@ -60,11 +71,5 @@ public class CommandAddDieTest extends AbsCommandTest {
 
         CommandAddDie commandAddDie = new CommandAddDie(app);
         commandAddDie.doAction();
-
-        //assertEquals("Seleziona un dado dalla riserva: ", savedStream.toString().split(enter)[0]);
-        //assertEquals("0) 1-RED", savedStream.toString().split(enter)[1].replaceAll("\\p{Cntrl}]",""));
-        // split(enter)[2] blank row
-        //assertEquals("Opzione: ", savedStream.toString().split(enter)[3]);
-        //assertEquals("Seleziona la posizione (la numerazione parte da 0)", savedStream.toString().split(enter)[4]);
     }
 }

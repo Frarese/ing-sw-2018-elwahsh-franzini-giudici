@@ -26,6 +26,9 @@ import static org.junit.Assert.*;
 
 public class PlayerViewObserverTest {
 
+    /**
+     * Checks correct update of players' state
+     */
     @Test
     public void testUpdate() {
         String enter = System.lineSeparator();

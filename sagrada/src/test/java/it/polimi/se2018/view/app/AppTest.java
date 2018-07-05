@@ -24,16 +24,25 @@ public class AppTest {
 
     private CLIApp cliApp;
 
+    /**
+     * Creates the object to test
+     */
     @Before
     public void testInit() {
         cliApp = new CLIApp(new ViewActions(new ActionSender()), new ViewToolCardActions(new ActionSender()));
     }
 
+    /**
+     * Test the search in players' array that is null
+     */
     @Test
     public void testSearchPlayerViewByNameNull() {
         assertNull(this.cliApp.searchPlayerViewByName(null, "Test"));
     }
 
+    /**
+     * Test getter method of invites' list
+     */
     @Test
     public void testGetInvites() {
         List<MatchIdentifier> invites = new ArrayList<>();
@@ -47,6 +56,9 @@ public class AppTest {
         assertArrayEquals(invites.toArray(), cliApp.getInvites().toArray());
     }
 
+    /**
+     * Tests getter method of the viewActions object
+     */
     @Test
     public void testGetViewActions() {
         testInit();
@@ -67,6 +79,9 @@ public class AppTest {
         }
     }
 
+    /**
+     * Tests getter method of the viewAToolCardActions object
+     */
     @Test
     public void testGetViewToolCardActions() {
         testInit();

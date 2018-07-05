@@ -17,11 +17,17 @@ public class CLIDieViewCreatorTest {
 
     private CLIDieViewCreator cliDieViewCreator;
 
+    /**
+     * Creates a new CLIDieViewCreator
+     */
     @Before
     public void testInit() {
         cliDieViewCreator = new CLIDieViewCreator();
     }
 
+    /**
+     * Checks correct CLI' die object creation
+     */
     @Test
     public void testMakeDie() {
         assertEquals("1-RED", cliDieViewCreator.makeDie(new IntColorPair(1, ColorModel.RED)));

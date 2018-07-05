@@ -17,6 +17,9 @@ import static org.junit.Assert.*;
 
 public class CommandChangeLayerTest extends AbsCommandTest {
 
+    /**
+     * Mock class of ViewActions object for Socket connection
+     */
     private class FakeViewAction extends ViewActions {
         private FakeViewAction() {
             super(null);
@@ -43,10 +46,13 @@ public class CommandChangeLayerTest extends AbsCommandTest {
 
         @Override
         public void askLobby() {
-            assert true;
+            //Nothing
         }
     }
 
+    /**
+     * Mock class of ViewActions object for RMI connection
+     */
     private class FakeViewAction2 extends ViewActions {
         private FakeViewAction2() {
             super(null);
@@ -73,10 +79,13 @@ public class CommandChangeLayerTest extends AbsCommandTest {
 
         @Override
         public void askLobby() {
-            assert true;
+            //Nothing
         }
     }
 
+    /**
+     * Mock class of CLIApp object for Socket connection
+     */
     private class FakeApp extends CLIApp {
         private FakeApp() {
             super(new FakeViewAction(), new ViewToolCardActions(null));
@@ -84,10 +93,13 @@ public class CommandChangeLayerTest extends AbsCommandTest {
 
         @Override
         public void menu() {
-            assert true;
+            //Nothing
         }
     }
 
+    /**
+     * Mock class of CLIApp object for RMI connection
+     */
     private class FakeApp2 extends CLIApp {
         private FakeApp2() {
             super(new FakeViewAction2(), new ViewToolCardActions(null));
@@ -95,7 +107,7 @@ public class CommandChangeLayerTest extends AbsCommandTest {
         
         @Override
         public void menu() {
-            assert true;
+            //Nothing
         }
     }
 
@@ -112,6 +124,11 @@ public class CommandChangeLayerTest extends AbsCommandTest {
         commandChangeLayer.doAction();
     }
 
+    /**
+     * Checks command perform with Socket connection
+     *
+     * @throws Exception if an error occurs during reading
+     */
     @Test
     public void testDoActionToRMI() throws Exception{
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "90" + enter + "y" + enter +"y"+enter+ "72" + enter;
@@ -125,6 +142,11 @@ public class CommandChangeLayerTest extends AbsCommandTest {
         commandChangeLayer.doAction();
     }
 
+    /**
+     * Checks command perform with RMI connection
+     *
+     * @throws Exception if an error occurs during reading
+     */
     @Test
     public void testNoChange() throws Exception{
         String message = "n" + enter;

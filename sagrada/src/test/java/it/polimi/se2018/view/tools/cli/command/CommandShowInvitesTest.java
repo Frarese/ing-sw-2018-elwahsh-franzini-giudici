@@ -14,6 +14,9 @@ import static org.junit.Assert.assertEquals;
 
 public class CommandShowInvitesTest extends AbsCommandTest {
 
+    /**
+     * Mock class of CLIApp object
+     */
     private class FakeApp extends CLIApp {
         private FakeApp() {
             super(null, null);
@@ -21,10 +24,13 @@ public class CommandShowInvitesTest extends AbsCommandTest {
 
         @Override
         public void menu() {
-            assert true;
+            //Nothing
         }
     }
 
+    /**
+     * Checks command perform
+     */
     @Test
     public void testDoAction() {
         MatchIdentifier matchIdentifier1 = new MatchIdentifier("TestP0", "TestP1", "TestP2", "TestP3");

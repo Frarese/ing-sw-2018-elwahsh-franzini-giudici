@@ -16,6 +16,9 @@ import static org.junit.Assert.assertEquals;
 
 public class CommandShowConnectedUsersTest extends AbsCommandTest {
 
+    /**
+     * Mock class of CLIApp object
+     */
     private class FakeApp extends CLIApp {
         private FakeApp() {
             super(null, null);
@@ -23,10 +26,15 @@ public class CommandShowConnectedUsersTest extends AbsCommandTest {
 
         @Override
         public void menu() {
-            assert true;
+            //Nothing
         }
     }
 
+    /**
+     * Checks command perform with users' list not empty
+     *
+     * @throws Exception if an error occurs during reading
+     */
     @Test
     public void testDoAction() {
         ArrayList<ScoreEntry> arrayList = new ArrayList<>();
@@ -44,6 +52,11 @@ public class CommandShowConnectedUsersTest extends AbsCommandTest {
         assertEquals(returnString, savedStream.toString().replaceAll(regexControl, emptyString));
     }
 
+    /**
+     * Checks command perform without users' list empty
+     *
+     * @throws Exception if an error occurs during reading
+     */
     @Test
     public void testDoActionNothing() {
         app = new FakeApp();

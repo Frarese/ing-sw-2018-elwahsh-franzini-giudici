@@ -17,6 +17,9 @@ import static org.junit.Assert.assertArrayEquals;
 
 public class ReserveViewObserverTest {
 
+    /**
+     * Checks correct update of reserve's state
+     */
     @Test
     public void testUpdate() {
         App app = new CLIApp(null, null);

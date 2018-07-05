@@ -18,6 +18,9 @@ import static org.junit.Assert.assertEquals;
 
 public class RoundTrackerViewObserverTest {
 
+    /**
+     * Checks correct update of RoundTracker's state
+     */
     @Test
     public void update() {
         App app = new CLIApp(null, null);

@@ -48,9 +48,7 @@ public class CLIAppTest {
     private CLIApp app;
 
     /**
-     * ----------------------------------
-     * Helper Methods
-     * ----------------------------------
+     * Creates the object to test with viewAction and viewToolCardAction mock's object
      */
 
     private void testSetApp(ViewActions fakeViewAction) {
@@ -63,29 +61,35 @@ public class CLIAppTest {
     }
 
     /**
-     * ----------------------------------
-     * Start Test
-     * ----------------------------------
+     * Prepares System.out to be saved in a stream
      */
-
     @Before
     public void testInit() {
         savedStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(savedStream));
     }
 
+    /**
+     * Restore System.in and System.out
+     */
     @After
     public void testCloseOperation() {
         System.setIn(System.in);
         System.setOut(System.out);
     }
 
+    /**
+     * Checks that animation is initialized true
+     */
     @Test
     public void testAnimation() {
         testSetApp(new FakeViewAction());
         assertTrue(this.app.animationEnable);
     }
 
+    /**
+     * Simulates login with Socket connection
+     */
     @Test
     public void testStartLoginDisplayWelcome() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
@@ -95,6 +99,9 @@ public class CLIAppTest {
         this.app.startLogin(true);
     }
 
+    /**
+     * Simulates login with RMI connection
+     */
     @Test
     public void testStartLogin() {
         String message = "n" + enter + "Test" + enter + "test" + enter + "test" + enter + "y" + enter + "80" + enter;
@@ -104,6 +111,9 @@ public class CLIAppTest {
         this.app.startLogin(false);
     }
 
+    /**
+     * Checks notify of login success
+     */
     @Test
     public void testLoginResult() {
         testSetApp(new FakeViewAction());
@@ -112,6 +122,9 @@ public class CLIAppTest {
         assertEquals("Login riuscito con successo!" + enter, this.savedStream.toString());
     }
 
+    /**
+     * Checks notify of login failure
+     */
     @Test
     public void testLoginResultFail() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
@@ -122,6 +135,9 @@ public class CLIAppTest {
         assertEquals("Login NON riuscito! Riprova.", this.savedStream.toString().split(enter)[0]);
     }
 
+    /**
+     * Checks notify of change layer request to RMI connection
+     */
     @Test
     public void testChangeLayerResultRMI() {
         String message = "1" + enter + "y" + enter;
@@ -135,6 +151,9 @@ public class CLIAppTest {
         assertEquals("L'attuale layer è RMI.", this.savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of change layer request to Socket connection
+     */
     @Test
     public void testChangeLayerResultSocket() {
         String message = "2" + enter + "n" + enter + "1" + enter + "y" + enter;
@@ -148,6 +167,9 @@ public class CLIAppTest {
         assertEquals("L'attuale layer è Socket.", this.savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of leave match success
+     */
     @Test
     public void testLeaveMatchResult() {
         testSetApp(new FakeViewAction2());
@@ -157,6 +179,9 @@ public class CLIAppTest {
         assertEquals("Match lasciato con successo." + enter, this.savedStream.toString());
     }
 
+    /**
+     * Checks notify of leave match failure
+     */
     @Test
     public void testLeaveMatchResultFail() {
         String message = 1 + enter + "y" + enter;
@@ -170,6 +195,9 @@ public class CLIAppTest {
         assertEquals("Non sono riuscito a disconnettermi dal match.", this.savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of logout success
+     */
     @Test
     public void testLogoutResult() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter;
@@ -181,6 +209,9 @@ public class CLIAppTest {
         assertEquals("Logout riuscito con successo!", this.savedStream.toString().split(enter)[0]);
     }
 
+    /**
+     * Checks notify of logout failure
+     */
     @Test
     public void testLogoutResultFail() {
         String message = 1 + enter + "y" + enter;
@@ -194,6 +225,9 @@ public class CLIAppTest {
         assertEquals("Logout NON riuscito!", this.savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of logout success
+     */
     @Test
     public void testCreateLobby() {
         String message = 8 + enter + "y" + enter;
@@ -204,6 +238,9 @@ public class CLIAppTest {
         this.app.createLobby();
     }
 
+    /**
+     * Test connectedPlayers' list receiving
+     */
     @Test
     public void testPullConnectedPlayers() {
         ArrayList<ScoreEntry> arrayList = new ArrayList<>();
@@ -217,6 +254,9 @@ public class CLIAppTest {
         assertArrayEquals(arrayList.toArray(), this.app.getConnectedUsers().toArray());
     }
 
+    /**
+     * Test leaderBoard's list receiving
+     */
     @Test
     public void testPullLeaderBoard() {
         ArrayList<ScoreEntry> arrayList = new ArrayList<>();
@@ -230,6 +270,9 @@ public class CLIAppTest {
         assertArrayEquals(arrayList.toArray(), this.app.getLeaderBoard().toArray());
     }
 
+    /**
+     * Test invites' list receiving
+     */
     @Test
     public void testPullInvitate() {
         MatchIdentifier matchIdentifier1 = new MatchIdentifier("TestP0", "TestP1", "TestP2", "TestP3");
@@ -245,6 +288,9 @@ public class CLIAppTest {
         assertEquals(matchIdentifier2.toString(), this.app.getInvites().get(1).toString());
     }
 
+    /**
+     * Simulates first pattern selection
+     */
     @Test
     public void testAskPattern1() {
         String message = "1" + enter;
@@ -274,6 +320,9 @@ public class CLIAppTest {
 
     }
 
+    /**
+     * Simulates second pattern selection
+     */
     @Test
     public void testAskPattern2() {
         String message = "2" + enter;
@@ -302,6 +351,9 @@ public class CLIAppTest {
         assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getToolCards().toArray());
     }
 
+    /**
+     * Simulates third pattern selection
+     */
     @Test
     public void testAskPattern3() {
         String message = "3" + enter;
@@ -331,6 +383,9 @@ public class CLIAppTest {
 
     }
 
+    /**
+     * Simulates fourth pattern selection
+     */
     @Test
     public void testAskPattern4() {
         String message = "4" + enter;
@@ -359,6 +414,9 @@ public class CLIAppTest {
         assertArrayEquals(cards.toArray(), this.app.getCardViewCreator().getToolCards().toArray());
     }
 
+    /**
+     * Checks correct init game operations
+     */
     @Test
     public void testInitGame() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "10" + enter + "y" + enter;
@@ -404,6 +462,9 @@ public class CLIAppTest {
         assertEquals(0, this.app.getRoundTrackerViewCreator().getRound());
     }
 
+    /**
+     * Checks notify of other player disconnection
+     */
     @Test
     public void testOtherPlayerLeave() {
         testSetApp(new FakeViewAction());
@@ -415,6 +476,9 @@ public class CLIAppTest {
 
     }
 
+    /**
+     * Checks notify of other player reconnection
+     */
     @Test
     public void testOtherPlayerReconnection() {
         testSetApp(new FakeViewAction());
@@ -425,6 +489,9 @@ public class CLIAppTest {
         assertEquals("OtherPlayerTest è rientrato in gioco." + enter, savedStream.toString());
     }
 
+    /**
+     * Checks notify of placement success
+     */
     @Test
     public void testSetDieResult() {
         String message = "1" + enter + "y" + enter;
@@ -437,6 +504,9 @@ public class CLIAppTest {
         assertEquals("Dado piazzato!", savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of placement failure
+     */
     @Test
     public void testSetDieResultFail() {
         String message = "1" + enter + "y" + enter;
@@ -449,6 +519,9 @@ public class CLIAppTest {
         assertEquals("Non sei riuscito a piazzare il dado: test error", savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of my placement
+     */
     @Test
     public void testAddUpdateMe() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
@@ -460,6 +533,9 @@ public class CLIAppTest {
         this.app.addUpdate("Test", 1, 1);
     }
 
+    /**
+     * Checks notify of other player's placement
+     */
     @Test
     public void testAddUpdateOther() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
@@ -476,6 +552,9 @@ public class CLIAppTest {
         this.app.addUpdate("Other", 0, 0);
     }
 
+    /**
+     * Checks notify of a toolCard usage success
+     */
     @Test
     public void testUseToolCardResult() {
         String message = "1" + enter + "y" + enter;
@@ -488,6 +567,9 @@ public class CLIAppTest {
         assertEquals("Effetto carta completato!", savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of a toolCard usage failure
+     */
     @Test
     public void testUseToolCardResultFail() {
         String message = "1" + enter + "y" + enter;
@@ -500,6 +582,9 @@ public class CLIAppTest {
         assertEquals("Non sei riuscito ad usare la carta: test error", savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of my toolCard usage
+     */
     @Test
     public void testUseToolCardUpdateMe() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
@@ -519,6 +604,9 @@ public class CLIAppTest {
         this.app.useToolCardUpdate("Test", 10);
     }
 
+    /**
+     * Checks notify of other player's toolCard usage
+     */
     @Test
     public void testUseToolCardUpdateOther() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
@@ -541,6 +629,9 @@ public class CLIAppTest {
         this.app.useToolCardUpdate("Other", 10);
     }
 
+    /**
+     * Checks notify of pass turn success
+     */
     @Test
     public void testPassTurnResult() {
         String message = "0" + enter + "y" + enter;
@@ -553,6 +644,9 @@ public class CLIAppTest {
         assertEquals("Turno passato con successo!", savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of pass turn failure
+     */
     @Test
     public void testPassTurnResultFail() {
         String message = "1" + enter + "y" + enter;
@@ -565,6 +659,9 @@ public class CLIAppTest {
         assertEquals("Non sei riuscito a passare il turno", savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Checks notify of my pass turn
+     */
     @Test
     public void testPassTurnUpdateMe() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
@@ -576,6 +673,9 @@ public class CLIAppTest {
         this.app.passTurnUpdate("Test");
     }
 
+    /**
+     * Checks notify of other player's pass turn
+     */
     @Test
     public void testPassTurnUpdateOther() {
         String message = "y" + enter + "Test" + enter + "test" + enter + "test" + enter + "n" + enter + "80" + enter + "80" + enter + "1" + enter + "y" + enter;
@@ -590,6 +690,9 @@ public class CLIAppTest {
         this.app.passTurnUpdate("Other");
     }
 
+    /**
+     * Simulates a game's end
+     */
     @Test
     public void testGameEnd() {
         String message = "1" + enter + "y" + enter;
@@ -602,6 +705,19 @@ public class CLIAppTest {
         //No test of System.out because it's tested in CLIScoreViewCreator
     }
 
+    /**
+     * Checks notify of match abort from server
+     */
+    @Test
+    public void testAbortMatch() {
+        testSetApp(new FakeViewAction());
+
+        app.abortMatch();
+    }
+
+    /**
+     * Simulates a pop of a die from reserve
+     */
     @Test
     public void testSelectDieFromReserve() {
         String message = "0" + enter;
@@ -619,6 +735,9 @@ public class CLIAppTest {
         assertEquals("Seleziona un dado dalla riserva: ", savedStream.toString().split(enter)[0]);
     }
 
+    /**
+     * Simulates a choice of a new value for a die's face between two value
+     */
     @Test
     public void testSelectNewValueForDie() {
         String message = "3" + enter;
@@ -631,6 +750,9 @@ public class CLIAppTest {
         assertEquals("Seleziona il valore del dado tra 1 e 3", savedStream.toString().split(enter)[0]);
     }
 
+    /**
+     * Checks reserve update success
+     */
     @Test
     public void testUpdateReserve() {
         testSetApp(new FakeViewAction());
@@ -646,6 +768,9 @@ public class CLIAppTest {
         assertEquals("0) 1-RED", savedStream.toString().split("\n")[1]);
     }
 
+    /**
+     * Simulates a pop of a die from my grid
+     */
     @Test
     public void testSelectDieFromGrid() {
         String message = "3" + enter + "2" + enter;
@@ -665,6 +790,9 @@ public class CLIAppTest {
         assertEquals("Seleziona un dado dalla griglia (la numerazione parte da 0)", savedStream.toString().split(enter)[0]);
     }
 
+    /**
+     * Simulates a placement of a die in grid
+     */
     @Test
     public void testSetDieOnGrid() {
         String message = "3" + enter + "2" + enter;
@@ -685,6 +813,9 @@ public class CLIAppTest {
         assertEquals("(la numerazione sulla griglia parte da 0)", savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Simulates a pop of a die from RoundTracker
+     */
     @Test
     public void testSelectDieFromRoundTracker() {
         String message = "1" + enter + "0" + enter;
@@ -709,6 +840,9 @@ public class CLIAppTest {
 
     }
 
+    /**
+     * Simulates a choice of a new value for a die's face
+     */
     @Test
     public void testSelectFace() {
         String message = "4" + enter;
@@ -722,6 +856,9 @@ public class CLIAppTest {
         assertEquals("Inserisci nuovo valore:", savedStream.toString().split(enter)[1]);
     }
 
+    /**
+     * Simulates a pop of a die from grid by color restriction
+     */
     @Test
     public void testSelectDieFromGridByColor() {
         String message = "3" + enter + "2" + enter;
@@ -743,6 +880,9 @@ public class CLIAppTest {
 
     }
 
+    /**
+     * Simulates a choice of a number of dice to place
+     */
     @Test
     public void testAskNumbersOfPlacement() {
         String message = "2" + enter;
@@ -755,6 +895,9 @@ public class CLIAppTest {
         assertEquals("Seleziona il numero di dadi da spostare tra 1 e 2 ", savedStream.toString().split(enter)[0]);
     }
 
+    /**
+     * Checks notify of error in ToolCards usage
+     */
     @Test
     public void testShowError() {
         String errorMessage = "Test error message";
@@ -767,6 +910,9 @@ public class CLIAppTest {
         assertEquals(errorMessage, savedStream.toString().split(enter)[0]);
     }
 
+    /**
+     * Simulates a choice of x coordinate (grid's width)
+     */
     @Test
     public void testGetCoordinateX() {
         String message = "1" + enter;
@@ -776,6 +922,9 @@ public class CLIAppTest {
         assertEquals(1, this.app.getCoordinateX());
     }
 
+    /**
+     * Simulates a choice of y coordinate (grid's height)
+     */
     @Test
     public void testGetCoordinateY() {
         String message = "1" + enter;
@@ -785,6 +934,9 @@ public class CLIAppTest {
         assertEquals(1, this.app.getCoordinateY());
     }
 
+    /**
+     * Tests getter method of the printer object
+     */
     @Test
     public void testGetPrinter() {
         testSetApp(new FakeViewAction());
@@ -805,6 +957,9 @@ public class CLIAppTest {
         }
     }
 
+    /**
+     * Tests getter method of the reader object
+     */
     @Test
     public void testGetReader() {
         testSetApp(new FakeViewAction());
@@ -825,6 +980,9 @@ public class CLIAppTest {
         }
     }
 
+    /**
+     * Tests methods with animation disabled
+     */
     @Test
     public void testNoAnimation() {
         testSetApp(new FakeViewAction());
@@ -855,6 +1013,9 @@ public class CLIAppTest {
         this.app.gameEnd(null, 0, 0, 0, 0);
     }
 
+    /**
+     * Tests getter method of the GridViewCreator object
+     */
     @Test
     public void testGridViewCreator() {
         testSetApp(new FakeViewAction());
@@ -883,13 +1044,6 @@ public class CLIAppTest {
         }
     }
 
-    @Test
-    public void testAbortMatch() {
-        testSetApp(new FakeViewAction());
-
-        app.abortMatch();
-    }
-
     private class CLIAppMock extends CLIApp {
 
         CLIAppMock(ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
@@ -903,11 +1057,8 @@ public class CLIAppTest {
     }
 
     /**
-     * ----------------------------------
-     * Helper Classes
-     * ----------------------------------
+     * Mock class of ViewActions object
      */
-
     private class FakeViewAction extends ViewActions {
 
         private FakeViewAction() {
@@ -947,6 +1098,9 @@ public class CLIAppTest {
         }
     }
 
+    /**
+     * Mock class of ViewActions object for other tests
+     */
     private class FakeViewAction2 extends ViewActions {
 
         private FakeViewAction2() {
@@ -976,7 +1130,9 @@ public class CLIAppTest {
         }
     }
 
-
+    /**
+     * Mock class of ViewToolCardActions object
+     */
     private class FakeViewToolActions extends ViewToolCardActions {
 
         FakeViewToolActions() {

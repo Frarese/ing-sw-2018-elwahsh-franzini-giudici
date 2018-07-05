@@ -19,6 +19,9 @@ public class PlayerStateTest {
     private IntColorPair[][] template;
     private IntColorPair[][] grid;
 
+    /**
+     * Creates a new PlayerState objects
+     */
     @Before
     public void testInit() {
         template = new IntColorPair[4][5];
@@ -32,16 +35,25 @@ public class PlayerStateTest {
         playerState = new PlayerState("Test", 10, template, grid, true, false);
     }
 
+    /**
+     * Tests getter method of player's name
+     */
     @Test
     public void testGetPlayerName() {
         assertEquals("Test", playerState.getPlayerName());
     }
 
+    /**
+     * Tests getter method of player's favours points
+     */
     @Test
     public void testGetPlayerFavours() {
         assertEquals(10, playerState.getPlayerFavours());
     }
 
+    /**
+     * Tests getter method of player's template
+     */
     @Test
     public void testGetPlayerTemplate() {
         for (int i = 0; i < template.length; i++) {
@@ -51,6 +63,9 @@ public class PlayerStateTest {
         }
     }
 
+    /**
+     * Tests getter method of player's grid
+     */
     @Test
     public void testGetPlayerGrid() {
         for (int i = 0; i < grid.length; i++) {
@@ -60,11 +75,17 @@ public class PlayerStateTest {
         }
     }
 
+    /**
+     * Tests getter method of player's placement rights
+     */
     @Test
     public void testIsPlacementRights() {
         assertTrue(playerState.isPlacementRights());
     }
 
+    /**
+     * Tests getter method of player's cards rights
+     */
     @Test
     public void testIsCardRights() {
         assertFalse(playerState.isCardRights());

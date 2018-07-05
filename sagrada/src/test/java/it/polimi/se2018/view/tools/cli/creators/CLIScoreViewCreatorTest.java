@@ -20,6 +20,9 @@ public class CLIScoreViewCreatorTest {
 
     private CLIScoreViewCreator scoreViewCreator;
 
+    /**
+     * Creates scores and creates new CLIScoreViewCreator
+     */
     @Before
     public void testInit() {
         scoreViewCreator = new CLIScoreViewCreator();
@@ -30,6 +33,9 @@ public class CLIScoreViewCreatorTest {
         result.add("Enzo, Punti 0");
     }
 
+    /**
+     * Checks correct CLI' score object creation
+     */
     @Test
     public void testDisplay() {
         MatchIdentifier matchIdentifier = new MatchIdentifier("Enzo", "Luca", "Marco", "Matteo");

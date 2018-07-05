@@ -16,6 +16,9 @@ import static org.junit.Assert.assertEquals;
 
 public class CommandWaitYourTurnTest {
 
+    /**
+     * Checks command message show
+     */
     @Test
     public void testMessage() {
         CommandWaitYourTurn commandWaitYourTurn = new CommandWaitYourTurn(null);
@@ -23,6 +26,9 @@ public class CommandWaitYourTurnTest {
         assertEquals("wait) Aspetta il tuo turno (non verrà più mostrato il menu)", commandWaitYourTurn.display());
     }
 
+    /**
+     * Checks command perform
+     */
     @Test
     public void testDoAction() {
         ByteArrayOutputStream savedStream = new ByteArrayOutputStream();

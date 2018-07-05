@@ -22,6 +22,9 @@ public class CLICardViewCreatorTest {
 
     private List<SingleCardView> publicCards, toolCards;
 
+    /**
+     * Creates public cards, tool cards and new CLICardViewCreator
+     */
     @Before
     public void testInit() {
         this.publicCards = new ArrayList<>();
@@ -34,6 +37,9 @@ public class CLICardViewCreatorTest {
         cliCardViewCreator = new CLICardViewCreator(new SingleCardView(3, 1), publicCards, toolCards);
     }
 
+    /**
+     * Checks correct CLI' cards object creation
+     */
     @Test
     public void testGetCardInfo() {
         assertEquals("Sfumature Gialle", cliCardViewCreator.makeCard(3));
@@ -42,16 +48,25 @@ public class CLICardViewCreatorTest {
         assertNull(cliCardViewCreator.makeCard(32));
     }
 
+    /**
+     * Tests getter method of the privateObjectiveCard
+     */
     @Test
     public void testGetPrivateObjectiveCard() {
         assertEquals(3, cliCardViewCreator.getPrivateObjectiveCard().cardID);
     }
 
+    /**
+     * Tests getter method of the publicObjectiveCards
+     */
     @Test
     public void testGetPublicObjectiveCards() {
         assertArrayEquals(this.publicCards.toArray(), cliCardViewCreator.getPublicObjectiveCards().toArray());
     }
 
+    /**
+     * Tests getter method of the toolCards
+     */
     @Test
     public void testGetToolCards() {
         assertArrayEquals(this.toolCards.toArray(), cliCardViewCreator.getToolCards().toArray());

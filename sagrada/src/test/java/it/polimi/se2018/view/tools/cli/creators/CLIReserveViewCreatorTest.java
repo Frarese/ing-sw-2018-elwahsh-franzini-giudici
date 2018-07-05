@@ -22,6 +22,9 @@ public class CLIReserveViewCreatorTest {
 
     private CLIReserveViewCreator cliReserveViewCreator;
 
+    /**
+     * Creates reserve and new CLIReserveViewCreator
+     */
     @Before
     public void testInit() {
         this.reserve = new IntColorPair[2];
@@ -30,16 +33,25 @@ public class CLIReserveViewCreatorTest {
         this.cliReserveViewCreator = new CLIReserveViewCreator(reserve);
     }
 
+    /**
+     * Checks correct CLI' reserve object creation
+     */
     @Test
     public void testDisplay() {
         assertEquals("0) 1-RED" + "1) 2-RED", this.cliReserveViewCreator.display().replaceAll("\\p{Cntrl}", ""));
     }
 
+    /**
+     * Tests getter method of the reserve
+     */
     @Test
     public void testGetReserve() {
         assertArrayEquals(reserve, cliReserveViewCreator.getReserve());
     }
 
+    /**
+     * Tests setter method of the reserve
+     */
     @Test
     public void testSetReserve() {
         IntColorPair[] reserveTest = new IntColorPair[2];

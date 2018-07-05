@@ -13,8 +13,11 @@ import org.junit.Test;
 
 public class FXReserveViewCreatorTest {
 
+    /**
+     * Tests correct FX's reserve creation
+     */
     @Test
-    public void testDisplay(){
+    public void testDisplay() {
         IntColorPair[] reserve = new IntColorPair[9];
         reserve[0] = new IntColorPair(1, ColorModel.RED);
         reserve[1] = new IntColorPair(2, ColorModel.RED);

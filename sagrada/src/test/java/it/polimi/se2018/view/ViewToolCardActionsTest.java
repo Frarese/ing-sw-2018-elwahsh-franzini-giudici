@@ -22,16 +22,25 @@ public class ViewToolCardActionsTest {
 
     private ActionSender actionSender;
 
+    /**
+     * Sets assertion flag at false
+     */
     @Before
     public void testInit() {
         assertion = false;
     }
 
+    /**
+     * Checks assertion flags
+     */
     @After
     public void testUltimateCheck() {
         assertTrue(assertion);
     }
 
+    /**
+     * Tests selected die from reserve request
+     */
     @Test
     public void testSelectedDieFromReserve() {
         actionSender = new FakeActionSender() {
@@ -46,6 +55,9 @@ public class ViewToolCardActionsTest {
         viewActions.selectedDieFromReserve(1);
     }
 
+    /**
+     * Tests selected value for die request
+     */
     @Test
     public void testSelectedValueForDie() {
         actionSender = new FakeActionSender() {
@@ -60,6 +72,9 @@ public class ViewToolCardActionsTest {
         viewActions.selectedValueForDie(5);
     }
 
+    /**
+     * Tests selected die from grid request
+     */
     @Test
     public void testSelectedDieFromGrid() {
         actionSender = new FakeActionSender() {
@@ -75,6 +90,9 @@ public class ViewToolCardActionsTest {
         viewActions.selectedDieFromGrid(1, 2);
     }
 
+    /**
+     * Tests selected die to grid request
+     */
     @Test
     public void testSelectedDieToGrid() {
         actionSender = new FakeActionSender() {
@@ -90,6 +108,9 @@ public class ViewToolCardActionsTest {
         viewActions.selectedDieToGrid(1, 2);
     }
 
+    /**
+     * Tests selected die from RoundTracker request
+     */
     @Test
     public void testSelectedDieFromRoundTracker() {
         actionSender = new FakeActionSender() {
@@ -105,6 +126,9 @@ public class ViewToolCardActionsTest {
         viewActions.selectedDieFromRoundTracker(1, 2);
     }
 
+    /**
+     * Tests selected face request
+     */
     @Test
     public void testSelectedFace() {
         actionSender = new FakeActionSender() {
@@ -119,6 +143,9 @@ public class ViewToolCardActionsTest {
         viewActions.selectedFace(5);
     }
 
+    /**
+     * Tests selected die from grid by color request
+     */
     @Test
     public void testSelectedDieFromGridByColor() {
         actionSender = new FakeActionSender() {
@@ -134,6 +161,9 @@ public class ViewToolCardActionsTest {
         viewActions.selectedDieFromGridByColor(4, 3);
     }
 
+    /**
+     * Mock class of ActionSender
+     */
     private abstract class FakeActionSender extends ActionSender {
         FakeActionSender() {
 

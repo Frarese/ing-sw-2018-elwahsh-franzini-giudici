@@ -25,12 +25,18 @@ public abstract class AbsCommandTest {
     ByteArrayOutputStream savedStream;
     CLIApp app;
 
+    /**
+     * Prepares System.out to be saved in a stream
+     */
     @Before
     public void testInit() {
         savedStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(savedStream));
     }
 
+    /**
+     * Restore System.in and System.out
+     */
     @After
     public void testClose() {
         System.setIn(System.in);

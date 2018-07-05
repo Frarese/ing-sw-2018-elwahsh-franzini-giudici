@@ -22,16 +22,25 @@ public class ViewActionsTest {
 
     private ActionSender actionSender;
 
+    /**
+     * Sets assertion flag at false
+     */
     @Before
     public void testInit() {
         assertion = false;
     }
 
+    /**
+     * Checks assertion flags
+     */
     @After
     public void testUltimateCheck() {
         assertTrue(assertion);
     }
 
+    /**
+     * Tests login request
+     */
     @Test
     public void testLogin() {
         actionSender = new FakeActionSender() {
@@ -53,6 +62,9 @@ public class ViewActionsTest {
         assertNull(viewActions.login("Test", "test", true, "TestHost", true, 10, 1));
     }
 
+    /**
+     * Tests change layer request
+     */
     @Test
     public void testChangeLayer() {
         actionSender = new FakeActionSender() {
@@ -69,6 +81,9 @@ public class ViewActionsTest {
         viewActions.changeLayer(true, -1, 1);
     }
 
+    /**
+     * Tests leave match request
+     */
     @Test
     public void testLeaveMatch() {
         actionSender = new FakeActionSender() {
@@ -82,6 +97,9 @@ public class ViewActionsTest {
         viewActions.leaveMatch();
     }
 
+    /**
+     * Tests logout request
+     */
     @Test
     public void testLogout() {
         actionSender = new FakeActionSender() {
@@ -95,6 +113,9 @@ public class ViewActionsTest {
         viewActions.logout();
     }
 
+    /**
+     * Tests lobby request
+     */
     @Test
     public void testAskLobby() {
         actionSender = new FakeActionSender() {
@@ -108,6 +129,9 @@ public class ViewActionsTest {
         viewActions.askLobby();
     }
 
+    /**
+     * Tests pulling invite request
+     */
     @Test
     public void testPushInvite() {
         MatchIdentifier matchIdentifier = new MatchIdentifier("A", "B", null, null);
@@ -124,6 +148,9 @@ public class ViewActionsTest {
         viewActions.pushInvite(matchIdentifier);
     }
 
+    /**
+     * Tests joining matchmaking request
+     */
     @Test
     public void testJoinMatchMaking() {
         actionSender = new FakeActionSender() {
@@ -137,6 +164,9 @@ public class ViewActionsTest {
         viewActions.joinMatchMaking();
     }
 
+    /**
+     * Tests leaving matchmaking request
+     */
     @Test
     public void testLeaveMatchMaking() {
         actionSender = new FakeActionSender() {
@@ -150,6 +180,9 @@ public class ViewActionsTest {
         viewActions.leaveMatchMaking();
     }
 
+    /**
+     * Tests accept invite request
+     */
     @Test
     public void testAcceptInvite() {
         MatchIdentifier matchIdentifier = new MatchIdentifier("A", "B", null, null);
@@ -166,6 +199,9 @@ public class ViewActionsTest {
         viewActions.acceptInvite(matchIdentifier);
     }
 
+    /**
+     * Tests pattern card selection request
+     */
     @Test
     public void testSelectedPattern() {
         actionSender = new FakeActionSender() {
@@ -180,6 +216,9 @@ public class ViewActionsTest {
         viewActions.selectedPattern("TestPattern");
     }
 
+    /**
+     * Tests game end request
+     */
     @Test
     public void testEndInitGame() {
         actionSender = new FakeActionSender() {
@@ -193,6 +232,9 @@ public class ViewActionsTest {
         viewActions.endInitGame();
     }
 
+    /**
+     * Tests set die request
+     */
     @Test
     public void testSetDie() {
         actionSender = new FakeActionSender() {
@@ -209,6 +251,9 @@ public class ViewActionsTest {
         viewActions.setDie(0, 1, 2);
     }
 
+    /**
+     * Tests tool card use request
+     */
     @Test
     public void testUseToolCard() {
         actionSender = new FakeActionSender() {
@@ -223,6 +268,9 @@ public class ViewActionsTest {
         viewActions.useToolCard(10);
     }
 
+    /**
+     * Tests pass turn request
+     */
     @Test
     public void testPassTurn() {
         actionSender = new FakeActionSender() {
@@ -236,10 +284,12 @@ public class ViewActionsTest {
         viewActions.passTurn();
     }
 
-
+    /**
+     * Mock class of ActionSender
+     */
     private abstract class FakeActionSender extends ActionSender {
         FakeActionSender() {
-
+            //Nothing
         }
     }
 }
