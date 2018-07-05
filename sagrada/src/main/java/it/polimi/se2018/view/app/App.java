@@ -234,6 +234,9 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
         return ownerPlayerName;
     }
 
+    /**
+     * Cleans View structure before a new match
+     */
     void clean(){
         this.animationEnable = true;
         this.players.clear();
