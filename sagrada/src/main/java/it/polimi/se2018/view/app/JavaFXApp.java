@@ -549,7 +549,10 @@ public class JavaFXApp extends App {
 
     @Override
     public void askNumbersOfPlacement() {
-        throw new UnsupportedOperationException();
+        Platform.runLater(() -> {
+            int ret = TwoValueBox.display("Numero di dadi da spostare", 1, 2);
+            this.getViewToolCardActions().selectedNumbersOfPlacement(ret);
+        });
     }
 
     @Override
@@ -585,6 +588,7 @@ public class JavaFXApp extends App {
             JavaFXStageProducer.setController(loader.getController());
             JavaFXStageProducer.getStage().setResizable(resizable);
             JavaFXStageProducer.getStage().centerOnScreen();
+            JavaFXStageProducer.getStage().show();
         });
     }
 

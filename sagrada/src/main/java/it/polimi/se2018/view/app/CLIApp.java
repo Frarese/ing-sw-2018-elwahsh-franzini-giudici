@@ -659,7 +659,17 @@ public class CLIApp extends App {
 
     @Override
     public void askNumbersOfPlacement() {
-        throw new UnsupportedOperationException();
+        //Print and read operations
+        printer.print("Seleziona il numero di dadi da spostare tra 1 e 2 ");
+        int choice;
+        try {
+            choice = reader.chooseBetweenTwo(1, 2);
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Error selecting number of placement" + e.getMessage());
+            return;
+        }
+
+        viewToolCardActions.selectedNumbersOfPlacement(choice);
     }
 
     @Override

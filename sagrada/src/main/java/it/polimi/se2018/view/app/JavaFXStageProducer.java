@@ -37,8 +37,6 @@ public class JavaFXStageProducer extends Application {
             closeHandler();
         });
 
-        primaryStage.show();
-
         //Setting static public attributes
         setStage(primaryStage);
 

@@ -744,6 +744,30 @@ public class CLIAppTest {
     }
 
     @Test
+    public void testAskNumbersOfPlacement() {
+        String message = "2" + enter;
+        System.setIn(new ByteArrayInputStream(message.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        this.app.askNumbersOfPlacement();
+
+        assertEquals("Seleziona il numero di dadi da spostare tra 1 e 2 ", savedStream.toString().split(enter)[0]);
+    }
+
+    @Test
+    public void testShowError() {
+        String errorMessage = "Test error message";
+        System.setIn(new ByteArrayInputStream(errorMessage.getBytes()));
+
+        testSetApp(new FakeViewAction());
+
+        this.app.showError(errorMessage);
+
+        assertEquals(errorMessage, savedStream.toString().split(enter)[0]);
+    }
+
+    @Test
     public void testGetCoordinateX() {
         String message = "1" + enter;
         System.setIn(new ByteArrayInputStream(message.getBytes()));
@@ -860,7 +884,7 @@ public class CLIAppTest {
     }
 
     @Test
-    public void testAbortMatch(){
+    public void testAbortMatch() {
         testSetApp(new FakeViewAction());
 
         app.abortMatch();
@@ -996,6 +1020,11 @@ public class CLIAppTest {
         public void selectedDieFromGridByColor(int width, int height) {
             assertEquals(3, width);
             assertEquals(2, height);
+        }
+
+        @Override
+        public void selectedNumbersOfPlacement(int number) {
+            assertEquals(2, number);
         }
     }
 }
