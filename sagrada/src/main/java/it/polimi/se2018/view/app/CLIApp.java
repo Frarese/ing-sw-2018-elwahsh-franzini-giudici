@@ -88,7 +88,7 @@ public class CLIApp extends App {
 
         //Check if have to display welcome page
         if (displayWelcome) {
-            String welcome =    "---------------------------------\n";
+            String welcome = "---------------------------------\n";
             welcome = welcome + "| Sagrada Trappola di Cristallo |\n";
             welcome = welcome + "---------------------------------\n";
             printer.print(welcome);
@@ -835,7 +835,7 @@ public class CLIApp extends App {
 
     @Override
     public void clean(boolean goToLobby) {
-        super.clean(false);
+        super.clean();
         //Cleans structures
         this.cardViewCreator = new CLICardViewCreator();
         this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();

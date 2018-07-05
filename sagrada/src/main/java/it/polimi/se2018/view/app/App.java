@@ -237,13 +237,17 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     /**
      * Cleans View structure before a new match
      */
-    public void clean(boolean goToLobby){
+    public abstract void clean(boolean goToLobby);
+
+    /**
+     * Cleans App structure before a new match
+     */
+    void clean() {
         this.animationEnable = true;
         this.players.clear();
         this.invites.clear();
         this.connectedUsers.clear();
         this.leaderBoard.clear();
-
         this.playerViewObserverList.clear();
     }
 }

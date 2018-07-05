@@ -644,7 +644,7 @@ public class JavaFXApp extends App {
 
     @Override
     public void clean(boolean goToLobby) {
-        super.clean(false);
+        super.clean();
         //Cleans structures
         this.cardViewCreator = new FXCardViewCreator();
         this.roundTrackerViewCreator = new FXRoundTrackerViewCreator();

@@ -479,5 +479,10 @@ public class ServerMessageHandlerImplTest {
         public void showError(String error) {
             errorShown=error;
         }
+
+        @Override
+        public void clean(boolean goToLobby) {
+
+        }
     }
 }

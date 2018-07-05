@@ -300,5 +300,10 @@ public class ClientControllerTest {
         public void pullConnectedPlayers(List<ScoreEntry> players) {
             notified="pushedList";
         }
+
+        @Override
+        public void clean(boolean goToLobby) {
+
+        }
     }
 }
