@@ -131,6 +131,29 @@ public abstract class DiePlacementLogic {
     }
 
     /**
+     * Checks if it is the right spot for the placement without checking restrictions
+     * @param player player who's trying to place the die
+     * @param h height of the spot
+     * @param w width of the spot
+     * @param adjacentRestriction true if adjacency restriction is enabled
+     * @return an error or null
+     */
+    private static String rightSpot(Player player, int h, int w, boolean adjacentRestriction)
+    {
+        if (player.getGrid().getPlacedDice() == 0) {
+            if (!isBorder(h, w))
+                return "Bisogna piazzare il primo dado sul bordo";
+        } else {
+            if (adjacentRestriction &&!isAdjacent(player.getGrid(), h, w))
+                return "Bisogna piazzare il dado adiacente ad un altro";
+            else
+            if(!adjacentRestriction && isAdjacent(player.getGrid(),h,w))
+                return "Bisogna piazzare il dado in modo che non sia adiacente ad un altro";
+        }
+        return null;
+    }
+
+    /**
      * Checks all the requirements for placing the die in the desired spot
      * @param player player who's trying to place the die
      * @param h height of the spot
@@ -144,30 +167,28 @@ public abstract class DiePlacementLogic {
     public static String insertDie(Player player, int h, int w, Die d, boolean colorRestriction, boolean valueRestriction, boolean adjacentRestriction) {
 
 
-        if (player.getGrid().getPlacedDice() == 0) {
-            if (!isBorder(h, w))
-                return "Bisogna piazzare il primo dado sul bordo";
-        } else {
-            if (adjacentRestriction &&!isAdjacent(player.getGrid(), h, w))
-                return "Bisogna piazzare il dado adiacente ad un altro";
-        }
+        String out = rightSpot(player,h,w,adjacentRestriction);
+        if(out!= null)
+            return out;
+
         if (!emptySpot(player.getGrid(), h, w))
             return "Posizione occupata";
-        if (adjacentSameColor(player.getGrid(), h, w, d)) {
+
+        if (adjacentSameColor(player.getGrid(), h, w, d))
             return "I dadi adiacenti non devono avere lo stesso colore";
-        }
+
+
         if(adjacentSameValue(player.getGrid(),h,w,d))
-        {
             return "I dadi adiacenti non devono avere lo stesso valore";
-        }
+
+
         if (colorRestriction && !rightColor(player.getPattern(),h,w,d))
-        {
             return  "Restrizione di colore non ripettata";
-        }
+
+
         if (valueRestriction &&!rightValue(player.getPattern(),h,w,d))
-        {
             return  "Restrizione di valore non ripettata";
-        }
+
         return null;
     }
 
