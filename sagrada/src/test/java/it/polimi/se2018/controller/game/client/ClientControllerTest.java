@@ -248,6 +248,11 @@ public class ClientControllerTest {
         }
 
         @Override
+        public void askNumbersOfPlacement() {
+
+        }
+
+        @Override
         public void showError(String error) {
 
         }

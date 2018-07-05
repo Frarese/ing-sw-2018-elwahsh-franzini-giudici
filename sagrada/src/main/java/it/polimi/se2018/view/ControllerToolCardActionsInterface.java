@@ -62,6 +62,11 @@ public interface ControllerToolCardActionsInterface {
     void selectDieFromGridByColor(ColorModel color);
 
     /**
+     * Asks at currentPlayer the number of placement
+     */
+    void askNumbersOfPlacement();
+
+    /**
      * Show error's message while tool card is playing
      */
     void showError(String error);

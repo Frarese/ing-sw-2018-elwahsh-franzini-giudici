@@ -15,21 +15,19 @@ import javafx.scene.layout.VBox;
  * @author Mathyas Giudici
  */
 
-public class NewValueDieBox extends GeneralBox {
+public class TwoValueBox extends GeneralBox {
 
     private static int returnValue;
 
     /**
      * Class constructor
      */
-    private NewValueDieBox() {
+    private TwoValueBox() {
         super();
     }
 
 
-    public static int display(int low, int high) {
-        String title = "Scelta valore dado";
-
+    public static int display(String title, int low, int high) {
         initStage(title, false, null);
 
         Label labelTitle = new Label(title);

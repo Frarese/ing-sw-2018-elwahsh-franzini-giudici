@@ -32,7 +32,6 @@ public class ViewToolCardActions extends Observable {
      */
     public void selectedDieFromReserve(int index) {
         actionSender.selectedDieFromReserve(index);
-
     }
 
     /**
@@ -42,7 +41,6 @@ public class ViewToolCardActions extends Observable {
      */
     public void selectedValueForDie(int value) {
         actionSender.selectedNewValueForDie(value);
-
     }
 
     /**
@@ -52,7 +50,7 @@ public class ViewToolCardActions extends Observable {
      * @param height contains the y coordinate
      */
     public void selectedDieFromGrid(int width, int height) {
-        actionSender.selectedDieFromGrid(height,width);
+        actionSender.selectedDieFromGrid(height, width);
     }
 
     /**
@@ -62,8 +60,7 @@ public class ViewToolCardActions extends Observable {
      * @param height contains the y coordinate
      */
     public void selectedDieToGrid(int width, int height) {
-        actionSender.selectedDieToGrid(height,width);
-
+        actionSender.selectedDieToGrid(height, width);
     }
 
     /**
@@ -73,7 +70,7 @@ public class ViewToolCardActions extends Observable {
      * @param dieIndex   contains the dieIndex in roundTracker[roundIndex]
      */
     public void selectedDieFromRoundTracker(int roundIndex, int dieIndex) {
-        actionSender.selectedDieFromRoundTrack(roundIndex,dieIndex);
+        actionSender.selectedDieFromRoundTrack(roundIndex, dieIndex);
 
     }
 
@@ -84,7 +81,6 @@ public class ViewToolCardActions extends Observable {
      */
     public void selectedFace(int value) {
         actionSender.selectedNewValueForDie(value);
-
     }
 
     /**
@@ -94,8 +90,15 @@ public class ViewToolCardActions extends Observable {
      * @param height contains the y coordinate
      */
     public void selectedDieFromGridByColor(int width, int height) {
-        actionSender.selectedDieFromGrid(height,width);
-
+        actionSender.selectedDieFromGrid(height, width);
     }
 
+    /**
+     * Communicates to the Controller the number of placement selected
+     *
+     * @param number contains the numbers of placement
+     */
+    public void selectedNumbersOfPlacement(int number) {
+        throw new UnsupportedOperationException();
+    }
 }

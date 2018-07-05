@@ -401,6 +401,11 @@ public class ServerMessageHandlerImplTest {
         }
 
         @Override
+        public void askNumbersOfPlacement() {
+
+        }
+
+        @Override
         public void showError(String error) {
             errorShown=error;
         }

@@ -658,6 +658,11 @@ public class CLIApp extends App {
     }
 
     @Override
+    public void askNumbersOfPlacement() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void showError(String error) {
         printer.print(error);
     }
@@ -828,7 +833,7 @@ public class CLIApp extends App {
         this.gridViewCreator = new CLIGridViewCreator();
         this.isYourTurn = false;
 
-        if(goToLobby){
+        if (goToLobby) {
             //Creates new Lobby
             this.viewActions.askLobby();
             this.createLobby();

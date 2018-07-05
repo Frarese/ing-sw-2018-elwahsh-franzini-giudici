@@ -14,7 +14,7 @@ import it.polimi.se2018.view.observer.*;
 import it.polimi.se2018.view.tools.fx.alert.AlertBox;
 import it.polimi.se2018.view.tools.fx.alert.ChangeLayerBox;
 import it.polimi.se2018.view.tools.fx.alert.NewFaceDieBox;
-import it.polimi.se2018.view.tools.fx.alert.NewValueDieBox;
+import it.polimi.se2018.view.tools.fx.alert.TwoValueBox;
 import it.polimi.se2018.view.tools.fx.controller.GameController;
 import it.polimi.se2018.view.tools.fx.controller.LobbyController;
 import it.polimi.se2018.view.tools.fx.controller.PatternSelectionController;
@@ -482,7 +482,7 @@ public class JavaFXApp extends App {
     @Override
     public void selectNewValueForDie(int low, int high) {
         Platform.runLater(() -> {
-            int ret = NewValueDieBox.display(low, high);
+            int ret = TwoValueBox.display("Scelta valore dado", low, high);
             this.getViewToolCardActions().selectedValueForDie(ret);
         });
     }
@@ -545,6 +545,11 @@ public class JavaFXApp extends App {
             notifySimpleAlert("Cliccare sul dado della propria griglia da selezionare con restrizione di colore: " + color.toString());
             ((GameController) JavaFXStageProducer.getController()).selectDieFromGridByColor();
         });
+    }
+
+    @Override
+    public void askNumbersOfPlacement() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -639,7 +644,7 @@ public class JavaFXApp extends App {
         this.reserveViewCreator = new FXReserveViewCreator();
         this.gridViewCreator = new FXGridViewCreator(ColorModel.RED.toJavaFXColor());
 
-        if(goToLobby){
+        if (goToLobby) {
             //Creates new Lobby
             this.viewActions.askLobby();
             this.createLobby();
