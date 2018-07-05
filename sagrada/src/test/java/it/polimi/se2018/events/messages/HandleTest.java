@@ -98,8 +98,7 @@ public class HandleTest {
         s.visit(hand);
         assertEquals(s,mov);
 
-        s=new AskNewFace(0);
-        assertEquals(0,((AskNewFace) s).getIndex());
+        s=new AskNewFace(ColorModel.RED,2);
         s.visit(hand);
         assertEquals(s,mov);
 

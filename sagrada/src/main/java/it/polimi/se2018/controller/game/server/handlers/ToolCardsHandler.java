@@ -275,25 +275,16 @@ public class ToolCardsHandler implements Runnable,Observer  {
      */
     private void lathekin()
     {
-        int h;
-        int w;
         Pair<Integer,Integer> coor;
-        int h2;
-        int w2;
         Pair<Integer,Integer> coor2;
 
         if(new Lathekin().isUsable(player,firsTurn))
         {
-
             coor = askDieFromGrid();
             coor2 = askDieFromGrid();
             if(coor != null && coor2 != null )
             {
-                h = coor.getFirst();
-                w = coor.getSecond();
-                h2 = coor2.getFirst();
-                w2 = coor2.getSecond();
-                String result = setDoubleDieFromGrid(h,w,h2,w2);
+                String result = setDoubleDieFromGrid(coor.getFirst(),coor.getSecond(),coor2.getFirst(),coor2.getSecond());
                 if(result == null)
                 {
                     player.setCardRights(firsTurn,false);
@@ -643,9 +634,26 @@ public class ToolCardsHandler implements Runnable,Observer  {
      */
     private boolean isSameColor(Die d1, Die d2, Die d3)
     {
-        return (d1.getColor() == d3.getColor() && d2.getColor() == d3.getColor());
+
+        return (d1!= null && d2!= null && d3!= null &&d1.getColor() == d3.getColor() && d2.getColor() == d3.getColor());
+
     }
 
+    /**
+     * Ask for a new face for a die
+     * @param die die to be changed
+     * @return new value for die
+     */
+    private int askNewFace(Die die)
+    {
+        latch = new CountDownLatch(1);
+        network.sendReq(new AskNewFace(die.getColor(),die.getValue()),player.getName());
+        if (waitUpdate() && response.toString().equals("NewValue")) {
+            NewValue newValue = (NewValue) response;
+            return newValue.getNewValue();
+        }
+        return -1;
+    }
 
     /**
      * Asks and wait for a die from the reserve
@@ -779,6 +787,12 @@ public class ToolCardsHandler implements Runnable,Observer  {
     {
         latch = new CountDownLatch(1);
         Die die = board.getBag().getDie(0);
+        int newVal = askNewFace(die);
+        if(newVal>0)
+            die.setFace(newVal);
+        else
+            return OH_NO;
+
         network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())),player.getName());
         if(waitUpdate() && response.toString().equals(DIESET))
         {
@@ -835,7 +849,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
         int newH;
         int newW;
         latch = new CountDownLatch(1);
-        Die die = player.getGrid().getDie(h,w);
+        Die die = player.getGrid().setDie(h,w,null);
         network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
@@ -845,17 +859,24 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 newH = dieSet.getH();
                 newW = dieSet.getW();
                 latch = new CountDownLatch(1);
-                die = player.getGrid().getDie(h2,w2);
-                network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
+                Die die2 = player.getGrid().setDie(h2,w2,null);
+                network.sendReq(new SetThisDie(new IntColorPair(die2.getValue(),die2.getColor())), player.getName());
                 if (waitUpdate() && response.toString().equals(DIESET)) {
                      dieSet = (DieSet) response;
-                     result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die, true, true, true);
+                     result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die2, true, true, true);
                      if(result == null)
                      {
-                         player.getGrid().setDie(dieSet.getH(),dieSet.getW(),player.getGrid().setDie(h2,w2,null));
-                         player.getGrid().setDie(newH,newW,player.getGrid().setDie(h,w,null));
+                         player.getGrid().setDie(dieSet.getH(),dieSet.getW(),die2);
+                         player.getGrid().setDie(newH,newW,die);
+                     }
+                     else
+                     {
+                         player.getGrid().setDie(h2,w2,die2);
+                         player.getGrid().setDie(h,w,die);
                      }
                 }
+                else
+                    player.getGrid().setDie(h,w,die);
             }
             return result;
         }

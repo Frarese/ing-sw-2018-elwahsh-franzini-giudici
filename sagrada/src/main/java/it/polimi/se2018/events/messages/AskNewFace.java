@@ -1,6 +1,7 @@
 package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.ServerMessageHandler;
+import it.polimi.se2018.model.ColorModel;
 
 /**
  * Request for a new face for a die
@@ -8,15 +9,18 @@ import it.polimi.se2018.events.ServerMessageHandler;
  */
 public class AskNewFace extends ServerMessage {
 
-    private final int index;
+    private final ColorModel color;
+    private final int value;
 
     /**
      * Constructor
-     * @param index die position inside the reserve
+     * @param color die's color
+     * @param value die's value
      */
-    public AskNewFace(int index)
+    public AskNewFace(ColorModel color, int value)
     {
-        this.index = index;
+        this.color = color;
+        this.value = value;
     }
 
     @Override
@@ -25,10 +29,18 @@ public class AskNewFace extends ServerMessage {
     }
 
     /**
-     * Getter for die position
-     * @return die position
+     * Getter for die value
+     * @return die value
      */
-    public int getIndex() {
-        return index;
+    public int getValue() {
+        return value;
+    }
+
+    /**
+     * Getter for die color
+     * @return die color
+     */
+    public ColorModel getColor() {
+        return color;
     }
 }

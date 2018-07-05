@@ -119,7 +119,7 @@ public class ServerMessageHandlerImpl implements ServerMessageHandler {
 
     @Override
     public void handle(AskNewFace move) {
-        app.selectFace(reserve.getReserve()[move.getIndex()]);
+        app.selectFace(new IntColorPair(move.getValue(),move.getColor()));
     }
 
     @Override

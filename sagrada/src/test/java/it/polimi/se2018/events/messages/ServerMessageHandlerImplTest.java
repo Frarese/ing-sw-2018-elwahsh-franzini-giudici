@@ -26,6 +26,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.se2018.model.ColorModel.RED;
 import static org.junit.Assert.*;
 
 public class ServerMessageHandlerImplTest {
@@ -85,7 +86,7 @@ public class ServerMessageHandlerImplTest {
 
     @Test
     public void testSetHisDie() {
-        SetThisDie sD=new SetThisDie(new IntColorPair(1,ColorModel.RED));
+        SetThisDie sD=new SetThisDie(new IntColorPair(1, RED));
         uut.handle(sD);
         assertEquals("dieGrid",setResult);
     }
@@ -134,7 +135,7 @@ public class ServerMessageHandlerImplTest {
 
     @Test
     public void testPrivateObjectiveStatus() {
-        PrivateObjectiveStatus pO=new PrivateObjectiveStatus(new PrivateObjectiveCard(ColorModel.RED));
+        PrivateObjectiveStatus pO=new PrivateObjectiveStatus(new PrivateObjectiveCard(RED));
         uut.handle(pO);
 
         assertNotNull(cV.getPrivateObjectiveCard());
@@ -156,14 +157,14 @@ public class ServerMessageHandlerImplTest {
 
     @Test
     public void testAskDieByColor() {
-        AskDieByColor aC=new AskDieByColor(ColorModel.RED);
+        AskDieByColor aC=new AskDieByColor(RED);
         uut.handle(aC);
         assertEquals("gridColor",selectResult);
     }
 
     @Test
     public void testAskFace() {
-        AskNewFace aF=new AskNewFace(0);
+        AskNewFace aF=new AskNewFace(RED,2);
         uut.handle(aF);
         assertEquals("face",selectResult);
     }
