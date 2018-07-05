@@ -44,7 +44,9 @@ public abstract class ThreadHandler implements Runnable {
             return true;
         }else{
             logger.log(Level.WARNING,"Attempting to start an already running ThreadHandler");
-            return false;
+            t.interrupt();
+            t=null;
+            return start();
         }
     }
 

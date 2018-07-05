@@ -185,6 +185,9 @@ public class ServerController implements MatchController, Runnable {
                 p.setCardRights(false, true);
             }
             round.prepareNextRound();
+            while(offlinePlayers.contains(round.getCurrentPlayer())){
+                round.nextTurn();
+            }
             board.putReserveOnRoundTrack();
             board.rollDiceOnReserve(players.size());
             network.sendObj(new TurnStart(previousPlayer,round.getCurrentPlayer().getName()));
@@ -219,6 +222,9 @@ public class ServerController implements MatchController, Runnable {
         String temp = round.getCurrentPlayer().getName();
         timer.cancel();
         round.nextTurn();
+        while(offlinePlayers.contains(round.getCurrentPlayer())){
+            round.nextTurn();
+        }
         randomDice = new RandomDice();
         if(round.getCurrentPlayer() == null)
             manageNewRound(temp);

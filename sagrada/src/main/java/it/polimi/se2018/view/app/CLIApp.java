@@ -532,13 +532,13 @@ public class CLIApp extends App {
         this.scoreViewCreator = new CLIScoreViewCreator();
         printer.printArray(scoreViewCreator.display(matchIdentifier, player0, player1, player2, player3));
 
-        this.clean();
+        this.clean(true);
     }
 
     @Override
     public void abortMatch() {
         printer.print("Match chiuso dal server");
-        this.clean();
+        this.clean(true);
     }
 
     @Override
@@ -819,8 +819,8 @@ public class CLIApp extends App {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void clean(boolean goToLobby) {
+        super.clean(false);
         //Cleans structures
         this.cardViewCreator = new CLICardViewCreator();
         this.roundTrackerViewCreator = new CLIRoundTrackerViewCreator();
@@ -828,8 +828,10 @@ public class CLIApp extends App {
         this.gridViewCreator = new CLIGridViewCreator();
         this.isYourTurn = false;
 
-        //Creates new Lobby
-        this.viewActions.askLobby();
-        this.createLobby();
+        if(goToLobby){
+            //Creates new Lobby
+            this.viewActions.askLobby();
+            this.createLobby();
+        }
     }
 }

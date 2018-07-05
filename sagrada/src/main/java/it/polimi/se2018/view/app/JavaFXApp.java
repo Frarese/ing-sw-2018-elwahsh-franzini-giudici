@@ -466,7 +466,7 @@ public class JavaFXApp extends App {
     public void abortMatch() {
         Platform.runLater(() -> AlertBox.attentionBox("Match chiuso dal server"));
 
-        this.clean();
+        this.clean(true);
     }
 
     @Override
@@ -631,15 +631,18 @@ public class JavaFXApp extends App {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void clean(boolean goToLobby) {
+        super.clean(false);
         //Cleans structures
         this.cardViewCreator = new FXCardViewCreator();
         this.roundTrackerViewCreator = new FXRoundTrackerViewCreator();
         this.reserveViewCreator = new FXReserveViewCreator();
         this.gridViewCreator = new FXGridViewCreator(ColorModel.RED.toJavaFXColor());
-        //Creates new Lobby
-        this.viewActions.askLobby();
-        this.createLobby();
+
+        if(goToLobby){
+            //Creates new Lobby
+            this.viewActions.askLobby();
+            this.createLobby();
+        }
     }
 }

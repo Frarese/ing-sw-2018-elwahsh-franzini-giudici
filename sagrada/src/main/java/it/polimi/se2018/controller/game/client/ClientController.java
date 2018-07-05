@@ -181,7 +181,8 @@ public class ClientController implements CommUtilizer {
         cards = new CardView(null,null,null);
         patternsReceived=new ArrayList<>();
         mId=null;
-        app.clean();
+
+        app.clean(false);
     }
 
     /**
