@@ -50,27 +50,27 @@ public abstract class CardViewCreator<E> {
      */
     public abstract E makeCard(int cardID);
 
-    public SingleCardView getPrivateObjectiveCard() {
+    public synchronized SingleCardView getPrivateObjectiveCard() {
         return privateObjectiveCard;
     }
 
-    public void setPrivateObjectiveCard(SingleCardView privateObjectiveCard) {
+    public synchronized void setPrivateObjectiveCard(SingleCardView privateObjectiveCard) {
         this.privateObjectiveCard = privateObjectiveCard;
     }
 
-    public List<SingleCardView> getPublicObjectiveCards() {
+    public synchronized List<SingleCardView> getPublicObjectiveCards() {
         return publicObjectiveCards;
     }
 
-    public void setPublicObjectiveCards(List<SingleCardView> publicObjectiveCards) {
+    public synchronized void setPublicObjectiveCards(List<SingleCardView> publicObjectiveCards) {
         this.publicObjectiveCards = publicObjectiveCards;
     }
 
-    public List<SingleCardView> getToolCards() {
+    public synchronized List<SingleCardView> getToolCards() {
         return toolCards;
     }
 
-    public void setToolCards(List<SingleCardView> toolCards) {
+    public synchronized void setToolCards(List<SingleCardView> toolCards) {
         this.toolCards = toolCards;
     }
 }

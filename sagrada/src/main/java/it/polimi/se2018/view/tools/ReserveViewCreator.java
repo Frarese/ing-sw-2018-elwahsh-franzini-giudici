@@ -42,7 +42,7 @@ public abstract class ReserveViewCreator<E> {
      *
      * @return the reserve
      */
-    public IntColorPair[] getReserve() {
+    public synchronized IntColorPair[] getReserve() {
         return reserve;
     }
 
@@ -51,7 +51,7 @@ public abstract class ReserveViewCreator<E> {
      *
      * @param reserve contains the reserve to set
      */
-    public void setReserve(IntColorPair[] reserve) {
+    public synchronized void setReserve(IntColorPair[] reserve) {
         this.reserve = reserve;
     }
 }
