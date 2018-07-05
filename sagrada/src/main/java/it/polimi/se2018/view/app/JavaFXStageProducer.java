@@ -28,7 +28,7 @@ public class JavaFXStageProducer extends Application {
     public synchronized void start(Stage primaryStage) {
 
         //Setting stage properties
-        primaryStage.setTitle("Sagrada Game");
+        primaryStage.setTitle("Sagrada Trappola di Cristallo");
         primaryStage.getIcons().add(new Image(JavaFXStageProducer.class.getResourceAsStream("/it/polimi/se2018/view/images/others/icon.png")));
         primaryStage.centerOnScreen();
 

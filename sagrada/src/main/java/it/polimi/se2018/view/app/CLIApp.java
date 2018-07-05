@@ -88,8 +88,8 @@ public class CLIApp extends App {
 
         //Check if have to display welcome page
         if (displayWelcome) {
-            String welcome = "---------------------------------\n";
-            welcome = welcome + "|         SAGRADA GAME          | \n";
+            String welcome =    "---------------------------------\n";
+            welcome = welcome + "| Sagrada Trappola di Cristallo |\n";
             welcome = welcome + "---------------------------------\n";
             printer.print(welcome);
         }
