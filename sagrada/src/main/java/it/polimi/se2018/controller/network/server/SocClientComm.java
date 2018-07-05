@@ -45,8 +45,8 @@ class SocClientComm extends ClientComm {
 
     @Override
     void terminate() {
-        waiterReq.stop();
-        waiterObj.stop();
+        waiterReq.forceStop();
+        waiterObj.forceStop();
         reqSoc.close(true);
         objSoc.close(true);
     }

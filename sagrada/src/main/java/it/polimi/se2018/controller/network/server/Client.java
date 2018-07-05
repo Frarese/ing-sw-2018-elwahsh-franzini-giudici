@@ -222,12 +222,9 @@ public class Client {
      */
     public void zombiefy(boolean notifyMatchPlayers, ChangeCLayerRequest cReq) {
         logger.log(Level.FINE,"Zombiefying {0}", usn);
-        if(outQueueEmpReq!=null){
-            outQueueEmpReq.stop();
-        }
-        if(outQueueEmpObj!=null){
-            outQueueEmpObj.stop();
-        }
+
+        stopHandlers();
+
         if(cReq!=null)this.sendReq(cReq);
         if(this.cComm==null)return;
         this.cComm.terminate();
@@ -247,29 +244,7 @@ public class Client {
         if(match!=null)match.playerLeft(usn,!leaveMatch);
 
         if(!this.isZombie())this.zombiefy(true,null);
-        if(inQueueEmpObj!=null) {
-            inQueueEmpObj.forceStop();
-            inQueueEmpObj=null;
-        }
-
-        if(inQueueEmpReq!=null) {
-            inQueueEmpReq.forceStop();
-            inQueueEmpReq=null;
-        }
-
-        if(outQueueEmpObj!=null) {
-            outQueueEmpObj.forceStop();
-            outQueueEmpObj=null;
-        }
-        if(outQueueEmpReq!=null) {
-            outQueueEmpReq.forceStop();
-            outQueueEmpReq=null;
-        }
-
-        if(disconnectChecker!=null) {
-            disconnectChecker.stop();
-            disconnectChecker=null;
-        }
+        stopHandlers();
     }
 
     /**
@@ -290,7 +265,7 @@ public class Client {
 
             this.match.handleObj(obj,this);
         } catch (InterruptedException e) {
-            logger.log(Level.SEVERE,"Interrupted processing in request "+e.getMessage());
+            logger.log(Level.SEVERE,"Interrupted processing in object "+e.getMessage());
             Thread.currentThread().interrupt();
         } catch (NullPointerException e){
             logger.log(Level.FINE, "Client sending objects while not in a match {0}",this.usn);
@@ -424,5 +399,41 @@ public class Client {
      */
     public ServerVisitor getServerVisitor() {
         return serverVisitor;
+    }
+
+    /**
+     * Stops the handlers
+     */
+    private void stopHandlers(){
+        if(outQueueEmpReq!=null){
+            outQueueEmpReq.forceStop();
+        }
+        if(outQueueEmpObj!=null){
+            outQueueEmpObj.forceStop();
+        }
+
+        if(inQueueEmpObj!=null) {
+            inQueueEmpObj.forceStop();
+            inQueueEmpObj=null;
+        }
+
+        if(inQueueEmpReq!=null) {
+            inQueueEmpReq.forceStop();
+            inQueueEmpReq=null;
+        }
+
+        if(outQueueEmpObj!=null) {
+            outQueueEmpObj.forceStop();
+            outQueueEmpObj=null;
+        }
+        if(outQueueEmpReq!=null) {
+            outQueueEmpReq.forceStop();
+            outQueueEmpReq=null;
+        }
+
+        if(disconnectChecker!=null) {
+            disconnectChecker.stop();
+            disconnectChecker=null;
+        }
     }
 }

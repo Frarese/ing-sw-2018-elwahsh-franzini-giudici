@@ -23,6 +23,9 @@ public abstract class ThreadHandler implements Runnable {
                 continua=false;
                 Thread.currentThread().interrupt();
             }
+            if(Thread.currentThread().isInterrupted()){
+                continua=false;
+            }
         }
         logger.log(Level.INFO,"Thread handler finished execution {0}",this.getClass().getName());
         ended=true;
@@ -44,9 +47,7 @@ public abstract class ThreadHandler implements Runnable {
             return true;
         }else{
             logger.log(Level.WARNING,"Attempting to start an already running ThreadHandler");
-            t.interrupt();
-            t=null;
-            return start();
+            return false;
         }
     }
 
@@ -64,7 +65,7 @@ public abstract class ThreadHandler implements Runnable {
      * @return true if the handler is running
      */
     public synchronized boolean isRunning() {
-        return t != null && (!t.isInterrupted() || ended);
+        return t != null || ended;
     }
 
     /**
@@ -73,6 +74,11 @@ public abstract class ThreadHandler implements Runnable {
     public synchronized void forceStop() {
         this.stop();
         t.interrupt();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**

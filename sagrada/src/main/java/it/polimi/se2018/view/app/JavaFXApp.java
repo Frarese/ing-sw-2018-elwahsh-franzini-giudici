@@ -193,7 +193,6 @@ public class JavaFXApp extends App {
             } catch (ClassCastException e) {
                 //Nothing to do, we are not in lobby
             }
-
         });
     }
 
@@ -441,8 +440,12 @@ public class JavaFXApp extends App {
         }
 
         Platform.runLater(() -> {
-            GameController gameController = (GameController) JavaFXStageProducer.getController();
-            gameController.display();
+            try {
+                GameController gameController = (GameController) JavaFXStageProducer.getController();
+                gameController.display();
+            } catch (ClassCastException e) {
+                //Nothing to do, we are not in game yet
+            }
         });
     }
 

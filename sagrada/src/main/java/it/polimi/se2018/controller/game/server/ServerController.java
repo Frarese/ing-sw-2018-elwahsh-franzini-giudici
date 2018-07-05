@@ -165,7 +165,7 @@ public class ServerController implements MatchController, Runnable {
                     offlinePlayers.add(p);
             }
             if(username.equals(round.getCurrentPlayer().getName()))
-                round.nextTurn();
+                newTurn();
     }
 
 
