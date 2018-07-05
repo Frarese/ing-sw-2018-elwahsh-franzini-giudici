@@ -1,12 +1,12 @@
 package it.polimi.se2018.controller.game.server.handlers;
 
 import it.polimi.se2018.controller.network.server.MatchNetworkInterface;
-import it.polimi.se2018.events.Event;
 
-import it.polimi.se2018.events.actions.UseToolCardMove;
+import it.polimi.se2018.events.actions.*;
 import it.polimi.se2018.events.messages.InvalidMove;
 import it.polimi.se2018.model.Board;
 
+import it.polimi.se2018.model.ColorModel;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.cards.PatternCard;
 import it.polimi.se2018.model.cards.ToolCard;
@@ -18,6 +18,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Observable;
 
 
@@ -31,6 +32,7 @@ public class ToolCardsHandlerTest {
     private final BusMock bus = new BusMock();
     private final MatchNetworkMock networkMock = new MatchNetworkMock();
     private boolean sentObj;
+    private PlayerMove response;
 
     @Before
     public void testSetUp() {
@@ -89,17 +91,13 @@ public class ToolCardsHandlerTest {
 
     private class BusMock extends Observable
     {
-        private void push (Event event)
-        {
-            setChanged();
-            notifyObservers(event);
-        }
+
     }
 
     private class ReserveMock extends Reserve
     {
-        private Die d1;
-        private Die d2;
+        private final Die d1 = new Die(ColorModel.RED);
+        private Die d2 = new Die(ColorModel.BLUE);
 
         @Override
         public Die get(int diePosition) {
@@ -123,6 +121,22 @@ public class ToolCardsHandlerTest {
             d2.roll();
         }
 
+    }
+
+
+    private class HandlerMock extends ToolCardsHandler
+    {
+
+        private HandlerMock(UseToolCardMove move, Player player, Board board, boolean firstTurn, MatchNetworkInterface networkInterface, RandomDice randomDice)
+        {
+            super(move,player,board,firstTurn,networkInterface,randomDice);
+        }
+
+        @Override
+        protected boolean waitUpdate() {
+            update(bus, response);
+            return true;
+        }
     }
 
     private class BoardMock extends Board{
@@ -169,88 +183,217 @@ public class ToolCardsHandlerTest {
     public void testGrozingPliers()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",20),p,b,true,networkMock, new RandomDice());
+        uut = new HandlerMock(new UseToolCardMove("test",20),p,b,true,networkMock, new RandomDice());
         b.setId(20);
         bus.addObserver(uut);
         uut.run();
         assertTrue(notifiedFailure);
+
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",20),p,b,true,networkMock, new RandomDice());
+        response = new DieFromReserve("player",1);
+        uut.run();
+
     }
 
     @Test
     public void testEglomiseBrush()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",21),p,b,true,networkMock, new RandomDice());
+        uut = new HandlerMock(new UseToolCardMove("test",21),p,b,true,networkMock, new RandomDice());
         b.setId(21);
         bus.addObserver(uut);
         uut.run();
         assertTrue(notifiedFailure);
+
+        p.setCardRights(true,true);
+        p.getGrid().setDie(0,0,new Die(ColorModel.YELLOW));
+        uut = new HandlerMock(new UseToolCardMove("test",21),p,b,true,networkMock, new RandomDice());
+        response = new DieFromGrid("player",0,0);
+        uut.run();
     }
 
     @Test
     public void testCopperFoilBurnisher()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",22),p,b,true,networkMock, new RandomDice());
+        uut = new HandlerMock(new UseToolCardMove("test",22),p,b,true,networkMock, new RandomDice());
         b.setId(22);
         bus.addObserver(uut);
         uut.run();
         assertTrue(notifiedFailure);
+
+        p.getGrid().setDie(0,0,new Die(ColorModel.YELLOW));
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",22),p,b,true,networkMock, new RandomDice());
+        response = new DieFromGrid("player",0,0);
+        uut.run();
     }
 
     @Test
     public void testLathekin()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",23),p,b,true,networkMock, new RandomDice());
+        uut = new HandlerMock(new UseToolCardMove("test",23),p,b,true,networkMock, new RandomDice());
         b.setId(23);
         bus.addObserver(uut);
         uut.run();
         assertTrue(notifiedFailure);
+
+        p.getGrid().setDie(0,0,new Die(ColorModel.YELLOW));
+        p.getGrid().setDie(1,1,new Die(ColorModel.YELLOW));
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",23),p,b,true,networkMock, new RandomDice());
+        response = new DieFromGrid("player",0,0);
+        uut.run();
     }
 
     @Test
     public void testLensCutter()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",24),p,b,true,networkMock, new RandomDice());
+        uut = new HandlerMock(new UseToolCardMove("test",24),p,b,true,networkMock, new RandomDice());
         b.setId(24);
         bus.addObserver(uut);
         uut.run();
         assertTrue(notifiedFailure);
+
+        b.getRoundTrack().addAll(new ArrayList<>());
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",24),p,b,true,networkMock, new RandomDice());
+        response = new DieFromReserve("player",1);
+        uut.run();
+    }
+
+    @Test
+    public void testFluxBrush()
+    {
+        p.setCardRights(true,false);
+        uut = new HandlerMock(new UseToolCardMove("test",25),p,b,true,networkMock, new RandomDice());
+        b.setId(25);
+        bus.addObserver(uut);
+        uut.run();
+        assertTrue(notifiedFailure);
+
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",25),p,b,true,networkMock, new RandomDice());
+        response = new DieFromReserve("player",1);
+        uut.run();
+
+        RandomDice test = new RandomDice();
+        test.setRollDieIndex(1);
+        test.setRollDie(new Die(ColorModel.RED));
+
+        uut = new HandlerMock(new UseToolCardMove("test",25),p,b,true,networkMock, test);
+        response = new DieSet("player",0,0);
+        uut.run();
     }
 
     @Test
     public void testGlazingHammer()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",26),p,b,true,networkMock, new RandomDice());
+        uut = new HandlerMock(new UseToolCardMove("test",26),p,b,true,networkMock, new RandomDice());
         b.setId(26);
         bus.addObserver(uut);
         uut.run();
         assertTrue(notifiedFailure);
+
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",26),p,b,false,networkMock, new RandomDice());
+        uut.run();
     }
 
     @Test
     public void testCorkBackedStraightedge()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",28),p,b,true,networkMock, new RandomDice());
+        uut = new HandlerMock(new UseToolCardMove("test",28),p,b,true,networkMock, new RandomDice());
         b.setId(28);
         bus.addObserver(uut);
         uut.run();
         assertTrue(notifiedFailure);
+
+        p.getGrid().setDie(1,1,new Die(ColorModel.YELLOW));
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",28),p,b,true,networkMock, new RandomDice());
+        response = new DieFromGrid("player",0,0);
+        uut.run();
+
     }
 
+    @Test
+    public void testRunningPliers()
+    {
+        p.setCardRights(true,false);
+        uut = new HandlerMock(new UseToolCardMove("test",27),p,b,true,networkMock, new RandomDice());
+        b.setId(27);
+        bus.addObserver(uut);
+        uut.run();
+        assertTrue(notifiedFailure);
+
+        p.setCardRights(true,true);
+        p.setPlacementRights(true,false);
+        uut = new HandlerMock(new UseToolCardMove("test",27),p,b,true,networkMock, new RandomDice());
+        response = new DieFromReserve("player",1);
+        uut.run();
+
+    }
     @Test
     public void testGrindingStone()
     {
         p.setCardRights(true,false);
-        uut = new ToolCardsHandler(new UseToolCardMove("test",29),p,b,true,networkMock, new RandomDice());
+        uut = new HandlerMock(new UseToolCardMove("test",29),p,b,true,networkMock, new RandomDice());
         b.setId(29);
         bus.addObserver(uut);
         uut.run();
         assertTrue(notifiedFailure);
+
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",29),p,b,true,networkMock, new RandomDice());
+        response = new DieFromReserve("player",1);
+        uut.run();
+
+    }
+
+    @Test
+    public void testFluxRemover()
+    {
+        p.setCardRights(true,false);
+        uut = new HandlerMock(new UseToolCardMove("test",30),p,b,true,networkMock, new RandomDice());
+        b.setId(30);
+        bus.addObserver(uut);
+        uut.run();
+        assertTrue(notifiedFailure);
+
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",30),p,b,true,networkMock, new RandomDice());
+        response = new DieFromReserve("player",1);
+        uut.run();
+
+        RandomDice test = new RandomDice();
+        test.setBagDie(1);
+
+        uut = new HandlerMock(new UseToolCardMove("test",30),p,b,true,networkMock, test);
+        response = new DieSet("player",0,0);
+        uut.run();
+    }
+
+    @Test
+    public void testTapWheel()
+    {
+        p.setCardRights(true,false);
+        uut = new HandlerMock(new UseToolCardMove("test",31),p,b,true,networkMock, new RandomDice());
+        b.setId(31);
+        bus.addObserver(uut);
+        uut.run();
+        assertTrue(notifiedFailure);
+
+        p.setCardRights(true,true);
+        uut = new HandlerMock(new UseToolCardMove("test",31),p,b,true,networkMock, new RandomDice());
+        response = new DieFromRoundTrack("player",1,0);
+        uut.run();
+
     }
 
 }

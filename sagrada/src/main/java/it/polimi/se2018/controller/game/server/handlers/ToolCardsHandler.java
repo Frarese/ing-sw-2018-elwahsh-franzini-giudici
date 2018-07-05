@@ -342,7 +342,8 @@ public class ToolCardsHandler implements Runnable,Observer  {
                     }
                     else
                         notifyFailure(result);
-                } notifyFailure(OH_NO);
+                }
+                else notifyFailure(OH_NO);
             }
             else notifyFailure(OH_NO);
         }
@@ -599,34 +600,22 @@ public class ToolCardsHandler implements Runnable,Observer  {
     private void tapWheel()
     {
         Pair<Integer,Integer> roundDie;
-        int round;
-        int diePosition;
-        int h;
-        int w;
         Pair<Integer,Integer> coor;
-        int h2;
-        int w2;
         Pair<Integer,Integer> coor2;
 
         if(new TapWheel().isUsable(player,firsTurn))
         {
-
-            roundDie =askDieFromRoundTrack();
+            roundDie = askDieFromRoundTrack();
             coor = askDieFromGrid();
             coor2 = askDieFromGrid();
             if(coor != null && coor2 != null && roundDie != null)
             {
-                round = roundDie.getFirst();
-                diePosition = roundDie.getSecond();
-                h = coor.getFirst();
-                w = coor.getSecond();
-                h2 = coor2.getFirst();
-                w2 = coor2.getSecond();
-                Die roundTrackDie = board.getRoundTrack().getDie(round,diePosition);
-                Die d1 = player.getGrid().getDie(h,w);
-                Die d2 = player.getGrid().getDie(h2,w2);
-                if( roundTrackDie.getColor() == d1.getColor() && roundTrackDie.getColor() == d2.getColor() ) {
-                    String result = setDoubleDieFromGrid(h, w, h2, w2);
+                Die roundTrackDie = board.getRoundTrack().getDie(roundDie.getFirst(),roundDie.getSecond());
+                Die d1 = player.getGrid().getDie(coor.getFirst(),coor.getSecond());
+                Die d2 = player.getGrid().getDie(coor2.getFirst(),coor2.getSecond());
+
+                if( isSameColor(d1,d2,roundTrackDie) ) {
+                    String result = setDoubleDieFromGrid(coor.getFirst(), coor.getSecond(), coor2.getFirst(), coor2.getSecond());
                     if (result == null) {
                         player.setCardRights(firsTurn, false);
                         useCard(player);
@@ -642,6 +631,19 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 notifyFailure(OH_NO);
         }
         else notifyFailure(NO_PERMISSION);
+    }
+
+
+    /**
+     * Checks if dice are of the same color of the third one
+     * @param d1 first die
+     * @param d2 second die
+     * @param d3 third die
+     * @return true if all dice are of the same color
+     */
+    private boolean isSameColor(Die d1, Die d2, Die d3)
+    {
+        return (d1.getColor() == d3.getColor() && d2.getColor() == d3.getColor());
     }
 
 
@@ -864,7 +866,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
      * Waits for the requested response
      * @return true if a response has come, false otherwise
      */
-    private boolean waitUpdate()
+    protected boolean waitUpdate()
     {
         try {
             return latch.await(20, TimeUnit.SECONDS);
