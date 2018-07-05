@@ -67,6 +67,7 @@ abstract class FXConstants {
         if (bgColor != null) {
             container.setStyle(makeBgColorString(bgColor));
         }
+        container.setStyle(String.format("%s-fx-background-radius: 10", container.getStyle()));
         container.setFillWidth(true);
         container.setAlignment(Pos.CENTER);
 
