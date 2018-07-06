@@ -5,10 +5,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Test for the Lathekin class
+ * @author Alì El wahsh
+ */
 public class LathekinTest {
 
     private final Lathekin test = new Lathekin();
 
+    /**
+     * Test the usability check
+     */
     @Test
     public void testIsUsable()
     {

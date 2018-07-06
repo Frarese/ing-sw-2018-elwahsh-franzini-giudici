@@ -5,10 +5,17 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
 
+/**
+ * Test for GrozingPliers class
+ * @author Alì El wahsh
+ */
 public class GrozingPliersTest {
 
     private final GrozingPliers test = new GrozingPliers();
 
+    /**
+     * Test the usability check
+     */
     @Test
     public void testIsUsable()
     {

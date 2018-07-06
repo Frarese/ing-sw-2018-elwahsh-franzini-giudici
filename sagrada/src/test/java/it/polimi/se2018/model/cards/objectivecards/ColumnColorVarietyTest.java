@@ -7,12 +7,19 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for the ColumnColorVariety class
+ * @author Alì El wahsh
+ */
 public class ColumnColorVarietyTest {
 
     private final ColumnColorVariety test = new ColumnColorVariety();
     private Player player;
 
 
+    /**
+     * Test for the score calculation
+     */
     @Test
     public void testScore()
     {
@@ -30,6 +37,9 @@ public class ColumnColorVarietyTest {
         assertEquals(test.getMultiplier(),test.score(player));
     }
 
+    /**
+     * Test for scoring with an empty grid
+     */
     @Test
     public void testEmptyGrid()
     {

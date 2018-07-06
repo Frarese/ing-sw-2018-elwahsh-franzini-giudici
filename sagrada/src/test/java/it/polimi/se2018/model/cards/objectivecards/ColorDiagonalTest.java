@@ -7,12 +7,18 @@ import org.junit.Test;
 import static it.polimi.se2018.model.ColorModel.*;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for the class ColorDiagonal
+ * @author Alì El wahsh
+ */
 public class ColorDiagonalTest {
 
     private final ColorDiagonal test = new ColorDiagonal();
     private Player player;
 
-
+    /**
+     * Test for the score calculation
+     */
     @Test
     public void testScore()
     {
@@ -31,6 +37,9 @@ public class ColorDiagonalTest {
     }
 
 
+    /**
+     * Test score in case of an empty grid
+     */
     @Test
     public void testEmptyGrid()
     {

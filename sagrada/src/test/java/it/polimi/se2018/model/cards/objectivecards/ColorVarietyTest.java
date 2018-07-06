@@ -7,12 +7,18 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for the class ColorVariety
+ * @author Alì El wahsh
+ */
 public class ColorVarietyTest {
 
     private final ColorVariety test = new ColorVariety();
     private Player player;
 
-
+    /**
+     * Test for the score calculation
+     */
     @Test
     public void testScore()
     {
@@ -33,6 +39,9 @@ public class ColorVarietyTest {
 
     }
 
+    /**
+     * Test for scoring with an empty grid
+     */
     @Test
     public void testEmptyGrid()
     {

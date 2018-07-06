@@ -5,10 +5,17 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
 
+/**
+ * Test for RunningPliers class
+ * @author Alì El wahsh
+ */
 public class RunningPliersTest {
 
     private final RunningPliers test = new RunningPliers();
 
+    /**
+     * Test the usability check
+     */
     @Test
     public void testIsUsable()
     {

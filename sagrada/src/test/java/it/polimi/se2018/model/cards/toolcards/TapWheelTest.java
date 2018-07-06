@@ -5,10 +5,17 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
 
+/**
+ * Test for the TapWheel class
+ * @author Alì El wahsh
+ */
 public class TapWheelTest {
 
     private final TapWheel test = new TapWheel();
 
+    /**
+     * Test the usability check
+     */
     @Test
     public void testIsUsable()
     {

@@ -7,12 +7,19 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for ShadeVariety class
+ * @author Alì El wahsh
+ */
 public class ShadeVarietyTest {
 
     private final ShadeVariety test = new ShadeVariety();
     private Player player;
 
 
+    /**
+     * Test for score calculation
+     */
     @Test
     public void testScore()
     {
@@ -47,6 +54,9 @@ public class ShadeVarietyTest {
 
     }
 
+    /**
+     * Test for scoring with an empty grid
+     */
     @Test
     public void testEmptyGrid()
     {

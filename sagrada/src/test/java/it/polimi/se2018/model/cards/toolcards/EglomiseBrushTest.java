@@ -5,10 +5,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Test for EglomiseBrush class
+ * @author Alì El wahsh
+ */
 public class EglomiseBrushTest {
 
     private final EglomiseBrush test = new EglomiseBrush();
 
+    /**
+     * Test the usability check
+     */
     @Test
     public void testIsUsable()
     {

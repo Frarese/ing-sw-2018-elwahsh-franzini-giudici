@@ -5,10 +5,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test for LensCutter class
+ * @author Alì El wahsh
+ */
 public class LensCutterTest {
 
     private final LensCutter test = new LensCutter();
 
+    /**
+     * Test the usability check
+     */
     @Test
     public void testIsUsable()
     {

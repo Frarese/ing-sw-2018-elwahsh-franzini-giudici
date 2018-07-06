@@ -7,10 +7,16 @@ import org.junit.Test;
 import static it.polimi.se2018.model.ColorModel.RED;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for LightShades class
+ */
 public class LightShadesTest {
     private final LightShades test = new LightShades();
     private Player player;
 
+    /**
+     * Test for score calculation
+     */
     @Test
     public void testScore()
     {
@@ -33,6 +39,9 @@ public class LightShadesTest {
 
     }
 
+    /**
+     * Test for scoring with empty grid
+     */
     @Test
     public void testEmptyGrid()
     {

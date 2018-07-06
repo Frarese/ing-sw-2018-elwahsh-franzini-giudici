@@ -7,10 +7,17 @@ import org.junit.Test;
 import static it.polimi.se2018.model.ColorModel.RED;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for MediumShades class
+ * @author Alì El wahsh
+ */
 public class MediumShadesTest {
     private final MediumShades test = new MediumShades();
     private Player player;
 
+    /**
+     * Test for score calculation
+     */
     @Test
     public void testScore()
     {
@@ -33,6 +40,9 @@ public class MediumShadesTest {
 
     }
 
+    /**
+     * Test for scoring with an empty grid
+     */
     @Test
     public void testEmptyGrid()
     {

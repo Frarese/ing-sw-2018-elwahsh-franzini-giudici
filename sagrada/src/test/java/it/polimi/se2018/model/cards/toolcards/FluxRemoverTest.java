@@ -5,10 +5,17 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
 
+/**
+ * Test for FluxRemover class
+ * @author Alì El wahsh
+ */
 public class FluxRemoverTest {
 
     private final FluxRemover test = new FluxRemover();
 
+    /**
+     * Test the usability check
+     */
     @Test
     public void testIsUsable()
     {

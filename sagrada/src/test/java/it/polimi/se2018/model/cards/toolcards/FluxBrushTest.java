@@ -5,10 +5,17 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
 
+/**
+ * Test for FluxBrush class
+ * @author Alì El wahsh
+ */
 public class FluxBrushTest {
 
     private final FluxBrush test = new FluxBrush();
 
+    /**
+     * Test the usability check
+     */
     @Test
     public void testIsUsable()
     {

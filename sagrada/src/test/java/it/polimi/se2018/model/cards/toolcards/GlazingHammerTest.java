@@ -5,10 +5,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Test for GlazingHammer class
+ * @author Alì El wahsh
+ */
 public class GlazingHammerTest {
 
     private final GlazingHammer test = new GlazingHammer();
 
+    /**
+     * Test the usability check
+     */
     @Test
     public void testIsUsable()
     {

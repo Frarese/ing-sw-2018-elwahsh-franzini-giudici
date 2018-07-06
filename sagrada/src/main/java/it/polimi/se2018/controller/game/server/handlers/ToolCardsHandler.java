@@ -906,8 +906,11 @@ public class ToolCardsHandler implements Runnable,Observer  {
     {
         int newH;
         int newW;
+        if(player.getGrid().getDie(h,w) == null || player.getGrid().getDie(h2,w2) == null)
+            return "Dado assente";
         latch = new CountDownLatch(1);
         Die die = player.getGrid().setDie(h,w,null);
+
         network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;

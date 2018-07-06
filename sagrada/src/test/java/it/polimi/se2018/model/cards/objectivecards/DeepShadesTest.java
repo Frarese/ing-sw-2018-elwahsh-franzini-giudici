@@ -7,11 +7,18 @@ import org.junit.Test;
 import static it.polimi.se2018.model.ColorModel.RED;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for DeepShades class
+ * @author Alì El wahsh
+ */
 public class DeepShadesTest {
 
     private final DeepShades test = new DeepShades();
     private Player player;
 
+    /**
+     * Test for score calculation
+     */
     @Test
     public void testScore()
     {
@@ -34,6 +41,9 @@ public class DeepShadesTest {
 
     }
 
+    /**
+     * Test for scoring with empty spot
+     */
     @Test
     public void testEmptyGrid()
     {
