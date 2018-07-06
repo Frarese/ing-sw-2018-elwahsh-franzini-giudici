@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class Client {
     private static final long DEFAULT_DEATH_TIMEOUT = 3000;
     private static final long DEFAULT_WARNING_TIMEOUT = 2000;
-    private static final long DEFAULT_PURGE_TIMEOUT = 60000;
+    private static final long DEFAULT_PURGE_TIMEOUT = 20000;
 
     private final ServerMain serverMain;
     private final ServerVisitor serverVisitor;
@@ -230,7 +230,6 @@ public class Client {
         this.cComm.terminate();
         this.cComm=null;
         if(notifyMatchPlayers && match!=null)match.playerLeft(usn,true);
-
     }
 
     /**
@@ -238,13 +237,17 @@ public class Client {
      * @param leaveMatch true if an eventual match is to be abandoned
      */
     public void purge(boolean leaveMatch) {
-        logger.log(Level.FINE,"Purging {0}", usn);
+        logger.log(Level.INFO,"Purging {0}", usn);
         serverMain.removeClient(usn);
 
         if(match!=null)match.playerLeft(usn,!leaveMatch);
 
         if(!this.isZombie())this.zombiefy(true,null);
         stopHandlers();
+        if(disconnectChecker!=null) {
+            disconnectChecker.stop();
+            disconnectChecker=null;
+        }
     }
 
     /**
@@ -429,11 +432,6 @@ public class Client {
         if(outQueueEmpReq!=null) {
             outQueueEmpReq.forceStop();
             outQueueEmpReq=null;
-        }
-
-        if(disconnectChecker!=null) {
-            disconnectChecker.stop();
-            disconnectChecker=null;
         }
     }
 }
