@@ -21,9 +21,10 @@ import java.util.logging.Logger;
 
 /**
  * Handler for all tool cards effects
+ *
  * @author Alì El Wahsh
  */
-public class ToolCardsHandler implements Runnable,Observer  {
+public class ToolCardsHandler implements Runnable, Observer {
 
     private final Board board;
     private final Player player;
@@ -40,16 +41,17 @@ public class ToolCardsHandler implements Runnable,Observer  {
     private int cardPosition;
     private final RandomDice randomDice;
     private boolean isDead = false;
+
     /**
      * Constructor
-     * @param move card move
-     * @param player player using the card
-     * @param board game board
-     * @param firstTurn true if first turn, false otherwise
+     *
+     * @param move             card move
+     * @param player           player using the card
+     * @param board            game board
+     * @param firstTurn        true if first turn, false otherwise
      * @param networkInterface network interface
      */
-    public ToolCardsHandler(UseToolCardMove move, Player player, Board board, boolean firstTurn, MatchNetworkInterface networkInterface, RandomDice randomDice)
-    {
+    public ToolCardsHandler(UseToolCardMove move, Player player, Board board, boolean firstTurn, MatchNetworkInterface networkInterface, RandomDice randomDice) {
         this.move = move;
         this.player = player;
         this.board = board;
@@ -60,42 +62,38 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
     /**
      * Notifies failure sending a invalid move message
+     *
      * @param error error message
      */
-    private void notifyFailure(String error)
-    {
-        network.sendReq(new InvalidMove(move,error,false),player.getName());
+    private void notifyFailure(String error) {
+        network.sendReq(new InvalidMove(move, error, false), player.getName());
     }
 
     /**
      * Notifies success sending a confirm move message
      */
-    private void notifySuccess()
-    {
+    private void notifySuccess() {
 
-        network.sendReq(new ConfirmMove(move,false),player.getName());
+        network.sendReq(new ConfirmMove(move, false), player.getName());
     }
 
     /**
      * For each card checks its permission and executes its effect
      */
-    private void checksEffect()
-    {
+    private void checksEffect() {
         boolean isInGame = false;
         boolean canPlay = false;
-        for(int i = 0; i<3; i++)
-        {
-            if(board.getTool(i).getId() == move.getCardID())
-            {
+        for (int i = 0; i < 3; i++) {
+            if (board.getTool(i).getId() == move.getCardID()) {
                 isInGame = true;
                 cardPosition = i;
             }
         }
 
-        if(player.getFavourPoints()>=2 || !board.getTool(cardPosition).isUsed() && player.getFavourPoints()>=1)
+        if (player.getFavourPoints() >= 2 || !board.getTool(cardPosition).isUsed() && player.getFavourPoints() >= 1)
             canPlay = true;
 
-        if(isInGame && canPlay) {
+        if (isInGame && canPlay) {
             switch (move.getCardID()) {
                 case 20:
                     grozingPliers();
@@ -136,8 +134,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
                 default:
                     notifyFailure("Carta inesistente");
             }
-        }
-        else
+        } else
             notifyFailure("Non puoi giocare questa carta");
 
         isDead = true;
@@ -150,13 +147,13 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(!isDead) {
+        if (!isDead) {
             if (arg != null) {
                 response = (PlayerMove) arg;
                 if (latch.getCount() > 0)
                     latch.countDown();
             }
-        }else o.deleteObserver(this);
+        } else o.deleteObserver(this);
     }
 
     /**
@@ -169,245 +166,163 @@ public class ToolCardsHandler implements Runnable,Observer  {
         if (new GrozingPliers().isUsable(player, firsTurn)) {
 
             index = askDieFromReserve();
-            if(index >-1)
-            {
+            if (index > -1) {
                 oldValue = board.getReserve().get(index).getValue();
                 newValue = askNewValue(index);
-                String result = CardEffects.changeValue(board.getReserve().get(index),false,newValue);
-                network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
-                if(result == null)
-                {
-                        result = setDie(index,true);
-                        if (result == null) {
-                            player.setCardRights(firsTurn, false);
-                            player.setPlacementRights(firsTurn, false);
-                            useCard(player);
-                            updateGameState();
-                            notifySuccess();
-                        } else
-                        {
-                            board.getReserve().get(index).setFace(oldValue);
-                            updateGameState();
-                            notifyFailure(result);
+                String result = CardEffects.changeValue(board.getReserve().get(index), false, newValue);
+                network.sendReq(new ReserveStatus(board.getReserve()), player.getName());
+                if (result == null) {
+                    result = setDie(index, true);
+                    if (result == null) {
+                        player.setCardRights(firsTurn, false);
+                        player.setPlacementRights(firsTurn, false);
+                        useCard(player);
+                        updateGameState();
+                        notifySuccess();
+                    } else {
+                        board.getReserve().get(index).setFace(oldValue);
+                        updateGameState();
+                        notifyFailure(result);
 
-                        }
-                }
-                else
+                    }
+                } else
                     notifyFailure(result);
-                }
-        }
-        else
-            notifyFailure(NO_PERMISSION);
-        }
-
-    /**
-     * Eglomise Brush card effect
-     */
-    private void eglomiseBrush()
-        {
-            int h;
-            int w;
-            Pair<Integer,Integer> coor;
-            if(new EglomiseBrush().isUsable(player,firsTurn))
-            {
-                coor = askDieFromGrid();
-                if(coor != null)
-                {
-                     h = coor.getFirst();
-                     w = coor.getSecond();
-                     String result = setDieFromGrid(h,w,false,true);
-                     if(result == null)
-                     {
-                         player.setCardRights(firsTurn, false);
-                         useCard(player);
-                         updateGameState();
-                         notifySuccess();
-                     }
-                     else
-                     {
-                         notifyFailure(result);
-                     }
-                }
-                else
-                    notifyFailure(OH_NO);
             }
-            else notifyFailure(NO_PERMISSION);
-
-        }
-
-    /**
-     * Copper Foil Burnisher card effect
-     */
-    private void copperFoilBurnisher()
-    {
-        int h;
-        int w;
-        Pair<Integer,Integer> coor;
-        if(new CopperFoilBurnisher().isUsable(player,firsTurn))
-        {
-
-            coor =askDieFromGrid();
-            if(coor != null)
-            {
-                h = coor.getFirst();
-                w = coor.getSecond();
-                String result = setDieFromGrid(h,w,true,false);
-                if(result == null)
-                {
-                    player.setCardRights(firsTurn, false);
-                    useCard(player);
-                    updateGameState();
-                    notifySuccess();
-                }
-                else
-                {
-                    notifyFailure(result);
-                }
-            }
-            else
-                notifyFailure(OH_NO);
-        }
-        else
+        } else
             notifyFailure(NO_PERMISSION);
     }
 
     /**
+     * Eglomise Brush card effect
+     */
+    private void eglomiseBrush() {
+        int h;
+        int w;
+        Pair<Integer, Integer> coor;
+        if (new EglomiseBrush().isUsable(player, firsTurn)) {
+            coor = askDieFromGrid();
+            if (coor != null) {
+                h = coor.getFirst();
+                w = coor.getSecond();
+                String result = setDieFromGrid(h, w, false, true);
+                successCard(result);
+            } else
+                notifyFailure(OH_NO);
+        } else notifyFailure(NO_PERMISSION);
+
+    }
+
+    /**
+     * Copper Foil Burnisher card effect
+     */
+    private void copperFoilBurnisher() {
+        int h;
+        int w;
+        Pair<Integer, Integer> coor;
+        if (new CopperFoilBurnisher().isUsable(player, firsTurn)) {
+
+            coor = askDieFromGrid();
+            if (coor != null) {
+                h = coor.getFirst();
+                w = coor.getSecond();
+                String result = setDieFromGrid(h, w, true, false);
+                successCard(result);
+            } else
+                notifyFailure(OH_NO);
+        } else
+            notifyFailure(NO_PERMISSION);
+    }
+
+
+
+    /**
      * Lathekin card effect
      */
-    private void lathekin()
-    {
-        Pair<Integer,Integer> coor;
-        Pair<Integer,Integer> coor2;
+    private void lathekin() {
+        Pair<Integer, Integer> coor;
+        Pair<Integer, Integer> coor2;
 
-        if(new Lathekin().isUsable(player,firsTurn))
-        {
+        if (new Lathekin().isUsable(player, firsTurn)) {
             coor = askDieFromGrid();
             coor2 = askDieFromGrid();
-            if(coor != null && coor2 != null && coor!= coor2)
-            {
-                String result = setDoubleDieFromGrid(coor.getFirst(),coor.getSecond(),coor2.getFirst(),coor2.getSecond());
-                if(result == null)
-                {
-                    player.setCardRights(firsTurn,false);
-                    useCard(player);
-                    updateGameState();
-                    notifySuccess();
-                }
-                else
-                    notifyFailure(result);
-            }
-            else
+            if (coor != null && coor2 != null && coor != coor2) {
+                String result = setDoubleDieFromGrid(coor.getFirst(), coor.getSecond(), coor2.getFirst(), coor2.getSecond());
+                successCard(result);
+            } else
                 notifyFailure(OH_NO);
-        }
-        else notifyFailure(NO_PERMISSION);
+        } else notifyFailure(NO_PERMISSION);
     }
 
     /**
      * Lens Cutter card effect
      */
-    private void lensCutter()
-    {
+    private void lensCutter() {
         int round;
         int diePosition;
         int reserveIndex;
-        Pair<Integer,Integer> die;
-        if(new LensCutter().isUsable(player,firsTurn) && board.getRoundTrack().lastFilledRound()>0)
-        {
+        Pair<Integer, Integer> die;
+        if (new LensCutter().isUsable(player, firsTurn) && board.getRoundTrack().lastFilledRound() > 0) {
 
             reserveIndex = askDieFromReserve();
-            if(reserveIndex >-1)
-            {
+            if (reserveIndex > -1) {
                 die = askDieFromRoundTrack();
-                if(die != null)
-                {
+                if (die != null) {
                     round = die.getFirst();
                     diePosition = die.getSecond();
-                    String result = setDieFromRoundTrack(round,diePosition,reserveIndex);
-                    if(result == null)
-                    {
-                        player.setCardRights(firsTurn,false);
-                        player.setPlacementRights(firsTurn,false);
-                        useCard(player);
-                        updateGameState();
-                        notifySuccess();
-
-                    }
-                    else
+                    String result = setDieFromRoundTrack(round, diePosition, reserveIndex);
+                    if (result == null) {
+                        specialPlace();
+                    } else
                         notifyFailure(result);
-                }
-                else notifyFailure(OH_NO);
-            }
-            else notifyFailure(OH_NO);
-        }
-        else
+                } else notifyFailure(OH_NO);
+            } else notifyFailure(OH_NO);
+        } else
             notifyFailure(NO_PERMISSION);
     }
 
     /**
      * Flux Brush card effect
      */
-    private void fluxBrush()
-    {
+    private void fluxBrush() {
         int index;
         int oldValue;
-        if(new FluxBrush().isUsable(player,firsTurn))
-        {
+        if (new FluxBrush().isUsable(player, firsTurn)) {
 
-            if(randomDice.getRollDieIndex()<0) {
+            if (randomDice.getRollDieIndex() < 0) {
                 index = askDieFromReserve();
-                if (index >-1)
-                {
-                   oldValue = board.getReserve().get(index).getValue();
-                   board.getReserve().get(index).roll();
-                   network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
-                   String result = setDie(index,true);
-                   if(result == null)
-                   {
-                       player.setCardRights(firsTurn,false);
-                       player.setPlacementRights(firsTurn,false);
-                       useCard(player);
-                       updateGameState();
-                       notifySuccess();
-                   }
-                   else
-                   {
-                       randomDice.setRollDieIndex(index);
-                       randomDice.setRollDie(board.getReserve().get(index));
-                       board.getReserve().get(index).setFace(oldValue);
-                       updateGameState();
-                       notifyFailure(result);
-                   }
-                }
-                else notifyFailure(OH_NO);
+                if (index > -1) {
+                    oldValue = board.getReserve().get(index).getValue();
+                    board.getReserve().get(index).roll();
+                    network.sendReq(new ReserveStatus(board.getReserve()), player.getName());
+                    String result = setDie(index, true);
+                    if (result == null) {
+                        specialPlace();
+                    } else {
+                        randomDice.setRollDieIndex(index);
+                        randomDice.setRollDie(board.getReserve().get(index));
+                        board.getReserve().get(index).setFace(oldValue);
+                        updateGameState();
+                        notifyFailure(result);
+                    }
+                } else notifyFailure(OH_NO);
+            } else {
+                noCheatFluxBrush();
             }
-            else
-            {
-               noCheatFluxBrush();
-            }
-        }
-        else
+        } else
             notifyFailure(NO_PERMISSION);
     }
 
     /**
      * Does not permit player to call the card again with a new value
      */
-    private void noCheatFluxBrush()
-    {
+    private void noCheatFluxBrush() {
         int index = randomDice.getRollDieIndex();
         int oldValue = board.getReserve().get(index).getValue();
         board.getReserve().get(index).setFace(randomDice.getRollDie().getValue());
-        String result = setDie(index,true);
-        if(result == null)
-        {
-            player.setCardRights(firsTurn,false);
-            player.setPlacementRights(firsTurn,false);
-            useCard(player);
-            updateGameState();
-            notifySuccess();
-        }
-        else
-        {
+        String result = setDie(index, true);
+        if (result == null) {
+            specialPlace();
+        } else {
             board.getReserve().get(index).setFace(oldValue);
             notifyFailure(result);
         }
@@ -416,49 +331,35 @@ public class ToolCardsHandler implements Runnable,Observer  {
     /**
      * Glazing Hammer card effect
      */
-    private void glazinHammer()
-    {
-        if(new GlazingHammer().isUsable(player,firsTurn))
-        {
+    private void glazinHammer() {
+        if (new GlazingHammer().isUsable(player, firsTurn)) {
 
-            CardEffects.reRoll(true,board.getReserve(),null);
-            player.setCardRights(firsTurn,false);
+            CardEffects.reRoll(true, board.getReserve(), null);
+            player.setCardRights(firsTurn, false);
             useCard(player);
             updateGameState();
             notifySuccess();
-        }
-        else notifyFailure(NO_PERMISSION);
+        } else notifyFailure(NO_PERMISSION);
     }
 
 
     /**
      * Cork Backed Straightedge card effect
      */
-    private void corkBackedStraightedge()
-    {
+    private void corkBackedStraightedge() {
         int index;
-        if(new CorkBackedStraightedge().isUsable(player,firsTurn))
-        {
+        if (new CorkBackedStraightedge().isUsable(player, firsTurn)) {
 
             index = askDieFromReserve();
-            if(index >-1)
-            {
-                String result = setDie(index,false);
-                if(result == null)
-                {
-                    player.setCardRights(firsTurn,false);
-                    player.setPlacementRights(firsTurn,false);
-                    useCard(player);
-                    updateGameState();
-                    notifySuccess();
-                }
-                else
+            if (index > -1) {
+                String result = setDie(index, false);
+                if (result == null) {
+                    specialPlace();
+                } else
                     notifyFailure(result);
-            }
-            else
+            } else
                 notifyFailure(OH_NO);
-        }
-        else
+        } else
             notifyFailure(NO_PERMISSION);
     }
 
@@ -466,122 +367,87 @@ public class ToolCardsHandler implements Runnable,Observer  {
     /**
      * Running Pliers card effect
      */
-    private void runningPliers()
-    {
+    private void runningPliers() {
         int reserveIndex;
-        if(new RunningPliers().isUsable(player,firsTurn))
-        {
+        if (new RunningPliers().isUsable(player, firsTurn)) {
 
             reserveIndex = askDieFromReserve();
-            if(reserveIndex >-1)
-            {
-                String result = setDie(reserveIndex,true);
-                if(result == null)
-                {
-                    player.setPlacementRights(false,false);
-                    player.setCardRights(false,false);
-                    player.setCardRights(true,false);
+            if (reserveIndex > -1) {
+                String result = setDie(reserveIndex, true);
+                if (result == null) {
+                    player.setPlacementRights(false, false);
+                    player.setCardRights(false, false);
+                    player.setCardRights(true, false);
                     useCard(player);
                     updateGameState();
                     notifySuccess();
-                }
-                else
+                } else
                     notifyFailure(result);
-            }
-            else
+            } else
                 notifyFailure(OH_NO);
-        }
-        else
+        } else
             notifyFailure(NO_PERMISSION);
     }
 
     /**
      * Grinding stone card effect
      */
-    private void grindingStone()
-    {
+    private void grindingStone() {
         int index;
-        if(new GrindingStone().isUsable(player,firsTurn))
-        {
+        if (new GrindingStone().isUsable(player, firsTurn)) {
 
             index = askDieFromReserve();
-            if(index >-1)
-            {
-                CardEffects.changeValue(board.getReserve().get(index),true,0);
-                network.sendReq(new ReserveStatus(board.getReserve()),player.getName());
-                String result = setDie(index,true);
-                if(result == null)
-                {
-                    player.setPlacementRights(firsTurn,false);
-                    player.setCardRights(firsTurn,false);
-                    useCard(player);
-                    updateGameState();
-                    notifySuccess();
-                }
-                else
-                {
-                    CardEffects.changeValue(board.getReserve().get(index),true,0);
+            if (index > -1) {
+                CardEffects.changeValue(board.getReserve().get(index), true, 0);
+                network.sendReq(new ReserveStatus(board.getReserve()), player.getName());
+                String result = setDie(index, true);
+                if (result == null) {
+                    specialPlace();
+                } else {
+                    CardEffects.changeValue(board.getReserve().get(index), true, 0);
                     updateGameState();
                     notifyFailure(result);
                 }
-            }
-            else
+            } else
                 notifyFailure(OH_NO);
-        }
-        else
+        } else
             notifyFailure(NO_PERMISSION);
     }
 
     /**
      * Flux Remover Card effect
      */
-    private void fluxRemover()
-    {
+    private void fluxRemover() {
         int index;
-        if(new FluxRemover().isUsable(player,firsTurn))
-        {
+        if (new FluxRemover().isUsable(player, firsTurn)) {
 
-            if(randomDice.getBagDie() == -1) {
+            if (randomDice.getBagDie() == -1) {
                 index = askDieFromReserve();
                 if (index > -1) {
                     String result = setDieFromBag(index);
                     if (result == null) {
-                        player.setPlacementRights(firsTurn, false);
-                        player.setCardRights(firsTurn, false);
-                        useCard(player);
-                        updateGameState();
-                        notifySuccess();
+                        specialPlace();
                     } else {
-                       notifyFailure(result);
+                        notifyFailure(result);
                         randomDice.setBagDie(index);
                     }
-                }
-                else
+                } else
                     notifyFailure(OH_NO);
-            }
-            else
-            {
+            } else {
                 noCheatFluxRemover();
             }
-        }
-        else
+        } else
             notifyFailure(NO_PERMISSION);
     }
 
     /**
      * Avoids cheats from players calling more than one time the same card
      */
-    private void noCheatFluxRemover()
-    {
+    private void noCheatFluxRemover() {
         String result = setDieFromBag(randomDice.getBagDie());
         if (result == null) {
-            player.setPlacementRights(firsTurn, false);
-            player.setCardRights(firsTurn, false);
-            useCard(player);
-            updateGameState();
-            notifySuccess();
-        }
-        else
+            specialPlace();
+        } else
             notifyFailure(result);
     }
 
@@ -589,106 +455,79 @@ public class ToolCardsHandler implements Runnable,Observer  {
     /**
      * Tap Wheel Card Effect
      */
-    private void tapWheel()
-    {
+    private void tapWheel() {
         int numberOfPlacements;
-        if(new TapWheel().isUsable(player,firsTurn))
-        {
+        if (new TapWheel().isUsable(player, firsTurn)) {
             numberOfPlacements = askNumberOfPlacement();
-            if(numberOfPlacements == 2)
-            {
+            if (numberOfPlacements == 2) {
                 tapWheelTwoDice();
-            }
-            else if(numberOfPlacements == 1)
-            {
+            } else if (numberOfPlacements == 1) {
                 tapWheelOneDie();
-            }
-            else notifyFailure(OH_NO);
-        }
-        else notifyFailure(NO_PERMISSION);
+            } else notifyFailure(OH_NO);
+        } else notifyFailure(NO_PERMISSION);
     }
 
     /**
      * Tap wheel with one placement
      */
-    private void tapWheelOneDie()
-    {
-        Pair<Integer,Integer> roundDie = askDieFromRoundTrack();
-        Pair<Integer,Integer> coor = askDieFromGrid();
-        if(coor!=null && roundDie!=null)
-        {
-            Die roundTrackDie = board.getRoundTrack().getDie(roundDie.getFirst(),roundDie.getSecond());
-            Die d1 = player.getGrid().getDie(coor.getFirst(),coor.getSecond());
-            if( d1.getColor() == roundTrackDie.getColor() ) {
-                String result = setDieFromGrid(coor.getFirst(),coor.getSecond(),true,true);
-                if (result == null) {
-                    player.setCardRights(firsTurn, false);
-                    useCard(player);
-                    updateGameState();
-                    notifySuccess();
-                } else
-                    notifyFailure(result);
-            }
-            else
+    private void tapWheelOneDie() {
+        Pair<Integer, Integer> roundDie = askDieFromRoundTrack();
+        Pair<Integer, Integer> coor = askDieFromGrid();
+        if (coor != null && roundDie != null) {
+            Die roundTrackDie = board.getRoundTrack().getDie(roundDie.getFirst(), roundDie.getSecond());
+            Die d1 = player.getGrid().getDie(coor.getFirst(), coor.getSecond());
+            if (d1.getColor() == roundTrackDie.getColor()) {
+                String result = setDieFromGrid(coor.getFirst(), coor.getSecond(), true, true);
+                successCard(result);
+            } else
                 notifyFailure("Colori non uguali!");
-        }
-        else
+        } else
             notifyFailure(OH_NO);
     }
 
     /**
      * Tap Wheel with two placements
      */
-    private void tapWheelTwoDice()
-    {
-        Pair<Integer,Integer> roundDie = askDieFromRoundTrack();
-        Pair<Integer,Integer> coor = askDieFromGrid();
-        Pair<Integer,Integer> coor2 = askDieFromGrid();
-        if(coor != null && coor2 != null && roundDie != null)
-        {
-            Die roundTrackDie = board.getRoundTrack().getDie(roundDie.getFirst(),roundDie.getSecond());
-            Die d1 = player.getGrid().getDie(coor.getFirst(),coor.getSecond());
-            Die d2 = player.getGrid().getDie(coor2.getFirst(),coor2.getSecond());
+    private void tapWheelTwoDice() {
+        Pair<Integer, Integer> roundDie = askDieFromRoundTrack();
+        Pair<Integer, Integer> coor = askDieFromGrid();
+        Pair<Integer, Integer> coor2 = askDieFromGrid();
+        if (coor != null && coor2 != null && roundDie != null) {
+            Die roundTrackDie = board.getRoundTrack().getDie(roundDie.getFirst(), roundDie.getSecond());
+            Die d1 = player.getGrid().getDie(coor.getFirst(), coor.getSecond());
+            Die d2 = player.getGrid().getDie(coor2.getFirst(), coor2.getSecond());
 
-            if( isSameColor(d1,d2,roundTrackDie) ) {
+            if (isSameColor(d1, d2, roundTrackDie)) {
                 String result = setDoubleDieFromGrid(coor.getFirst(), coor.getSecond(), coor2.getFirst(), coor2.getSecond());
-                if (result == null) {
-                    player.setCardRights(firsTurn, false);
-                    useCard(player);
-                    updateGameState();
-                    notifySuccess();
-                } else
-                    notifyFailure(result);
-            }
-            else
+                successCard(result);
+            } else
                 notifyFailure("Colori non uguali!");
-        }
-        else
+        } else
             notifyFailure(OH_NO);
     }
 
     /**
      * Checks if dice are of the same color of the third one
+     *
      * @param d1 first die
      * @param d2 second die
      * @param d3 third die
      * @return true if all dice are of the same color
      */
-    private boolean isSameColor(Die d1, Die d2, Die d3)
-    {
+    private boolean isSameColor(Die d1, Die d2, Die d3) {
 
-        return (d1!= null && d2!= null && d3!= null &&d1.getColor() == d3.getColor() && d2.getColor() == d3.getColor());
+        return (d1 != null && d2 != null && d3 != null && d1.getColor() == d3.getColor() && d2.getColor() == d3.getColor());
 
     }
 
     /**
      * Ask the number of placements for tap wheel
+     *
      * @return number of placements
      */
-    private int askNumberOfPlacement()
-    {
+    private int askNumberOfPlacement() {
         latch = new CountDownLatch(1);
-        network.sendReq(new AskPlacements(),player.getName());
+        network.sendReq(new AskPlacements(), player.getName());
         if (waitUpdate() && response.toString().equals(NEWVALUE)) {
             NewValue newValue = (NewValue) response;
             return newValue.getNewValue();
@@ -698,13 +537,13 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
     /**
      * Ask for a new face for a die
+     *
      * @param die die to be changed
      * @return new value for die
      */
-    private int askNewFace(Die die)
-    {
+    private int askNewFace(Die die) {
         latch = new CountDownLatch(1);
-        network.sendReq(new AskNewFace(die.getColor(),die.getValue()),player.getName());
+        network.sendReq(new AskNewFace(die.getColor(), die.getValue()), player.getName());
         if (waitUpdate() && response.toString().equals(NEWVALUE)) {
             NewValue newValue = (NewValue) response;
             return newValue.getNewValue();
@@ -714,6 +553,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
     /**
      * Asks and wait for a die from the reserve
+     *
      * @return die's position inside the reserve
      */
     private int askDieFromReserve() {
@@ -723,112 +563,109 @@ public class ToolCardsHandler implements Runnable,Observer  {
             DieFromReserve dieFromReserve = (DieFromReserve) response;
             return dieFromReserve.getIndex();
         }
-        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
+        network.sendReq(new CardExecutionError(TOO_SLOW), player.getName());
         return -1;
     }
 
 
     /**
      * Asks and wait for a die from the grid
+     *
      * @return die's position inside the grid
      */
-    private Pair<Integer,Integer> askDieFromGrid() {
+    private Pair<Integer, Integer> askDieFromGrid() {
         latch = new CountDownLatch(1);
         network.sendReq(new AskDieFromGrid(), player.getName());
         if (waitUpdate() && response.toString().equals("DieFromGrid")) {
             DieFromGrid dieFromGrid = (DieFromGrid) response;
-            return new Pair<>(dieFromGrid.getH(),dieFromGrid.getW());
+            return new Pair<>(dieFromGrid.getH(), dieFromGrid.getW());
         }
-        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
+        network.sendReq(new CardExecutionError(TOO_SLOW), player.getName());
         return null;
     }
 
     /**
      * Asks and wait for a die from the round track
+     *
      * @return die's position inside the round track
      */
-    private Pair<Integer,Integer> askDieFromRoundTrack() {
+    private Pair<Integer, Integer> askDieFromRoundTrack() {
         latch = new CountDownLatch(1);
         network.sendReq(new AskDieFromRoundTrack(), player.getName());
         if (waitUpdate() && response.toString().equals("DieFromRoundTrack")) {
             DieFromRoundTrack dieFromRoundTrack = (DieFromRoundTrack) response;
-            return new Pair<>(dieFromRoundTrack.getRound(),dieFromRoundTrack.getDiePosition());
+            return new Pair<>(dieFromRoundTrack.getRound(), dieFromRoundTrack.getDiePosition());
         }
-        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
+        network.sendReq(new CardExecutionError(TOO_SLOW), player.getName());
         return null;
     }
 
 
     /**
      * Asks and wait for a new value for a die
+     *
      * @param index die's position inside the reserve
      * @return die' new value
      */
-    private int askNewValue(int index)
-    {
+    private int askNewValue(int index) {
         latch = new CountDownLatch(1);
-        int val1 = board.getReserve().get(index).getValue() -1;
-        int val2 = board.getReserve().get(index).getValue() +1;
-        network.sendReq(new AskNewValue(val1,val2), player.getName());
+        int val1 = board.getReserve().get(index).getValue() - 1;
+        int val2 = board.getReserve().get(index).getValue() + 1;
+        network.sendReq(new AskNewValue(val1, val2), player.getName());
         if (waitUpdate() && response.toString().equals(NEWVALUE)) {
             NewValue newValue = (NewValue) response;
             return newValue.getNewValue();
         }
-        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
+        network.sendReq(new CardExecutionError(TOO_SLOW), player.getName());
         return -1;
     }
 
     /**
      * Asks for a die to be set and sets it if everything is respected
+     *
      * @param index die's position inside the reserve
      * @return Error message or null if no error occurred
      */
-    private String setDie(int index, boolean adjacency)
-    {
+    private String setDie(int index, boolean adjacency) {
         latch = new CountDownLatch(1);
         network.sendReq(new SetDie(index), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
-            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),board.getReserve().get(index),true,true,adjacency);
-            if(result == null)
-            {
-                player.getGrid().setDie(dieSet.getH(),dieSet.getW(),board.getReserve().popDie(index));
+            String result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), board.getReserve().get(index), true, true, adjacency);
+            if (result == null) {
+                player.getGrid().setDie(dieSet.getH(), dieSet.getW(), board.getReserve().popDie(index));
             }
             return result;
         }
-        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
-        return OH_NO ;
+        network.sendReq(new CardExecutionError(TOO_SLOW), player.getName());
+        return OH_NO;
     }
 
 
     /**
      * Asks for a die to be set from inside the grid and sets it if everything is respected
-     * @param h height inside the grid
-     * @param w width inside the grid
+     *
+     * @param h     height inside the grid
+     * @param w     width inside the grid
      * @param color restriction enabled
      * @param value value restriction enabled
      * @return Error message or null if no error occurred
      */
-    private String setDieFromGrid(int h, int w, boolean color, boolean value)
-    {
+    private String setDieFromGrid(int h, int w, boolean color, boolean value) {
         latch = new CountDownLatch(1);
-        Die die = player.getGrid().setDie(h,w,null);
-        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
+        Die die = player.getGrid().setDie(h, w, null);
+        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(), die.getColor())), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
-            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),die,color,value,true);
-            if(result == null)
-            {
-                player.getGrid().setDie(dieSet.getH(),dieSet.getW(),die);
-            }
-            else
-            {
-               player.getGrid().setDie(h,w,die);
+            String result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die, color, value, true);
+            if (result == null) {
+                player.getGrid().setDie(dieSet.getH(), dieSet.getW(), die);
+            } else {
+                player.getGrid().setDie(h, w, die);
             }
             return result;
-        }
-        else {
-            player.getGrid().setDie(h,w,die);
+        } else {
+            player.getGrid().setDie(h, w, die);
             network.sendReq(new CardExecutionError(TOO_SLOW), player.getName());
         }
         return OH_NO;
@@ -837,103 +674,95 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
     /**
      * Sets a die from the bag and puts a die from the reserve inside the bag
+     *
      * @param diePosition position of the die inside the reserve
      * @return null, or an error message
      */
-    private String setDieFromBag(int diePosition)
-    {
+    private String setDieFromBag(int diePosition) {
 
         Die die = board.getBag().getDie(0);
         int newVal = askNewFace(die);
-        if(newVal>0)
+        if (newVal > 0)
             die.setFace(newVal);
         else
             return OH_NO;
 
         latch = new CountDownLatch(1);
-        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())),player.getName());
-        if(waitUpdate() && response.toString().equals(DIESET))
-        {
+        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(), die.getColor())), player.getName());
+        if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
-            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),die,true,true,true);
-            if(result == null)
-            {
-                player.getGrid().setDie(dieSet.getH(),dieSet.getW(),board.getBag().popDice(1).get(0));
+            String result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die, true, true, true);
+            if (result == null) {
+                player.getGrid().setDie(dieSet.getH(), dieSet.getW(), board.getBag().popDice(1).get(0));
                 board.getBag().add(board.getReserve().popDie(diePosition));
             }
-                return result;
+            return result;
         }
 
-            return OH_NO;
+        return OH_NO;
     }
 
 
     /**
      * Asks for a die to be set from roundTrack and it swap the die with one from the reserve
-     * @param round round inside round track
+     *
+     * @param round       round inside round track
      * @param diePosition die's position inside the round
-     * @param index die position inside the round track
+     * @param index       die position inside the round track
      * @return Error message or null if no error occurred
      */
-    private String setDieFromRoundTrack(int round, int diePosition, int index)
-    {
+    private String setDieFromRoundTrack(int round, int diePosition, int index) {
         latch = new CountDownLatch(1);
-        Die die = board.getRoundTrack().getDie(round,diePosition);
-        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
+        Die die = board.getRoundTrack().getDie(round, diePosition);
+        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(), die.getColor())), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
-            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),die,true,true,true);
-            if(result == null)
-            {
-                CardEffects.reserveRoundTrackSwap(index,round,diePosition,board.getReserve(),board.getRoundTrack());
-                player.getGrid().setDie(dieSet.getH(),dieSet.getW(), board.getReserve().popDie(board.getReserve().size()-1));
+            String result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die, true, true, true);
+            if (result == null) {
+                CardEffects.reserveRoundTrackSwap(index, round, diePosition, board.getReserve(), board.getRoundTrack());
+                player.getGrid().setDie(dieSet.getH(), dieSet.getW(), board.getReserve().popDie(board.getReserve().size() - 1));
             }
             return result;
         }
-        network.sendReq(new CardExecutionError(TOO_SLOW),player.getName());
-        return OH_NO ;
+        network.sendReq(new CardExecutionError(TOO_SLOW), player.getName());
+        return OH_NO;
     }
 
     /**
      * Asks and wait for a double die placement
-     * @param h height of the first die
-     * @param w width of the first die
+     *
+     * @param h  height of the first die
+     * @param w  width of the first die
      * @param h2 height of the second die
      * @param w2 width of the second die
      * @return error message or null in case of no error
      */
-    private String setDoubleDieFromGrid(int h, int w, int h2, int w2)
-    {
+    private String setDoubleDieFromGrid(int h, int w, int h2, int w2) {
         int newH;
         int newW;
-        if(player.getGrid().getDie(h,w) == null || player.getGrid().getDie(h2,w2) == null)
+        if (player.getGrid().getDie(h, w) == null || player.getGrid().getDie(h2, w2) == null)
             return "Dado assente";
         latch = new CountDownLatch(1);
-        Die die = player.getGrid().setDie(h,w,null);
+        Die die = player.getGrid().setDie(h, w, null);
 
-        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(),die.getColor())), player.getName());
+        network.sendReq(new SetThisDie(new IntColorPair(die.getValue(), die.getColor())), player.getName());
         if (waitUpdate() && response.toString().equals(DIESET)) {
             DieSet dieSet = (DieSet) response;
-            String result = DiePlacementLogic.insertDie(player,dieSet.getH(),dieSet.getW(),die,true,true,true);
-            if(result == null)
-            {
+            String result = DiePlacementLogic.insertDie(player, dieSet.getH(), dieSet.getW(), die, true, true, true);
+            if (result == null) {
                 newH = dieSet.getH();
                 newW = dieSet.getW();
-                player.getGrid().setDie(newH,newW,die);
-                result = setDieFromGrid(h2,w2,true,true);
-                if(result != null)
-                {
-                    player.getGrid().setDie(h,w,player.getGrid().setDie(newH,newW,null));
+                player.getGrid().setDie(newH, newW, die);
+                result = setDieFromGrid(h2, w2, true, true);
+                if (result != null) {
+                    player.getGrid().setDie(h, w, player.getGrid().setDie(newH, newW, null));
                 }
-            }
-            else
-            {
-                player.getGrid().setDie(h,w,die);
+            } else {
+                player.getGrid().setDie(h, w, die);
             }
             return result;
-        }
-        else {
-            player.getGrid().setDie(h,w,die);
+        } else {
+            player.getGrid().setDie(h, w, die);
             network.sendReq(new CardExecutionError(TOO_SLOW), player.getName());
         }
         return OH_NO;
@@ -941,14 +770,13 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
     /**
      * Waits for the requested response
+     *
      * @return true if a response has come, false otherwise
      */
-    boolean waitUpdate()
-    {
+    boolean waitUpdate() {
         try {
             return latch.await(20, TimeUnit.SECONDS);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             Logger.getGlobal().log(Level.WARNING, "Interrupted while waiting");
             Thread.currentThread().interrupt();
         }
@@ -959,10 +787,10 @@ public class ToolCardsHandler implements Runnable,Observer  {
 
     /**
      * Sets all parameters after using a card
+     *
      * @param player player affected
      */
-    private void useCard(Player player)
-    {
+    private void useCard(Player player) {
         board.getTool(cardPosition).burnFavourPoints(player);
         board.getTool(cardPosition).updateUsed();
     }
@@ -970,12 +798,31 @@ public class ToolCardsHandler implements Runnable,Observer  {
     /**
      * Updates game stets on all clients
      */
-    private void updateGameState()
-    {
+    private void updateGameState() {
         network.sendObj(new ReserveStatus(board.getReserve()));
         network.sendObj(new RoundTrackStatus(board.getRoundTrack()));
-        network.sendObj(new CardInfo(board.getTools(),board.getObjectives()));
+        network.sendObj(new CardInfo(board.getTools(), board.getObjectives()));
         network.sendObj(new PlayerStatus(player, firsTurn));
+    }
+
+    private void successCard(String result) {
+        if (result == null) {
+            player.setCardRights(firsTurn, false);
+            useCard(player);
+            updateGameState();
+            notifySuccess();
+        } else {
+            notifyFailure(result);
+        }
+    }
+
+
+    private void specialPlace() {
+        player.setPlacementRights(firsTurn, false);
+        player.setCardRights(firsTurn, false);
+        useCard(player);
+        updateGameState();
+        notifySuccess();
     }
 
 }
