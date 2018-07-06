@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class CardIdentifier {
 
-    private HashMap<Integer, String> cards;
+    private final HashMap<Integer, String> cards;
 
 
     /**

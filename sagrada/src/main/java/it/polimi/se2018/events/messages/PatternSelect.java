@@ -10,9 +10,9 @@ import it.polimi.se2018.model.Pattern;
  */
 public class PatternSelect extends ServerMessage {
 
-    private String name;
-    private int favourPoints;
-    private IntColorPair [][] pattern = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
+    private final String name;
+    private final int favourPoints;
+    private final IntColorPair [][] pattern = new IntColorPair[Pattern.HEIGHT][Pattern.WIDTH];
 
     /**
      * PatterSelect's constructor

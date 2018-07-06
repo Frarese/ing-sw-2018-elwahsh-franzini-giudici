@@ -86,7 +86,8 @@ public class LobbyController implements FXController {
     /**
      * Starts matchmaking
      */
-    public void startMatchmaking() {
+    @FXML
+    private void startMatchmaking() {
         matchmakingButton.setText("Stop Matchmaking");
         matchmakingButton.setDefaultButton(false);
         matchmakingButton.setOnAction(e -> stopMatchmaking());
@@ -248,7 +249,8 @@ public class LobbyController implements FXController {
     /**
      * Clears invite's table
      */
-    public void clearInvite() {
+    @FXML
+    private void clearInvite() {
         inviteUserList.clear();
     }
 

@@ -10,7 +10,7 @@ import it.polimi.se2018.model.dice.Grid;
  * Logic for generic die placement inside the grid
  * @author Alì El Wahsh
  */
-public abstract class DiePlacementLogic {
+abstract class DiePlacementLogic {
 
     /**
      * Private constructor, to avoid illegal calls
@@ -114,7 +114,7 @@ public abstract class DiePlacementLogic {
      */
     private static boolean rightColor(Pattern p, int h, int w, Die d)
     {
-        return p.getColor(h,w).equals(d.getColor()) || p.getColor(h,w) == ColorModel.WHITE;
+        return p.getColor(h, w) == d.getColor() || p.getColor(h,w) == ColorModel.WHITE;
     }
 
     /**

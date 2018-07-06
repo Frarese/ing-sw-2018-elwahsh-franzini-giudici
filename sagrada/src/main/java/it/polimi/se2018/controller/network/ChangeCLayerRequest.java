@@ -22,11 +22,7 @@ public class ChangeCLayerRequest implements AbsReqServerLogic {
 
     @Override
     public void clientHandle(Comm clientComm, CommUtilizer commUtilizer) {
-        if(!checkValid())return;
-        clientComm.purgeComm();
-        clientComm.login(clientComm.getHost(),reqPort,objPort
-                ,clientComm.getUsername(),clientComm.getPassword()
-                ,false,toRMI,commUtilizer);
+        //Not relevant if received from a client
     }
 
     @Override

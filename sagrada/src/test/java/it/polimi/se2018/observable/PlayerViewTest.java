@@ -166,7 +166,7 @@ public class PlayerViewTest {
     @Test
     public void testSetPlacementRights() {
         placementRights = false;
-        playerView.setPlacementRights(placementRights);
+        playerView.setPlacementRights(false);
     }
 
     /**
@@ -183,6 +183,6 @@ public class PlayerViewTest {
     @Test
     public void testSetCardRights() {
         cardRights = true;
-        playerView.setCardRights(cardRights);
+        playerView.setCardRights(true);
     }
 }

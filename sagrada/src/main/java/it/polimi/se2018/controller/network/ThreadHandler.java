@@ -75,6 +75,7 @@ public abstract class ThreadHandler implements Runnable {
      */
     public synchronized void forceStop() {
         this.stop();
+        if(t==null)return;
         t.interrupt();
         try {
             t.join();

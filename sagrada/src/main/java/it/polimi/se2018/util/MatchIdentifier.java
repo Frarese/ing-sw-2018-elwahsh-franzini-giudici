@@ -11,7 +11,7 @@ import java.util.TreeSet;
  * @author Francesco Franzini
  */
 public class MatchIdentifier implements Serializable {
-    public static final String DEFAULT_SEPARATOR = ":";
+    private static final String DEFAULT_SEPARATOR = ":";
     public final int playerCount;
     public final String player0;
     public final String player1;

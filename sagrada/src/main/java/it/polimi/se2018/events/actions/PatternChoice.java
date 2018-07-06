@@ -5,7 +5,7 @@ package it.polimi.se2018.events.actions;
  */
 public class PatternChoice extends PlayerMove {
 
-    private String patterName;
+    private final String patterName;
 
     /**
      * PatternChoice's constructor

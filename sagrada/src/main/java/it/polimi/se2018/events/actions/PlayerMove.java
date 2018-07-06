@@ -9,7 +9,7 @@ import it.polimi.se2018.events.Event;
  */
 public abstract class PlayerMove extends Event {
 
-    protected String playerName;
+    String playerName;
 
     /**
      * Getter fot the player's ID

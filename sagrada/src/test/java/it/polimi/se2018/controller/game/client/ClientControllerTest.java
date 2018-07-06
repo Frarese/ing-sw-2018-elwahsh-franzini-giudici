@@ -56,8 +56,8 @@ public class ClientControllerTest {
 
         uut.receiveObject("test");
         uut.receiveRequest("test");
-        uut.receiveObject(new ReadyView("test"));
-        uut.receiveRequest(new ReadyView("test"));
+        uut.receiveObject(new ReadyView());
+        uut.receiveRequest(new ReadyView());
 
         uut.setLastAction(new UseToolCardMove("n",0));
         assertNotNull(uut.getLastAction());

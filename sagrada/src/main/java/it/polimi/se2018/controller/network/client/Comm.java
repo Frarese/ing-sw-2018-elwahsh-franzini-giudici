@@ -84,12 +84,9 @@ public class Comm {
         logger.log(Level.INFO,"Attempting to change layer to {0}",(toRMI)?"RMI":"Socket");
         if(!commLayer.sendOutReq(new ChangeCLayerRequest(toRMI,reqPort,objPort))){
             logger.log(Level.SEVERE,"Failed to send change layer request");
-            this.beginDisconnectedRoutines();
         }
         this.discTimer.stop();
-        qEmpObj.stop();
-        qEmpReq.stop();
-        inListenerObj.stop();
+        this.beginDisconnectedRoutines();
     }
 
     /**
@@ -379,9 +376,9 @@ public class Comm {
      */
     void stop(){
         discTimer.stop();
-        inListenerObj.stop();
-        inListenerReq.stop();
-        qEmpObj.stop();
-        qEmpReq.stop();
+        inListenerObj.forceStop();
+        inListenerReq.forceStop();
+        qEmpObj.forceStop();
+        qEmpReq.forceStop();
     }
 }

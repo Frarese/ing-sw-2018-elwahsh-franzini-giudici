@@ -5,6 +5,7 @@ import it.polimi.se2018.view.app.JavaFXStageProducer;
 import it.polimi.se2018.view.tools.fx.alert.ChangeLayerBox;
 import it.polimi.se2018.view.tools.fx.alert.ConfirmBox;
 import it.polimi.se2018.view.tools.fx.alert.GameMenuBox;
+import javafx.fxml.FXML;
 
 /**
  * Manages game menu
@@ -17,7 +18,8 @@ public class GameMenuController {
     /**
      * Closes the menu
      */
-    public void close() {
+    @FXML
+    private void close() {
         GameMenuBox.close();
     }
 

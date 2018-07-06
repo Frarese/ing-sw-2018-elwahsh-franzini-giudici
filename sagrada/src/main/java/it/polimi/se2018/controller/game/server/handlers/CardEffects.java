@@ -10,7 +10,7 @@ import it.polimi.se2018.model.dice.RoundTracker;
  * Class covering all the generic card effects
  * @author Alì El Wahsh
  */
-public interface CardEffects {
+interface CardEffects {
 
 
     /**

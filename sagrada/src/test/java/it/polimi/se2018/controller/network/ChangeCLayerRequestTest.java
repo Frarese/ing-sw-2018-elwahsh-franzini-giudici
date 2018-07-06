@@ -1,7 +1,5 @@
 package it.polimi.se2018.controller.network;
 
-import it.polimi.se2018.controller.network.client.Comm;
-import it.polimi.se2018.controller.network.client.CommUtilizer;
 import it.polimi.se2018.controller.network.server.Client;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,16 +64,6 @@ public class ChangeCLayerRequestTest {
     }
 
     /**
-     * Tests that the client method is correctly called
-     */
-    @Test
-    public void testClient(){
-        uut.clientHandle(new CommMock(),null);
-        assertTrue(purged);
-        assertTrue(called);
-    }
-
-    /**
      * Mock client used to intercept method calls
      */
     private class ClientMock extends Client {
@@ -90,19 +78,4 @@ public class ChangeCLayerRequestTest {
         }
     }
 
-    /**
-     * Mock Comm used to intercept method calls
-     */
-    private class CommMock extends Comm {
-        @Override
-        public String login(String host, int requestPort, int objectPort, String usn, String pw, boolean newUser, boolean useRMI, CommUtilizer utilizer) {
-            called=true;
-            return null;
-        }
-
-        @Override
-        public void purgeComm() {
-            purged=true;
-        }
-    }
 }

@@ -9,7 +9,7 @@ import it.polimi.se2018.model.cards.PrivateObjectiveCard;
  */
 public class PrivateObjectiveStatus extends ServerMessage {
 
-    private int cardId;
+    private final int cardId;
 
     public PrivateObjectiveStatus(PrivateObjectiveCard card)
     {

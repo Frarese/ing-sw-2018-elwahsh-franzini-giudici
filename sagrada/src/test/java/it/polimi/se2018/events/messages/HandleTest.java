@@ -82,7 +82,7 @@ public class HandleTest {
         s.visit(hand);
         assertEquals(s,mov);
 
-        s=new ReadyView("a");
+        s=new ReadyView();
         s.visit(hand);
         assertEquals(s,mov);
 

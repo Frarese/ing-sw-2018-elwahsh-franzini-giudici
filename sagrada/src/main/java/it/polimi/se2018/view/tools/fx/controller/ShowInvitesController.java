@@ -56,7 +56,8 @@ public class ShowInvitesController {
     /**
      * Closes invites' window
      */
-    public void close() {
+    @FXML
+    private void close() {
         ShowInvitesBox.close();
     }
 }

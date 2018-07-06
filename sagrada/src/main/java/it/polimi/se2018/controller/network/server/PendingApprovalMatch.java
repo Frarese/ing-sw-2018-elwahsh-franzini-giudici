@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * Represents a match that has not yet been approved by all players
  * @author Francesco Franzini
  */
-public class PendingApprovalMatch {
+class PendingApprovalMatch {
     static final int DEFAULT_TIMEOUT = 60;
     private final HashMap<Integer,Client> clients;
     private final Timer t;

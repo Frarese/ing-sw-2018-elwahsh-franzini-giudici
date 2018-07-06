@@ -3,6 +3,8 @@ package it.polimi.se2018.controller.network.client;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,42 +19,52 @@ public class ClientDiscTimerTest {
     private ClientDiscTimer uut;
     private volatile boolean fail;
     private AtomicBoolean failed;
+    private Field continuaF;
+    private Method runT;
 
     /**
      * Prepares the flags to be used and instantiates the tested object
+     * @throws Exception if an error occurs
      */
     @Before
-    public void testSetUp() {
+    public void testSetUp() throws Exception{
         called=new AtomicInteger(0);
         uut=new ClientDiscTimer(new CommTest());
         fail=false;
         failed=new AtomicBoolean(false);
+
+        continuaF=ClientDiscTimer.class.getDeclaredField("continua");
+        continuaF.setAccessible(true);
+
+        runT=ClientDiscTimer.class.getDeclaredMethod("runTask");
+        runT.setAccessible(true);
     }
 
     /**
-     * Tests if the timer checks for the last timestamp on the client
+     * Tests that the object has been correctly initialized
+     * @throws Exception if an error occurs
      */
-    @Test(timeout=1000)
-    public void testInit() {
+    @Test
+    public void testInit() throws Exception{
         long timeout=50;
         uut.reschedule(timeout);
-        while(!(called.get()>1));
+        assertTrue((Boolean)continuaF.get(uut));
         uut.stop();
-        assertFalse(failed.get());
     }
 
     /**
-     * Tests if the timer correctly calls the disconnection on the client
+     * Tests that the task works correctly
+     * @throws Exception if an error occurs
      */
-    @Test(timeout=1000)
-    public void testFail() {
-        long timeout=1;
-        fail=true;
-        uut.reschedule(timeout);
-        while(!failed.get());
-        uut.stop();
+    @Test
+    public void testTask() throws Exception {
+        continuaF.set(uut, Boolean.TRUE);
+        runT.invoke(uut);
+        assertFalse(failed.get());
 
-        assertEquals(1,called.get());
+        fail=true;
+        runT.invoke(uut);
+        assertTrue(failed.get());
     }
 
     /**

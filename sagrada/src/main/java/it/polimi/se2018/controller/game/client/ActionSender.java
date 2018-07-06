@@ -107,7 +107,7 @@ public class ActionSender {
      * Communicates to the Controller that View ended init operations
      */
     public void endInitGame() {
-        network.sendObj(new ReadyView(username));
+        network.sendObj(new ReadyView());
     }
 
 

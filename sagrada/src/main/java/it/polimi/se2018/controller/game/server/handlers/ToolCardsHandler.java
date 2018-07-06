@@ -943,7 +943,7 @@ public class ToolCardsHandler implements Runnable,Observer  {
      * Waits for the requested response
      * @return true if a response has come, false otherwise
      */
-    protected boolean waitUpdate()
+    boolean waitUpdate()
     {
         try {
             return latch.await(20, TimeUnit.SECONDS);

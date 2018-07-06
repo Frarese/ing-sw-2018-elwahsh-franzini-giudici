@@ -8,12 +8,12 @@ package it.polimi.se2018.events.actions;
 public class DiePlacementMove extends PlayerMove
 {
 
-    private int height;
-    private int width;
-    private int diePosition;
-    private boolean colorRestriction;
-    private boolean valueRestriction;
-    private boolean adjacentRestriction;
+    private final int height;
+    private final int width;
+    private final int diePosition;
+    private final boolean colorRestriction;
+    private final boolean valueRestriction;
+    private final boolean adjacentRestriction;
 
     /**
      * DiePlacementMove's constructor
