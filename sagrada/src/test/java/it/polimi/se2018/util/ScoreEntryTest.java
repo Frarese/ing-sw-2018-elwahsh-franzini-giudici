@@ -5,7 +5,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tester class for ScoreEntry
+ * @author Francesco Franzini
+ */
 public class ScoreEntryTest {
+
+    /**
+     * Tests that the class is correctly initialized
+     */
     @Test
     public void testScoreEntry() {
         String usn="A";

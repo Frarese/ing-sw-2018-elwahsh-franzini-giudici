@@ -12,6 +12,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the Match class
+ * @author Francesco Franzini
+ */
 public class MatchTest {
     private Match uut;
     private ClientTest c1,c2,c3,c4;
@@ -19,6 +23,11 @@ public class MatchTest {
     private MatchIdentifier mId;
     private ServerMain s;
     private boolean handled;
+
+    /**
+     * Prepares the objects to be used and the object to be tested
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception{
         c1=new ClientTest("us1");
@@ -37,12 +46,18 @@ public class MatchTest {
         handled=false;
     }
 
+    /**
+     * Tests that the object is correctly initialized
+     */
     @Test
     public void testInit() {
         List<Client> listRetr=uut.getClients();
         assertEquals(list,listRetr);
     }
 
+    /**
+     * Tests that invalid arguments are correctly detected
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testFailInit() {
         list=new ArrayList<>();
@@ -50,6 +65,9 @@ public class MatchTest {
         uut=new Match(mId,list,null);
     }
 
+    /**
+     * Tests that invalid arguments are correctly detected
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testDuplicateInit() {
         list=new ArrayList<>();
@@ -61,6 +79,9 @@ public class MatchTest {
         assertNull(s.getMatch(mId));
     }
 
+    /**
+     * Tests that objects are correctly handled
+     */
     @Test
     public void testPushObj() {
         uut.handleObj("test",c1);
@@ -70,6 +91,9 @@ public class MatchTest {
         assertTrue(c4.pushed);
     }
 
+    /**
+     * Tests the leave method
+     */
     @Test
     public void testLeave() {
         s.addClient(c1);
@@ -81,6 +105,9 @@ public class MatchTest {
         assertNull(c1.getMatch());
     }
 
+    /**
+     * Tests that the match is aborted if too many players leave
+     */
     @Test
     public void testTerminalLeave() {
         uut.playerLeft("us1",true);
@@ -92,6 +119,9 @@ public class MatchTest {
         assertTrue(c4.aborted);
     }
 
+    /**
+     * Tests the methods to handle disconnection/reconnection
+     */
     @Test
     public void testReconnection() {
         s.addClient(c1);
@@ -103,12 +133,18 @@ public class MatchTest {
         assertTrue(c4.rec);
     }
 
+    /**
+     * Tests the {@code end} method
+     */
     @Test
     public void testEnd(){
         uut.end(0,1,2,3);
         assertNull(s.getMatch(mId));
     }
 
+    /**
+     * Tests the send methods
+     */
     @Test
     public void testSend(){
         uut.sendObj("test");
@@ -120,6 +156,9 @@ public class MatchTest {
         uut.sendReq("test","notAUser");
     }
 
+    /**
+     * Tests that a request is correctly handled
+     */
     @Test
     public void testHandle(){
         uut.handleReq(null,null);
@@ -128,6 +167,9 @@ public class MatchTest {
         new UserReconnectedRequest("test").serverVisit(new ServerVisitorImpl(null,null));
     }
 
+    /**
+     * Mock client used to intercept method calls
+     */
     private class ClientTest extends Client{
         boolean pushed=false;
         boolean aborted=false;
@@ -156,6 +198,9 @@ public class MatchTest {
         }
     }
 
+    /**
+     * Mock factory used to inject a mock controller
+     */
     private class MockFactory implements MatchControllerFactory{
 
         @Override
@@ -164,6 +209,9 @@ public class MatchTest {
         }
     }
 
+    /**
+     * Mock match controller used to intercept method calls
+     */
     private class MockController implements MatchController{
         @Override
         public void handleRequest(String sender, Serializable req) {

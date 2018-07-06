@@ -11,12 +11,20 @@ import java.util.Queue;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the RMIClientComm class
+ * @author Francesco Franzini
+ */
 public class RMIClientCommTest {
     private RMIClientComm uut;
     private Queue<AbsReq> outReqQueue;
     private Queue<Serializable> outObjQueue;
     private RMISessionImpl sesObj;
 
+    /**
+     * Prepares the objects to be used
+     * @throws Exception if an error occurs
+     */
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
@@ -31,6 +39,9 @@ public class RMIClientCommTest {
         outReqQueue=(Queue)f.get(uut);
     }
 
+    /**
+     * Tests the push and pop methods
+     */
     @Test
     public void testPushPop() {
         KeepAliveRequest kA=new KeepAliveRequest();
@@ -47,6 +58,9 @@ public class RMIClientCommTest {
         assertEquals("test",uut.getOutObj());
     }
 
+    /**
+     * Tests the {@code terminate} method
+     */
     @Test
     public void testTerminate(){
         KeepAliveRequest kA=new KeepAliveRequest();
@@ -63,6 +77,9 @@ public class RMIClientCommTest {
         assertNull(uut.getOutReq());
     }
 
+    /**
+     * Tests the session object
+     */
     @Test
     public void testSessionObj(){
         KeepAliveRequest kA=new KeepAliveRequest();

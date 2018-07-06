@@ -14,12 +14,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the ServerMain class
+ * @author Francesco Franzini
+ */
 public class ServerMainTest {
     private ServerMain uut;
     private ConcurrentHashMap<String,Client> clientMap;
     private ConcurrentHashMap<String,Match> matches;
     private MatchMakingQueue matchMakingQueue;
 
+    /**
+     * Prepares the objects to be used
+     * @throws Exception if an error occurs
+     */
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
@@ -40,13 +48,18 @@ public class ServerMainTest {
         matchMakingQueue=(MatchMakingQueue)f.get(uut);
     }
 
-
+    /**
+     * Tests that the object has been correctly initialized
+     */
     @Test
     public void testInit() {
         assertTrue(matches.isEmpty());
         assertTrue(clientMap.isEmpty());
     }
 
+    /**
+     * Tests the client related methods
+     */
     @Test
     public void testAddRemoveClient(){
         Client c=new Client("test",uut);
@@ -59,6 +72,9 @@ public class ServerMainTest {
         assertFalse(uut.isUserLogged("test"));
     }
 
+    /**
+     * Tests the user related methods
+     */
     @Test
     public void testUserDB(){
         assertFalse(uut.existsUsn("user"));
@@ -91,6 +107,9 @@ public class ServerMainTest {
         assertEquals(100,userLead.get(i).wins);
     }
 
+    /**
+     * Tests the methods for matchmaking handling
+     */
     @Test
     public void testMMaking(){
         Client c=new Client("test",uut);
@@ -101,6 +120,10 @@ public class ServerMainTest {
 
     }
 
+    /**
+     * Tests the methods for pending approval match handling
+     * @throws Exception if an error occurs
+     */
     @SuppressWarnings("unchecked")
     @Test
     public void testPAMatch() throws Exception{
@@ -124,6 +147,9 @@ public class ServerMainTest {
         uut.addPendingMatch(new MatchIdentifier("test1","test2",null,null),c2);
     }
 
+    /**
+     * Tests the methods for match handling
+     */
     @Test
     public void testMatch(){
         Client c1=new Client("test",uut);
@@ -143,6 +169,9 @@ public class ServerMainTest {
 
     }
 
+    /**
+     * Tests the close method
+     */
     @Test
     public void testClose() {
         Client c1=new Client("test",uut);
@@ -151,6 +180,9 @@ public class ServerMainTest {
         assertNull(uut.getClient(c1.usn));
     }
 
+    /**
+     * Mock controller factory used to avoid NullPointer exceptions
+     */
     private class MockFactory implements MatchControllerFactory{
 
         @Override

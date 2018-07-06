@@ -8,46 +8,64 @@ import java.util.Queue;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the MatchMakingQueue
+ * @author Francesco Franzini
+ */
 public class MatchMakingQueueTest {
-    private MatchMakingQueue m;
+    private MatchMakingQueue uut;
     private Queue q;
+
+    /**
+     * Prepares the object to be tested
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception{
-        m=new MatchMakingQueue(null);
-        Field f=m.getClass().getDeclaredField("q");
+        uut =new MatchMakingQueue(null);
+        Field f= uut.getClass().getDeclaredField("q");
         f.setAccessible(true);
-        q=(Queue)f.get(m);
+        q=(Queue)f.get(uut);
 
     }
 
+    /**
+     * Tests the {@code add} method
+     */
     @Test
     public void testAdd() {
         Client c=new Client("us1",null);
-        m.add(c);
+        uut.add(c);
         assertEquals(c,q.peek());
     }
 
+    /**
+     * Tests the {@code remove} method
+     */
     @Test
     public void testRemove() {
         Client c=new Client("us1",null);
-        m.add(c);
+        uut.add(c);
         assertEquals(c,q.peek());
-        m.remove(c);
+        uut.remove(c);
         assertTrue(q.isEmpty());
 
     }
 
+    /**
+     * Tests that clients are correctly put in a match
+     */
     @Test
     public void testDetach() {
         Client c1=new Client("us1",null);
-        m.add(c1);
+        uut.add(c1);
         Client c2=new Client("us2",null);
-        m.add(c2);
+        uut.add(c2);
         Client c3=new Client("us3",null);
-        m.add(c3);
+        uut.add(c3);
         Client c4=new Client("us4",null);
         try{
-            m.add(c4);
+            uut.add(c4);
             fail();
         }catch (NullPointerException e){
             assertTrue(q.isEmpty());

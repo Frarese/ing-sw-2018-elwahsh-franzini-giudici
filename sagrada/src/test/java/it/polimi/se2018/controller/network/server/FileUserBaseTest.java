@@ -8,20 +8,35 @@ import java.io.*;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the FileUserBase class
+ * @author Francesco Franzini
+ */
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class FileUserBaseTest {
     private FileUserBase uut;
+
+    /**
+     * Ensures that the tests are independent
+     */
     @Before
     public void setUp(){
         File f=new File("test.csv");
         f.delete();
     }
 
+    /**
+     * Cleans the user file
+     */
     @After
     public void tearDown() {
         new File("test.csv").delete();
     }
 
+    /**
+     * Tests that the users are correctly read
+     * @throws IOException if an error occurs
+     */
     @Test
     public void testRead() throws IOException {
         File f=new File("test.csv");
@@ -44,12 +59,20 @@ public class FileUserBaseTest {
         assertEquals(600,uut.getUserScore("user3").wins);
     }
 
+    /**
+     * Tests that the file is created if not existing
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testCreation() throws Exception{
         uut=new FileUserBase("test.csv");
         assertTrue(new File("test.csv").exists());
     }
 
+    /**
+     * Tests that invalid tuples are discarded
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testInvalid() throws Exception{
         File f=new File("test.csv");
@@ -70,6 +93,10 @@ public class FileUserBaseTest {
         assertFalse(uut.containsUser("user5"));
     }
 
+    /**
+     * Checks that null values are correctly handled
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testNull() throws Exception{
         uut=new FileUserBase("test.csv");
@@ -81,6 +108,10 @@ public class FileUserBaseTest {
         uut.alterUserScore("user",0,0);
     }
 
+    /**
+     * Tests the add method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testAdd() throws Exception{
         uut=new FileUserBase("test.csv");
@@ -96,6 +127,10 @@ public class FileUserBaseTest {
         bf.close();
     }
 
+    /**
+     * Tests the remove method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testRemove() throws Exception{
         uut=new FileUserBase("test.csv");
@@ -105,6 +140,10 @@ public class FileUserBaseTest {
         assertFalse(uut.containsUser("user1"));
     }
 
+    /**
+     * Tests that the file is created again if it is deleted during execution
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testRemovedFile() throws Exception{
         uut=new FileUserBase("test.csv");
@@ -113,6 +152,10 @@ public class FileUserBaseTest {
         assertTrue(uut.containsUser("user1"));
     }
 
+    /**
+     * Tests the alter method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testAlter() throws Exception{
         uut=new FileUserBase("test.csv");

@@ -13,6 +13,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the DisconnectChecker class
+ * @author Francesco Franzini
+ */
 public class DisconnectCheckerTest {
     private DisconnectChecker uut;
     private AtomicBoolean warned;
@@ -24,6 +28,10 @@ public class DisconnectCheckerTest {
     private Field warnedF;
     private Method runTask;
 
+    /**
+     * Prepares the flags and objects to be used
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception{
         warned=new AtomicBoolean(false);
@@ -42,6 +50,10 @@ public class DisconnectCheckerTest {
         old=false;
     }
 
+    /**
+     * Tests the initialization and stop procedures
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testInitAndStop() throws Exception{
         long warningTimeout=2;
@@ -58,6 +70,10 @@ public class DisconnectCheckerTest {
         assertEquals(Boolean.FALSE,continuaF.get(uut));
     }
 
+    /**
+     * Tests the {@code resetWarned} method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testResetWarned() throws Exception{
         uut=new DisconnectChecker(1000,1000,1000,new ClientTest());
@@ -67,6 +83,10 @@ public class DisconnectCheckerTest {
         assertFalse(((AtomicBoolean)warnedF.get(uut)).get());
     }
 
+    /**
+     * Tests the {@code schedule} method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testSchedule() throws Exception{
         uut=new DisconnectChecker(2,2,2,new ClientTest());
@@ -76,6 +96,10 @@ public class DisconnectCheckerTest {
         assertTrue(warned.get());
     }
 
+    /**
+     * Tests that the client is correctly purged if the network is down
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testNetworkFailure() throws Exception{
         uut=new DisconnectChecker(2,2,2,new ClientTest());
@@ -87,6 +111,10 @@ public class DisconnectCheckerTest {
         assertTrue(purge.get());
     }
 
+    /**
+     * Tests that the client is correctly purged if the network goes down silently
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testSilentFailure() throws Exception{
         fail.set(true);
@@ -99,6 +127,9 @@ public class DisconnectCheckerTest {
         assertTrue(purge.get());
     }
 
+    /**
+     * Mock client used to intercept method calls
+     */
     private class ClientTest extends Client{
         final Instant i;
         ClientTest(){

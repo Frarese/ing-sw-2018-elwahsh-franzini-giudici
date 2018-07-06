@@ -32,8 +32,6 @@ public class CommandShowConnectedUsersTest extends AbsCommandTest {
 
     /**
      * Checks command perform with users' list not empty
-     *
-     * @throws Exception if an error occurs during reading
      */
     @Test
     public void testDoAction() {
@@ -54,8 +52,6 @@ public class CommandShowConnectedUsersTest extends AbsCommandTest {
 
     /**
      * Checks command perform without users' list empty
-     *
-     * @throws Exception if an error occurs during reading
      */
     @Test
     public void testDoActionNothing() {

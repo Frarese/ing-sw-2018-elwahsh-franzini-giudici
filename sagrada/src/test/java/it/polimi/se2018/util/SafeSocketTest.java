@@ -15,6 +15,10 @@ import java.util.Queue;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the SafeSocket
+ * @author Francesco Franzini
+ */
 public class SafeSocketTest {
     private SafeSocket uut;
     private Field sF;
@@ -22,6 +26,10 @@ public class SafeSocketTest {
     private boolean connected;
     private boolean failStream;
 
+    /**
+     * Prepares the flags to be used
+     * @throws Exception if an error occurs
+     */
     @Before
     public void testSetUp() throws Exception {
         sF=SafeSocket.class.getDeclaredField("s");
@@ -32,6 +40,9 @@ public class SafeSocketTest {
         queueF.setAccessible(true);
     }
 
+    /**
+     * Tests the ACKDgram
+     */
     @Test
     public void testACKDgram() {
         SafeSocketDatagram d=new SafeSocketDatagram("test");
@@ -41,6 +52,10 @@ public class SafeSocketTest {
         assertEquals("test",d.payload);
     }
 
+    /**
+     * Tests that illegal arguments are correctly detected
+     * @throws Exception if an error occurs
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalArg() throws Exception{
         Socket s=new Socket();
@@ -48,6 +63,10 @@ public class SafeSocketTest {
         uut=new SafeSocket(s,10000);
     }
 
+    /**
+     * Tests the setter method and the basic initialization
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testEmptyInit()throws Exception{
         uut=new SafeSocket(10000);
@@ -57,12 +76,20 @@ public class SafeSocketTest {
         assertNull(uut.getLocalSocketAddress());
     }
 
+    /**
+     * Tests that invalid sockets are correctly detected
+     * @throws Exception if an error occurs
+     */
     @Test(expected = IOException.class)
     public void testFailInit()throws Exception{
         Socket s=new SocketMock();
         uut=new SafeSocket(s,10000);
     }
 
+    /**
+     * Tests a connection
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testConnect() throws Exception{
         Socket s=new SocketMock();
@@ -72,6 +99,11 @@ public class SafeSocketTest {
         assertFalse(uut.connect("localhost",20));
     }
 
+
+    /**
+     * Tests the {@code receive} method
+     * @throws Exception if an error occurs
+     */
     @SuppressWarnings("unchecked")
     @Test
     public void testReceive() throws Exception{
@@ -81,6 +113,10 @@ public class SafeSocketTest {
         assertEquals("test",uut.receive());
     }
 
+    /**
+     * Tests that the {@code send} method fails when an invalid socket is used
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testStart()throws Exception{
         failStream=false;
@@ -89,11 +125,13 @@ public class SafeSocketTest {
         assertFalse(uut.send("test"));
     }
 
-
+    /**
+     * Mock socket used to emulate the different errors that can come from a socket without using the network
+     */
     private class SocketMock extends Socket{
-        InputStream in;
-        OutputStream out;
-        Queue<Integer> queue;
+        final InputStream in;
+        final OutputStream out;
+        final Queue<Integer> queue;
         SocketMock() {
             queue=new LinkedList<>();
             out=new OutputStream() {

@@ -10,11 +10,20 @@ import java.net.InetAddress;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the PendingApprovalMatch class
+ * @author Francesco Franzini
+ */
 public class PendingApprovalMatchTest {
     private PendingApprovalMatch uut;
     private MatchIdentifier mId;
     private ClientTest c1,c2,c3,c4;
     private ServerMain s;
+
+    /**
+     * Prepares the objects to be used
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception{
         s=new ServerMain(0,0,0,"test",InetAddress.getLocalHost(),new MockFactory());
@@ -25,12 +34,18 @@ public class PendingApprovalMatchTest {
         mId=new MatchIdentifier("us1","us2","us3","us4");
     }
 
+    /**
+     * Tests that illegal arguments are correctly detected
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidInit() {
         c1=new ClientTest("a");
         uut=new PendingApprovalMatch(1000,mId,null,c1);
     }
 
+    /**
+     * Tests the {@code accept} method
+     */
     @Test
     public void testAccept(){
         uut=new PendingApprovalMatch(1000,mId,s,c1);
@@ -40,6 +55,9 @@ public class PendingApprovalMatchTest {
         assertFalse(uut.clientAccepted(c3));
     }
 
+    /**
+     * Tests that a complete Pending Approval Match is converted into a match
+     */
     @Test
     public void testComplete(){
         uut=new PendingApprovalMatch(1000,mId,s,c1);
@@ -50,6 +68,9 @@ public class PendingApprovalMatchTest {
         assertNotNull(s.getMatch(mId));
     }
 
+    /**
+     * Tests the {@code abort} method
+     */
     @Test
     public void testAbort(){
         uut=new PendingApprovalMatch(1000,mId,s,c1);
@@ -58,6 +79,9 @@ public class PendingApprovalMatchTest {
         assertNull(s.getPendingMatch(mId));
     }
 
+    /**
+     * Tests that the timeout kicks in
+     */
     @Test(timeout = 1000)
     public void testTimeout(){
         uut=new PendingApprovalMatch(0,mId,s,c1);
@@ -65,6 +89,9 @@ public class PendingApprovalMatchTest {
 
     }
 
+    /**
+     * Mock client used to intercept method calls
+     */
     private class ClientTest extends Client{
         boolean aborted=false;
         ClientTest(String usn) {
@@ -75,6 +102,10 @@ public class PendingApprovalMatchTest {
             aborted=true;
         }
     }
+
+    /**
+     * Mock controller factory used to avoid NullPointer exceptions
+     */
     private class MockFactory implements MatchControllerFactory{
 
         @Override

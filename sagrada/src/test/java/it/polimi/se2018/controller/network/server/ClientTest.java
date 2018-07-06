@@ -17,6 +17,10 @@ import java.util.Queue;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the Client class
+ * @author Francesco Franzini
+ */
 public class ClientTest {
     private Client uut;
     private Queue<AbsReq> outReqQueue;
@@ -26,9 +30,14 @@ public class ClientTest {
     private Queue<Serializable> inObjQueue;
 
     private ServerMain s;
+
+    /**
+     * Prepares the flags and objects to be used and the object to be tested
+     * @throws Exception if an error occurs
+     */
     @SuppressWarnings("unchecked")
     @Before
-    public void setUp() throws Exception {
+    public void testSetUp() throws Exception {
         s=new ServerMain(0,0
                 ,0,"a",InetAddress.getLocalHost(),new MockFactory());
 
@@ -49,6 +58,9 @@ public class ClientTest {
         inReqQueue=(Queue)f.get(uut);
     }
 
+    /**
+     * Tests the basic methods(setters and getters)
+     */
     @Test
     public void testBasics() {
         assertEquals("usn",uut.usn);
@@ -81,6 +93,9 @@ public class ClientTest {
         assertNull(uut.getPAM());
     }
 
+    /**
+     * Tests the push and pop methods for the input pipes
+     */
     @Test
     public void testPushPopIn(){
         KeepAliveRequest kA=new KeepAliveRequest();
@@ -97,6 +112,9 @@ public class ClientTest {
         assertNull(inReqQueue.peek());
     }
 
+    /**
+     * Tests the push and pop methods for the output pipes
+     */
     @Test
     public void testPushPopOut(){
         KeepAliveRequest kA=new KeepAliveRequest();
@@ -113,6 +131,9 @@ public class ClientTest {
         assertEquals("test",outObjQueue.peek());
     }
 
+    /**
+     * Tests the push-back methods
+     */
     @Test
     public void testPushBack(){
         KeepAliveRequest kA1=new KeepAliveRequest();
@@ -127,6 +148,10 @@ public class ClientTest {
         assertEquals("test2",outObjQueue.peek());
     }
 
+    /**
+     * Tests the RMI initialization method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testInitRMI() throws Exception{
         List<Client> list=new ArrayList<>();
@@ -140,12 +165,20 @@ public class ClientTest {
         assertFalse(uut.createSocketComm(new SafeSocket(100),new SafeSocket(100)));
     }
 
+    /**
+     * Tests the socket initialization method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testInitSocket() throws Exception{
         assertTrue(uut.createSocketComm(new SafeSocket(100),new SafeSocket(100)));
         assertFalse(uut.createSocketComm(new SafeSocket(100),new SafeSocket(100)));
     }
 
+    /**
+     * Tests the {@code zombiefy} method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testZombiefy() throws Exception{
         uut=new Client("test",s);
@@ -154,6 +187,10 @@ public class ClientTest {
         assertFalse(uut.sendReq(new KeepAliveRequest()));
     }
 
+    /**
+     * Tests the purge method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testPurge() throws Exception{
         s.addClient(uut);
@@ -162,6 +199,9 @@ public class ClientTest {
         assertNull(s.getClient(uut.usn));
     }
 
+    /**
+     * Mock controller factory used to avoid NullPointer exceptions
+     */
     private class MockFactory implements MatchControllerFactory{
 
         @Override
@@ -170,6 +210,9 @@ public class ClientTest {
         }
     }
 
+    /**
+     * Mock client used to intercept the call to {@code zombiefy}
+     */
     private class ClientMock extends Client{
         ClientMock(){
             super("usn",s);

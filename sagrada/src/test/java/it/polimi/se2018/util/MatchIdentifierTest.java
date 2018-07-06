@@ -4,8 +4,17 @@ package it.polimi.se2018.util;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
+/**
+ * Tester class for the MatchIdentifier
+ * @author Francesco Franzini
+ */
 public class MatchIdentifierTest {
+
+    /**
+     * Tests behaviour with four names
+     */
     @Test
     public void testFour() {
         String a="AAAAA";
@@ -27,6 +36,9 @@ public class MatchIdentifierTest {
         assertEquals(a+":"+d+":"+b+":"+c,mId.toString());
     }
 
+    /**
+     * Tests behaviour with 3 names
+     */
     @Test
     public void testThree() {
         String a="AAAAA";
@@ -38,6 +50,10 @@ public class MatchIdentifierTest {
         assertEquals(c,mId.player2);
         assertEquals("",mId.player3);
     }
+
+    /**
+     * Tests behaviour with two names
+     */
     @Test
     public void testTwo() {
         String a="AAAAA";
@@ -48,20 +64,29 @@ public class MatchIdentifierTest {
         assertEquals("",mId.player2);
         assertEquals("",mId.player3);
     }
+
+    /**
+     * Tests that initialization fails with invalid arguments
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testOne() {
         String a="AAAAA";
-        MatchIdentifier mId=new MatchIdentifier(a,null,null,null);
+        new MatchIdentifier(a,null,null,null);
     }
 
+    /**
+     * Tests the {@code equals} method
+     */
     @Test
     public void testEquals(){
         String a="AAAAA";
         String b="BBBBB";
         MatchIdentifier mId1=new MatchIdentifier(b,a,null,null);
         MatchIdentifier mId2=new MatchIdentifier(a,b,null,null);
+        MatchIdentifier mId3=new MatchIdentifier(a,b,"CCCCC",null);
         assertEquals(mId1,mId1);
         assertEquals(mId1,mId2);
         assertEquals(mId1.hashCode(),mId2.hashCode());
+        assertNotEquals(mId1,mId3);
     }
 }

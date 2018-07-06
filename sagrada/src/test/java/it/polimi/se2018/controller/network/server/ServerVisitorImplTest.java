@@ -10,12 +10,20 @@ import java.net.InetAddress;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the ServerVisitorImpl class
+ * @author Francesco Franzini
+ */
 public class ServerVisitorImplTest {
 
     private ServerVisitorImpl uut;
     private Client c;
     private ServerMain s;
 
+    /**
+     * Prepares the objects to be used
+     * @throws Exception if an error occurs
+     */
     @Before
     public void testSetUp()throws Exception{
         s=new ServerMain(0,0,0,"test",InetAddress.getLocalHost(),null);
@@ -26,6 +34,9 @@ public class ServerVisitorImplTest {
         uut=new ServerVisitorImpl(c,s);
     }
 
+    /**
+     * Tests the change layer request
+     */
     @Test
     public void testChange() {
         ChangeCLayerRequest cL=new ChangeCLayerRequest(true,1,2);
@@ -33,6 +44,9 @@ public class ServerVisitorImplTest {
         assertTrue(c.isZombie());
     }
 
+    /**
+     * Tests the match response request
+     */
     @Test
     public void testResponse() {
         MatchIdentifier mId=new MatchIdentifier("usn","usn2",null,null);

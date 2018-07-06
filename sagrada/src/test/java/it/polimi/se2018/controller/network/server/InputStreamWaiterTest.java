@@ -13,16 +13,27 @@ import java.io.Serializable;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the InputStreamWaiter class
+ * @author Francesco Franzini
+ */
 public class InputStreamWaiterTest {
     private InputStreamWaiter uut;
     private String recObj;
     private boolean req;
 
+    /**
+     * Resets the object for the next test
+     */
     @After
     public void tearDown(){
         recObj=null;
     }
 
+    /**
+     * Tests that objects are correctly handled
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testObj() throws Exception{
         req=false;
@@ -31,6 +42,10 @@ public class InputStreamWaiterTest {
         assertEquals("Obj",recObj);
     }
 
+    /**
+     * Tests that requests are correctly handled
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testReq() throws Exception{
         req=true;
@@ -39,6 +54,9 @@ public class InputStreamWaiterTest {
         assertEquals("Req",recObj);
     }
 
+    /**
+     * Mock ClientComm used to intercept method calls
+     */
     private class TestCComm extends SocClientComm{
         TestCComm(){
             super(null,null,null);
@@ -53,6 +71,9 @@ public class InputStreamWaiterTest {
         }
     }
 
+    /**
+     * Mock SafeSocket used to intercept method calls
+     */
     private class TestSSocket extends SafeSocket {
         AbsReq requ;
         TestSSocket(AbsReq requ) throws IOException {
@@ -68,6 +89,9 @@ public class InputStreamWaiterTest {
 
     }
 
+    /**
+     * Mock request used as a payload
+     */
     private class TestAbsReq implements AbsReq {
         final String str="Req";
 

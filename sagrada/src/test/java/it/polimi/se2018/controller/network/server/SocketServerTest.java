@@ -13,12 +13,20 @@ import java.net.ServerSocket;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the SocketServer class
+ * @author Francesco Franzini
+ */
 public class SocketServerTest {
     private SocketServer uut;
     private ServerMock s;
     private SocketMock sM;
     private boolean failSocketCreation;
 
+    /**
+     * Prepares the objects to be used
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception {
         s=new ServerMock();
@@ -28,18 +36,30 @@ public class SocketServerTest {
 
     }
 
+    /**
+     * Tests that illegal arguments are correctly detected
+     * @throws Exception if an error occurs
+     */
     @Test(expected = IllegalArgumentException.class)
-    public void testFailArgs() throws IOException {
+    public void testFailArgs() throws Exception {
         uut=new SocketServer(null,-1,0);
         uut.connect();
     }
 
+    /**
+     * Tests that connection fails towards invalid locations
+     * @throws Exception if an error occurs
+     */
     @Test(expected = IOException.class)
-    public void testFailInit() throws IOException {
+    public void testFailInit() throws Exception {
         uut=new SocketServer(null,1,1);
         uut.connect();
     }
 
+    /**
+     * Tests the {@code checkAndWrap} method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testCheckAndWrap() throws Exception{
         Method m=SocketServer.class.getDeclaredMethod("checkAndWrap", SafeSocket.class);
@@ -55,6 +75,10 @@ public class SocketServerTest {
         uut.close();
     }
 
+    /**
+     * Tests the login method when failed
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testFailLogin() throws Exception{
 
@@ -70,6 +94,10 @@ public class SocketServerTest {
         assertTrue(sM.closed);
     }
 
+    /**
+     * Tests the login method when successful
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testOkLogin() throws Exception{
 
@@ -83,6 +111,10 @@ public class SocketServerTest {
         assertFalse(sM.closed);
     }
 
+    /**
+     * Tests the socket completion when failed
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testFailCompletion() throws Exception{
 
@@ -101,6 +133,10 @@ public class SocketServerTest {
         assertTrue(sM.closed);
     }
 
+    /**
+     * Tests the socket completion when successful
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testOkCompletion() throws Exception{
         testOkLogin();
@@ -113,13 +149,20 @@ public class SocketServerTest {
         assertFalse(sM.closed);
     }
 
-
+    /**
+     * Tests the send method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testSocClientCommObj() throws Exception{
         SocClientComm socComm=new SocClientComm(null,new SocketMock(),null);
         assertTrue(socComm.sendObj("test"));
     }
 
+    /**
+     * Tests the loop call method
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testLoopCall() throws Exception{
         Method loopM=SocketServer.class.getDeclaredMethod("loopCall", SafeSocket.class, boolean.class);
@@ -129,6 +172,10 @@ public class SocketServerTest {
         loopM.invoke(uut,sM,true);
     }
 
+    /**
+     * Tests the inner class
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testInner() throws Exception{
         Field serverF=SocketServer.class.getDeclaredField("reqSSoc");
@@ -145,6 +192,9 @@ public class SocketServerTest {
         uut.testInner(true);
     }
 
+    /**
+     * Mock SafeSocket used to intercept method calls
+     */
     private class SocketMock extends SafeSocket{
         boolean invalidClass=true;
         boolean invalidArgs=false;
@@ -180,6 +230,9 @@ public class SocketServerTest {
         }
     }
 
+    /**
+     * Mock server used to intercept method calls
+     */
     private class ServerMock extends ServerMain{
         boolean logCheckResult=false;
         boolean addCheckResult=false;
@@ -213,6 +266,9 @@ public class SocketServerTest {
         }
     }
 
+    /**
+     * Mock client used to intercept method calls
+     */
     private class ClientMock extends Client{
 
         ClientMock(){

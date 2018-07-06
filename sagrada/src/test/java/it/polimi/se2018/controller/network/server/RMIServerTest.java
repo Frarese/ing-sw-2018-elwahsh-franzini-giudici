@@ -9,10 +9,19 @@ import java.net.InetAddress;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tester class for the RMIServer
+ * @author Francesco Franzini
+ */
 public class RMIServerTest {
     private RMIServer uut;
     private ServerMain s;
     private RMISession response;
+
+    /**
+     * Prepares the objects to be used
+     * @throws Exception if an error occurs
+     */
     @Before
     public void setUp() throws Exception {
         File f=new File("users.csv");
@@ -22,11 +31,18 @@ public class RMIServerTest {
         s.createUser("test","pw");
     }
 
+    /**
+     * Cleans up for the next test
+     */
     @After
     public void tearDown(){
         uut.close();
     }
 
+    /**
+     * Tests the register login procedures
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testRegister() throws Exception{
         uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
@@ -38,6 +54,10 @@ public class RMIServerTest {
 
     }
 
+    /**
+     * Tests the login procedure while recovering a connection
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testRecover() throws Exception{
 
@@ -60,6 +80,10 @@ public class RMIServerTest {
         assertEquals(LoginResponsesEnum.LOGIN_OK,response.getLoginOutput());
     }
 
+    /**
+     * Tests the normal login procedure
+     * @throws Exception if an error occurs
+     */
     @Test
     public void testNormal() throws Exception{
         uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
@@ -76,6 +100,10 @@ public class RMIServerTest {
         assertEquals(LoginResponsesEnum.USER_NOT_EXISTING,response.getLoginOutput());
     }
 
+    /**
+     * Tests that illegal arguments are correctly detected
+     * @throws Exception if an error occurs
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidPort() throws Exception{
         uut=new RMIServer(s,-1,"test",InetAddress.getLocalHost());
