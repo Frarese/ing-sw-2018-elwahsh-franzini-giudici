@@ -14,6 +14,7 @@ public class FXScoreViewCreatorTest {
 
     /**
      * Tests correct FX's score creation
+     * @throws Exception if an error occurs
      */
     @SuppressWarnings("unchecked")
     @Test

@@ -29,6 +29,7 @@ public abstract class CLICommand {
 
     /**
      * To perform the command's action
+     * @throws IOException if an error occurs
      */
     public abstract void doAction() throws IOException;
 

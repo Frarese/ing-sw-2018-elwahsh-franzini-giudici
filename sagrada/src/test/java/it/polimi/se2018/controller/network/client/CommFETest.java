@@ -21,6 +21,7 @@ public class CommFETest {
 
     /**
      * Prepares the flag to be used and instantiates the tested object with the given Comm mock
+     * @throws Exception if an error occurs
      */
     @Before
     public void testSetUp() throws Exception {

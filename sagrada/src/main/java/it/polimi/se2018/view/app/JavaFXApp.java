@@ -47,8 +47,8 @@ public class JavaFXApp extends App {
     /**
      * Class constructor to initialize creators
      *
-     * @param viewActions         contains ViewActions class for View->Controller communication
-     * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
+     * @param viewActions         contains ViewActions class for View-&gt;Controller communication
+     * @param viewToolCardActions contains ViewToolCardActions class for View-&gt;Controller communication (tool cards)
      */
     public JavaFXApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
         super(viewActions, viewToolCardActions);
@@ -100,6 +100,10 @@ public class JavaFXApp extends App {
         }
     }
 
+    /**
+     * Sets the owner name
+     * @param name new name
+     */
     public void tryLogin(String name) {
         this.ownerPlayerName = name;
     }
@@ -608,6 +612,7 @@ public class JavaFXApp extends App {
 
     /**
      * Logs error message if FXML hasn't been loaded
+     * @param error the error message
      */
     public static void logFxmlLoadError(String error) {
         String message = "Non sono riuscito a caricare FXML: " + error;

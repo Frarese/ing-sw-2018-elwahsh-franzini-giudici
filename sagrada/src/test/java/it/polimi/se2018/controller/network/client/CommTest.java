@@ -32,6 +32,7 @@ public class CommTest {
     /**
      * Prepares the flags to be used, instantiates the tested object
      * and extracts the needed objects to check
+     * @throws Exception if an error occurs
      */
     @SuppressWarnings("unchecked")
     @Before

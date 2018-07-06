@@ -12,6 +12,7 @@ public class TurnStart extends ServerMessage {
 
     /**
      * TurnStart's constructor
+     * @param oldPlayer old player
      * @param playerName new current player
      */
     public TurnStart(String oldPlayer, String playerName)

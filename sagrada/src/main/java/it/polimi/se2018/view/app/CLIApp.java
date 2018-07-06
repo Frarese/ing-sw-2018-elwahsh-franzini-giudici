@@ -48,8 +48,8 @@ public class CLIApp extends App {
     /**
      * Class constructor that creates CLICreators' objects and CLIui' objects
      *
-     * @param viewActions         contains ViewActions class for View->Controller communication
-     * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
+     * @param viewActions         contains ViewActions class for View-&gt;Controller communication
+     * @param viewToolCardActions contains ViewToolCardActions class for View-&gt;Controller communication (tool cards)
      */
     public CLIApp(ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
         super(viewActions, viewToolCardActions);

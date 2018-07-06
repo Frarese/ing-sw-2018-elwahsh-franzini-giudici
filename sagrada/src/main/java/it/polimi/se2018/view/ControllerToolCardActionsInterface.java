@@ -68,6 +68,7 @@ public interface ControllerToolCardActionsInterface {
 
     /**
      * Show error's message while tool card is playing
+     * @param error the error message
      */
     void showError(String error);
 }

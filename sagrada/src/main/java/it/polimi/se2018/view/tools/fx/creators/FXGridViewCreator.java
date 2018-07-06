@@ -26,6 +26,7 @@ public class FXGridViewCreator extends GridViewCreator<VBox> {
 
     /**
      * Basic Class constructor that initializes elements at default value
+     * @param gridColor grid color to use
      */
     public FXGridViewCreator(String gridColor) {
         this.gridColor = gridColor;
@@ -37,6 +38,7 @@ public class FXGridViewCreator extends GridViewCreator<VBox> {
      *
      * @param grid        the grid to use
      * @param gridPattern the pattern to use
+     * @param color color to use
      */
     public FXGridViewCreator(IntColorPair[][] grid, IntColorPair[][] gridPattern, String color) {
         super(grid, gridPattern);
@@ -119,6 +121,8 @@ public class FXGridViewCreator extends GridViewCreator<VBox> {
     /**
      * Creates a FXGrid with cells' click properties
      *
+     * @param isDieSelection if this is a die selection
+     * @param isColorSelection if this is a color selection
      * @return VBox objects that contains grid
      */
     public VBox displayWithClick(boolean isDieSelection, boolean isColorSelection) {

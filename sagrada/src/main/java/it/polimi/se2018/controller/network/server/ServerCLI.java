@@ -5,7 +5,7 @@ import it.polimi.se2018.controller.game.server.ServerControllerFactory;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,11 +21,11 @@ public class ServerCLI{
      * @param reqPort socket request port
      * @param rmiPort rmi port
      * @param rmiIP rmi ip to use
+     * @throws IOException if an error occurs
      */
     ServerCLI(int objPort,int reqPort, int rmiPort,InetAddress rmiIP) throws IOException {
         Logger logger = Logger.getGlobal();
-        logger.setUseParentHandlers(false);
-        ConsoleHandler handler = new ConsoleHandler();
+        FileHandler handler = new FileHandler("serverLog.log");
         handler.setLevel(Level.INFO);
         logger.addHandler(handler);
         logger.setLevel(Level.ALL);

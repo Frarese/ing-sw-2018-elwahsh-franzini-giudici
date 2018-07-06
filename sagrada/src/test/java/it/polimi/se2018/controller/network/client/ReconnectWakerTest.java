@@ -42,6 +42,7 @@ public class ReconnectWakerTest {
 
     /**
      * Tests if a successful reconnection interrupts the timer
+     * @throws Exception if an error occurs
      */
     @Test
     public void testSuccess() throws Exception{

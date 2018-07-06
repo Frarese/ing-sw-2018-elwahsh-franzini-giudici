@@ -80,6 +80,7 @@ public class InListenerTest {
 
     /**
      * Tests if the utilizer setter correctly updates the internal object
+     * @throws Exception if an error occurs
      */
     @Test
     public void testSetter() throws Exception{

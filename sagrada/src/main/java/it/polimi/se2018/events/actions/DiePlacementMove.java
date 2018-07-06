@@ -20,6 +20,10 @@ public class DiePlacementMove extends PlayerMove
      * @param h height of the placement
      * @param w width of the placement
      * @param diePosition position of the die inside teh reserve
+     * @param name player name
+     * @param color true if color restriction is to be used
+     * @param value true if value restriction is to be used
+     * @param adjacent true if adjacent restriction is to be used
      */
     public DiePlacementMove(int h, int w, int diePosition, String name, boolean color, boolean value, boolean adjacent)
     {

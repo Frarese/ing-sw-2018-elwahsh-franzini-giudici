@@ -14,6 +14,7 @@ class RMISessionImpl extends UnicastRemoteObject implements RMISession {
     /**
      * Initializes this session object with the given login output string
      * @param loginOutput the textual representation of the login output
+     * @throws RemoteException if an error occurs
      */
     RMISessionImpl(LoginResponsesEnum loginOutput) throws RemoteException {
         super();

@@ -40,6 +40,9 @@ public abstract class ToolCard extends CardModel {
     /**
      * Some cards have few conditions for their effects, so it must be checked
      * if the player can use them or not
+     *
+     * @param player the player to check
+     * @param firstTurn if this is the first turn
      * @return true if the card is usable by the player, false otherwise
      */
     public abstract boolean isUsable(Player player, boolean firstTurn);

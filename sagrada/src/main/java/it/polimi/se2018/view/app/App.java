@@ -73,8 +73,8 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
     /**
      * Class constructor that initializes variables to defaults values
      *
-     * @param viewActions         contains ViewActions class for View->Controller communication
-     * @param viewToolCardActions contains ViewToolCardActions class for View->Controller communication (tool cards)
+     * @param viewActions         contains ViewActions class for View-&gt;Controller communication
+     * @param viewToolCardActions contains ViewToolCardActions class for View-&gt;Controller communication (tool cards)
      */
     protected App(ViewActions viewActions, ViewToolCardActions viewToolCardActions) {
         this.animationEnable = true;
@@ -236,6 +236,7 @@ public abstract class App implements ControllerActionsInterface, ControllerToolC
 
     /**
      * Cleans View structure before a new match
+     * @param goToLobby if after this method lobby is to be invoked
      */
     public abstract void clean(boolean goToLobby);
 

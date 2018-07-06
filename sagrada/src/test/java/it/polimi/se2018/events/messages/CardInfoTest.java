@@ -17,6 +17,7 @@ public class CardInfoTest {
 
     /**
      * Test for the class getters
+     * @throws Exception if an error occurs
      */
     @Test
     public void testGetters() throws Exception{

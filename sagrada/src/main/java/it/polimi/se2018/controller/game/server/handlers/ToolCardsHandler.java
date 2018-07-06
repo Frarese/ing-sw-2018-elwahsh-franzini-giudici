@@ -50,6 +50,7 @@ public class ToolCardsHandler implements Runnable, Observer {
      * @param board            game board
      * @param firstTurn        true if first turn, false otherwise
      * @param networkInterface network interface
+     * @param randomDice random dice
      */
     public ToolCardsHandler(UseToolCardMove move, Player player, Board board, boolean firstTurn, MatchNetworkInterface networkInterface, RandomDice randomDice) {
         this.move = move;
@@ -624,6 +625,7 @@ public class ToolCardsHandler implements Runnable, Observer {
      * Asks for a die to be set and sets it if everything is respected
      *
      * @param index die's position inside the reserve
+     * @param adjacency if adjacency is to be respected
      * @return Error message or null if no error occurred
      */
     private String setDie(int index, boolean adjacency) {
@@ -805,6 +807,10 @@ public class ToolCardsHandler implements Runnable, Observer {
         network.sendObj(new PlayerStatus(player, firsTurn));
     }
 
+    /**
+     * Processes a card execution
+     * @param result result of the checks
+     */
     private void successCard(String result) {
         if (result == null) {
             player.setCardRights(firsTurn, false);
@@ -816,7 +822,9 @@ public class ToolCardsHandler implements Runnable, Observer {
         }
     }
 
-
+    /**
+     * Processes a card execution with placement
+     */
     private void specialPlace() {
         player.setPlacementRights(firsTurn, false);
         player.setCardRights(firsTurn, false);

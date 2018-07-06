@@ -94,6 +94,8 @@ public class Board {
 
     /**
      * Getter for a player total public score
+     * @param player player to score
+     * @return the score
      */
     public int totalScore(Player player) {
         return objectives.totalScore(player);

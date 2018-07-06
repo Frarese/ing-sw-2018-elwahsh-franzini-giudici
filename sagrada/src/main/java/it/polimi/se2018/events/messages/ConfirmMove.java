@@ -10,6 +10,7 @@ public class ConfirmMove extends ServerMessage {
     /**
      * ConfirmMove's constructor
      * @param move invalid move
+     * @param placement if this is a placement move
      */
     public ConfirmMove(PlayerMove move,boolean placement)
     {

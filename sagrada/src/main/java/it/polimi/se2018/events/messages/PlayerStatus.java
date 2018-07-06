@@ -25,6 +25,7 @@ public class PlayerStatus extends ServerMessage {
     /**
      * Constructor
      * @param player player information
+     * @param firstTurn true if this is the first turn
      */
     public PlayerStatus(Player player, boolean firstTurn)
     {

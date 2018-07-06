@@ -22,6 +22,7 @@ public class Match implements MatchNetworkInterface{
      * Builds a Match object with the given parameters
      * @param matchId {@link it.polimi.se2018.util.MatchIdentifier} of this match
      * @param clients List of {@link it.polimi.se2018.controller.network.server.Client}, order is irrelevant
+     * @param serverMain main server
      */
     Match(MatchIdentifier matchId, List<Client> clients,ServerMain serverMain) {
         this.serverMain=serverMain;

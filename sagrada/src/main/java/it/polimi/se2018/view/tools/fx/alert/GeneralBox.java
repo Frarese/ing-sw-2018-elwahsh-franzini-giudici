@@ -21,6 +21,9 @@ public abstract class GeneralBox {
 
     /**
      * Show a new window to manage change layer request
+     * @param title title
+     * @param isLoaded  isLoaded
+     * @param loaderName the loader name
      */
     static void initStage(String title, boolean isLoaded, String loaderName) {
         window = new Stage();

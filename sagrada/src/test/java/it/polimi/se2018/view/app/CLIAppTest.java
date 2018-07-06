@@ -48,8 +48,8 @@ public class CLIAppTest {
 
     /**
      * Creates the object to test with viewAction and viewToolCardAction mock's object
+     * @param fakeViewAction fake view action to use
      */
-
     private void testSetApp(ViewActions fakeViewAction) {
         this.app = new CLIAppMock(fakeViewAction, new FakeViewToolActions());
         this.app.animation(true);

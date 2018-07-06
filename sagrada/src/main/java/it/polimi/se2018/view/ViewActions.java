@@ -34,6 +34,7 @@ public class ViewActions {
      * @param isRMI       boolean value contains the type of connection
      * @param objectPort  contains the object port number
      * @param requestPort contains the request port number
+     * @return null if ok, an error message otherwise
      */
     public String login(String name, String password, boolean newUser, String host, boolean isRMI, int objectPort, int requestPort) {
         return actionSender.login(host, requestPort, objectPort, name, password, newUser, isRMI);

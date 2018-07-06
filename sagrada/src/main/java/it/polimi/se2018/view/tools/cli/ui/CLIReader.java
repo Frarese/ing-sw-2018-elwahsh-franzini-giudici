@@ -22,8 +22,10 @@ public class CLIReader {
     private final AtomicBoolean interrupt;
     private final Logger logger;
     private final Semaphore lock;
+
     /**
      * Class constructor
+     * @param printer the printer to be used
      */
     public CLIReader(CLIPrinter printer) {
         scanner = new BufferedReader(new InputStreamReader(System.in));
@@ -37,6 +39,7 @@ public class CLIReader {
      * To read a String in System.in
      *
      * @return the result string
+     * @throws IOException if an error occurs
      */
     public String read() throws IOException{
         try{
@@ -67,6 +70,7 @@ public class CLIReader {
      * To read a int number in System.in
      *
      * @return the result number
+     * @throws IOException if an error occurs
      */
     public synchronized int readInt() throws IOException {
         int number;
@@ -83,6 +87,7 @@ public class CLIReader {
      * Yes or no question
      *
      * @return the result
+     * @throws IOException if an error occurs
      */
     public synchronized boolean chooseYes() throws IOException {
         //Ask option
@@ -115,6 +120,7 @@ public class CLIReader {
      * @param minValue contains the min value of the range
      * @param maxValue contains the max value of the range
      * @return the result of the choice
+     * @throws IOException if an error occurs
      */
     public synchronized int chooseInRange(int minValue, int maxValue) throws IOException {
         //Ask option
@@ -138,6 +144,7 @@ public class CLIReader {
      * @param low  contains lower value
      * @param high contains higher value
      * @return the user choice
+     * @throws IOException if an error occurs
      */
     public synchronized int chooseBetweenTwo(int low, int high) throws IOException {
         //Ask option

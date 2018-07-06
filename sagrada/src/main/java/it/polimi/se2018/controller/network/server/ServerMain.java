@@ -64,6 +64,7 @@ public class ServerMain {
 
     /**
      * Builds the server objects that are going to be used
+     * @throws IOException if an error occurs
      */
     void buildServers() throws IOException {
         if(serverRMI==null){
@@ -270,6 +271,8 @@ public class ServerMain {
 
     /**
      * Checks that the required clients are logged and not taken
+     * @param list client list
+     * @param pA the pending approval match
      * @return true if this request can proceed
      */
     private boolean checkPALogged(List<Client> list,PendingApprovalMatch pA){

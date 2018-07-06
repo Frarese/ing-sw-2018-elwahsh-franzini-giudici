@@ -31,7 +31,7 @@ public class AlertBox {
      *
      * @param title   contains the alert box's title
      * @param message contains the message to show
-     * @param image   @Nullable contains the image to show, if it's null AlertBox doesn't show image
+     * @param image   contains the image to show, if it's null AlertBox doesn't show image
      */
     private static void display(String title, String message, Image image) {
         Stage window = new Stage();
@@ -84,7 +84,7 @@ public class AlertBox {
      * Shows a notify alert box
      *
      * @param message contains the message to show
-     * @param image   @Nullable contains the image to show, if it's null AlertBox doesn't show image
+     * @param image   contains the image to show, if it's null AlertBox doesn't show image
      */
     public static void notifyWithImageBox(String message, Image image) {
         AlertBox.display("Notifica", message, image);

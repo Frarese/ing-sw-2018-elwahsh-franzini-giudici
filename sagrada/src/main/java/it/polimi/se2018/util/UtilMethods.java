@@ -14,6 +14,7 @@ public interface UtilMethods {
      *
      * @param q   the queue to use
      * @param <T> the type of the object to push
+     * @param obj object to push
      */
     static <T> void pushAndNotifyTS(Queue<T> q, T obj) {
         final Queue<T> queue = q;

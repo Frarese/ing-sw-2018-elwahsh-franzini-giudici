@@ -22,6 +22,8 @@ class FileUserBase implements UserBase {
 
     /**
      * Loads from file the User Base
+     * @param filename filename to use
+     * @throws IOException if an error occurs
      */
     FileUserBase(String filename) throws IOException {
         this.filename=filename;

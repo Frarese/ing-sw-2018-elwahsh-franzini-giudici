@@ -78,6 +78,8 @@ class SocketServer extends ServerComm {
 
     /**
      * Initializes the service
+     * @param objPort object port
+     * @param reqPort request port
      * @return true if no errors are raised
      */
     private boolean init(int objPort, int reqPort) {

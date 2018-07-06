@@ -16,7 +16,14 @@ import it.polimi.se2018.model.Player;
 public interface PlayerMoveHandler {
 
     /**
-     * Handles this move
+     * Handles the move
+     * @param controller server controller
+     * @param move move
+     * @param currentPlayer the current player
+     * @param board the Board
+     * @param round the Round
+     * @param networkInterface the Network Interface
+     * @param randomDice Random Dice
      */
      static void handle(ServerController controller, PlayerMove move, Player currentPlayer, Board board, Round round, MatchNetworkInterface networkInterface, RandomDice randomDice){
 
