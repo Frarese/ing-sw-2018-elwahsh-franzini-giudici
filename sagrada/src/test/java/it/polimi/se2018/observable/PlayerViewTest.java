@@ -18,6 +18,9 @@ import static org.junit.Assert.assertEquals;
 
 public class PlayerViewTest {
 
+    /**
+     * Mock class to observe PlayerView
+     */
     private class ObjectObserver implements Observer {
 
         @Override
@@ -44,9 +47,11 @@ public class PlayerViewTest {
     private boolean placementRights;
     private boolean cardRights;
 
+    /**
+     * Creates a player and observes its PlayerView
+     */
     @Before
     public void testInit() {
-
         playerName = "Test";
         playerID = 1;
         playerFavours = 0;
@@ -60,81 +65,121 @@ public class PlayerViewTest {
         playerView.addObserver(objectObserver);
         playerView.setPlayerGrid(playerGrid);
         playerView.setPlayerTemplate(playerTemplate);
-
-
     }
 
+    /**
+     * Tests getter method of player's name
+     */
     @Test
     public void testGetPlayerName() {
         assertEquals(playerName, playerView.getPlayerName());
     }
 
+    /**
+     * Tests setter method of player's name with correct update
+     */
     @Test
     public void testSetPlayerName() {
         playerName = "Test2";
         playerView.setPlayerName(playerName);
     }
 
+    /**
+     * Tests getter method of player's id
+     */
     @Test
     public void testGetPlayerID() {
         assertEquals(playerID, playerView.getPlayerID());
     }
 
+    /**
+     * Tests setter method of player's id with correct update
+     */
     @Test
     public void testSetPlayerID() {
         playerID = -1;
         playerView.setPlayerID(playerID);
     }
 
+    /**
+     * Tests getter method of player's favour points
+     */
     @Test
     public void testGetPlayerFavours() {
         assertEquals(playerFavours, playerView.getPlayerFavours());
     }
 
+    /**
+     * Tests setter method of player's favour points with correct update
+     */
     @Test
     public void testSetPlayerFavours() {
         playerFavours = 10;
         playerView.setPlayerFavours(playerFavours);
     }
 
+    /**
+     * Tests getter method of player's template
+     */
     @Test
     public void testGetPlayerTemplate() {
         assertArrayEquals(playerTemplate, playerView.getPlayerTemplate());
     }
 
+    /**
+     * Tests setter method of player's template with correct update
+     */
     @Test
     public void testSetPlayerTemplate() {
         playerTemplate = null;
         playerView.setPlayerTemplate(null);
     }
 
+    /**
+     * Tests getter method of player's grid
+     */
     @Test
     public void testGetPlayerGrid() {
         assertArrayEquals(playerGrid, playerView.getPlayerGrid());
     }
 
+    /**
+     * Tests setter method of player's grid with correct update
+     */
     @Test
     public void testSetPlayerGrid() {
         playerGrid = new IntColorPair[5][5];
         playerView.setPlayerGrid(playerGrid);
     }
 
+    /**
+     * Tests getter method of player's placement rights
+     */
     @Test
     public void testIsPlacementRights() {
         assertEquals(placementRights, playerView.isPlacementRights());
     }
 
+    /**
+     * Tests setter method of player's placement rights with correct update
+     */
     @Test
     public void testSetPlacementRights() {
         placementRights = false;
         playerView.setPlacementRights(placementRights);
     }
 
+    /**
+     * Tests getter method of player's card rights
+     */
     @Test
     public void testIsCardRights() {
         assertEquals(cardRights, playerView.isCardRights());
     }
 
+    /**
+     * Tests setter method of player's card rights with correct update
+     */
     @Test
     public void testSetCardRights() {
         cardRights = true;

@@ -17,6 +17,9 @@ import static org.junit.Assert.assertArrayEquals;
 
 public class ReserveViewTest {
 
+    /**
+     * Mock class to observe ReserveView
+     */
     private class ObjectObserver implements Observer {
 
         @Override
@@ -31,6 +34,9 @@ public class ReserveViewTest {
 
     private ReserveView reserveView;
 
+    /**
+     * Creates a reserve and observes its ReserveView
+     */
     @Before
     public void testInit() {
         reserve = new IntColorPair[1];
@@ -40,11 +46,17 @@ public class ReserveViewTest {
         reserveView.addObserver(objectObserver);
     }
 
+    /**
+     * Tests getter method of reserve
+     */
     @Test
     public void testGetReserve() {
         assertArrayEquals(reserve, reserveView.getReserve());
     }
 
+    /**
+     * Tests setter method of reserve with correct update
+     */
     @Test
     public void testSetReserve() {
         reserve = new IntColorPair[10];

@@ -89,6 +89,9 @@ public class PlayerViewObserverTest {
         System.setOut(System.out);
     }
 
+    /**
+     * Mock class of ViewActions
+     */
     private class FakeViewActions extends ViewActions {
         FakeViewActions() {
             super(null);
@@ -101,12 +104,12 @@ public class PlayerViewObserverTest {
 
         @Override
         public void askLobby() {
-            assert true;
+            //Nothing
         }
 
         @Override
         public void endInitGame() {
-            assert true;
+            //Nothing
         }
     }
 }

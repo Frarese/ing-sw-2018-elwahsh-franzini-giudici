@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 /**
  * Tests for CardView class
@@ -24,6 +22,9 @@ import static org.junit.Assert.assertNotEquals;
 
 public class CardViewTest {
 
+    /**
+     * Mock class to observe CardView
+     */
     private class ObjectObserver implements Observer {
 
         @Override
@@ -32,6 +33,8 @@ public class CardViewTest {
                 assertEquals(privateCard, ((CardView) arg).getPrivateObjectiveCard());
                 assertArrayEquals(publicCards.toArray(), ((CardView) arg).getPublicObjectiveCards().toArray());
                 assertArrayEquals(toolCards.toArray(), ((CardView) arg).getToolCards().toArray());
+            } else {
+                assert false;
             }
         }
     }
@@ -42,7 +45,10 @@ public class CardViewTest {
 
     private CardView cardView;
 
-
+    /**
+     * Creates private objective card, public objective cards and tool cards
+     * Adds an observer to CardView
+     */
     @Before
     public void testInit() {
         privateCard = new SingleCardView(1, 1);
@@ -60,22 +66,34 @@ public class CardViewTest {
         this.cardView.addObserver(objectObserver);
     }
 
+    /**
+     * Tests getter method of private card objective
+     */
     @Test
     public void testGetPrivateObjectiveCard() {
         assertEquals(privateCard, cardView.getPrivateObjectiveCard());
     }
 
+    /**
+     * Tests setter method of private objective card with correct update
+     */
     @Test
     public void testSetPrivateObjectiveCard() {
         privateCard = new SingleCardView(2, 1);
         cardView.setPrivateObjectiveCard(privateCard);
     }
 
+    /**
+     * Tests getter method of public objective cards
+     */
     @Test
     public void testGetPublicObjectiveCards() {
         assertArrayEquals(publicCards.toArray(), cardView.getPublicObjectiveCards().toArray());
     }
 
+    /**
+     * Tests setter method of public objective cards with correct update
+     */
     @Test
     public void testSetPublicObjectiveCards() {
         publicCards = new ArrayList<>();
@@ -85,11 +103,17 @@ public class CardViewTest {
         cardView.setPublicObjectiveCards(publicCards);
     }
 
+    /**
+     * Tests getter method of tool cards
+     */
     @Test
     public void testGetToolCards() {
         assertArrayEquals(toolCards.toArray(), cardView.getToolCards().toArray());
     }
 
+    /**
+     * Tests setter method of tool cards with correct update
+     */
     @Test
     public void testSetToolCards() {
         toolCards = new ArrayList<>();
@@ -99,12 +123,15 @@ public class CardViewTest {
         cardView.setToolCards(toolCards);
     }
 
+    /**
+     * Tests setter method of CardView
+     */
     @Test
     public void testSetCardView() {
-        List<SingleCardView> tools=cardView.getToolCards();
-        ActiveTools aT=new ActiveTools();
-        ActiveObjectives aO=new ActiveObjectives();
-        cardView.setCardView(new CardInfo(aT,aO));
-        assertNotEquals(tools,cardView.getToolCards());
+        List<SingleCardView> tools = cardView.getToolCards();
+        ActiveTools aT = new ActiveTools();
+        ActiveObjectives aO = new ActiveObjectives();
+        cardView.setCardView(new CardInfo(aT, aO));
+        assertNotEquals(tools, cardView.getToolCards());
     }
 }

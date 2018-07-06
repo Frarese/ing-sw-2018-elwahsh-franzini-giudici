@@ -11,13 +11,16 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for ReserveView class
+ * Tests for RoundTrackerView class
  *
  * @author Mathyas Giudici
  */
 
 public class RoundTrackerViewTest {
 
+    /**
+     * Mock class to observe RoundTrackerView
+     */
     private class ObjectObserver implements Observer {
 
         @Override
@@ -34,6 +37,9 @@ public class RoundTrackerViewTest {
 
     private RoundTrackerView roundTrackerView;
 
+    /**
+     * Creates a round, RoundTracker and observes its RoundTrackerView
+     */
     @Before
     public void testInit() {
         round = 0;
@@ -44,23 +50,36 @@ public class RoundTrackerViewTest {
         roundTrackerView.addObserver(objectObserver);
     }
 
+    /**
+     * Tests getter method of round
+     */
     @Test
     public void testGetRound() {
         assertEquals(round, roundTrackerView.getRound());
 
     }
 
+    /**
+     * Tests setter method of round with correct update
+     */
     @Test
     public void testSetRound() {
         round = 10;
         roundTrackerView.setRound(round);
     }
 
+    /**
+     * Tests getter method of RoundTracker
+     */
     @Test
     public void testGetRoundTracker() {
         assertArrayEquals(roundTracker, roundTrackerView.getRoundTracker());
     }
 
+
+    /**
+     * Tests setter method of RoundTracker with correct update
+     */
     @Test
     public void testSetRoundTracker() {
         roundTracker = null;

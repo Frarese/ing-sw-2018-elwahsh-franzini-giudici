@@ -32,7 +32,7 @@ public class CardZoomBox extends GeneralBox {
 
         initStage("", false, null);
 
-        window.initModality(Modality.NONE);
+        window.initModality(Modality.WINDOW_MODAL);
         window.initStyle(StageStyle.UNDECORATED);
         window.setX(JavaFXStageProducer.getStage().getX());
         window.setY(JavaFXStageProducer.getStage().getY());
