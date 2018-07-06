@@ -546,32 +546,39 @@ public class CLIApp extends App {
         //Print and read operations
         printer.print("Seleziona un dado dalla riserva: ");
         printer.print(this.reserveViewCreator.display());
-        int reserveIndex;
-        try {
-            reserveIndex = reader.chooseInRange(0, this.reserveViewCreator.getReserve().length - 1);
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Error selecting die from reserve " + e.getMessage());
-            return;
-        }
+        readingThread=new Thread(()-> {
+            int reserveIndex;
+            try {
+                reserveIndex = reader.chooseInRange(0, this.reserveViewCreator.getReserve().length - 1);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Error selecting die from reserve " + e.getMessage());
+                return;
+            }
 
-        //Call ViewToolCardActions
-        viewToolCardActions.selectedDieFromReserve(reserveIndex);
+            //Call ViewToolCardActions
+            viewToolCardActions.selectedDieFromReserve(reserveIndex);
+        });
+        readingThread.start();
     }
 
     @Override
     public void selectNewValueForDie(int low, int high) {
         //Print and read operations
         printer.print("Seleziona il valore del dado tra " + low + " e " + high);
-        int choice;
-        try {
-            choice = reader.chooseBetweenTwo(low, high);
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Error selecting new value for a die login " + e.getMessage());
-            return;
-        }
+        reader.interrupt();
+        readingThread=new Thread(()-> {
+            int choice;
+            try {
+                choice = reader.chooseBetweenTwo(low, high);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Error selecting new value for a die login " + e.getMessage());
+                return;
+            }
 
-        //Call ViewToolCardActions
-        viewToolCardActions.selectedValueForDie(choice);
+            //Call ViewToolCardActions
+            viewToolCardActions.selectedValueForDie(choice);
+        });
+        readingThread.start();
     }
 
     @Override
@@ -586,26 +593,32 @@ public class CLIApp extends App {
         //Print and read operation
         printer.print("Seleziona un dado dalla griglia (la numerazione parte da 0)");
         printer.printArray(gridViewCreator.display());
-        int x = this.getCoordinateX();
-        int y = this.getCoordinateY();
 
-        //Call ViewToolCardActions
-        viewToolCardActions.selectedDieFromGrid(x, y);
+        readingThread=new Thread(()-> {
+            int x = this.getCoordinateX();
+            int y = this.getCoordinateY();
+
+            //Call ViewToolCardActions
+            viewToolCardActions.selectedDieFromGrid(x, y);
+        });
+        readingThread.start();
     }
 
     @Override
     public void setDieOnGrid(IntColorPair die) {
         CLIDieViewCreator dieCreator = new CLIDieViewCreator();
+        readingThread=new Thread(()-> {
+            //Print and read operation
+            printer.print("Devi posizionare il dado: " + dieCreator.makeDie(die));
+            printer.print("(la numerazione sulla griglia parte da 0)");
+            printer.printArray(gridViewCreator.display());
+            int x = this.getCoordinateX();
+            int y = this.getCoordinateY();
 
-        //Print and read operation
-        printer.print("Devi posizionare il dado: " + dieCreator.makeDie(die));
-        printer.print("(la numerazione sulla griglia parte da 0)");
-        printer.printArray(gridViewCreator.display());
-        int x = this.getCoordinateX();
-        int y = this.getCoordinateY();
-
-        //Call ViewToolCardActions
-        viewToolCardActions.selectedDieToGrid(x, y);
+            //Call ViewToolCardActions
+            viewToolCardActions.selectedDieToGrid(x, y);
+        });
+        readingThread.start();
     }
 
     @Override
@@ -614,16 +627,19 @@ public class CLIApp extends App {
         printer.printArray(roundTrackerViewCreator.display());
         printer.print("Inserire il numero del round da cui si vuole estrarre il dado:");
 
-        try {
-            int roundIndex = reader.chooseInRange(1, roundTrackerViewCreator.getRound() - 1) - 1;
-            printer.print("Inserire il numero del dado nel round selezionato");
-            int dieIndex = reader.chooseInRange(0, roundTrackerViewCreator.getRoundTracker()[roundIndex].length - 1);
+        readingThread=new Thread(()-> {
+            try {
+                int roundIndex = reader.chooseInRange(1, roundTrackerViewCreator.getRound() - 1) - 1;
+                printer.print("Inserire il numero del dado nel round selezionato");
+                int dieIndex = reader.chooseInRange(0, roundTrackerViewCreator.getRoundTracker()[roundIndex].length - 1);
 
-            //Call ViewToolCardActions
-            viewToolCardActions.selectedDieFromRoundTracker(roundIndex, dieIndex);
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Error selecting die from round tracker " + e.getMessage());
-        }
+                //Call ViewToolCardActions
+                viewToolCardActions.selectedDieFromRoundTracker(roundIndex, dieIndex);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Error selecting die from round tracker " + e.getMessage());
+            }
+        });
+        readingThread.start();
     }
 
     @Override
@@ -634,14 +650,17 @@ public class CLIApp extends App {
         printer.print("Devi selezionare il nuovo valore del dado: " + dieCreator.makeDie(die));
         printer.print("Inserisci nuovo valore:");
 
-        try {
-            int value = reader.chooseInRange(1, 6);
+        readingThread=new Thread(()-> {
+            try {
+                int value = reader.chooseInRange(1, 6);
 
-            //Call ViewToolCardActions
-            viewToolCardActions.selectedFace(value);
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Error selecting face for a die " + e.getMessage());
-        }
+                //Call ViewToolCardActions
+                viewToolCardActions.selectedFace(value);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Error selecting face for a die " + e.getMessage());
+            }
+        });
+        readingThread.start();
     }
 
     @Override
@@ -650,26 +669,34 @@ public class CLIApp extends App {
         printer.print("Seleziona un dado dalla griglia che ha colore: " + color.toString());
         printer.print("(la numerazione sulla griglia parte da 0)");
         printer.printArray(gridViewCreator.display());
-        int x = this.getCoordinateX();
-        int y = this.getCoordinateY();
 
-        //Call ViewToolCardActions
-        viewToolCardActions.selectedDieFromGridByColor(x, y);
+        readingThread = new Thread(()-> {
+            int x = this.getCoordinateX();
+            int y = this.getCoordinateY();
+
+            //Call ViewToolCardActions
+            viewToolCardActions.selectedDieFromGridByColor(x, y);
+        });
+        readingThread.start();
     }
 
     @Override
     public void askNumbersOfPlacement() {
         //Print and read operations
         printer.print("Seleziona il numero di dadi da spostare tra 1 e 2 ");
-        int choice;
-        try {
-            choice = reader.chooseBetweenTwo(1, 2);
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Error selecting number of placement" + e.getMessage());
-            return;
-        }
 
-        viewToolCardActions.selectedNumbersOfPlacement(choice);
+        readingThread=new Thread(()-> {
+            int choice;
+            try {
+                choice = reader.chooseBetweenTwo(1, 2);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Error selecting number of placement" + e.getMessage());
+                return;
+            }
+
+            viewToolCardActions.selectedNumbersOfPlacement(choice);
+        });
+        readingThread.start();
     }
 
     @Override

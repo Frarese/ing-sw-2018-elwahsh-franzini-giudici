@@ -16,7 +16,6 @@ import it.polimi.se2018.view.observer.PlayerState;
 import it.polimi.se2018.view.tools.GridViewCreator;
 import it.polimi.se2018.view.tools.cli.creators.CLIGridViewCreator;
 import it.polimi.se2018.view.tools.cli.creators.CLIReserveViewCreator;
-import it.polimi.se2018.view.tools.cli.creators.CLIRoundTrackerViewCreator;
 import it.polimi.se2018.view.tools.cli.ui.CLIPrinter;
 import it.polimi.se2018.view.tools.cli.ui.CLIReader;
 import org.junit.After;
@@ -790,55 +789,6 @@ public class CLIAppTest {
         assertEquals("Seleziona un dado dalla griglia (la numerazione parte da 0)", savedStream.toString().split(enter)[0]);
     }
 
-    /**
-     * Simulates a placement of a die in grid
-     */
-    @Test
-    public void testSetDieOnGrid() {
-        String message = "3" + enter + "2" + enter;
-        System.setIn(new ByteArrayInputStream(message.getBytes()));
-
-        testSetApp(new FakeViewAction());
-
-        IntColorPair[][] pattern = new IntColorPair[1][1];
-        pattern[0][0] = new IntColorPair(1, ColorModel.RED);
-        IntColorPair[][] grid = new IntColorPair[1][1];
-        grid[0][0] = new IntColorPair(1, ColorModel.RED);
-
-        this.app.gridViewCreator = new CLIGridViewCreator(grid, pattern);
-
-        this.app.setDieOnGrid(new IntColorPair(1, ColorModel.RED));
-
-        assertEquals("Devi posizionare il dado: 1-RED", savedStream.toString().split(enter)[0]);
-        assertEquals("(la numerazione sulla griglia parte da 0)", savedStream.toString().split(enter)[1]);
-    }
-
-    /**
-     * Simulates a pop of a die from RoundTracker
-     */
-    @Test
-    public void testSelectDieFromRoundTracker() {
-        String message = "1" + enter + "0" + enter;
-        System.setIn(new ByteArrayInputStream(message.getBytes()));
-
-        testSetApp(new FakeViewAction());
-
-        IntColorPair[][] fakeRoundt = new IntColorPair[9][10];
-        fakeRoundt[0][0] = new IntColorPair(1, ColorModel.RED);
-
-        this.app.roundTrackerViewCreator = new CLIRoundTrackerViewCreator(2, fakeRoundt);
-
-        this.app.selectDieFromRoundTracker();
-
-        assertEquals("Siamo al turno: 2", savedStream.toString().split(enter)[0]);
-        assertEquals("Turno 1 : ", savedStream.toString().split(enter)[1]);
-        assertEquals("0) 1-RED", savedStream.toString().split(enter)[2]);
-        assertEquals("Inserire il numero del round da cui si vuole estrarre il dado:", savedStream.toString().split(enter)[3]);
-        assertEquals("Opzione: ", savedStream.toString().split(enter)[4]);
-        assertEquals("Inserire il numero del dado nel round selezionato", savedStream.toString().split(enter)[5]);
-        assertEquals("Opzione: ", savedStream.toString().split(enter)[6]);
-
-    }
 
     /**
      * Simulates a choice of a new value for a die's face
